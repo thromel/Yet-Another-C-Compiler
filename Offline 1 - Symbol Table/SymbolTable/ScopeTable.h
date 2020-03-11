@@ -16,7 +16,10 @@ public:
 
         symbols = new SymbolInfo *[total_buckets];
 
-        fill(symbols, symbols + total_buckets, NULL);
+        for (int i = 0; i < total_buckets; ++i)
+        {
+            symbols[i] = NULL;
+        }
 
         this->parentScope = parentScope;
     }
@@ -57,10 +60,10 @@ public:
 
         while (symbol != NULL)
         {
-            if (key == symbol->getName())
+            if (name == symbol->getName())
             {
                 cout << "Found in ScopeTable #" << id << " at position" << index << ", " << pos << endl;
-                return temp;
+                return symbol;
             }
             pos++;
             symbol = symbol->getNext();
@@ -70,8 +73,10 @@ public:
         return NULL;
     }
 
-    bool insertSymbol(SymbolInfo &symbol)
+    bool insertSymbol(string name, string type)
     {
+        SymbolInfo symbol(name, type);
+
         if (lookUp(symbol.getName()) != NULL)
         {
             cout << symbol << " already exists in the current ScopeTable" << endl;
@@ -100,7 +105,7 @@ public:
             temp->setNext(&symbol);
             symbol.setNext(NULL);
         }
-        cout << "Inserted in ScopeTable #" << id << " at position" << index << ++pos << endl;
+        cout << "Inserted in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
         return true;
     }
 
