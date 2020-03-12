@@ -6,12 +6,12 @@ class SymbolTable
     ScopeTable *current = NULL;
 
 public:
-    void enterScope(int id, int buckets)
+    void enterScope(int buckets)
     {
-        ScopeTable *st = new ScopeTable(id, buckets, current);
+        ScopeTable *st = new ScopeTable(buckets, current);
         current = st;
 
-        cout << "New ScopeTable with id " << id << " created" << endl;
+        cout << "New ScopeTable with id " << st->getID() << " created" << endl;
     }
 
     void exitScope()
