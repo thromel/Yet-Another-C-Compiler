@@ -88,9 +88,10 @@ public:
     {
         SymbolInfo *symbol = new SymbolInfo(name, type);
 
-        if (lookUp(symbol->getName()) != NULL)
+        SymbolInfo *searched = lookUp(symbol->getName());
+        if (searched != NULL)
         {
-            cout << *symbol << " already exists in the current ScopeTable" << endl;
+            cout << *searched << " already exists in the current ScopeTable" << endl;
             return false;
         }
 
@@ -191,5 +192,11 @@ public:
     int getChildCount()
     {
         return this->childCount;
+    }
+
+    ~ScopeTable()
+    {
+        delete[] symbols;
+        delete parentScope;
     }
 };
