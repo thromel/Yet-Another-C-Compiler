@@ -8,11 +8,12 @@ int main()
     SymbolTable st;
 
     int length, number, current;
-    current = number = 0;
+    current = 1;
+    number = 1;
 
     cin >> length;
 
-    st.enterScope(++number, length);
+    st.enterScope(number++, length);
     current++;
 
     string choice, name, type;
@@ -60,7 +61,7 @@ int main()
         else if (choice == "S")
         {
             cout << choice << "\n";
-            st.enterScope(++number, length);
+            st.enterScope(number++, length);
             current++;
         }
         else if (choice == "E")

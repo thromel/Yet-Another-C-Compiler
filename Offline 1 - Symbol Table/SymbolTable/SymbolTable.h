@@ -3,7 +3,7 @@ using namespace std;
 
 class SymbolTable
 {
-    ScopeTable *current;
+    ScopeTable *current = NULL;
 
 public:
     void enterScope(int id, int buckets)
@@ -87,6 +87,12 @@ public:
 
     void printAll()
     {
+        if (current == NULL)
+        {
+            cout << "No ScopeTable in the SymbolTable" << endl;
+            return;
+        }
+
         ScopeTable *itr = current;
 
         while (itr != NULL)

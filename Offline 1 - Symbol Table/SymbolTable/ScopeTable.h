@@ -4,10 +4,10 @@ using namespace std;
 class ScopeTable
 {
     SymbolInfo **symbols;
-    ScopeTable *parentScope;
+    ScopeTable *parentScope = NULL;
     int total_buckets = 0;
     int id;
-    int child_count = 0;
+    int childCount = 0;
 
 public:
     ScopeTable(int id, int total_buckets, ScopeTable *parentScope)
@@ -47,7 +47,7 @@ public:
         return total_buckets;
     }
 
-    ScopeTable *getParentScope() const
+    ScopeTable *getParentScope()
     {
         return parentScope;
     }
@@ -154,6 +154,8 @@ public:
 
     void print()
     {
+        cout << "ScopeTable #" << this->id << endl;
+
         for (int i = 0; i < total_buckets; ++i)
         {
             cout << i << " -->";
@@ -169,5 +171,15 @@ public:
 
             cout << "\n";
         }
+    }
+
+    void setChildCount(int i)
+    {
+        this->childCount = i;
+    }
+
+    int getChildCount()
+    {
+        return this->childCount;
     }
 };
