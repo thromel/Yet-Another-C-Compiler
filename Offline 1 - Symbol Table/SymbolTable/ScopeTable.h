@@ -7,6 +7,7 @@ class ScopeTable
     ScopeTable *parentScope;
     int total_buckets = 0;
     int id;
+    int child_count = 0;
 
 public:
     ScopeTable(int id, int total_buckets, ScopeTable *parentScope)
@@ -62,7 +63,7 @@ public:
         {
             if (name == symbol->getName())
             {
-                cout << "Found in ScopeTable #" << id << " at position" << index << ", " << pos << endl;
+                cout << "Found in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
                 return symbol;
             }
             pos++;
@@ -75,15 +76,15 @@ public:
 
     bool insertSymbol(string name, string type)
     {
-        SymbolInfo symbol(name, type);
+        SymbolInfo *symbol = new SymbolInfo(name, type);
 
-        if (lookUp(symbol.getName()) != NULL)
+        if (lookUp(symbol->getName()) != NULL)
         {
-            cout << symbol << " already exists in the current ScopeTable" << endl;
+            cout << *symbol << " already exists in the current ScopeTable" << endl;
             return false;
         }
 
-        int index = hashFunction(symbol.getName());
+        int index = hashFunction(symbol->getName());
         int pos = 0;
 
         SymbolInfo *temp = symbols[index];
@@ -91,8 +92,8 @@ public:
         //If there is no symbol at that position
         if (temp == NULL)
         {
-            symbols[index] = &symbol;
-            symbol.setNext(NULL);
+            symbols[index] = symbol;
+            symbol->setNext(NULL);
         }
         else
         {
@@ -102,8 +103,8 @@ public:
                 temp = temp->getNext();
                 pos++;
             }
-            temp->setNext(&symbol);
-            symbol.setNext(NULL);
+            temp->setNext(symbol);
+            symbol->setNext(NULL);
         }
         cout << "Inserted in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
         return true;
