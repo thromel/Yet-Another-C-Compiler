@@ -5,6 +5,9 @@ using namespace std;
 
 int main()
 {
+    freopen("output.txt", "w", stdout);
+    freopen("input5.txt", "r", stdin);
+
     SymbolTable st;
 
     int length, number, current;
@@ -72,13 +75,13 @@ int main()
             st.exitScope();
             current--;
         }
-        else if (choice == "exit")
+        else if (choice == "T")
         {
             break;
         }
         else
         {
-            cout << "Invalid operation"
+            cout << "Invalid operation";
         }
     }
 

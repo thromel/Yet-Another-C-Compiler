@@ -13,6 +13,7 @@ public:
     {
         this->name = name;
         this->type = type;
+        next = NULL;
     }
 
     string getName() const
