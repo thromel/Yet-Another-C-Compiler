@@ -1,0 +1,6 @@
+
+Line no 1: Token <IF> Lexeme if found
+Line no 2: Token <ELSE> Lexeme else found
+Line no 3: Token <DO> Lexeme do found
+Line no 4: Token <FOR> Lexeme for found
+Line no 5: Token <DEFAULT> Lexeme default found

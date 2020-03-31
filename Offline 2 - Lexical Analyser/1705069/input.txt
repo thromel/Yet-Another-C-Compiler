@@ -1,0 +1,6 @@
+if 
+else
+do
+for
+default
+shit
