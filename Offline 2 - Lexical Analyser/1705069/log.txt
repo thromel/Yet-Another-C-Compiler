@@ -1,6 +1,35 @@
 
-Line no 1: Token <IF> Lexeme if found
-Line no 2: Token <ELSE> Lexeme else found
+Line no 1: Token <INT> Lexeme int found
+Line no 3: Token <CHAR> Lexeme char found
+Line no 3: Token <CONST_INT> Lexeme 1 found
+Line no 3: Token <CONST_INT> Lexeme 100 found
 Line no 3: Token <DO> Lexeme do found
-Line no 4: Token <FOR> Lexeme for found
-Line no 5: Token <DEFAULT> Lexeme default found
+Line no 4: Token <CHAR> Lexeme char found
+Line no 4: Token <CONST_INT> Lexeme 2 found
+Line no 4: Token <CONST_INT> Lexeme 100 found
+Line no 4: Token <DO> Lexeme do found
+Line no 6: Token <CHAR> Lexeme char found
+Line no 6: Token <CONST_INT> Lexeme 3 found
+Line no 6: Token <CONST_INT> Lexeme 100 found
+Line no 6: Token <DO> Lexeme do found
+Line no 12: Token <FOR> Lexeme for found
+Line no 15: Token <CHAR> Lexeme char found
+Line no 15: Token <CONST_INT> Lexeme 4 found
+Line no 15: Token <CONST_INT> Lexeme 100 found
+Line no 17: Token <CHAR> Lexeme char found
+Line no 17: Token <CONST_INT> Lexeme 5 found
+Line no 17: Token <CONST_INT> Lexeme 100 found
+Line no 19: Token <CHAR> Lexeme char found
+Line no 19: Token <CONST_INT> Lexeme 6 found
+Line no 19: Token <CONST_INT> Lexeme 100 found
+Line no 21: Token <FLOAT> Lexeme float found
+Line no 21: Token <CONST_FLOAT> Lexeme 1.234E-10 found
+Line no 22: Token <FLOAT> Lexeme float found
+Line no 22: Token <CONST_FLOAT> Lexeme 1.34 found
+Line no 23: Token <CHAR> Lexeme char found
+Line no 23: Token <CONST_CHAR> Lexeme a found
+Line no 24: Token <CHAR> Lexeme char found
+Line no 26: Token <RETURN> Lexeme return found
+Line no 26: Token <CONST_INT> Lexeme 0 found
+Total Line number: 30
+Total Errors: 0
