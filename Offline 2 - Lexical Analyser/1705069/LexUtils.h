@@ -1,7 +1,7 @@
 #include "./SymbolTable/SymbolTable.h"
 #include <fstream>
 #include <string>
-// #include <iostream>
+#include <algorithm>
 using namespace std;
 
 
@@ -17,6 +17,15 @@ string toUpper(string str){
     for (auto & c: str) c = toupper(c);
     return str;
 
+}
+
+string replaceAll(string str, const string& from, const string& to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return str;
 }
 
 string tokenGenerator(string s){
@@ -44,8 +53,12 @@ void printToken(string tkn, string lexeme){
 
 void insertToken(string symbol, string type)
 {
-    st.insertSymbol(symbol, type);
-    st.printAll();
+    if (!st.insertSymbol(symbol, type)){
+        log << endl<< symbol << " already exists in current scopeTable\n";
+    } else {
+        st.printAll();
+    }
+    
 }
 
 //------------------------------------------------------------------
@@ -74,15 +87,17 @@ void handle_const_float(char *str){
 
 void handle_const_char(char *str, string type){
     string s(str);
-    string refined = "";
-    
-    for(int i = 1; i < s.length() - 1; ++i){
-        refined += s[i];
-    }
 
-    insertToken(refined, type);
-    printLog(line_count, type, refined);
-    printToken(type, refined);
+    printLog(line_count, type, s);
+
+    s = replaceAll(s, "\'", "");
+    s = replaceAll(s,"\"", "" );
+    s = replaceAll(s, "\\n", "\n");
+    s = replaceAll(s, "\\t", "\t");
+
+
+    insertToken(s, type);
+    printToken(type, s);
 }
 
 void handle_operator(char *str, string opr){
@@ -113,8 +128,10 @@ void handle_error(char *str, string msg){
     err_count++;
 }
 
+void handle_comment(char *str){
+    string s(str);
+    
+}
+
+
 //-------------------------------------------------------------------
-
-
-
-
