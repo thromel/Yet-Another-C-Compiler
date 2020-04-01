@@ -1,33 +1,35 @@
 #include "ScopeTable.h"
+#include<iostream>
 using namespace std;
-#define SYMBOL_TABLE_SIZE 69
+#define SYMBOL_TABLE_SIZE 10
 class SymbolTable
 {
     ScopeTable *current = NULL;
+    ofstream *log;
 
 public:
-    SymbolTable()
+    SymbolTable(ofstream* log)
     {
-        enterScope();
+        this->log = log;
     }
 
     void enterScope(int buckets = SYMBOL_TABLE_SIZE)
     {
-        ScopeTable *st = new ScopeTable(buckets, current);
+        ScopeTable *st = new ScopeTable(buckets, current, log);
         current = st;
 
-        cout << "New ScopeTable #" << st->getID() << " created" << endl;
+        *log << "\nNew ScopeTable #" << st->getID() << " created" << endl;
     }
 
     void exitScope()
     {
         if (current == NULL)
         {
-            cout << "No ScopeTable in the SymbolTable" << endl;
+            // log << "No ScopeTable in the SymbolTable" << endl;
             return;
         }
 
-        cout << "Exited ScopeTable #" << current->getID() << endl;
+        // *log << "\nExited ScopeTable #" << current->getID() << endl;
 
         ScopeTable *temp = current;
         current = current->getParentScope();
@@ -39,7 +41,7 @@ public:
     {
         if (current == NULL)
         {
-            cout << "No ScopeTable in the SymbolTable" << endl;
+            // *log << "\nNo ScopeTable in the SymbolTable" << endl;
             return false;
         }
 
@@ -50,7 +52,7 @@ public:
     {
         if (current == NULL)
         {
-            cout << "No ScopeTable in the SymbolTable" << endl;
+            // *log << "\nNo ScopeTable in the SymbolTable" << endl;
             return false;
         }
 
@@ -61,7 +63,7 @@ public:
     {
         if (current == NULL)
         {
-            cout << "No ScopeTable in the SymbolTable" << endl;
+            // *log << "\nNo ScopeTable in the SymbolTable" << endl;
             return NULL;
         }
 
@@ -86,7 +88,7 @@ public:
     {
         if (current == NULL)
         {
-            cout << "No ScopeTable in the SymbolTable" << endl;
+            *log << "\nNo ScopeTable in the SymbolTable" << endl;
             return;
         }
 
@@ -97,7 +99,7 @@ public:
     {
         if (current == NULL)
         {
-            cout << "No ScopeTable in the SymbolTable" << endl;
+            *log << "\nNo ScopeTable in the SymbolTable" << endl;
             return;
         }
 
@@ -106,7 +108,7 @@ public:
         while (itr != NULL)
         {
             itr->print();
-            cout << endl;
+            *log << endl;
             itr = itr->getParentScope();
         }
     }
