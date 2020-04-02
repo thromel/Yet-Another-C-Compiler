@@ -45,11 +45,11 @@ MULTI_CHARACTER \'{CHAR_CONST}{2,}\'
 UNFINISHED_CHARACTER \'({CHAR_CONST}|\\)*
 
 
-STRING \"([^"\\]|\\['"?\\abfnrtv0]|([\\][\r\n]))*\"
-UNFINISHED_STRING \"([^"\\]|\\['"?\\abfnrtv0]|([\\][NEWLINE]))*
+STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][\r\n]))*\"
+UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][NEWLINE]))*
 
 STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
-COMMENT "//".*
+COMMENT "//"((.)|([\\][\r\n]))
 UNFINISHED_STAR_COMMENT [/][*]
 
 ADDOP ("+"|"-")
