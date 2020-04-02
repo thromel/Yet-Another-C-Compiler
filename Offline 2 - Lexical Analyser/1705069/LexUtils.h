@@ -13,6 +13,8 @@ ofstream log, token;
 ifstream in;
 SymbolTable st(&log);
 
+//Utility functions
+
 string toUpper(string str){
     for (auto & c: str) c = toupper(c);
     return str;
@@ -89,14 +91,12 @@ void handle_const_char(char *str, string type){
     string s(str);
 
     printLog(line_count, type, s);
+    insertToken(s, type);
 
     s = replaceAll(s, "\'", "");
     s = replaceAll(s,"\"", "" );
     s = replaceAll(s, "\\n", "\n");
     s = replaceAll(s, "\\t", "\t");
-
-
-    insertToken(s, type);
     printToken(type, s);
 }
 
@@ -130,7 +130,9 @@ void handle_error(char *str, string msg){
 
 void handle_comment(char *str){
     string s(str);
-    
+    printLog(line_count, "COMMENT", s);
+    size_t n = std::count(s.begin(), s.end(), '\n');
+    line_count += (int)n;
 }
 
 

@@ -6,4 +6,12 @@ int main(){
 	char c[]="ab\td";
 	float a;
 	return 0;
+	
+	/* HELLO 
+	
+	adsad
+	sadasd
+	
+	
+	*/
 }	

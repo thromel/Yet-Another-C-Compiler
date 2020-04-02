@@ -1,7 +1,7 @@
 #include "ScopeTable.h"
 #include<iostream>
 using namespace std;
-#define SYMBOL_TABLE_SIZE 10
+#define SYMBOL_TABLE_SIZE 5
 class SymbolTable
 {
     ScopeTable *current = NULL;
