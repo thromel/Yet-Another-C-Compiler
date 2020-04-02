@@ -30,6 +30,21 @@ string replaceAll(string str, const string& from, const string& to) {
     return str;
 }
 
+string replaceFirst(string &source, string const &find, string const &replace) {
+		int i = static_cast<int>(source.find(find, 0));
+		if (i != string::npos)
+			source.replace(static_cast<unsigned long>(i), find.length(), replace);
+        return source;    
+}
+
+	// not checked
+string replaceLast(string &source, string const &find, string const &replace) {
+		int i = static_cast<int>(source.rfind(find));
+		if (i != string::npos)
+			source.replace(static_cast<unsigned long>(i), find.length(), replace);
+        return source;
+}
+
 string tokenGenerator(string s){
     return "<" + toUpper(s) + ">";
 }
@@ -97,11 +112,16 @@ void handle_const_char(char *str, string type){
     line_count += (int)n;
     
 
-    s = replaceAll(s, "\'", "");
-    s = replaceAll(s,"\"", "" );
+    s = replaceFirst(s, "\'", "");
+    s = replaceLast(s, "\'", "");
+
+    s = replaceFirst(s,"\"", "");
+    s = replaceLast(s,"\"", "");
+    
     s = replaceAll(s, "\\n", "\n");
     s = replaceAll(s, "\\t", "\t");
-    s = replaceAll(s, "\\t", "\t");
+    s = replaceAll(s, "\\r", "\r");
+
     printToken(type, s);
 
 }
@@ -140,6 +160,8 @@ void handle_comment(char *str){
     size_t n = std::count(s.begin(), s.end(), '\n');
     line_count += (int)n;
 }
+
+
 
 
 //-------------------------------------------------------------------

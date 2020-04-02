@@ -173,9 +173,10 @@ public:
 
         for (int i = 0; i < total_buckets; ++i)
         {
-            *log << i << " -->";
-
+        
             SymbolInfo *temp = symbols[i];
+
+            if (temp != NULL) *log <<endl << i << " -->";
 
             while (temp != NULL)
             {
@@ -184,7 +185,7 @@ public:
                 temp = temp->getNext();
             }
 
-            *log << "\n";
+            // if (temp != NULL) *log << "\n";
         }
     }
 
