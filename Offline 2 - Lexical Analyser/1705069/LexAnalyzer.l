@@ -45,8 +45,8 @@ MULTI_CHARACTER \'{CHAR_CONST}{2,}\'
 UNFINISHED_CHARACTER \'({CHAR_CONST}|\\)*
 
 
-STRING \"([^"\\]|\\['"?\\abfnrtv0])*\"
-UNFINISHED_STRING \"([^"\\]|\\['"?\\abfnrtv0])*
+STRING \"([^"\\]|\\['"?\\abfnrtv0]|(\\NEWLINE))*\"
+UNFINISHED_STRING \"([^"\\]|\\['"?\\abfnrtv0]|(\\NEWLINE))*
 
 STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
 COMMENT "//".*
