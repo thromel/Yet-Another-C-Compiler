@@ -1,46 +1,15 @@
 
-Error at line no: 1. Unfinished string: "Hello
-
-Error at line no: 1. Unrecognized character: \
-
-Line no 2: Token <ID> Lexeme from found
+Line no 1: Token <STRING> Lexeme "Hello\
+from the other side" found
 ScopeTable #1
-0 -->
-1 --> < from : ID >
+0 --> < "Hello\
+from the other side" : STRING >
+1 -->
 2 -->
 3 -->
 4 -->
 
 
-Line no 2: Token <ID> Lexeme the found
-ScopeTable #1
-0 -->
-1 --> < from : ID > < the : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 2: Token <ID> Lexeme other found
-ScopeTable #1
-0 -->
-1 --> < from : ID > < the : ID > < other : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 2: Token <ID> Lexeme side found
-ScopeTable #1
-0 -->
-1 --> < from : ID > < the : ID > < other : ID > < side : ID >
-2 -->
-3 -->
-4 -->
-
-
-Error at line no: 2. Unfinished string: ";
-
-
-Total Line number: 1
-Total Errors: 3
+Line no 2: Token <SEMICOLON> Lexeme ; found
+Total Line number: 2
+Total Errors: 0

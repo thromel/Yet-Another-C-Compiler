@@ -1,1 +1,2 @@
-<ID,from><ID,the><ID,other><ID,side>
+<STRING,Hello\
+from the other side><SEMICOLON,;>
