@@ -1,279 +1,205 @@
 
-Line no 1: Token <FOR> Lexeme for found
-Line no 1: Token <LPAREN> Lexeme ( found
-Line no 1: Token <INT> Lexeme int found
-Line no 1: Token <ID> Lexeme i found
+Line no 1: Token <COMMENT> Lexeme /* too many decimal points */ found
+Error at line no: 2. Too many decimal points: 1.2.3.4.5.6
+
+Line no 3: Token <COMMENT> Lexeme // to me the following is a float found
 ScopeTable #1
 
-0 --> < i : ID >
+3 --> < 7. : CONST_FLOAT >
 
-Line no 1: Token <ASSIGNOP> Lexeme = found
+Line no 4: Token <CONST_FLOAT> Lexeme 7. found
+Line no 6: Token <COMMENT> Lexeme /* ill formed number */ found
+Error at line no: 7. Too many decimal points: 3.14E1.001
+
+Error at line no: 8. Too many decimal points: 2.54.54E4.01
+
+Line no 10: Token <COMMENT> Lexeme /* invalid suffix on num const */ found
+Error at line no: 11. Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence: 5_
+
+Error at line no: 12. Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence: 4__________
+
+Error at line no: 13. Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence: 7ewrvgtrb
+
+Line no 14: Token <ID> Lexeme _____12 found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT >
+0 --> < _____12 : ID >
+3 --> < 7. : CONST_FLOAT >
 
-Line no 1: Token <CONST_INT> Lexeme 0 found
-Line no 1: Token <SEMICOLON> Lexeme ; found
-Line no 1: Token <ID> Lexeme i found
-i already exists in current scopeTable
+Line no 14: Token <COMMENT> Lexeme // valid found
+Line no 16: Token <COMMENT> Lexeme /* multichar const error */ found
+Error at line no: 17. Multi character constant: 'efewrfg'
 
-Line no 1: Token <RELOP> Lexeme < found
+Error at line no: 18. Multi character constant: 'ewfw\'
+
+Line no 18: Token <ID> Lexeme wefrg found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID >
+3 --> < 7. : CONST_FLOAT >
 
-Line no 1: Token <CONST_INT> Lexeme 10 found
-Line no 1: Token <SEMICOLON> Lexeme ; found
-Line no 1: Token <ID> Lexeme i found
-i already exists in current scopeTable
-
-Line no 1: Token <INCOP> Lexeme ++ found
-Line no 1: Token <RPAREN> Lexeme ) found
-Line no 2: Token <LCURL> Lexeme { found
-Line no 3: Token <FOR> Lexeme for found
-Line no 3: Token <LPAREN> Lexeme ( found
-Line no 3: Token <INT> Lexeme int found
-Line no 3: Token <ID> Lexeme j found
-ScopeTable #1.1
-
-1 --> < j : ID >
-
+Line no 18: Token <CONST_CHAR> Lexeme '
+' found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID >
+3 --> < 7. : CONST_FLOAT >
+4 --> < '
+' : CONST_CHAR >
 
-Line no 3: Token <ASSIGNOP> Lexeme = found
-ScopeTable #1.1
+Error at line no: 19. Ill formed number: e
 
-1 --> < j : ID >
-6 --> < 0 : CONST_INT >
+Error at line no: 19. Unrecognized character: \
 
+Error at line no: 19. Unfinished character: '
+
+
+Line no 20: Token <COMMENT> Lexeme /* unfinished char const error */ found
+Error at line no: 21. Unfinished character: 'reg
+
+
+Line no 21: Token <CONST_CHAR> Lexeme '
+' found
+'
+' already exists in current scopeTable
+
+Line no 22: Token <ID> Lexeme erfeg997578 found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+3 --> < 7. : CONST_FLOAT >
+4 --> < '
+' : CONST_CHAR >
 
-Line no 3: Token <CONST_INT> Lexeme 0 found
-Line no 3: Token <SEMICOLON> Lexeme ; found
-Line no 3: Token <ID> Lexeme j found
-j already exists in current scopeTable
+Error at line no: 23. Unfinished character: '\
 
-Line no 3: Token <RELOP> Lexeme < found
-ScopeTable #1.1
 
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
+Error at line no: 23. Unrecognized character: '
 
+Error at line no: 23. Unrecognized character: \
+
+Line no 23: Token <CONST_CHAR> Lexeme '
+' found
+'
+' already exists in current scopeTable
+
+Error at line no: 24. Unrecognized character: \
+
+Line no 24: Token <ID> Lexeme a found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+3 --> < 7. : CONST_FLOAT >
+4 --> < '
+' : CONST_CHAR >
+6 --> < a : ID >
 
-Line no 3: Token <CONST_FLOAT> Lexeme 1E5 found
-Line no 3: Token <SEMICOLON> Lexeme ; found
-Line no 3: Token <ID> Lexeme j found
-j already exists in current scopeTable
+Line no 26: Token <COMMENT> Lexeme /* empty char const error */ found
+Error at line no: 27. Empty Character: ''
 
-Line no 3: Token <INCOP> Lexeme ++ found
-Line no 3: Token <RPAREN> Lexeme ) found
-Line no 4: Token <LCURL> Lexeme { found
-Line no 5: Token <FOR> Lexeme for found
-Line no 5: Token <LPAREN> Lexeme ( found
-Line no 5: Token <INT> Lexeme int found
-Line no 5: Token <ID> Lexeme k found
-ScopeTable #1.1.1
-
-2 --> < k : ID >
-
-ScopeTable #1.1
-
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
-
+Line no 29: Token <COMMENT> Lexeme /* unfinished string */ found
+Line no 30: Token <STRING> Lexeme "Hello 
+" found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+1 --> < "Hello 
+" : STRING >
+3 --> < 7. : CONST_FLOAT >
+4 --> < '
+' : CONST_CHAR >
+6 --> < a : ID >
 
-Line no 5: Token <ASSIGNOP> Lexeme = found
-Line no 5: Token <ADDOP> Lexeme - found
-ScopeTable #1.1.1
-
-2 --> < k : ID >
-5 --> < 0.005 : CONST_FLOAT >
-
-ScopeTable #1.1
-
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
-
+Line no 31: Token <ID> Lexeme This found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+1 --> < "Hello 
+" : STRING >
+2 --> < This : ID >
+3 --> < 7. : CONST_FLOAT >
+4 --> < '
+' : CONST_CHAR >
+6 --> < a : ID >
 
-Line no 5: Token <CONST_FLOAT> Lexeme 0.005 found
-Line no 5: Token <SEMICOLON> Lexeme ; found
-Line no 5: Token <ID> Lexeme k found
-k already exists in current scopeTable
-
-Line no 5: Token <RELOP> Lexeme <= found
-0.005 already exists in current scopeTable
-
-Line no 5: Token <CONST_FLOAT> Lexeme 0.005 found
-Line no 5: Token <SEMICOLON> Lexeme ; found
-Line no 5: Token <ID> Lexeme k found
-k already exists in current scopeTable
-
-Line no 5: Token <ADDOP> Lexeme + found
-Line no 5: Token <ASSIGNOP> Lexeme = found
-ScopeTable #1.1.1
-
-2 --> < k : ID >
-5 --> < 0.005 : CONST_FLOAT > < 1E-50 : CONST_FLOAT >
-
-ScopeTable #1.1
-
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
-
+Line no 31: Token <ID> Lexeme is found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+1 --> < "Hello 
+" : STRING >
+2 --> < This : ID >
+3 --> < 7. : CONST_FLOAT > < is : ID >
+4 --> < '
+' : CONST_CHAR >
+6 --> < a : ID >
 
-Line no 5: Token <CONST_FLOAT> Lexeme 1E-50 found
-Line no 5: Token <RPAREN> Lexeme ) found
-Line no 6: Token <LCURL> Lexeme { found
-Line no 7: Token <IF> Lexeme if found
-Line no 7: Token <LPAREN> Lexeme ( found
-Line no 7: Token <ID> Lexeme i found
-ScopeTable #1.1.1.1
-
-0 --> < i : ID >
-
-ScopeTable #1.1.1
-
-2 --> < k : ID >
-5 --> < 0.005 : CONST_FLOAT > < 1E-50 : CONST_FLOAT >
-
-ScopeTable #1.1
-
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
-
+Line no 31: Token <ID> Lexeme second found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+1 --> < "Hello 
+" : STRING >
+2 --> < This : ID >
+3 --> < 7. : CONST_FLOAT > < is : ID >
+4 --> < '
+' : CONST_CHAR >
+6 --> < a : ID > < second : ID >
 
-Line no 7: Token <MULOP> Lexeme / found
-Line no 7: Token <ID> Lexeme k found
-ScopeTable #1.1.1.1
-
-0 --> < i : ID >
-2 --> < k : ID >
-
-ScopeTable #1.1.1
-
-2 --> < k : ID >
-5 --> < 0.005 : CONST_FLOAT > < 1E-50 : CONST_FLOAT >
-
-ScopeTable #1.1
-
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
-
+Line no 31: Token <ID> Lexeme unfinished found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+1 --> < "Hello 
+" : STRING >
+2 --> < This : ID >
+3 --> < 7. : CONST_FLOAT > < is : ID >
+4 --> < '
+' : CONST_CHAR >
+5 --> < unfinished : ID >
+6 --> < a : ID > < second : ID >
 
-Line no 7: Token <RELOP> Lexeme == found
-Line no 7: Token <ID> Lexeme j found
-ScopeTable #1.1.1.1
+Error at line no: 31. Unrecognized character: \
 
-0 --> < i : ID >
-1 --> < j : ID >
-2 --> < k : ID >
-
-ScopeTable #1.1.1
-
-2 --> < k : ID >
-5 --> < 0.005 : CONST_FLOAT > < 1E-50 : CONST_FLOAT >
-
-ScopeTable #1.1
-
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
-
+Line no 32: Token <ID> Lexeme string found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+1 --> < "Hello 
+" : STRING >
+2 --> < This : ID >
+3 --> < 7. : CONST_FLOAT > < is : ID >
+4 --> < '
+' : CONST_CHAR >
+5 --> < unfinished : ID > < string : ID >
+6 --> < a : ID > < second : ID >
 
-Line no 7: Token <RPAREN> Lexeme ) found
-Line no 8: Token <ID> Lexeme print found
-ScopeTable #1.1.1.1
+Error at line no: 32. Unrecognized character: \
 
-0 --> < i : ID >
-1 --> < j : ID >
-2 --> < k : ID >
-4 --> < print : ID >
-
-ScopeTable #1.1.1
-
-2 --> < k : ID >
-5 --> < 0.005 : CONST_FLOAT > < 1E-50 : CONST_FLOAT >
-
-ScopeTable #1.1
-
-1 --> < j : ID >
-3 --> < 1E5 : CONST_FLOAT >
-6 --> < 0 : CONST_INT >
-
+Line no 35: Token <STRING> Lexeme "A valid\
+string" found
 ScopeTable #1
 
-0 --> < i : ID >
-6 --> < 0 : CONST_INT > < 10 : CONST_INT >
+0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
+1 --> < "Hello 
+" : STRING >
+2 --> < This : ID > < "A valid\
+string" : STRING >
+3 --> < 7. : CONST_FLOAT > < is : ID >
+4 --> < '
+' : CONST_CHAR >
+5 --> < unfinished : ID > < string : ID >
+6 --> < a : ID > < second : ID >
 
-Line no 8: Token <LPAREN> Lexeme ( found
-Line no 8: Token <ID> Lexeme i found
-i already exists in current scopeTable
+Error at line no: 37. Unfinished string: "Invalid\" 
 
-Line no 8: Token <ADDOP> Lexeme + found
-Line no 8: Token <ID> Lexeme j found
-j already exists in current scopeTable
+/* Unrecognized char */ 
+^ ~ 
 
-Line no 8: Token <MULOP> Lexeme * found
-Line no 8: Token <ID> Lexeme k found
-k already exists in current scopeTable
+/* This comment is not terminated 
 
-Line no 8: Token <RPAREN> Lexeme ) found
-Line no 8: Token <SEMICOLON> Lexeme ; found
-Line no 9: Token <COMMENT> Lexeme //Comment\\\\\//\\\\ /* \ found
-Line no 10: Token <COMMENT> Lexeme /*
-				qwdq
-			
-			*/ found
-Line no 15: Token <RCURL> Lexeme } found
-Deleted ScopeTable #1.1.1.1
 
-Line no 16: Token <RCURL> Lexeme } found
-Deleted ScopeTable #1.1.1
 
-Line no 17: Token <RCURL> Lexeme } found
-Deleted ScopeTable #1.1
 
-Total lines: 17
-Total errors: 0
+Total lines: 36
+Total errors: 20
