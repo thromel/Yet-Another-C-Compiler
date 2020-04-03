@@ -2,6 +2,6 @@
 using namespace std;
 
 int main(){
-	char c = '\\';
+	string c = "'Til the walls '''''''''''did crumble and fall";
 	cout<<c<<endl;
 }
