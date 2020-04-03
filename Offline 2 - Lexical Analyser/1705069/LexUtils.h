@@ -118,9 +118,16 @@ void handle_const_char(char *str, string type){
     s = replaceFirst(s,"\"", "");
     s = replaceLast(s,"\"", "");
     
+    s = replaceAll(s, "\\\"", "\"");
+    s = replaceAll(s, "\\\n", "\n");
     s = replaceAll(s, "\\n", "\n");
     s = replaceAll(s, "\\t", "\t");
     s = replaceAll(s, "\\r", "\r");
+    s = replaceAll(s, "\\0", "\n");
+    s = replaceAll(s, "\\a", "\a");
+    s = replaceAll(s, "\\b", "\b");
+    s = replaceAll(s, "\\f", "\f");
+    s = replaceAll(s, "\\v", "\v");
 
     printToken(type, s);
 
@@ -161,7 +168,10 @@ void handle_comment(char *str){
     line_count += (int)n;
 }
 
-
+/*
+STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][\r\n]))*\"
+UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][NEWLINE]))* 
+*/
 
 
 //-------------------------------------------------------------------

@@ -1,205 +1,70 @@
 
-Line no 1: Token <COMMENT> Lexeme /* too many decimal points */ found
-Error at line no: 2. Too many decimal points: 1.2.3.4.5.6
-
-Line no 3: Token <COMMENT> Lexeme // to me the following is a float found
+Line no 1: Token <CONST_CHAR> Lexeme 'h' found
 ScopeTable #1
 
-3 --> < 7. : CONST_FLOAT >
+0 --> < 'h' : CONST_CHAR >
 
-Line no 4: Token <CONST_FLOAT> Lexeme 7. found
-Line no 6: Token <COMMENT> Lexeme /* ill formed number */ found
-Error at line no: 7. Too many decimal points: 3.14E1.001
+Error at line no: 2. Unfinished character: 'w\'
 
-Error at line no: 8. Too many decimal points: 2.54.54E4.01
-
-Line no 10: Token <COMMENT> Lexeme /* invalid suffix on num const */ found
-Error at line no: 11. Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence: 5_
-
-Error at line no: 12. Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence: 4__________
-
-Error at line no: 13. Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence: 7ewrvgtrb
-
-Line no 14: Token <ID> Lexeme _____12 found
+Line no 3: Token <CONST_CHAR> Lexeme '\n' found
 ScopeTable #1
 
-0 --> < _____12 : ID >
-3 --> < 7. : CONST_FLOAT >
+0 --> < 'h' : CONST_CHAR > < '\n' : CONST_CHAR >
 
-Line no 14: Token <COMMENT> Lexeme // valid found
-Line no 16: Token <COMMENT> Lexeme /* multichar const error */ found
-Error at line no: 17. Multi character constant: 'efewrfg'
-
-Error at line no: 18. Multi character constant: 'ewfw\'
-
-Line no 18: Token <ID> Lexeme wefrg found
+Line no 3: Token <CONST_CHAR> Lexeme '\m' found
 ScopeTable #1
 
-0 --> < _____12 : ID > < wefrg : ID >
-3 --> < 7. : CONST_FLOAT >
+0 --> < 'h' : CONST_CHAR > < '\n' : CONST_CHAR >
+6 --> < '\m' : CONST_CHAR >
 
-Line no 18: Token <CONST_CHAR> Lexeme '
-' found
+Error at line no: 4. Multi character constant: 'hello'
+
+Line no 5: Token <CONST_STRING> Lexeme "Hello" found
 ScopeTable #1
 
-0 --> < _____12 : ID > < wefrg : ID >
-3 --> < 7. : CONST_FLOAT >
-4 --> < '
-' : CONST_CHAR >
+0 --> < 'h' : CONST_CHAR > < '\n' : CONST_CHAR >
+1 --> < "Hello" : CONST_STRING >
+6 --> < '\m' : CONST_CHAR >
 
-Error at line no: 19. Ill formed number: e
-
-Error at line no: 19. Unrecognized character: \
-
-Error at line no: 19. Unfinished character: '
-
-
-Line no 20: Token <COMMENT> Lexeme /* unfinished char const error */ found
-Error at line no: 21. Unfinished character: 'reg
-
-
-Line no 21: Token <CONST_CHAR> Lexeme '
-' found
-'
-' already exists in current scopeTable
-
-Line no 22: Token <ID> Lexeme erfeg997578 found
+Line no 6: Token <CONST_STRING> Lexeme "Hello\
+sadasdaasdad" found
 ScopeTable #1
 
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-3 --> < 7. : CONST_FLOAT >
-4 --> < '
-' : CONST_CHAR >
+0 --> < 'h' : CONST_CHAR > < '\n' : CONST_CHAR >
+1 --> < "Hello" : CONST_STRING >
+3 --> < "Hello\
+sadasdaasdad" : CONST_STRING >
+6 --> < '\m' : CONST_CHAR >
 
-Error at line no: 23. Unfinished character: '\
-
-
-Error at line no: 23. Unrecognized character: '
-
-Error at line no: 23. Unrecognized character: \
-
-Line no 23: Token <CONST_CHAR> Lexeme '
-' found
-'
-' already exists in current scopeTable
-
-Error at line no: 24. Unrecognized character: \
-
-Line no 24: Token <ID> Lexeme a found
+Line no 8: Token <CONST_STRING> Lexeme "\n\n\n\a\t\v" found
 ScopeTable #1
 
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-3 --> < 7. : CONST_FLOAT >
-4 --> < '
-' : CONST_CHAR >
-6 --> < a : ID >
+0 --> < 'h' : CONST_CHAR > < '\n' : CONST_CHAR > < "\n\n\n\a\t\v" : CONST_STRING >
+1 --> < "Hello" : CONST_STRING >
+3 --> < "Hello\
+sadasdaasdad" : CONST_STRING >
+6 --> < '\m' : CONST_CHAR >
 
-Line no 26: Token <COMMENT> Lexeme /* empty char const error */ found
-Error at line no: 27. Empty Character: ''
-
-Line no 29: Token <COMMENT> Lexeme /* unfinished string */ found
-Line no 30: Token <STRING> Lexeme "Hello 
-" found
+Line no 10: Token <COMMENT> Lexeme /*This is a comment
+Is this readable?
+*/ found
+Line no 14: Token <COMMENT> Lexeme //This is also a comment\
+asdadasddsadsadasdad\
+asdsdadaddasdasd\
+ found
+Line no 18: Token <CHAR> Lexeme char found
+Line no 18: Token <ID> Lexeme c found
 ScopeTable #1
 
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-1 --> < "Hello 
-" : STRING >
-3 --> < 7. : CONST_FLOAT >
-4 --> < '
-' : CONST_CHAR >
-6 --> < a : ID >
+0 --> < 'h' : CONST_CHAR > < '\n' : CONST_CHAR > < "\n\n\n\a\t\v" : CONST_STRING >
+1 --> < "Hello" : CONST_STRING > < c : ID >
+3 --> < "Hello\
+sadasdaasdad" : CONST_STRING >
+6 --> < '\m' : CONST_CHAR >
 
-Line no 31: Token <ID> Lexeme This found
-ScopeTable #1
+Line no 18: Token <ASSIGNOP> Lexeme = found
+Line no 18: Token <CONST_CHAR> Lexeme '\n' found
+'\n' already exists in current scopeTable
 
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-1 --> < "Hello 
-" : STRING >
-2 --> < This : ID >
-3 --> < 7. : CONST_FLOAT >
-4 --> < '
-' : CONST_CHAR >
-6 --> < a : ID >
-
-Line no 31: Token <ID> Lexeme is found
-ScopeTable #1
-
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-1 --> < "Hello 
-" : STRING >
-2 --> < This : ID >
-3 --> < 7. : CONST_FLOAT > < is : ID >
-4 --> < '
-' : CONST_CHAR >
-6 --> < a : ID >
-
-Line no 31: Token <ID> Lexeme second found
-ScopeTable #1
-
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-1 --> < "Hello 
-" : STRING >
-2 --> < This : ID >
-3 --> < 7. : CONST_FLOAT > < is : ID >
-4 --> < '
-' : CONST_CHAR >
-6 --> < a : ID > < second : ID >
-
-Line no 31: Token <ID> Lexeme unfinished found
-ScopeTable #1
-
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-1 --> < "Hello 
-" : STRING >
-2 --> < This : ID >
-3 --> < 7. : CONST_FLOAT > < is : ID >
-4 --> < '
-' : CONST_CHAR >
-5 --> < unfinished : ID >
-6 --> < a : ID > < second : ID >
-
-Error at line no: 31. Unrecognized character: \
-
-Line no 32: Token <ID> Lexeme string found
-ScopeTable #1
-
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-1 --> < "Hello 
-" : STRING >
-2 --> < This : ID >
-3 --> < 7. : CONST_FLOAT > < is : ID >
-4 --> < '
-' : CONST_CHAR >
-5 --> < unfinished : ID > < string : ID >
-6 --> < a : ID > < second : ID >
-
-Error at line no: 32. Unrecognized character: \
-
-Line no 35: Token <STRING> Lexeme "A valid\
-string" found
-ScopeTable #1
-
-0 --> < _____12 : ID > < wefrg : ID > < erfeg997578 : ID >
-1 --> < "Hello 
-" : STRING >
-2 --> < This : ID > < "A valid\
-string" : STRING >
-3 --> < 7. : CONST_FLOAT > < is : ID >
-4 --> < '
-' : CONST_CHAR >
-5 --> < unfinished : ID > < string : ID >
-6 --> < a : ID > < second : ID >
-
-Error at line no: 37. Unfinished string: "Invalid\" 
-
-/* Unrecognized char */ 
-^ ~ 
-
-/* This comment is not terminated 
-
-
-
-
-Total lines: 36
-Total errors: 20
+Total lines: 18
+Total errors: 2
