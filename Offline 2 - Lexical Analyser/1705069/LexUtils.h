@@ -55,8 +55,8 @@ string tokenGenerator(string type, string symbol){
 
 void printLog(int line, string token, string lexeme)
 {
-    log << "\nLine no " << line << ": Token "
-        << tokenGenerator(token)<<" Lexeme "<<lexeme<<" found";
+    log << "Line no " << line << ": Token "
+        << tokenGenerator(token)<<" Lexeme "<<lexeme<<" found\n";
 }
 
 void printToken(string lexeme){
@@ -106,7 +106,7 @@ void handle_const_char(char *str, string type){
     string s(str);
 
     printLog(line_count, type, s);
-    insertToken(s, type);
+    if (type == "CONST_CHAR") insertToken(s, type);
 
     size_t n = std::count(s.begin(), s.end(), '\n');
     line_count += (int)n;
@@ -119,7 +119,7 @@ void handle_const_char(char *str, string type){
     s = replaceLast(s,"\"", "");
     
     s = replaceAll(s, "\\\"", "\"");
-    s = replaceAll(s, "\\\n", "\n");
+    s = replaceAll(s, "\\\n", "\t");
     s = replaceAll(s, "\\n", "\n");
     s = replaceAll(s, "\\t", "\t");
     s = replaceAll(s, "\\r", "\r");
@@ -170,11 +170,3 @@ void handle_comment(char *str){
     size_t n = std::count(s.begin(), s.end(), '\n');
     line_count += (int)n;
 }
-
-/*
-STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][\r\n]))*\"
-UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][NEWLINE]))* 
-*/
-
-
-//-------------------------------------------------------------------
