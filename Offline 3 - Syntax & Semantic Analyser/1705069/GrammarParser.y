@@ -41,7 +41,7 @@ SymbolInfo* symbol;
 %type <symbol> expression 
 %type <symbol> expression_statement
 %type <symbol>logic_expression
-// %type <symbol>rel_expression
+%type <symbol>rel_expression
 %type <symbol>simple_expression
 %type <symbol>term
 %type <symbol>unary_expression
@@ -285,7 +285,7 @@ expression : logic_expression
 			}
 			| variable ASSIGNOP logic_expression
 			{
-				
+
 			}
 			;
 
@@ -295,7 +295,7 @@ logic_expression : simple_expression
 				printRule("logic_expression : simple_expression");
 				printSymbol($$);
 			}
-			| simple_expression RELOP simple_expression
+			| rel_expression LOGICOP rel_expression
 			{
 				$$ = new SymbolInfo($1->getName(), "NON_TERMINAL");
 				printRule("logic_expression : simple_expression RELOP simple_expression");
@@ -304,6 +304,15 @@ logic_expression : simple_expression
 				//TODO
 			}
 			;
+
+rel_expression : simple_expression
+			{
+
+			}
+			| simple_expression RELOP simple_expression
+			{
+
+			}
 
 simple_expression : term
 			{
@@ -323,6 +332,10 @@ term : unary_expression
 				printRule("unary_expression : factor");
 				printSymbol($$);
 			}
+			| term MULOP unary_expression
+			{
+
+			}
 			;
 
 unary_expression : factor
@@ -339,14 +352,6 @@ factor : variable
 				printRule("factor : variable");
 				printSymbol($$);
 			}
-			;
-
-variable : ID
-			{
-				$$ = getVariable($1);
-				printRule("variable : ID");
-				printSymbol($$);
-			}
 			| CONST_INT
 			{
 				$$ = $1;
@@ -359,6 +364,27 @@ variable : ID
 				printRule("variable : CONST_FLOAT");
 				printSymbol($$);	
 			}
+			| variable INCOP
+			{
+
+			}
+			| variable DECOP
+			{
+
+			}
+			;
+
+variable : ID
+			{
+				$$ = getVariable($1);
+				printRule("variable : ID");
+				printSymbol($$);
+			}
+			| ID LTHIRD expression RTHIRD
+			{
+
+			}
+
 			;
 compound_statement : LCURL {enterScope();} statements RCURL
 			{
@@ -393,7 +419,7 @@ int main(int argc,char *argv[])
     }
 
     yyparse();
-
+	st.printAll();
     return 0;
 
 }
