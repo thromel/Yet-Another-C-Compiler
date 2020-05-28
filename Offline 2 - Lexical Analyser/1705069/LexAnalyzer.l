@@ -40,11 +40,11 @@ CHAR_CONST ((\\[^\r\n])|[^\\'\r\n])
 CHARACTER [\']{CHAR_CONST}[\']
 EMPTY_CHARACTER ('')
 MULTI_CHARACTER [\']{CHAR_CONST}{2,}[\']
-UNFINISHED_CHARACTER [\']({CHAR_CONST})*
+UNFINISHED_CHARACTER [\']({CHAR_CONST})*[;]?
 
 
-STRING [\"](\\[^\r\n]|[^\\(\r\n)]|([\\](\r?\n)))*[\"]
-UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\](\r?\n)))* 
+STRING [\"](\\[^\r\n]|[^\\\r\n]|([\\](\r?\n)))*[\"]
+UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\](\r?\n)))*[;]?
 
 STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
 COMMENT "//"([^\r\n]*|([\\][\r\n]))*

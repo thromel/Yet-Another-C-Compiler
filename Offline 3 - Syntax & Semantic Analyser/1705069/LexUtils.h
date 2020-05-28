@@ -138,7 +138,7 @@ void handle_operator(char *str, string opr)
 {
     string s(str);
 
-    // printLog(line_count, opr, s);
+    assignSymbol(s, "OPERATOR");
 }
 
 void handle_id(char *str)

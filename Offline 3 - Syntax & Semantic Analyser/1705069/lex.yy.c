@@ -1142,7 +1142,7 @@ YY_RULE_SETUP
 case 44:
 YY_RULE_SETUP
 #line 112 "LexAnalyzer.l"
-{return ASSIGNOP;}
+{handle_operator(yytext, "ASSIGNOP"); return ASSIGNOP;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP

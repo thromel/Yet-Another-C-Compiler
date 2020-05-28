@@ -18,7 +18,7 @@ SymbolInfo* symbol;
 
 
 %token IF FOR DO INT FLOAT VOID SWITCH DEFAULT ELSE WHILE BREAK CHAR DOUBLE RETURN CASE CONTINUE
-%token INCOP DECOP ASSIGNOP NOT
+%token INCOP DECOP NOT
 %token LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON
 %token PRINTLN
 %token STRING
@@ -33,6 +33,7 @@ SymbolInfo* symbol;
 %token <symbol> LOGICOP
 %token <symbol> RELOP
 %token <symbol> BITOP
+%token <symbol> ASSIGNOP
 
 %type <symbol> program
 %type <symbol> unit
@@ -62,8 +63,8 @@ SymbolInfo* symbol;
 
 start : program
 	{
-		printRule("start : program");
 		$$ = $1;
+		printRule("start : program");
 		printSymbol($$);
 		st.printAll();
 	}
@@ -155,9 +156,9 @@ var_declaration : type_specifier declaration_list SEMICOLON
 			$$ = new SymbolInfo($1->getName() + " " + $2->getName() + ";","NON_TERMINAL");
 			printRule("var_declaration : type_specifier declaration_list SEMICOLON");
 			printSymbol($$);
+			type = "";
 		}
-		|
-		type_specifier declaration_list error 
+		| type_specifier declaration_list error 
 		{
 			//Error Recovery
 		}
@@ -168,18 +169,21 @@ type_specifier	: INT
 			$$ = new SymbolInfo("int", "NON_TERMINAL");
 			printRule("type_specifier	: INT");
 			printSymbol($$);
+			type = "INT";
 		}
 		| FLOAT
 		{
 			$$ = new SymbolInfo("float", "NON_TERMINAL");
 			printRule("type_specifier	: FLOAT");
 			printSymbol($$);
+			type = "FLOAT";
 		}
 		| VOID
 		{
 			$$ = new SymbolInfo("void", "NON_TERMINAL");
 			printRule("type_specifier	: VOID");
 			printSymbol($$);
+			type = "VOID";
 		}
  		;
  		
@@ -188,9 +192,7 @@ declaration_list : declaration_list COMMA ID
 				$$ = new SymbolInfo($1->getName() + ", " + $3->getName(), "NON_TERMINAL");
 				printRule("declaration_list : declaration_list COMMA ID");
 				printSymbol($$);
-				if (!insertSymbol($1)){
-					printError(" multiple declaration of " + $1->getName());
-				}
+				insertVar($3);
 			}
 			| declaration_list COMMA ID LTHIRD CONST_INT RTHIRD 
 			{
@@ -201,12 +203,10 @@ declaration_list : declaration_list COMMA ID
 			}
  		  	| ID
 		   {
-			   $$ = $1;
 			   printRule("declaration_list : ID");
 			   printSymbol($$);
-			   if (!insertSymbol($1)){
-				   printError(" multiple declaration of " + $1->getName() );
-			   }
+			   $1 = insertVar($1);
+			   $$ = $1;
 		   }
 			| ID LTHIRD CONST_INT RTHIRD
 			{
@@ -285,11 +285,13 @@ expression : logic_expression
 			}
 			| variable ASSIGNOP logic_expression
 			{
-
+				printRule("expression : variable ASSIGNOP logic_expression");
+				$$ = handle_assign($1, $3);
+				printSymbol($$);
 			}
 			;
 
-logic_expression : simple_expression
+logic_expression : rel_expression
 			{
 				$$ = $1;
 				printRule("logic_expression : simple_expression");
@@ -307,7 +309,9 @@ logic_expression : simple_expression
 
 rel_expression : simple_expression
 			{
-
+				$$ = $1;
+				printRule("rel_expression : simple_expression");
+				printSymbol($$);
 			}
 			| simple_expression RELOP simple_expression
 			{
@@ -322,14 +326,16 @@ simple_expression : term
 			}
 			| simple_expression ADDOP term
 			{
-
+				$$ = handleADDOP($1, $2, $3);
+				printRule("simple expression : simple_expression ADDOP term");
+				printSymbol($$);
 			}
 			;
 
 term : unary_expression
 			{
 				$$ = $1;
-				printRule("unary_expression : factor");
+				printRule("term : unary_expression");
 				printSymbol($$);
 			}
 			| term MULOP unary_expression
@@ -354,15 +360,17 @@ factor : variable
 			}
 			| CONST_INT
 			{
-				$$ = $1;
-				printRule("variable : CONST_INT");
+				printRule("factor : CONST_INT");
+				$$ = getConstVal($1, "INT");
 				printSymbol($$);
+				
 			}
 			| CONST_FLOAT
 			{
-				$$ = $1;
-				printRule("variable : CONST_FLOAT");
-				printSymbol($$);	
+				printRule("factor : CONST_FLOAT");
+				$$ = getConstVal($1, "FLOAT");
+				printSymbol($$);
+					
 			}
 			| variable INCOP
 			{
@@ -382,7 +390,9 @@ variable : ID
 			}
 			| ID LTHIRD expression RTHIRD
 			{
-
+				printRule("variable : ID LTHIRD expression RTHIRD");
+				$$ = getArrayIndexVar($1, $3);
+				printSymbol($$);
 			}
 
 			;
