@@ -161,23 +161,26 @@ public:
         return idType == "ARRAY";
     }
 
-    int getIntValue(int index = 0)
+    int getIntValue()
     {
         if (intData.size() == 0) return defaultInt;
-        else return intData[index];
+        else if (varType == "VARIABLE") return intData[0];
+        else if (varType == "ARRAY" && arrIndex < arrSize) return intData[arrIndex];
         
     }
 
     void setIntValue(int value)
     {
         if (intData.size() == 0) intData.push_back(value);
-        else intData[0] = value;
+        else if (varType == "VARIABLE") intData[0]=value;
+        else if (varType == "ARRAY" || arrIndex < arrSize) intData[arrIndex] = value;
     }
 
-    float getFloatValue(int index = 0)
+    float getFloatValue()
     {
         if (floatData.size() == 0) return defaultFloat;
-        return floatData[index];
+        else if (varType == "VARIABLE") return floatData[0];
+        else if (varType == "ARRAY" && arrIndex < arrSize) return floatData[arrIndex];
     }
 
     void addIntValue(int value)
@@ -193,10 +196,9 @@ public:
     void setFloatValue(float value)
     {
         if (floatData.size() == 0) floatData.push_back(value);
-        else floatData[0]=value;
+        else if (varType == "VARIABLE") floatData[0]=value;
+        else if (varType == "ARRAY" || arrIndex < arrSize) floatData[arrIndex] = value;
     }
-
-
 
     void setArrIndex(int arrIndex)
     {
@@ -210,6 +212,7 @@ public:
     {
         this->returnType = ret;
     }
+
 
 };
 

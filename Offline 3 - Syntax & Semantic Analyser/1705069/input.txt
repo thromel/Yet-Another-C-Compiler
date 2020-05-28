@@ -1,7 +1,4 @@
 int main (int c) {
-    float a;
-    int b;
-    a = 23;
-    b = 2.3;
-    a = a + b;
+    int a[69];
+    a [60] = 1;
 }

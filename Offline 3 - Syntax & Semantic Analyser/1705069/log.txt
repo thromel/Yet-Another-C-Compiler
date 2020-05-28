@@ -17,244 +17,128 @@ ScopeTable #1.1
 
 ScopeTable #1
 1 --> <main: ID> 
-At line no: 2 type_specifier	: FLOAT
-
-float
-
-At line no: 2 declaration_list : ID
-
-a
-
-
-ScopeTable #1.1
-
-ScopeTable #1
-1 --> <main: ID> 
-At line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
-
-float a;
-
-At line no: 2 statement : var_declaration
-
-float a;
-
-At line no: 2 statements : statement
-
-float a;
-
-At line no: 3 type_specifier	: INT
+At line no: 2 type_specifier	: INT
 
 int
 
-At line no: 3 declaration_list : ID
+At line no: 2 declaration_list :ID LTHIRD CONST_INT RTHIRD 
 
-b
+a[69]
 
+At line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
 
-ScopeTable #1.1
-6 --> <a: ID> 
+int a[69];
 
-ScopeTable #1
-1 --> <main: ID> 
-At line no: 3 var_declaration : type_specifier declaration_list SEMICOLON
+At line no: 2 statement : var_declaration
 
-int b;
+int a[69];
 
-At line no: 3 statement : var_declaration
+At line no: 2 statements : statement
 
-int b;
+int a[69];
+
+At line no: 3 factor : CONST_INT
+
+60
+
+At line no: 3 unary_expression : factor
+
+60
+
+At line no: 3 term : unary_expression
+
+60
+
+At line no: 3 simple_expression : term
+
+60
+
+At line no: 3 rel_expression : simple_expression
+
+60
+
+At line no: 3 logic_expression : simple_expression
+
+60
+
+At line no: 3 expression : logic_expression
+
+60
+
+At line no: 3 variable : ID LTHIRD expression RTHIRD
+
+a[0]
+
+At line no: 3 factor : CONST_INT
+
+1
+
+At line no: 3 unary_expression : factor
+
+1
+
+At line no: 3 term : unary_expression
+
+1
+
+At line no: 3 simple_expression : term
+
+1
+
+At line no: 3 rel_expression : simple_expression
+
+1
+
+At line no: 3 logic_expression : simple_expression
+
+1
+
+At line no: 3 expression : variable ASSIGNOP logic_expression
+
+a[0]=0
+
+At line no: 3 expression_statement : expression SEMICOLON
+
+a[0]=0;
+
+At line no: 3 statement : expression_statement
+
+a[0]=0;
 
 At line no: 3 statements : statements statement
 
-float a; int b;
+int a[69]; a[0]=0;
 
-At line no: 4 variable : ID
-
-a
-
-At line no: 4 factor : CONST_INT
-
-23
-
-At line no: 4 unary_expression : factor
-
-23
-
-At line no: 4 term : unary_expression
-
-23
-
-At line no: 4 simple_expression : term
-
-23
-
-At line no: 4 rel_expression : simple_expression
-
-23
-
-At line no: 4 logic_expression : simple_expression
-
-23
-
-At line no: 4 expression : variable ASSIGNOP logic_expression
-
-a=23.000000
-
-At line no: 4 expression_statement : expression SEMICOLON
-
-a=23.000000;
-
-At line no: 4 statement : expression_statement
-
-a=23.000000;
-
-At line no: 4 statements : statements statement
-
-float a; int b; a=23.000000;
-
-At line no: 5 variable : ID
-
-b
-
-At line no: 5 factor : CONST_FLOAT
-
-2.3
-
-At line no: 5 unary_expression : factor
-
-2.3
-
-At line no: 5 term : unary_expression
-
-2.3
-
-At line no: 5 simple_expression : term
-
-2.3
-
-At line no: 5 rel_expression : simple_expression
-
-2.3
-
-At line no: 5 logic_expression : simple_expression
-
-2.3
-
-At line no: 5 expression : variable ASSIGNOP logic_expression
-
-b=2
-
-At line no: 5 expression_statement : expression SEMICOLON
-
-b=2;
-
-At line no: 5 statement : expression_statement
-
-b=2;
-
-At line no: 5 statements : statements statement
-
-float a; int b; a=23.000000; b=2;
-
-At line no: 6 variable : ID
-
-a
-
-At line no: 6 variable : ID
-
-a
-
-At line no: 6 factor : variable
-
-a
-
-At line no: 6 unary_expression : factor
-
-a
-
-At line no: 6 term : unary_expression
-
-a
-
-At line no: 6 simple_expression : term
-
-a
-
-At line no: 6 variable : ID
-
-b
-
-At line no: 6 factor : variable
-
-b
-
-At line no: 6 unary_expression : factor
-
-b
-
-At line no: 6 term : unary_expression
-
-b
-
-At line no: 6 simple expression : simple_expression ADDOP term
-
-a+b
-
-At line no: 6 rel_expression : simple_expression
-
-a+b
-
-At line no: 6 logic_expression : simple_expression
-
-a+b
-
-At line no: 6 expression : variable ASSIGNOP logic_expression
-
-a=25.000000
-
-At line no: 6 expression_statement : expression SEMICOLON
-
-a=25.000000;
-
-At line no: 6 statement : expression_statement
-
-a=25.000000;
-
-At line no: 6 statements : statements statement
-
-float a; int b; a=23.000000; b=2; a=25.000000;
-
-At line no: 7 compound_statement : LCURL statements RCURL
+At line no: 4 compound_statement : LCURL statements RCURL
 
 {
-float a; int b; a=23.000000; b=2; a=25.000000;}
+int a[69]; a[0]=0;}
 
 
-At line no: 7 func_definition : type_specifier ID LPAREN parameter_list RPAREN
-
-int main ( int c ) {
-float a; int b; a=23.000000; b=2; a=25.000000;}
-
-
-At line no: 7 unit : func_definition
+At line no: 4 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 
 int main ( int c ) {
-float a; int b; a=23.000000; b=2; a=25.000000;}
+int a[69]; a[0]=0;}
 
 
-At line no: 7 program : unit
+At line no: 4 unit : func_definition
 
 int main ( int c ) {
-float a; int b; a=23.000000; b=2; a=25.000000;}
+int a[69]; a[0]=0;}
+
+
+At line no: 4 program : unit
+
+int main ( int c ) {
+int a[69]; a[0]=0;}
 
 
 
 ScopeTable #1.1
-0 --> <b: ID> 
 6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
 
-Total lines: 8
+Total lines: 5
 Total errors: 0
