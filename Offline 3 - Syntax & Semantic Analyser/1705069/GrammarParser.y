@@ -20,7 +20,7 @@ SymbolInfo* symbol;
 %token IF FOR DO INT FLOAT VOID SWITCH DEFAULT ELSE WHILE BREAK CHAR DOUBLE RETURN CASE CONTINUE
 %token INCOP DECOP NOT
 %token LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON
-%token PRINT
+%token PRINTLN
 %token STRING
 
 
@@ -56,7 +56,9 @@ SymbolInfo* symbol;
 %type <symbol> var_declaration
 %type <symbol> statement
 %type <symbol> statements
-%type <symbol> print
+
+%nonassoc second_prec
+%nonassoc ELSE
 
 // %error-verbose
 
@@ -258,6 +260,38 @@ statement : var_declaration
 				printRule("statement : compound_statement");
 				printSymbol($$);
 			}
+			| FOR LPAREN expression_statement expression_statement expression RPAREN statement
+			{
+				$$ = new SymbolInfo("for("+$3->getName()+$4->getName()+$5->getName()+")"+$7->getName(), "NON_TERMINAL");
+				printRule("FOR LPAREN expression_statement expression_statement expression RPAREN statement");
+				printSymbol($$);
+			}
+			| IF LPAREN expression RPAREN statement %prec second_prec
+			{
+				$$ = new SymbolInfo("if(" + $3->getName() + ")"+ $5->getName(), "NON_TERMINAL");
+				printRule("IF LPAREN expression RPAREN statement");
+				printSymbol($$);
+			}
+			| IF LPAREN expression RPAREN statement ELSE statement
+			{
+				$$ = new SymbolInfo("if(" + $3->getName() + ")"+ $5->getName() + " else " + $7->getName(), "NON_TERMINAL");
+				printRule("IF LPAREN expression RPAREN statement ELSE statement");
+				printSymbol($$);
+			}
+			| WHILE LPAREN expression RPAREN statement
+			{
+				$$ = new SymbolInfo("while(" + $3->getName() + ") " + $5->getName(), "NON_TERMINAL");
+				printRule("WHILE LPAREN expression RPAREN statement");
+				printSymbol($$);
+			}
+			| PRINTLN LPAREN ID RPAREN SEMICOLON
+			{
+				
+			}
+			| RETURN expression SEMICOLON
+			{
+
+			}
 			;
 
 expression_statement : SEMICOLON
@@ -275,10 +309,6 @@ expression_statement : SEMICOLON
 			| expression error 
 			{
 				//Error Recovery
-			}
-			| print
-			{
-				$$ = $1;
 			}
 			;
 
@@ -304,8 +334,8 @@ logic_expression : rel_expression
 			}
 			| rel_expression LOGICOP rel_expression
 			{
-				$$ = new SymbolInfo($1->getName(), "NON_TERMINAL");
-				printRule("logic_expression : simple_expression RELOP simple_expression");
+				$$ = handle_LOGICOP($1, $2, $3);
+				printRule("logic_expression : rel_expression LOGICOP rel_expression");
 				printSymbol($$);
 
 				//TODO
@@ -418,19 +448,16 @@ compound_statement : LCURL {enterScope();} statements RCURL
 				$$ = new SymbolInfo("{\n" + $3->getName() + "}\n", "NON_TERMINAL");
 				printRule("compound_statement : LCURL statements RCURL");
 				printSymbol($$);
+				exitScope();
 			}
 			| LCURL {enterScope();} RCURL
 			{
 				$$ = new SymbolInfo("{}", "NON_TERMINAL");
 				printRule("compound_statement : LCURL RCURL");
 				printSymbol($$);
+				exitScope();
 			};
 
-print: PRINT variable
-			{
-				$$ = new SymbolInfo ("PRINT" + $2->getName(), "NON_TERMINAL");
-				cout<<$2->getIntValue();
-			}
  
 
 %%

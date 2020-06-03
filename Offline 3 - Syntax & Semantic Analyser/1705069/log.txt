@@ -164,37 +164,482 @@ At line no: 4 statements : statements statement
 
 int a, b; a=3%2; b=a+69.6;
 
-At line no: 6 compound_statement : LCURL statements RCURL
+At line no: 5 variable : ID
+
+b
+
+At line no: 5 factor : CONST_INT
+
+0
+
+At line no: 5 unary_expression : factor
+
+0
+
+At line no: 5 term : unary_expression
+
+0
+
+At line no: 5 simple_expression : term
+
+0
+
+At line no: 5 rel_expression : simple_expression
+
+0
+
+At line no: 5 logic_expression : simple_expression
+
+0
+
+At line no: 5 expression : variable ASSIGNOP logic_expression
+
+b=0
+
+At line no: 5 expression_statement : expression SEMICOLON
+
+b=0;
+
+At line no: 5 statement : expression_statement
+
+b=0;
+
+At line no: 5 statements : statements statement
+
+int a, b; a=3%2; b=a+69.6; b=0;
+
+At line no: 6 variable : ID
+
+a
+
+At line no: 6 variable : ID
+
+a
+
+At line no: 6 factor : variable
+
+a
+
+At line no: 6 unary_expression : factor
+
+a
+
+At line no: 6 term : unary_expression
+
+a
+
+At line no: 6 simple_expression : term
+
+a
+
+At line no: 6 rel_expression : simple_expression
+
+a
+
+At line no: 6 variable : ID
+
+b
+
+At line no: 6 factor : variable
+
+b
+
+At line no: 6 unary_expression : factor
+
+b
+
+At line no: 6 term : unary_expression
+
+b
+
+At line no: 6 simple_expression : term
+
+b
+
+At line no: 6 rel_expression : simple_expression
+
+b
+
+At line no: 6 logic_expression : rel_expression LOGICOP rel_expression
+
+a||b
+
+At line no: 6 expression : variable ASSIGNOP logic_expression
+
+a=a||b
+
+At line no: 6 expression_statement : expression SEMICOLON
+
+a=a||b;
+
+At line no: 6 statement : expression_statement
+
+a=a||b;
+
+At line no: 6 statements : statements statement
+
+int a, b; a=3%2; b=a+69.6; b=0; a=a||b;
+
+At line no: 8 compound_statement : LCURL statements RCURL
 
 {
-int a, b; a=3%2; b=a+69.6;}
+int a, b; a=3%2; b=a+69.6; b=0; a=a||b;}
 
 
-At line no: 6 func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-int main ( ) {
-int a, b; a=3%2; b=a+69.6;}
-
-
-At line no: 6 unit : func_definition
-
-int main ( ) {
-int a, b; a=3%2; b=a+69.6;}
-
-
-At line no: 6 program : unit
-
-int main ( ) {
-int a, b; a=3%2; b=a+69.6;}
-
-
-
-ScopeTable #1.1
-0 --> <b: ID> 
-6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
+At line no: 8 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
-Total lines: 7
+int main ( ) {
+int a, b; a=3%2; b=a+69.6; b=0; a=a||b;}
+
+
+At line no: 8 unit : func_definition
+
+int main ( ) {
+int a, b; a=3%2; b=a+69.6; b=0; a=a||b;}
+
+
+At line no: 8 program : unit
+
+int main ( ) {
+int a, b; a=3%2; b=a+69.6; b=0; a=a||b;}
+
+
+
+ScopeTable #1
+1 --> <main: ID> 
+At line no: 10 type_specifier	: VOID
+
+void
+
+
+New ScopeTable #1.2 created
+
+ScopeTable #1.2
+
+ScopeTable #1
+1 --> <main: ID>  <func: ID> 
+At line no: 11 type_specifier	: INT
+
+int
+
+At line no: 11 declaration_list : ID
+
+a
+
+
+ScopeTable #1.2
+
+ScopeTable #1
+1 --> <main: ID>  <func: ID> 
+At line no: 11 declaration_list : declaration_list COMMA ID
+
+a, b
+
+
+ScopeTable #1.2
+6 --> <a: ID> 
+
+ScopeTable #1
+1 --> <main: ID>  <func: ID> 
+At line no: 11 declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD 
+
+a, b, c[69]
+
+At line no: 11 declaration_list : declaration_list COMMA ID
+
+a, b, c[69], d
+
+
+ScopeTable #1.2
+0 --> <b: ID> 
+1 --> <c: ID> 
+6 --> <a: ID> 
+
+ScopeTable #1
+1 --> <main: ID>  <func: ID> 
+At line no: 11 var_declaration : type_specifier declaration_list SEMICOLON
+
+int a, b, c[69], d;
+
+At line no: 11 statement : var_declaration
+
+int a, b, c[69], d;
+
+At line no: 11 statements : statement
+
+int a, b, c[69], d;
+
+At line no: 13 variable : ID
+
+a
+
+At line no: 13 factor : CONST_INT
+
+0
+
+At line no: 13 unary_expression : factor
+
+0
+
+At line no: 13 term : unary_expression
+
+0
+
+At line no: 13 simple_expression : term
+
+0
+
+At line no: 13 rel_expression : simple_expression
+
+0
+
+At line no: 13 logic_expression : simple_expression
+
+0
+
+At line no: 13 expression : variable ASSIGNOP logic_expression
+
+a=0
+
+At line no: 13 expression_statement : expression SEMICOLON
+
+a=0;
+
+At line no: 13 variable : ID
+
+a
+
+At line no: 13 factor : variable
+
+a
+
+At line no: 13 unary_expression : factor
+
+a
+
+At line no: 13 term : unary_expression
+
+a
+
+At line no: 13 simple_expression : term
+
+a
+
+At line no: 13 factor : CONST_INT
+
+10
+
+At line no: 13 unary_expression : factor
+
+10
+
+At line no: 13 term : unary_expression
+
+10
+
+At line no: 13 simple_expression : term
+
+10
+
+At line no: 13 rel_expression : simple_expression RELOP simple_expression
+
+a<=10
+
+At line no: 13 logic_expression : simple_expression
+
+a<=10
+
+At line no: 13 expression : logic_expression
+
+a<=10
+
+At line no: 13 expression_statement : expression SEMICOLON
+
+a<=10;
+
+At line no: 13 variable : ID
+
+a
+
+At line no: 13 factor : variable INCOP
+
+a++
+
+At line no: 13 unary_expression : factor
+
+a++
+
+At line no: 13 term : unary_expression
+
+a++
+
+At line no: 13 simple_expression : term
+
+a++
+
+At line no: 13 rel_expression : simple_expression
+
+a++
+
+At line no: 13 logic_expression : simple_expression
+
+a++
+
+At line no: 13 expression : logic_expression
+
+a++
+
+
+New ScopeTable #1.2.1 created
+
+ScopeTable #1.2.1
+
+ScopeTable #1.2
+0 --> <b: ID> 
+1 --> <c: ID> 
+2 --> <d: ID> 
+6 --> <a: ID> 
+
+ScopeTable #1
+1 --> <main: ID>  <func: ID> 
+At line no: 14 variable : ID
+
+a
+
+At line no: 14 variable : ID
+
+a
+
+At line no: 14 factor : variable
+
+a
+
+At line no: 14 unary_expression : factor
+
+a
+
+At line no: 14 term : unary_expression
+
+a
+
+At line no: 14 simple_expression : term
+
+a
+
+At line no: 14 factor : CONST_INT
+
+1
+
+At line no: 14 unary_expression : factor
+
+1
+
+At line no: 14 term : unary_expression
+
+1
+
+At line no: 14 simple expression : simple_expression ADDOP term
+
+a+1
+
+At line no: 14 rel_expression : simple_expression
+
+a+1
+
+At line no: 14 logic_expression : simple_expression
+
+a+1
+
+At line no: 14 expression : variable ASSIGNOP logic_expression
+
+a=a+1
+
+At line no: 14 expression_statement : expression SEMICOLON
+
+a=a+1;
+
+At line no: 14 statement : expression_statement
+
+a=a+1;
+
+At line no: 14 statements : statement
+
+a=a+1;
+
+At line no: 15 compound_statement : LCURL statements RCURL
+
+{
+a=a+1;}
+
+
+
+ScopeTable #1.2
+0 --> <b: ID> 
+1 --> <c: ID> 
+2 --> <d: ID> 
+6 --> <a: ID> 
+
+ScopeTable #1
+1 --> <main: ID>  <func: ID> 
+At line no: 15 statement : compound_statement
+
+{
+a=a+1;}
+
+
+At line no: 15 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+for(a=0;a<=10;a++){
+a=a+1;}
+
+
+At line no: 15 statements : statements statement
+
+int a, b, c[69], d; for(a=0;a<=10;a++){
+a=a+1;}
+
+
+At line no: 17 compound_statement : LCURL statements RCURL
+
+{
+int a, b, c[69], d; for(a=0;a<=10;a++){
+a=a+1;}
+}
+
+
+
+ScopeTable #1
+1 --> <main: ID>  <func: ID> 
+At line no: 17 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+void func ( ) {
+int a, b, c[69], d; for(a=0;a<=10;a++){
+a=a+1;}
+}
+
+
+At line no: 17 unit : func_definition
+
+void func ( ) {
+int a, b, c[69], d; for(a=0;a<=10;a++){
+a=a+1;}
+}
+
+
+At line no: 17 program : program unit
+
+int main ( ) {
+int a, b; a=3%2; b=a+69.6; b=0; a=a||b;}
+
+void func ( ) {
+int a, b, c[69], d; for(a=0;a<=10;a++){
+a=a+1;}
+}
+
+
+
+Total lines: 18
 Total errors: 0
