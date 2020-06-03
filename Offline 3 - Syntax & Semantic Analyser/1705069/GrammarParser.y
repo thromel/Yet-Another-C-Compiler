@@ -320,7 +320,9 @@ rel_expression : simple_expression
 			}
 			| simple_expression RELOP simple_expression
 			{
-
+				$$ = handle_RELOP($1, $2, $3);
+				printRule("rel_expression : simple_expression RELOP simple_expression");
+				printSymbol($$);
 			}
 
 simple_expression : term
