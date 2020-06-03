@@ -96,7 +96,8 @@ continue {return CONTINUE;}
 
 
 {ADDOP} {handle_operator(yytext, "ADDOP"); return ADDOP;}
-("++"|"--") {handle_operator(yytext, "INCOP"); return INCOP;}
+("++") {handle_operator(yytext, "INCOP"); return INCOP;}
+("--") {handle_operator(yytext, "DECOP"); return DECOP;}
 ("*"|"/"|"%") {handle_operator(yytext, "MULOP"); return MULOP;}
 ("<="|">="|"=="|"!="|"<"|">") {handle_operator(yytext, "RELOP"); return RELOP;}
 ("&&"|"||") {handle_operator(yytext, "LOGICOP"); return LOGICOP;}

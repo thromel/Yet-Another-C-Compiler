@@ -234,12 +234,10 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
         {
             printWarning("Assigning integer to a float variable");
             sym1->setFloatValue(sym2->getIntValue());
-            result = new SymbolInfo(*sym1);
         } 
         else if (sym1->getVarType() == "INT")
         {
             sym1->setIntValue(sym2->getIntValue());
-            result = new SymbolInfo(*sym1);
         }
         
         
@@ -250,17 +248,17 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
         if (sym1->getVarType() == "FLOAT") 
         {
             sym1->setFloatValue(sym2->getFloatValue());
-            result = new SymbolInfo(*sym1);
         } 
         else if (sym1->getVarType() == "INT")
         {
             printWarning("Assigning float to an integer variable");
             sym1->setIntValue(sym2->getFloatValue());
-            result = new SymbolInfo(*sym1);
+            
         }
         
         
     }
+    result = new SymbolInfo(*sym1);
     result->setName(sym1->getName() + "=" + sym2->getName());
     result->setIdType("VARIABLE");
 
@@ -440,6 +438,31 @@ SymbolInfo* handle_RELOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
     result->setName(sym1->getName() + relop + sym2->getName());
     cout<<resultValue<<endl;
     return result; 
+}
+
+SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *op2)
+{
+
+}
+
+SymbolInfo* handle_INCOP(SymbolInfo *sym1)
+{
+    SymbolInfo *temp = new SymbolInfo("1", "CONST_INT");
+    SymbolInfo *one = getConstVal(temp, "INT");
+    SymbolInfo *addOp = new SymbolInfo("+", "");
+    SymbolInfo *result = handle_assign(sym1, handleADDOP(sym1, addOp, one));
+    result->setName(sym1->getName() + "++");
+    return result;
+}
+
+SymbolInfo* handle_DECOP(SymbolInfo *sym1)
+{
+    SymbolInfo *temp = new SymbolInfo("1", "CONST_INT");
+    SymbolInfo *one = getConstVal(temp, "INT");
+    SymbolInfo *addOp = new SymbolInfo("-", "");
+    SymbolInfo *result = handle_assign(sym1, handleADDOP(sym1, addOp, one));
+    result->setName(sym1->getName() + "--");
+    return result;
 }
 
 #endif
