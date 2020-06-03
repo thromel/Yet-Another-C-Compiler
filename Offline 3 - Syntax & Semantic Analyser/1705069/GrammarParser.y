@@ -20,7 +20,7 @@ SymbolInfo* symbol;
 %token IF FOR DO INT FLOAT VOID SWITCH DEFAULT ELSE WHILE BREAK CHAR DOUBLE RETURN CASE CONTINUE
 %token INCOP DECOP NOT
 %token LPAREN RPAREN LCURL RCURL LTHIRD RTHIRD COMMA SEMICOLON
-%token PRINTLN
+%token PRINT
 %token STRING
 
 
@@ -56,6 +56,7 @@ SymbolInfo* symbol;
 %type <symbol> var_declaration
 %type <symbol> statement
 %type <symbol> statements
+%type <symbol> print
 
 // %error-verbose
 
@@ -275,6 +276,10 @@ expression_statement : SEMICOLON
 			{
 				//Error Recovery
 			}
+			| print
+			{
+				$$ = $1;
+			}
 			;
 
 expression : logic_expression
@@ -380,6 +385,10 @@ factor : variable
 			{
 
 			}
+			| LPAREN expression error
+			{
+
+			}
 			;
 
 variable : ID
@@ -407,6 +416,12 @@ compound_statement : LCURL {enterScope();} statements RCURL
 				$$ = new SymbolInfo("{}", "NON_TERMINAL");
 				printRule("compound_statement : LCURL RCURL");
 				printSymbol($$);
+			};
+
+print: PRINT variable
+			{
+				$$ = new SymbolInfo ("PRINT" + $2->getName(), "NON_TERMINAL");
+				cout<<$2->getIntValue();
 			}
  
 

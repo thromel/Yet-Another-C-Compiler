@@ -76,7 +76,7 @@ extern int yydebug;
     RTHIRD = 282,
     COMMA = 283,
     SEMICOLON = 284,
-    PRINTLN = 285,
+    PRINT = 285,
     STRING = 286,
     ID = 287,
     CONST_INT = 288,
@@ -118,7 +118,7 @@ extern int yydebug;
 #define RTHIRD 282
 #define COMMA 283
 #define SEMICOLON 284
-#define PRINTLN 285
+#define PRINT 285
 #define STRING 286
 #define ID 287
 #define CONST_INT 288
