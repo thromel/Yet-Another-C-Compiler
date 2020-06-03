@@ -253,7 +253,6 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
         {
             printWarning("Assigning float to an integer variable");
             sym1->setIntValue(sym2->getFloatValue());
-            
         }
         
         
@@ -261,7 +260,7 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
     result = new SymbolInfo(*sym1);
     result->setName(sym1->getName() + "=" + sym2->getName());
     result->setIdType("VARIABLE");
-
+    cout<<result->getName()<<" -- "<<sym1->getIntValue()<<" "<<sym2->getFloatValue()<<endl;
     return result;
     
 }
@@ -440,9 +439,58 @@ SymbolInfo* handle_RELOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
     return result; 
 }
 
-SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *op2)
+SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
 {
+    if (sym1->getVarType() == "VOID" || sym2->getVarType() == "VOID"){
+        printError("Void type operand");
+        return nullSym();
+    }
 
+    string mulOp = op->getName();
+
+    if (mulOp == "%" && (sym1->getVarType() == "FLOAT" || sym2->getVarType() == "FLOAT")){
+        printError("Float operand for mod operation");
+        return nullSym();
+    }
+
+    SymbolInfo *result = new SymbolInfo("", "VARIABLE");
+
+    if (sym1->getVarType() == "FLOAT" || sym2->getVarType() == "FLOAT"){
+        result->setVarType("FLOAT");
+    } else {
+        result->setVarType("INT");
+    }
+    result->setIdType("VARIABLE");
+
+    if (mulOp == "%"){
+        result->setIntValue(sym1->getIntValue() % sym2->getIntValue());
+    } else if (mulOp == "*"){
+        if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
+            result->setIntValue(sym1->getIntValue() * sym2->getIntValue());
+        } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT") {
+            result->setFloatValue(sym1->getIntValue() * sym2->getFloatValue());
+        } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT") {
+            result->setFloatValue(sym1->getFloatValue() * sym2->getIntValue());
+        } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "FLOAT") {
+            result->setFloatValue(sym1->getFloatValue() * sym2->getFloatValue());
+        }
+    } else if (mulOp == "/"){
+        if (sym2->getIntValue() == 0 || sym2->getFloatValue() == 0.0){
+            printError("Divide by zero");
+            return nullSym();
+        }
+        if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
+            result->setIntValue(sym1->getIntValue() / sym2->getIntValue());
+        } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT") {
+            result->setFloatValue((sym1->getIntValue()*1.0) / sym2->getFloatValue());
+        } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT") {
+            result->setFloatValue(sym1->getFloatValue() / (sym2->getIntValue()*1.0));
+        } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "FLOAT") {
+            result->setFloatValue(sym1->getFloatValue() / sym2->getFloatValue());
+        }
+    }
+    result->setName(sym1->getName()+mulOp+sym2->getName());
+    return result;
 }
 
 SymbolInfo* handle_INCOP(SymbolInfo *sym1)
