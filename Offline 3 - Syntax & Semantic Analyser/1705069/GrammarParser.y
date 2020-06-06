@@ -50,7 +50,7 @@ SymbolInfo* symbol;
 %type <symbol>variable
 %type <symbol>parameter_list
 %type <symbol> declaration_list
-// %type <symbol>func_declaration
+%type <symbol>func_declaration
 %type <symbol>func_definition
 %type <symbol> compound_statement
 %type <symbol> var_declaration
@@ -102,7 +102,29 @@ unit : var_declaration
 		printRule("unit : func_definition");
 		printSymbol($$);
 	}
-     ;
+	| func_declaration
+	{
+		$$ = $1;
+		printRule("unit : func_declaration");
+		printSymbol($$);
+	}
+    ;
+
+func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON
+		{
+			addFuncDecl($2, $1);
+			$$ = new SymbolInfo($1->getName() + " " + $2->getName() + "(" + $4->getName() + ");", "NON_TERMINAL" );
+			printRule("func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
+			printSymbol($$);
+		}
+		| type_specifier ID LPAREN RPAREN SEMICOLON
+		{
+			addFuncDecl($2, $1);
+			$$ = new SymbolInfo($1->getName() + " " + $2->getName() + "( );", "NON_TERMINAL" );
+			printRule("func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON");
+			printSymbol($$);
+		}
+		;
 
 func_definition : type_specifier ID LPAREN RPAREN {addFuncDef($2, $1);} compound_statement
 		{
@@ -286,11 +308,13 @@ statement : var_declaration
 			}
 			| PRINTLN LPAREN ID RPAREN SEMICOLON
 			{
-				
+
 			}
 			| RETURN expression SEMICOLON
 			{
-
+				$$ = new SymbolInfo("return " + $2->getName() + ";", "NON_TERMINAL");
+				printRule("RETURN expression SEMICOLON");
+				printSymbol($$);
 			}
 			;
 
@@ -388,6 +412,14 @@ unary_expression : factor
 				$$ = $1;
 				printRule("unary_expression : factor");
 				printSymbol($$);
+			}
+			| ADDOP unary_expression
+			{
+
+			}
+			| NOT unary_expression
+			{
+
 			}
 			;
 

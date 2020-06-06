@@ -1,1 +1,3 @@
-Warning at line no: 4 Assigning float to an integer variable
+Warning at line no: 6 Assigning float to an integer variable
+Error at line no: 18 - func Number of parameters in definition is not equal to the number of paramters in prototype
+Error at line no: 25 - Operand of void type
