@@ -29,6 +29,7 @@ struct param {
 };
 
 vector<param> paramList;
+vector<string> argTypeList;
 
 string type = "";
 
@@ -133,11 +134,15 @@ void addFuncDef (SymbolInfo *funcVal, SymbolInfo *returnType)
             printError(funcVal->getName() + " is already defined");
             paramList.clear();
             return;
-        }
-        else if (returnType->getName() != func->getReturnType()){
+        } else if (returnType->getName() != func->getReturnType()){
             printError(funcVal->getName() + " return type doesn't match");
             paramList.clear();
             return;
+        } else if (func->getIdType() != "FUNCTION"){
+            printError(funcVal->getName() + " is not a function");
+            paramList.clear();
+            return;
+
         } else if (!func->isFuncDefined() ){
             if (paramList.size() != func->paramList.size()){
                 printError(funcVal->getName() + " Number of parameters in definition is not equal to the number of paramters in prototype");
@@ -626,5 +631,35 @@ SymbolInfo* handle_LOGICOP(SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
     result->setIntValue(resultValue);
     result->setName(sym1->getName()+logicOp+sym2->getName());
     return result;
+}
+
+SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
+    SymbolInfo *func = st.lookup(funcVal->getName());
+
+    if (func == NULL){
+        printError("Function " + funcVal->getName() + " is not declared or defined");
+        argTypeList.clear();
+    } else if (!func->isFuncDefined()){
+        printError("Function " + funcVal->getName() + " is not defined");
+        argTypeList.clear();
+    } else if (!func->isFunction()){
+        printError(funcVal->getName() + " is not a function");
+        argTypeList.clear();
+    } else if (argTypeList.size() != func->paramList.size()) {
+        printError(funcVal->getName() + " argument number mismatch");
+        argTypeList.clear();
+    } else {
+        for(int i = 0; i < func->paramList.size(); i++){
+            if (func->paramList[i].type != argTypeList[i]){
+                printError(funcVal->getName() + " argument type mismatch for" + func->paramList[i].name);
+                argTypeList.clear();
+                return nullSym();
+            }
+        }
+    }
+
+    SymbolInfo *sym = new SymbolInfo(funcVal->getName() + "(" + argList->getName() + ")", "NON_TERMINAL");
+    return sym;
+    
 }
 #endif
