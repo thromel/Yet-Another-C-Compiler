@@ -33,11 +33,7 @@ vector<string> argTypeList;
 
 string type = "";
 
-void yyerror(const char *s)
-{
-    printError(s);
 
-}
 
 void printRule(string rule)
 {
@@ -57,7 +53,15 @@ void printLog(string msg)
 void printError(string msg)
 {
     error << "Error at line no: " << line_count << " - "<<msg << endl;
+    log << "Error at line no: " << line_count << " - "<<msg << endl;
     error_count++;
+
+}
+
+void yyerror(const char *s)
+{
+    printError(s);
+
 }
 
 void printWarning(string msg)
