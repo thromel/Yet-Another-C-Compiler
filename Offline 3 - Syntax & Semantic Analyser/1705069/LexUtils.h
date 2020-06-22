@@ -15,6 +15,7 @@ int lex_err_count = 0;
 extern ofstream log;
 extern char *yytext;
 extern YYSTYPE yylval;
+extern int error_count;
 //Utility functions
 
 string toUpper(string str)

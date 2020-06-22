@@ -112,7 +112,7 @@ continue {return CONTINUE;}
 ")" {return RPAREN;}
 "=" {handle_operator(yytext, "ASSIGNOP"); return ASSIGNOP;}
 "!" {return NOT;}
-"PRINTLN" {return PRINTLN;}
+"printf" {return PRINTLN;}
 
 {ID} {handle_id(yytext); return ID;}
 {NOT_ID} {handle_error(yytext, "Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence");}
@@ -121,7 +121,7 @@ continue {return CONTINUE;}
 {NEWLINE} {line_count++;}
 {WHITESPACE} {}
 . {handle_error(yytext, "Unrecognized character");}
-<<EOF>> {log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<lex_err_count<<endl; log.close(); return 0;}
+<<EOF>> {log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<error_count<<endl; log.close(); return 0;}
 %%
 
 

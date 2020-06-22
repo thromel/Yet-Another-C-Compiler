@@ -37,7 +37,7 @@ string type = "";
 
 void printRule(string rule)
 {
-    log << "At line no: " << line_count <<" " << rule << "\n"  << endl;
+    log << "Line no: " << line_count <<" " << rule << "\n"  << endl;
 }
 
 void printSymbol(SymbolInfo *sym)
@@ -113,7 +113,7 @@ SymbolInfo* getVariable(SymbolInfo* sym)
     SymbolInfo *var = st.lookup(sym->getName());
 
     if (var == NULL){
-        printError(sym->getName() + " doesn't exist");
+        printError(sym->getName() + " is not declared");
     } else if (!var->isVariable())
     {
         if(var->isArray()){
@@ -207,9 +207,12 @@ void addFuncDecl (SymbolInfo *funcVal, SymbolInfo *returnType)
 
 SymbolInfo *insertVar(SymbolInfo *var)
 {   
-    st.printAll();
     if (st.lookup(var->getName())){
-        printError(var->getName() + " already exists inside the scope");
+        printError(var->getName() + " is already declared");
+    
+    } else if (type == "VOID") {
+        printError(var->getName() + " is of void type");
+
     } else {
         var->setVarType(type);
         var->setIdType("VARIABLE");
@@ -228,8 +231,10 @@ void addParam (string name, string type)
 void insertArray(SymbolInfo *id, SymbolInfo *size)
 {
     if (!insertSymbol(id)){
-        printError(id->getName() + " already exists");
+        printError(id->getName() + " is already declared");
         return;
+    } else if (type == "VOID"){
+        printError(id->getName() + " is of void type");
     }
     id->setIdType("ARRAY");
     id->setArrSize(stoi(size->getName()));
@@ -266,7 +271,7 @@ SymbolInfo* getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index)
     SymbolInfo *var;
     if (arrIdxVar == NULL)
     {
-        printError(arr->getName() + " doesn't exist");
+        printError(arr->getName() + " is not declared");
         return nullSym();
     }
     else
@@ -666,5 +671,80 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
     SymbolInfo *sym = new SymbolInfo(funcVal->getName() + "(" + argList->getName() + ")", "NON_TERMINAL");
     return sym;
     
+}
+
+void handle_print(SymbolInfo *sym){
+
+    sym = getVariable(sym);
+
+    if (sym->getIdType() != "VARIABLE") {
+        printError(sym->getName() + " is not a variable");
+        return;
+    } 
+    if (sym->getVarType() == "VOID"){
+        printError(sym->getName() + " is of void type");
+        return;
+    }
+    
+    if (sym->getVarType() == "INT"){
+        log << sym->getIntValue()<<endl;
+    } else {
+        log << sym->getFloatValue()<<endl;
+    }
+}
+
+SymbolInfo *handle_unary_ADDOP(SymbolInfo *op, SymbolInfo *sym){
+    string opr = op->getName();
+
+    if (sym->getIdType() != "VARIABLE"){
+        printError(sym->getName() + " is not an expression");
+        return nullSym();
+    } 
+    if (sym->getVarType() == "VOID"){
+        printError(sym->getName() + " is of void type");
+        return nullSym();
+    }
+
+    if (opr == "-"){
+        if (sym->getVarType() == "INT"){
+            sym->setIntValue(-sym->getIntValue());
+        } else {
+            sym->setFloatValue(-sym->getFloatValue());
+        }
+        sym->setName(sym->getName());
+    } else {
+        sym->setName(sym->getName());
+    } 
+    
+    return sym;
+}
+
+SymbolInfo *handle_NOT(SymbolInfo *sym){
+    if (sym->getIdType() != "VARIABLE"){
+        printError(sym->getName() + " is not an expression");
+        return nullSym();
+    } 
+    if (sym->getVarType()== "VOID"){
+        printError(sym->getName() + " is of void type");
+        return nullSym();
+    }
+
+    if (sym->getVarType() == "INT"){
+        if (sym->getIntValue() != 0){
+            sym->setIntValue(0);
+        } else {
+            sym->setIntValue(1);
+        }
+    } else {
+        if (sym->getFloatValue() != 0.0){
+            sym->setFloatValue(0.0);
+        } else {
+            sym->setFloatValue(1.0);
+        }
+    }
+
+    sym->setName(sym->getName());
+
+    return sym;
 }
 #endif
