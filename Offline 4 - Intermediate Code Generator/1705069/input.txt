@@ -1,0 +1,14 @@
+int f();
+
+int f(){
+	int a, b, c, d[20];
+	return 69.69;
+}
+
+int main(){
+	int a, b, c, d[20];
+	a = 20;
+	b = 69;
+	c = a;
+}
+
