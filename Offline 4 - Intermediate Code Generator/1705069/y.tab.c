@@ -1879,7 +1879,7 @@ yyreduce:
   case 37:
 #line 322 "1705069.y"
                         {
-				(yyval.symbol) = new SymbolInfo("if(" + (yyvsp[-2].symbol)->getName() + ")"+ (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
+				(yyval.symbol) = handle_if((yyvsp[-2].symbol), (yyvsp[0].symbol));
 				printRule("IF LPAREN expression RPAREN statement");
 				printSymbol((yyval.symbol));
 			}
@@ -1889,7 +1889,7 @@ yyreduce:
   case 38:
 #line 328 "1705069.y"
                         {
-				(yyval.symbol) = new SymbolInfo("if(" + (yyvsp[-4].symbol)->getName() + ")"+ (yyvsp[-2].symbol)->getName() + " else " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
+				(yyval.symbol) = handle_if_else((yyvsp[-4].symbol), (yyvsp[-2].symbol), (yyvsp[0].symbol));
 				printRule("IF LPAREN expression RPAREN statement ELSE statement");
 				printSymbol((yyval.symbol));
 			}

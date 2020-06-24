@@ -2,962 +2,408 @@ Line no: 1 type_specifier	: INT
 
 int
 
-Line no: 1 func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON
-
-int f( );
-
-Line no: 1 unit : func_declaration
-
-int f( );
-
-Line no: 1 program : unit
-
-int f( );
-
-
-ScopeTable #1
-4 --> <f: ID> 
-Line no: 3 type_specifier	: INT
-
-int
-
 
 New ScopeTable #1_1 created
-Line no: 4 type_specifier	: INT
+Line no: 2 type_specifier	: INT
 
 int
 
-Line no: 4 declaration_list : ID
+Line no: 2 declaration_list : ID
 
-a
+x
 
-Line no: 4 declaration_list : declaration_list COMMA ID
+Line no: 2 declaration_list : declaration_list COMMA ID
 
-a, b
+x, y
 
-Line no: 4 declaration_list : declaration_list COMMA ID
+Line no: 2 declaration_list : declaration_list COMMA ID
 
-a, b, c
+x, y, min
 
-Line no: 4 declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD 
+Line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
 
-a, b, c, d[20]
+int x, y, min;
 
-Line no: 4 var_declaration : type_specifier declaration_list SEMICOLON
+Line no: 2 statement : var_declaration
 
-int a, b, c, d[20];
+int x, y, min;
 
-Line no: 4 statement : var_declaration
+Line no: 2 statements : statement
 
-int a, b, c, d[20];
+int x, y, min;
 
-Line no: 4 statements : statement
+Line no: 3 variable : ID
 
-int a, b, c, d[20];
+min
 
-Line no: 5 factor : CONST_FLOAT
+Line no: 3 factor : CONST_INT
 
-69.69
+1
+
+Line no: 3 unary_expression : factor
+
+1
+
+Line no: 3 unary_expression : ADDOP unary_expression
+
+-1
+
+Line no: 3 term : unary_expression
+
+-1
+
+Line no: 3 simple_expression : term
+
+-1
+
+Line no: 3 rel_expression : simple_expression
+
+-1
+
+Line no: 3 logic_expression : rel_expression
+
+-1
+
+Line no: 3 expression : variable ASSIGNOP logic_expression
+
+min=-1
+
+Line no: 3 expression_statement : expression SEMICOLON
+
+min=-1;
+
+Line no: 3 statement : expression_statement
+
+min=-1;
+
+Line no: 3 statements : statements statement
+
+int x, y, min;
+min=-1;
+
+Line no: 4 variable : ID
+
+x
+
+Line no: 4 factor : CONST_INT
+
+20
+
+Line no: 4 unary_expression : factor
+
+20
+
+Line no: 4 term : unary_expression
+
+20
+
+Line no: 4 simple_expression : term
+
+20
+
+Line no: 4 rel_expression : simple_expression
+
+20
+
+Line no: 4 logic_expression : rel_expression
+
+20
+
+Line no: 4 expression : variable ASSIGNOP logic_expression
+
+x=20
+
+Line no: 4 expression_statement : expression SEMICOLON
+
+x=20;
+
+Line no: 4 statement : expression_statement
+
+x=20;
+
+Line no: 4 statements : statements statement
+
+int x, y, min;
+min=-1;
+x=20;
+
+Line no: 5 variable : ID
+
+y
+
+Line no: 5 factor : CONST_INT
+
+30
 
 Line no: 5 unary_expression : factor
 
-69.69
+30
 
 Line no: 5 term : unary_expression
 
-69.69
+30
 
 Line no: 5 simple_expression : term
 
-69.69
+30
 
 Line no: 5 rel_expression : simple_expression
 
-69.69
+30
 
 Line no: 5 logic_expression : rel_expression
 
-69.69
+30
 
-Line no: 5 expression : logic_expression
+Line no: 5 expression : variable ASSIGNOP logic_expression
 
-69.69
+y=30
 
-Line no: 5 RETURN expression SEMICOLON
+Line no: 5 expression_statement : expression SEMICOLON
 
-return 69.69;
+y=30;
+
+Line no: 5 statement : expression_statement
+
+y=30;
 
 Line no: 5 statements : statements statement
 
-int a, b, c, d[20];
-return 69.69;
+int x, y, min;
+min=-1;
+x=20;
+y=30;
 
-Line no: 6 compound_statement : LCURL statements RCURL
+Line no: 6 variable : ID
+
+y
+
+Line no: 6 factor : variable
+
+y
+
+Line no: 6 unary_expression : factor
+
+y
+
+Line no: 6 term : unary_expression
+
+y
+
+Line no: 6 simple_expression : term
+
+y
+
+Line no: 6 variable : ID
+
+x
+
+Line no: 6 factor : variable
+
+x
+
+Line no: 6 unary_expression : factor
+
+x
+
+Line no: 6 term : unary_expression
+
+x
+
+Line no: 6 simple_expression : term
+
+x
+
+Line no: 6 rel_expression : simple_expression RELOP simple_expression
+
+y<x
+
+Line no: 6 logic_expression : rel_expression
+
+y<x
+
+Line no: 6 expression : logic_expression
+
+y<x
+
+
+New ScopeTable #1_1_1 created
+Line no: 7 variable : ID
+
+min
+
+Line no: 7 variable : ID
+
+x
+
+Line no: 7 factor : variable
+
+x
+
+Line no: 7 unary_expression : factor
+
+x
+
+Line no: 7 term : unary_expression
+
+x
+
+Line no: 7 simple_expression : term
+
+x
+
+Line no: 7 rel_expression : simple_expression
+
+x
+
+Line no: 7 logic_expression : rel_expression
+
+x
+
+Line no: 7 expression : variable ASSIGNOP logic_expression
+
+min=x
+
+Line no: 7 expression_statement : expression SEMICOLON
+
+min=x;
+
+Line no: 7 statement : expression_statement
+
+min=x;
+
+Line no: 7 statements : statement
+
+min=x;
+
+Line no: 8 compound_statement : LCURL statements RCURL
 
 {
-int a, b, c, d[20];
-return 69.69;
+min=x;
+}
+
+
+
+ScopeTable #1_1_1
+
+ScopeTable #1_1
+1 --> <x: ID> 
+2 --> <y: ID>  <min: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+Line no: 8 statement : compound_statement
+
+{
+min=x;
+}
+
+
+Line no: 9 IF LPAREN expression RPAREN statement
+
+if(y<x){
+min=x;
+}
+
+
+Line no: 9 statements : statements statement
+
+int x, y, min;
+min=-1;
+x=20;
+y=30;
+if(y<x){
+min=x;
+}
+
+
+Line no: 9 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+printf(min);
+
+20
+Line no: 9 statements : statements statement
+
+int x, y, min;
+min=-1;
+x=20;
+y=30;
+if(y<x){
+min=x;
+}
+
+printf(min);
+
+Line no: 10 compound_statement : LCURL statements RCURL
+
+{
+int x, y, min;
+min=-1;
+x=20;
+y=30;
+if(y<x){
+min=x;
+}
+
+printf(min);
 }
 
 
 
 ScopeTable #1_1
-0 --> <b: ID> 
-1 --> <c: ID> 
-2 --> <d: ID> 
-6 --> <a: ID> 
-
-ScopeTable #1
-4 --> <f: ID> 
-Line no: 6 func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-int f ( ) {
-int a, b, c, d[20];
-return 69.69;
-}
-
-
-Line no: 6 unit : func_definition
-
-int f ( ) {
-int a, b, c, d[20];
-return 69.69;
-}
-
-
-Line no: 6 program : program unit
-
-int f( );
-int f ( ) {
-int a, b, c, d[20];
-return 69.69;
-}
-
-
-Line no: 8 type_specifier	: INT
-
-int
-
-
-New ScopeTable #1_2 created
-Line no: 9 type_specifier	: INT
-
-int
-
-Line no: 9 declaration_list : ID
-
-a
-
-Line no: 9 declaration_list : declaration_list COMMA ID
-
-a, b
-
-Line no: 9 declaration_list : declaration_list COMMA ID
-
-a, b, c
-
-Line no: 9 declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD 
-
-a, b, c, d[20]
-
-Line no: 9 var_declaration : type_specifier declaration_list SEMICOLON
-
-int a, b, c, d[20];
-
-Line no: 9 statement : var_declaration
-
-int a, b, c, d[20];
-
-Line no: 9 statements : statement
-
-int a, b, c, d[20];
-
-Line no: 10 variable : ID
-
-a
-
-Line no: 10 factor : CONST_INT
-
-20
-
-Line no: 10 unary_expression : factor
-
-20
-
-Line no: 10 term : unary_expression
-
-20
-
-Line no: 10 simple_expression : term
-
-20
-
-Line no: 10 rel_expression : simple_expression
-
-20
-
-Line no: 10 logic_expression : rel_expression
-
-20
-
-Line no: 10 expression : variable ASSIGNOP logic_expression
-
-a=20
-
-Line no: 10 expression_statement : expression SEMICOLON
-
-a=20;
-
-Line no: 10 statement : expression_statement
-
-a=20;
-
-Line no: 10 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-
-Line no: 11 variable : ID
-
-b
-
-Line no: 11 factor : CONST_INT
-
-69
-
-Line no: 11 unary_expression : factor
-
-69
-
-Line no: 11 term : unary_expression
-
-69
-
-Line no: 11 simple_expression : term
-
-69
-
-Line no: 11 rel_expression : simple_expression
-
-69
-
-Line no: 11 logic_expression : rel_expression
-
-69
-
-Line no: 11 expression : variable ASSIGNOP logic_expression
-
-b=69
-
-Line no: 11 expression_statement : expression SEMICOLON
-
-b=69;
-
-Line no: 11 statement : expression_statement
-
-b=69;
-
-Line no: 11 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-
-Line no: 12 variable : ID
-
-c
-
-Line no: 12 variable : ID
-
-a
-
-Line no: 12 factor : variable
-
-a
-
-Line no: 12 unary_expression : factor
-
-a
-
-Line no: 12 term : unary_expression
-
-a
-
-Line no: 12 simple_expression : term
-
-a
-
-Line no: 12 factor : CONST_INT
-
-6
-
-Line no: 12 unary_expression : factor
-
-6
-
-Line no: 12 term : unary_expression
-
-6
-
-Line no: 12 simple expression : simple_expression ADDOP term
-
-a+6
-
-Line no: 12 rel_expression : simple_expression
-
-a+6
-
-Line no: 12 logic_expression : rel_expression
-
-a+6
-
-Line no: 12 expression : variable ASSIGNOP logic_expression
-
-c=a+6
-
-Line no: 12 expression_statement : expression SEMICOLON
-
-c=a+6;
-
-Line no: 12 statement : expression_statement
-
-c=a+6;
-
-Line no: 12 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-
-Line no: 13 variable : ID
-
-b
-
-Line no: 13 variable : ID
-
-c
-
-Line no: 13 factor : variable
-
-c
-
-Line no: 13 unary_expression : factor
-
-c
-
-Line no: 13 term : unary_expression
-
-c
-
-Line no: 13 simple_expression : term
-
-c
-
-Line no: 13 variable : ID
-
-a
-
-Line no: 13 factor : variable
-
-a
-
-Line no: 13 unary_expression : factor
-
-a
-
-Line no: 13 term : unary_expression
-
-a
-
-Line no: 13 simple expression : simple_expression ADDOP term
-
-c+a
-
-Line no: 13 rel_expression : simple_expression
-
-c+a
-
-Line no: 13 logic_expression : rel_expression
-
-c+a
-
-Line no: 13 expression : variable ASSIGNOP logic_expression
-
-b=c+a
-
-Line no: 13 expression_statement : expression SEMICOLON
-
-b=c+a;
-
-Line no: 13 statement : expression_statement
-
-b=c+a;
-
-Line no: 13 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-
-Line no: 14 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(b);
-
-46
-Line no: 14 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-
-Line no: 15 variable : ID
-
-a
-
-Line no: 15 variable : ID
-
-b
-
-Line no: 15 factor : variable
-
-b
-
-Line no: 15 unary_expression : factor
-
-b
-
-Line no: 15 term : unary_expression
-
-b
-
-Line no: 15 simple_expression : term
-
-b
-
-Line no: 15 variable : ID
-
-c
-
-Line no: 15 factor : variable
-
-c
-
-Line no: 15 unary_expression : factor
-
-c
-
-Line no: 15 term : unary_expression
-
-c
-
-Line no: 15 simple expression : simple_expression ADDOP term
-
-b-c
-
-Line no: 15 rel_expression : simple_expression
-
-b-c
-
-Line no: 15 logic_expression : rel_expression
-
-b-c
-
-Line no: 15 expression : variable ASSIGNOP logic_expression
-
-a=b-c
-
-Line no: 15 expression_statement : expression SEMICOLON
-
-a=b-c;
-
-Line no: 15 statement : expression_statement
-
-a=b-c;
-
-Line no: 15 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-
-Line no: 16 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(a);
-
-20
-Line no: 16 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-
-Line no: 17 variable : ID
-
-a
-
-Line no: 17 factor : variable INCOP
-
-a++
-
-Line no: 17 unary_expression : factor
-
-a++
-
-Line no: 17 term : unary_expression
-
-a++
-
-Line no: 17 simple_expression : term
-
-a++
-
-Line no: 17 rel_expression : simple_expression
-
-a++
-
-Line no: 17 logic_expression : rel_expression
-
-a++
-
-Line no: 17 expression : logic_expression
-
-a++
-
-Line no: 17 expression_statement : expression SEMICOLON
-
-a++;
-
-Line no: 17 statement : expression_statement
-
-a++;
-
-Line no: 17 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-
-Line no: 18 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(a);
-
-21
-Line no: 18 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-
-Line no: 19 variable : ID
-
-a
-
-Line no: 19 variable : ID
-
-b
-
-Line no: 19 factor : variable
-
-b
-
-Line no: 19 unary_expression : factor
-
-b
-
-Line no: 19 unary_expression : ADDOP unary_expression
-
-b
-
-Line no: 19 term : unary_expression
-
-b
-
-Line no: 19 simple_expression : term
-
-b
-
-Line no: 19 rel_expression : simple_expression
-
-b
-
-Line no: 19 logic_expression : rel_expression
-
-b
-
-Line no: 19 expression : variable ASSIGNOP logic_expression
-
-a=b
-
-Line no: 19 expression_statement : expression SEMICOLON
-
-a=b;
-
-Line no: 19 statement : expression_statement
-
-a=b;
-
-Line no: 19 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-
-Line no: 20 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(a);
-
--46
-Line no: 20 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-
-Line no: 21 variable : ID
-
-b
-
-Line no: 21 variable : ID
-
-a
-
-Line no: 21 factor : variable
-
-a
-
-Line no: 21 unary_expression : factor
-
-a
-
-Line no: 21 term : unary_expression
-
-a
-
-Line no: 21 variable : ID
-
-c
-
-Line no: 21 factor : variable
-
-c
-
-Line no: 21 unary_expression : factor
-
-c
-
-Line no: 21 term : term MULOP unary_expression
-
-a*c
-
-Line no: 21 simple_expression : term
-
-a*c
-
-Line no: 21 rel_expression : simple_expression
-
-a*c
-
-Line no: 21 logic_expression : rel_expression
-
-a*c
-
-Line no: 21 expression : variable ASSIGNOP logic_expression
-
-b=a*c
-
-Line no: 21 expression_statement : expression SEMICOLON
-
-b=a*c;
-
-Line no: 21 statement : expression_statement
-
-b=a*c;
-
-Line no: 21 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-
-Line no: 22 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(b);
-
--1196
-Line no: 22 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-printf(b);
-
-Line no: 23 variable : ID
-
-b
-
-Line no: 23 variable : ID
-
-b
-
-Line no: 23 factor : variable
-
-b
-
-Line no: 23 unary_expression : factor
-
-b
-
-Line no: 23 term : unary_expression
-
-b
-
-Line no: 23 factor : CONST_INT
-
-2
-
-Line no: 23 unary_expression : factor
-
-2
-
-Line no: 23 term : term MULOP unary_expression
-
-b/2
-
-Line no: 23 simple_expression : term
-
-b/2
-
-Line no: 23 rel_expression : simple_expression
-
-b/2
-
-Line no: 23 logic_expression : rel_expression
-
-b/2
-
-Line no: 23 expression : variable ASSIGNOP logic_expression
-
-b=b/2
-
-Line no: 23 expression_statement : expression SEMICOLON
-
-b=b/2;
-
-Line no: 23 statement : expression_statement
-
-b=b/2;
-
-Line no: 23 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-printf(b);
-b=b/2;
-
-Line no: 24 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(b);
-
--598
-Line no: 24 statements : statements statement
-
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-printf(b);
-b=b/2;
-printf(b);
-
-Line no: 25 compound_statement : LCURL statements RCURL
-
-{
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-printf(b);
-b=b/2;
-printf(b);
-}
-
-
-
-ScopeTable #1_2
-0 --> <b: ID> 
-1 --> <c: ID> 
-2 --> <d: ID> 
-6 --> <a: ID> 
+1 --> <x: ID> 
+2 --> <y: ID>  <min: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-4 --> <f: ID> 
-Line no: 25 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line no: 10 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-printf(b);
-b=b/2;
-printf(b);
+int x, y, min;
+min=-1;
+x=20;
+y=30;
+if(y<x){
+min=x;
+}
+
+printf(min);
 }
 
 
-Line no: 25 unit : func_definition
+Line no: 10 unit : func_definition
 
 int main ( ) {
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-printf(b);
-b=b/2;
-printf(b);
+int x, y, min;
+min=-1;
+x=20;
+y=30;
+if(y<x){
+min=x;
+}
+
+printf(min);
 }
 
 
-Line no: 25 program : program unit
-
-int f( );
-int f ( ) {
-int a, b, c, d[20];
-return 69.69;
-}
+Line no: 10 program : unit
 
 int main ( ) {
-int a, b, c, d[20];
-a=20;
-b=69;
-c=a+6;
-b=c+a;
-printf(b);
-a=b-c;
-printf(a);
-a++;
-printf(a);
-a=b;
-printf(a);
-b=a*c;
-printf(b);
-b=b/2;
-printf(b);
+int x, y, min;
+min=-1;
+x=20;
+y=30;
+if(y<x){
+min=x;
+}
+
+printf(min);
 }
 
 
 
-Total lines: 27
+ScopeTable #1
+1 --> <main: ID> 
+
+Total lines: 10
 Total errors: 0

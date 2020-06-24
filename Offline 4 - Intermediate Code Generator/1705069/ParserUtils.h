@@ -374,9 +374,10 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
     //asm part
     if (sym2->getIsConst()){
         result->setCode(sym2->getCode() + "\n" + constToMem(sym1, sym2));
-    } else {
-        result->setCode(sym2->getCode() + "\n" + memToMem(sym1, sym2));
-    }
+    } else 
+    result->setCode(sym2->getCode() + "\n" + memToMem(sym1, sym2));
+    
+
 
     if (sym2->getAsmVar().substr(0, 4) == "temp"){
         vm.freeTempVar(sym2->getAsmVar());
@@ -482,84 +483,52 @@ SymbolInfo* handle_RELOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
     float leftFloat = 0.0, rightFloat = 0.0;
     int resultValue = 0;
 
+
+    //asm
+
+    string label1 = newLabel(), label2 = newLabel();
+    string jmpCondition;
+    string asmTempVar = vm.getTempVar();
+    string lhs = sym1->getAsmVar(), rhs = sym2->getAsmVar();
+    result->setCode(sym1->getCode() + "\n" + sym2->getCode());
+    //
     if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
         leftInt = sym1->getIntValue();
         rightInt = sym2->getIntValue();
         
         if (relop == "=="){
             resultValue = leftInt == rightInt;
-
+            jmpCondition = "JE";
         } else if (relop == "!="){
             resultValue = leftInt != rightInt;
-
+            jmpCondition = "JNE";
         } else if (relop == "<="){
             resultValue = leftInt <= rightInt;
-
+            jmpCondition = "JLE";
         } else if (relop == ">="){
             resultValue = leftInt >= rightInt;
+            jmpCondition = "JGE";
         } else if (relop == ">"){
             resultValue = leftInt > rightInt;
+            jmpCondition = "JG";
         } else if (relop == "<"){
             resultValue = leftInt < rightInt;
-        } 
-    } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT"){
-        leftInt = sym1->getIntValue();
-        rightFloat = sym2->getFloatValue();
-        if (relop == "=="){
-            resultValue = leftInt == rightFloat;
-
-        } else if (relop == "!="){
-            resultValue = leftInt != rightFloat;
-
-        } else if (relop == "<="){
-            resultValue = leftInt <= rightFloat;
-
-        } else if (relop == ">="){
-            resultValue = leftInt >= rightFloat;
-        } else if (relop == ">"){
-            resultValue = leftInt > rightFloat;
-        } else if (relop == "<"){
-            resultValue = leftInt < rightFloat;
-        } 
-    } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT"){
-        leftFloat = sym1->getFloatValue();
-        rightInt = sym2->getIntValue();
-        if (relop == "=="){
-            resultValue = leftFloat == rightInt;
-
-        } else if (relop == "!="){
-            resultValue = leftFloat != rightInt;
-
-        } else if (relop == "<="){
-            resultValue = leftFloat <= rightInt;
-
-        } else if (relop == ">="){
-            resultValue = leftFloat >= rightInt;
-        } else if (relop == ">"){
-            resultValue = leftFloat > rightInt;
-        } else if (relop == "<"){
-            resultValue = leftFloat < rightInt;
-        } 
-    } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "FLOAT"){
-        leftFloat = sym1->getFloatValue();
-        rightFloat = sym2->getFloatValue();
-        if (relop == "=="){
-            resultValue = leftFloat == rightFloat;
-
-        } else if (relop == "!="){
-            resultValue = leftFloat != rightFloat;
-
-        } else if (relop == "<="){
-            resultValue = leftFloat <= rightFloat;
-
-        } else if (relop == ">="){
-            resultValue = leftFloat >= rightFloat;
-        } else if (relop == ">"){
-            resultValue = leftFloat > rightFloat;
-        } else if (relop == "<"){
-            resultValue = leftFloat < rightFloat;
+            jmpCondition = "JL";
         } 
     }
+
+    result->setCode(result->getCode() + "\n" + "MOV AX, " + lhs);
+    vm.freeTempVar(lhs);
+    result->setCode(result->getCode() + "\n" + "CMP AX, " + rhs);
+    vm.freeTempVar(rhs);
+    result->setCode(result->getCode() + "\n" + jmpCondition + " " + label1);
+    result->setCode(result->getCode() + "\n" + "MOV " + asmTempVar + ", 0");
+    result->setCode(result->getCode() + "\n" + "JMP " + label2);
+    result->setCode(result->getCode() + "\n" + label1 + ": ");
+    result->setCode(result->getCode() + "\n" + "MOV " + asmTempVar + ", 1");
+    result->setCode(result->getCode() + "\n" + label2 + ": \n");
+    result->setAsmVar(asmTempVar);
+
     result->setIntValue(resultValue);
     result->setName(sym1->getName() + relop + sym2->getName());
     // cout<<resultValue<<endl;
@@ -591,6 +560,11 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
 
     if (mulOp == "%"){
         result->setIntValue(sym1->getIntValue() % sym2->getIntValue());
+        
+        string asmTempVar = vm.getTempVar();
+            result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
+            "\nMOV AX, AX\nCWD\nIDIV BX\nMOV " + asmTempVar + ", BX\n" );
+            result->setAsmVar(asmTempVar);
     } else if (mulOp == "*"){
         if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
             result->setIntValue(sym1->getIntValue() * sym2->getIntValue());
@@ -780,7 +754,13 @@ SymbolInfo *handle_unary_ADDOP(SymbolInfo *op, SymbolInfo *sym){
         }
         operand->setName(sym->getName());
         string asmTempVar = vm.getTempVar();
-        operand->setCode("MOV AX, " + sym->getAsmVar() + "\nMOV " + asmTempVar + ", AX\nNEG " + asmTempVar + "\n" );
+        if (!sym->getIsConst()) operand->setCode("MOV AX, " + sym->getAsmVar() + "\nMOV " + asmTempVar + ", AX\nNEG " + asmTempVar + "\n" );
+        else {
+            sym->setAsmVar("-"+sym->getAsmVar());
+            operand->setAsmVar("-"+sym->getAsmVar());
+            operand->setName("-"+operand->getName());
+        }
+        
         operand->setAsmVar(asmTempVar);
     } else {
         operand->setName(sym->getName());
@@ -816,5 +796,41 @@ SymbolInfo *handle_NOT(SymbolInfo *sym){
     sym->setName(sym->getName());
 
     return sym;
+}
+
+SymbolInfo *handle_if_else(SymbolInfo *exp, SymbolInfo *ifstmnt, SymbolInfo *elsestmnt){
+    SymbolInfo *result = new SymbolInfo("if("+exp->getName()+")"+ifstmnt->getName() +
+                                     "else " + elsestmnt->getName(), "NON_TERMINAL");
+
+    string label1 = newLabel();
+    string label2 = newLabel();
+    
+    result->setCode(exp->getCode());
+    result->addCode("MOV AX, " + exp->getAsmVar());
+    result->addCode("CMP AX, 1");
+    result->addCode("JNE " + label1);
+    result->addCode(ifstmnt->getCode());
+    result->addCode("JMP " + label2);
+    result->addCode(label1 + ":");
+    result->addCode(elsestmnt->getCode());
+    result->addCode(label2 + ":\n");
+
+    return result;
+}
+
+SymbolInfo *handle_if(SymbolInfo *exp, SymbolInfo *ifstmnt){
+    SymbolInfo *result = new SymbolInfo("if(" + exp->getName() + ")"+ ifstmnt->getName(), "NON_TERMINAL");
+
+    string label2 = newLabel();
+    
+    result->setCode(exp->getCode());
+    result->addCode("MOV AX, " + exp->getAsmVar());
+    result->addCode("CMP AX, 1");
+    result->addCode("JNE " + label2);
+    result->addCode(ifstmnt->getCode());
+    result->addCode(label2 + ":\n");
+
+    return result;
+
 }
 #endif

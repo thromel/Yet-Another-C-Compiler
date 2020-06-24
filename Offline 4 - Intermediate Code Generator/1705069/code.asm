@@ -2,22 +2,12 @@
 .STACK 100H 
 .DATA
 
-a1_1 DW ?
-b1_1 DW ?
-c1_1 DW ?
-a1_2 DW ?
-b1_2 DW ?
-c1_2 DW ?
+x1_1 DW ?
+y1_1 DW ?
+min1_1 DW ?
 temp0 DW ?
-d1_1 DW 20 DUP (?)
-d1_2 DW 20 DUP (?)
 
 .CODE
- 
-
- 
- 
-
 MAIN PROC 
 
 MOV AX,@DATA
@@ -25,85 +15,39 @@ MOV DS,AX
 
  
  
-MOV AX, 20
-MOV a1_2, AX 
+MOV AX, -1
+MOV min1_1, AX 
 
  
-MOV AX, 69
-MOV b1_2, AX 
+MOV AX, 20
+MOV x1_1, AX 
 
-MOV AX, a1_2
-ADD AX, 6
-MOV temp0, AX
+ 
+MOV AX, 30
+MOV y1_1, AX 
 
-MOV AX, temp0
-MOV c1_2, AX 
-
-MOV AX, c1_2
-ADD AX, a1_2
-MOV temp0, AX
-
-MOV AX, temp0
-MOV b1_2, AX 
-
-
-MOV AX, b1_2
-CALL OUTDEC
-
-MOV AX, b1_2
-SUB AX, c1_2
-MOV temp0, AX
+ 
+ 
+MOV AX, y1_1
+CMP AX, x1_1
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
 
 MOV AX, temp0
-MOV a1_2, AX 
+CMP AX, 1
+JNE L2
+ 
+MOV AX, x1_1
+MOV min1_1, AX 
+
+L2:
 
 
-MOV AX, a1_2
-CALL OUTDEC
-
-MOV AX, a1_2
-INC AX
-MOV a1_2, AX
-
-
-MOV AX, a1_2
-CALL OUTDEC
-
-MOV AX, b1_2
-MOV temp0, AX
-NEG temp0
-
-MOV AX, temp0
-MOV a1_2, AX 
-
-
-MOV AX, a1_2
-CALL OUTDEC
-
-MOV AX, a1_2
-MOV BX, c1_2
-IMUL BX
-MOV temp0, AX
-
-MOV AX, temp0
-MOV b1_2, AX 
-
-
-MOV AX, b1_2
-CALL OUTDEC
-
-MOV AX, b1_2
-MOV BX, 2
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp0, AX
-
-MOV AX, temp0
-MOV b1_2, AX 
-
-
-MOV AX, b1_2
+MOV AX, min1_1
 CALL OUTDEC
 
 MOV AH, 4CH

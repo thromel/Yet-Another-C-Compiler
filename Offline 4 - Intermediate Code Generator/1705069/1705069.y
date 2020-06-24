@@ -320,13 +320,13 @@ statement : var_declaration
 			}
 			| IF LPAREN expression RPAREN statement %prec second_prec
 			{
-				$$ = new SymbolInfo("if(" + $3->getName() + ")"+ $5->getName(), "NON_TERMINAL");
+				$$ = handle_if($3, $5);
 				printRule("IF LPAREN expression RPAREN statement");
 				printSymbol($$);
 			}
 			| IF LPAREN expression RPAREN statement ELSE statement
 			{
-				$$ = new SymbolInfo("if(" + $3->getName() + ")"+ $5->getName() + " else " + $7->getName(), "NON_TERMINAL");
+				$$ = handle_if_else($3, $5, $7);
 				printRule("IF LPAREN expression RPAREN statement ELSE statement");
 				printSymbol($$);
 			}

@@ -33,8 +33,10 @@ public:
     }
 
     void freeTempVar(string tempVar){
-        used.erase(tempVar);
-        free.push(tempVar);
+        if (tempVar.substr(0, 4) == "temp"){
+            used.erase(tempVar);
+            free.push(tempVar);
+        }
     }
 
 
