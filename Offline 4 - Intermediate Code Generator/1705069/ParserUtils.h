@@ -377,6 +377,11 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
     } else {
         result->setCode(sym2->getCode() + "\n" + memToMem(sym1, sym2));
     }
+
+    if (sym2->getAsmVar().substr(0, 4) == "temp"){
+        vm.freeTempVar(sym2->getAsmVar());
+
+    }
     //
 
     return result;
@@ -442,6 +447,7 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                 } else if (sym1->getVarType() == "INT"){
                     if (sym2->getVarType() == "INT"){
                         result->setIntValue(sym1->getIntValue()-sym2->getIntValue());
+                        result->setCode("MOV AX, " + sym1->getAsmVar() + "\nSUB AX, " + sym2->getAsmVar() + "\nMOV " + result->getAsmVar() + ", AX\n");
                     } else {
                         result->setFloatValue(sym1->getIntValue()-sym2->getFloatValue());
                     }
@@ -588,6 +594,13 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
     } else if (mulOp == "*"){
         if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
             result->setIntValue(sym1->getIntValue() * sym2->getIntValue());
+            
+            //asm
+            string asmTempVar = vm.getTempVar();
+            result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() + 
+            "\nIMUL BX\nMOV " + asmTempVar + ", AX\n" );
+            result->setAsmVar(asmTempVar);
+
         } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT") {
             result->setFloatValue(sym1->getIntValue() * sym2->getFloatValue());
         } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT") {
@@ -596,12 +609,20 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
             result->setFloatValue(sym1->getFloatValue() * sym2->getFloatValue());
         }
     } else if (mulOp == "/"){
-        if (sym2->getIntValue() == 0 || sym2->getFloatValue() == 0.0){
+        if ((sym2->getVarType() == "INT" && sym2->getIntValue() == 0 ) || 
+            (sym2->getVarType() == "FLOAT" && sym2->getFloatValue() == 0.0 )){
             printError("Divide by zero");
             return nullSym();
         }
         if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
             result->setIntValue(sym1->getIntValue() / sym2->getIntValue());
+            
+            //asm
+            string asmTempVar = vm.getTempVar();
+            result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
+            "\nMOV AX, AX\nCWD\nIDIV BX\nMOV " + asmTempVar + ", AX\n" );
+            result->setAsmVar(asmTempVar);
+            
         } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT") {
             result->setFloatValue((sym1->getIntValue()*1.0) / sym2->getFloatValue());
         } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT") {
@@ -620,6 +641,7 @@ SymbolInfo* handle_INCOP(SymbolInfo *sym1)
     SymbolInfo *one = getConstVal(temp, "INT");
     SymbolInfo *addOp = new SymbolInfo("+", "");
     SymbolInfo *result = handle_assign(sym1, handleADDOP(sym1, addOp, one));
+    result->setCode("MOV AX, " + sym1->getAsmVar() + "\nINC AX\nMOV " + sym1->getAsmVar() + ", AX\n");
     result->setName(sym1->getName() + "++");
     return result;
 }
@@ -631,6 +653,7 @@ SymbolInfo* handle_DECOP(SymbolInfo *sym1)
     SymbolInfo *addOp = new SymbolInfo("-", "");
     SymbolInfo *result = handle_assign(sym1, handleADDOP(sym1, addOp, one));
     result->setName(sym1->getName() + "--");
+    result->setCode("MOV AX, " + sym1->getAsmVar() + "\nDEC AX\nMOV " + sym1->getAsmVar() + ", AX\n");
     return result;
 }
 
@@ -737,6 +760,7 @@ void handle_print(SymbolInfo *sym){
 
 SymbolInfo *handle_unary_ADDOP(SymbolInfo *op, SymbolInfo *sym){
     string opr = op->getName();
+    SymbolInfo *operand = new SymbolInfo(*sym);
 
     if (sym->getIdType() != "VARIABLE"){
         printError(sym->getName() + " is not an expression");
@@ -748,17 +772,20 @@ SymbolInfo *handle_unary_ADDOP(SymbolInfo *op, SymbolInfo *sym){
     }
 
     if (opr == "-"){
-        if (sym->getVarType() == "INT"){
-            sym->setIntValue(-sym->getIntValue());
+        if (operand->getVarType() == "INT"){
+            operand->setIntValue(-sym->getIntValue());
         } else {
-            sym->setFloatValue(-sym->getFloatValue());
+            operand->setFloatValue(-sym->getFloatValue());
         }
-        sym->setName(sym->getName());
+        operand->setName(sym->getName());
+        string asmTempVar = vm.getTempVar();
+        operand->setCode("MOV AX, " + sym->getAsmVar() + "\nMOV " + asmTempVar + ", AX\nNEG " + asmTempVar + "\n" );
+        operand->setAsmVar(asmTempVar);
     } else {
-        sym->setName(sym->getName());
+        operand->setName(sym->getName());
     } 
     
-    return sym;
+    return operand;
 }
 
 SymbolInfo *handle_NOT(SymbolInfo *sym){

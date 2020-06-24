@@ -390,7 +390,6 @@ expression : logic_expression
 logic_expression : rel_expression
 			{
 				$$ = $1;
-				cout<<$$->getCode()<<endl;
 				printRule("logic_expression : rel_expression");
 				printSymbol($$);
 			}

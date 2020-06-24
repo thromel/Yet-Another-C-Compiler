@@ -39,6 +39,55 @@ MOV temp0, AX
 MOV AX, temp0
 MOV c1_2, AX 
 
+MOV AX, c1_2
+ADD AX, a1_2
+MOV temp0, AX
+
+MOV AX, temp0
+MOV b1_2, AX 
+
+ 
+MOV AX, b1_2
+SUB AX, c1_2
+MOV temp0, AX
+
+MOV AX, temp0
+MOV a1_2, AX 
+
+ 
+MOV AX, a1_2
+INC AX
+MOV a1_2, AX
+
+ 
+MOV AX, b1_2
+MOV temp0, AX
+NEG temp0
+
+MOV AX, temp0
+MOV a1_2, AX 
+
+ 
+MOV AX, a1_2
+MOV BX, c1_2
+IMUL BX
+MOV temp0, AX
+
+MOV AX, temp0
+MOV b1_2, AX 
+
+ 
+MOV AX, b1_2
+MOV BX, 2
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp0, AX
+
+MOV AX, temp0
+MOV b1_2, AX 
+
+ 
 MOV AH, 4CH
 INT 21H
 MAIN ENDP

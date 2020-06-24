@@ -10,5 +10,17 @@ int main(){
 	a = 20;
 	b = 69;
 	c = a + 6;
+	b = c + a;
+	printf(b);
+	a = b - c;
+	printf(a);
+	a++;
+	printf(a);
+	a = -b;
+	printf(a);
+	b = a * c;
+	printf(b);
+	b = b / 2;
+	printf(b);
 }
 

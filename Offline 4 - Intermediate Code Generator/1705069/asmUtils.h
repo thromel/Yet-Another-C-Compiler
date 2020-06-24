@@ -85,6 +85,10 @@ string constToMem(SymbolInfo *lhs, SymbolInfo *constVal){
     return asmCode;
 }
 
+string addPrintFunc(){
+    
+}
+
 
 
 #endif
