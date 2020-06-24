@@ -3,6 +3,7 @@
 
 #include<stack>
 #include<set>
+#include<fstream>
 
 extern vector<string> asmVarList;
 extern vector<pair<string, int>> asmArrList;
@@ -85,8 +86,11 @@ string constToMem(SymbolInfo *lhs, SymbolInfo *constVal){
     return asmCode;
 }
 
-string addPrintFunc(){
-    
+void addPrintFunc(){
+    ifstream srcFile("./AsmLibraries/outdec.h");
+    string line;
+    while( std::getline( srcFile, line, '.' ) ) code << line << '\n' ;
+    srcFile.close();
 }
 
 

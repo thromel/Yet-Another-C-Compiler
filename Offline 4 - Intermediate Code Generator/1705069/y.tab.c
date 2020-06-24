@@ -599,14 +599,14 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    67,    67,    84,    92,   102,   108,   114,   122,   129,
-     138,   138,   145,   145,   154,   162,   169,   176,   183,   189,
-     196,   203,   213,   220,   227,   236,   243,   250,   257,   264,
-     272,   281,   287,   295,   302,   308,   314,   320,   326,   332,
-     338,   345,   353,   359,   366,   376,   382,   390,   396,   404,
-     410,   417,   423,   432,   438,   446,   452,   458,   466,   472,
-     479,   486,   492,   498,   504,   512,   518,   526,   526,   534,
-     534,   542,   550,   562,   575
+       0,    67,    67,    85,    93,   103,   109,   115,   123,   130,
+     139,   139,   146,   146,   155,   163,   170,   177,   184,   190,
+     197,   204,   214,   221,   228,   237,   244,   251,   258,   265,
+     273,   282,   288,   296,   303,   309,   315,   321,   327,   333,
+     339,   346,   354,   360,   367,   377,   383,   391,   397,   405,
+     411,   418,   424,   433,   439,   447,   453,   459,   467,   473,
+     480,   487,   493,   499,   505,   513,   519,   527,   527,   535,
+     535,   543,   551,   563,   576
 };
 #endif
 
@@ -1502,6 +1502,7 @@ yyreduce:
 			addDataSegment();
 			startCodeSegment();
 			printCode((yyval.symbol));
+			addPrintFunc();
 			endCodeSegment();
 		}
 		
@@ -1510,11 +1511,11 @@ yyreduce:
 		printSymbol((yyvsp[0].symbol));
 		
 	}
-#line 1514 "y.tab.c"
+#line 1515 "y.tab.c"
     break;
 
   case 3:
-#line 85 "1705069.y"
+#line 86 "1705069.y"
         {
 		(yyval.symbol) = new SymbolInfo((yyvsp[-1].symbol)->getName() + "\n" + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 		(yyval.symbol)->setCode((yyvsp[-1].symbol)->getCode() + "\n" +(yyvsp[0].symbol)->getCode());
@@ -1522,11 +1523,11 @@ yyreduce:
 		printSymbol((yyval.symbol));
 		
 	}
-#line 1526 "y.tab.c"
+#line 1527 "y.tab.c"
     break;
 
   case 4:
-#line 93 "1705069.y"
+#line 94 "1705069.y"
         {
 		(yyval.symbol) = (yyvsp[0].symbol);
 		(yyval.symbol)->setCode((yyvsp[0].symbol)->getCode());
@@ -1534,97 +1535,97 @@ yyreduce:
 		printSymbol((yyval.symbol));
 		st.printAll();
 	}
-#line 1538 "y.tab.c"
+#line 1539 "y.tab.c"
     break;
 
   case 5:
-#line 103 "1705069.y"
+#line 104 "1705069.y"
         {
 		(yyval.symbol) = (yyvsp[0].symbol);
 		printRule("unit : var_declaration");
 		printSymbol((yyval.symbol));
 	}
-#line 1548 "y.tab.c"
+#line 1549 "y.tab.c"
     break;
 
   case 6:
-#line 109 "1705069.y"
+#line 110 "1705069.y"
         {
 		(yyval.symbol) = (yyvsp[0].symbol);
 		printRule("unit : func_definition");
 		printSymbol((yyval.symbol));
 	}
-#line 1558 "y.tab.c"
+#line 1559 "y.tab.c"
     break;
 
   case 7:
-#line 115 "1705069.y"
+#line 116 "1705069.y"
         {
 		(yyval.symbol) = (yyvsp[0].symbol);
 		printRule("unit : func_declaration");
 		printSymbol((yyval.symbol));
 	}
-#line 1568 "y.tab.c"
+#line 1569 "y.tab.c"
     break;
 
   case 8:
-#line 123 "1705069.y"
+#line 124 "1705069.y"
                 {
 			addFuncDecl((yyvsp[-4].symbol), (yyvsp[-5].symbol));
 			(yyval.symbol) = new SymbolInfo((yyvsp[-5].symbol)->getName() + " " + (yyvsp[-4].symbol)->getName() + "(" + (yyvsp[-2].symbol)->getName() + ");", "NON_TERMINAL" );
 			printRule("func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON");
 			printSymbol((yyval.symbol));
 		}
-#line 1579 "y.tab.c"
+#line 1580 "y.tab.c"
     break;
 
   case 9:
-#line 130 "1705069.y"
+#line 131 "1705069.y"
                 {
 			addFuncDecl((yyvsp[-3].symbol), (yyvsp[-4].symbol));
 			(yyval.symbol) = new SymbolInfo((yyvsp[-4].symbol)->getName() + " " + (yyvsp[-3].symbol)->getName() + "( );", "NON_TERMINAL" );
 			printRule("func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON");
 			printSymbol((yyval.symbol));
 		}
-#line 1590 "y.tab.c"
+#line 1591 "y.tab.c"
     break;
 
   case 10:
-#line 138 "1705069.y"
+#line 139 "1705069.y"
                                                   {addFuncDef((yyvsp[-2].symbol), (yyvsp[-3].symbol));}
-#line 1596 "y.tab.c"
+#line 1597 "y.tab.c"
     break;
 
   case 11:
-#line 139 "1705069.y"
+#line 140 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo((yyvsp[-5].symbol)->getName() + " " + (yyvsp[-4].symbol)->getName() + " ( ) " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL" );
 			(yyval.symbol)->setCode((yyvsp[-4].symbol)->getFuncStart() + "\n" + (yyvsp[0].symbol)->getCode() + "\n" + (yyvsp[-4].symbol)->getFuncEnd());
 			printRule("func_definition : type_specifier ID LPAREN RPAREN compound_statement");
 			printSymbol((yyval.symbol));
 		}
-#line 1607 "y.tab.c"
+#line 1608 "y.tab.c"
     break;
 
   case 12:
-#line 145 "1705069.y"
+#line 146 "1705069.y"
                                                                   {addFuncDef((yyvsp[-3].symbol),(yyvsp[-4].symbol));}
-#line 1613 "y.tab.c"
+#line 1614 "y.tab.c"
     break;
 
   case 13:
-#line 146 "1705069.y"
+#line 147 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo((yyvsp[-6].symbol)->getName() + " " + (yyvsp[-5].symbol)->getName() + " ( " + (yyvsp[-3].symbol)->getName() +" ) "+ (yyvsp[0].symbol)->getName(), "NON_TERMINAL" );
 			(yyval.symbol)->setCode((yyvsp[-5].symbol)->getFuncStart() + "\n" + (yyvsp[0].symbol)->getCode() + "\n" + (yyvsp[-5].symbol)->getFuncEnd());
 			printRule("func_definition : type_specifier ID LPAREN parameter_list RPAREN");
 			printSymbol((yyval.symbol));
 		}
-#line 1624 "y.tab.c"
+#line 1625 "y.tab.c"
     break;
 
   case 14:
-#line 155 "1705069.y"
+#line 156 "1705069.y"
                 {	
 
 			(yyval.symbol) = new SymbolInfo((yyvsp[-3].symbol)->getName() + "," + (yyvsp[-1].symbol)->getName() + " " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
@@ -1632,77 +1633,77 @@ yyreduce:
 			printSymbol((yyval.symbol));
 			addParam((yyvsp[0].symbol)->getName(), (yyvsp[-1].symbol)->getName());
 		}
-#line 1636 "y.tab.c"
+#line 1637 "y.tab.c"
     break;
 
   case 15:
-#line 163 "1705069.y"
+#line 164 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + "," + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 			printRule("parameter_list : parameter_list COMMA type_specifier");
 			printSymbol((yyval.symbol));
 			addParam("", (yyvsp[0].symbol)->getName());
 		}
-#line 1647 "y.tab.c"
+#line 1648 "y.tab.c"
     break;
 
   case 16:
-#line 170 "1705069.y"
+#line 171 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo((yyvsp[-1].symbol)->getName() + " " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 			printRule("parameter_list : type_specifier ID");
 			printSymbol((yyval.symbol));
 			addParam((yyvsp[0].symbol)->getName(), (yyvsp[-1].symbol)->getName());
 		}
-#line 1658 "y.tab.c"
+#line 1659 "y.tab.c"
     break;
 
   case 17:
-#line 177 "1705069.y"
+#line 178 "1705069.y"
                 {
 			(yyval.symbol) = (yyvsp[0].symbol);
 			printRule("parameter_list : type_specifier");
 			printSymbol((yyval.symbol));
 			addParam("", (yyvsp[0].symbol)->getName());
 		}
-#line 1669 "y.tab.c"
+#line 1670 "y.tab.c"
     break;
 
   case 18:
-#line 183 "1705069.y"
+#line 184 "1705069.y"
                                                 {
 			(yyval.symbol) = new SymbolInfo((yyvsp[-3].symbol)->getName() + "," + " " + "ERROR", "NON_TERMINAL");
 			printRule("parameter_list : parameter_list COMMA error ID");
 			printSymbol((yyval.symbol));
 			printError("Missing type specifier before ID");
 		}
-#line 1680 "y.tab.c"
+#line 1681 "y.tab.c"
     break;
 
   case 19:
-#line 189 "1705069.y"
+#line 190 "1705069.y"
                            {
 			(yyval.symbol) = new SymbolInfo("ERROR " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 			printRule("parameter_list : error ID");
 			printSymbol((yyval.symbol));
 			printError("Missing type specifier before ID");
 		}
-#line 1691 "y.tab.c"
+#line 1692 "y.tab.c"
     break;
 
   case 20:
-#line 197 "1705069.y"
+#line 198 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + " " + (yyvsp[-1].symbol)->getName() + ";","NON_TERMINAL");
 			printRule("var_declaration : type_specifier declaration_list SEMICOLON");
 			printSymbol((yyval.symbol));
 			type = "";
 		}
-#line 1702 "y.tab.c"
+#line 1703 "y.tab.c"
     break;
 
   case 21:
-#line 204 "1705069.y"
+#line 205 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + " " + (yyvsp[-1].symbol)->getName(),"NON_TERMINAL");
 			printRule("var_declaration : type_specifier declaration_list error");
@@ -1710,88 +1711,88 @@ yyreduce:
 			type = "";
 			printError("Missing SEMICOLON");	
 		}
-#line 1714 "y.tab.c"
+#line 1715 "y.tab.c"
     break;
 
   case 22:
-#line 214 "1705069.y"
+#line 215 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo("int", "NON_TERMINAL");
 			printRule("type_specifier	: INT");
 			printSymbol((yyval.symbol));
 			type = "INT";
 		}
-#line 1725 "y.tab.c"
+#line 1726 "y.tab.c"
     break;
 
   case 23:
-#line 221 "1705069.y"
+#line 222 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo("float", "NON_TERMINAL");
 			printRule("type_specifier	: FLOAT");
 			printSymbol((yyval.symbol));
 			type = "FLOAT";
 		}
-#line 1736 "y.tab.c"
+#line 1737 "y.tab.c"
     break;
 
   case 24:
-#line 228 "1705069.y"
+#line 229 "1705069.y"
                 {
 			(yyval.symbol) = new SymbolInfo("void", "NON_TERMINAL");
 			printRule("type_specifier	: VOID");
 			printSymbol((yyval.symbol));
 			type = "VOID";
 		}
-#line 1747 "y.tab.c"
+#line 1748 "y.tab.c"
     break;
 
   case 25:
-#line 237 "1705069.y"
+#line 238 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + ", " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				printRule("declaration_list : declaration_list COMMA ID");
 				printSymbol((yyval.symbol));
 				insertVar((yyvsp[0].symbol));
 			}
-#line 1758 "y.tab.c"
+#line 1759 "y.tab.c"
     break;
 
   case 26:
-#line 244 "1705069.y"
+#line 245 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-5].symbol)->getName() + ", " + (yyvsp[-3].symbol)->getName() + "[" + (yyvsp[-1].symbol)->getName() + "]", "NON_TERMINAL");
 				printRule("declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD ");
 				printSymbol((yyval.symbol));
 				insertArray((yyvsp[-3].symbol), (yyvsp[-1].symbol));
 			}
-#line 1769 "y.tab.c"
+#line 1770 "y.tab.c"
     break;
 
   case 27:
-#line 251 "1705069.y"
+#line 252 "1705069.y"
                    {
 			   printRule("declaration_list : ID");
 			   printSymbol((yyval.symbol));
 			   (yyvsp[0].symbol) = insertVar((yyvsp[0].symbol));
 			   (yyval.symbol) = (yyvsp[0].symbol);
 		   }
-#line 1780 "y.tab.c"
+#line 1781 "y.tab.c"
     break;
 
   case 28:
-#line 258 "1705069.y"
+#line 259 "1705069.y"
                         {
 				printRule("declaration_list :ID LTHIRD CONST_INT RTHIRD ");
 				(yyval.symbol) = new SymbolInfo((yyvsp[-3].symbol)->getName() + "[" + (yyvsp[-1].symbol)->getName() + "]", "NON_TERMINAL" );
 				printSymbol((yyval.symbol));
 				insertArray((yyvsp[-3].symbol), (yyvsp[-1].symbol));
 			}
-#line 1791 "y.tab.c"
+#line 1792 "y.tab.c"
     break;
 
   case 29:
-#line 265 "1705069.y"
+#line 266 "1705069.y"
                         {
 				printRule("declaration_list :ID LTHIRD error RTHIRD ");
 				(yyval.symbol) = new SymbolInfo((yyvsp[-3].symbol)->getName() + "[" + "ERROR" + "]", "NON_TERMINAL" );
@@ -1799,156 +1800,156 @@ yyreduce:
 				printError("Missing array size");
 				
 			}
-#line 1803 "y.tab.c"
+#line 1804 "y.tab.c"
     break;
 
   case 30:
-#line 273 "1705069.y"
+#line 274 "1705069.y"
                         {
 				printRule("declaration_list : declaration_list COMMA ID LTHIRD error RTHIRD ");
 				(yyval.symbol) = new SymbolInfo((yyvsp[-5].symbol)->getName() + ", " + (yyvsp[-3].symbol)->getName() + "[" + "ERROR" + "]", "NON_TERMINAL");
 				printSymbol((yyval.symbol));
 				printError("Missing array size");
 			}
-#line 1814 "y.tab.c"
+#line 1815 "y.tab.c"
     break;
 
   case 31:
-#line 282 "1705069.y"
+#line 283 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("statements : statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1824 "y.tab.c"
+#line 1825 "y.tab.c"
     break;
 
   case 32:
-#line 288 "1705069.y"
+#line 289 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-1].symbol)->getName() + "\n" + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				(yyval.symbol)->setCode((yyvsp[-1].symbol)->getCode() + "\n" + (yyvsp[0].symbol)->getCode());
 				printRule("statements : statements statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1835 "y.tab.c"
+#line 1836 "y.tab.c"
     break;
 
   case 33:
-#line 296 "1705069.y"
+#line 297 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("statement : var_declaration");
 				printSymbol((yyval.symbol));
 
 			}
-#line 1846 "y.tab.c"
+#line 1847 "y.tab.c"
     break;
 
   case 34:
-#line 303 "1705069.y"
+#line 304 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("statement : expression_statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1856 "y.tab.c"
+#line 1857 "y.tab.c"
     break;
 
   case 35:
-#line 309 "1705069.y"
+#line 310 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("statement : compound_statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1866 "y.tab.c"
+#line 1867 "y.tab.c"
     break;
 
   case 36:
-#line 315 "1705069.y"
+#line 316 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("for("+(yyvsp[-4].symbol)->getName()+(yyvsp[-3].symbol)->getName()+(yyvsp[-2].symbol)->getName()+")"+(yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				printRule("FOR LPAREN expression_statement expression_statement expression RPAREN statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1876 "y.tab.c"
+#line 1877 "y.tab.c"
     break;
 
   case 37:
-#line 321 "1705069.y"
+#line 322 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("if(" + (yyvsp[-2].symbol)->getName() + ")"+ (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				printRule("IF LPAREN expression RPAREN statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1886 "y.tab.c"
+#line 1887 "y.tab.c"
     break;
 
   case 38:
-#line 327 "1705069.y"
+#line 328 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("if(" + (yyvsp[-4].symbol)->getName() + ")"+ (yyvsp[-2].symbol)->getName() + " else " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				printRule("IF LPAREN expression RPAREN statement ELSE statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1896 "y.tab.c"
+#line 1897 "y.tab.c"
     break;
 
   case 39:
-#line 333 "1705069.y"
+#line 334 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("while(" + (yyvsp[-2].symbol)->getName() + ") " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				printRule("WHILE LPAREN expression RPAREN statement");
 				printSymbol((yyval.symbol));
 			}
-#line 1906 "y.tab.c"
+#line 1907 "y.tab.c"
     break;
 
   case 40:
-#line 339 "1705069.y"
+#line 340 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("printf("+ (yyvsp[-2].symbol)->getName() + ");", "NON_TERMINAL");
 				printRule("PRINTLN LPAREN ID RPAREN SEMICOLON");
 				printSymbol((yyval.symbol));
-				handle_print((yyvsp[-2].symbol));
+				handle_print((yyvsp[-2].symbol), (yyval.symbol));
 			}
-#line 1917 "y.tab.c"
+#line 1918 "y.tab.c"
     break;
 
   case 41:
-#line 346 "1705069.y"
+#line 347 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("return " + (yyvsp[-1].symbol)->getName() + ";", "NON_TERMINAL");
 				printRule("RETURN expression SEMICOLON");
 				printSymbol((yyval.symbol));
 			}
-#line 1927 "y.tab.c"
+#line 1928 "y.tab.c"
     break;
 
   case 42:
-#line 354 "1705069.y"
+#line 355 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo(" ; ", "NON_TERMINAL");
 				printRule("expression_statement : SEMICOLON");
 				printSymbol((yyval.symbol));
 			}
-#line 1937 "y.tab.c"
+#line 1938 "y.tab.c"
     break;
 
   case 43:
-#line 360 "1705069.y"
+#line 361 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-1].symbol)->getName()+";", "NON_TERMINAL");
 				(yyval.symbol)->setCode((yyvsp[-1].symbol)->getCode());
 				printRule("expression_statement : expression SEMICOLON");
 				printSymbol((yyval.symbol));
 			}
-#line 1948 "y.tab.c"
+#line 1949 "y.tab.c"
     break;
 
   case 44:
-#line 367 "1705069.y"
+#line 368 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-1].symbol)->getName()+"", "NON_TERMINAL");
 				(yyval.symbol)->setCode((yyvsp[-1].symbol)->getCode());
@@ -1956,240 +1957,240 @@ yyreduce:
 				printSymbol((yyval.symbol));
 				printError("Missing SEMICOLON");
 			}
-#line 1960 "y.tab.c"
+#line 1961 "y.tab.c"
     break;
 
   case 45:
-#line 377 "1705069.y"
+#line 378 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("expression : logic_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 1970 "y.tab.c"
+#line 1971 "y.tab.c"
     break;
 
   case 46:
-#line 383 "1705069.y"
+#line 384 "1705069.y"
                         {
 				printRule("expression : variable ASSIGNOP logic_expression");
 				(yyval.symbol) = handle_assign((yyvsp[-2].symbol), (yyvsp[0].symbol));
 				printSymbol((yyval.symbol));
 			}
-#line 1980 "y.tab.c"
+#line 1981 "y.tab.c"
     break;
 
   case 47:
-#line 391 "1705069.y"
+#line 392 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("logic_expression : rel_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 1990 "y.tab.c"
+#line 1991 "y.tab.c"
     break;
 
   case 48:
-#line 397 "1705069.y"
+#line 398 "1705069.y"
                         {
 				(yyval.symbol) = handle_LOGICOP((yyvsp[-2].symbol), (yyvsp[-1].symbol), (yyvsp[0].symbol));
 				printRule("logic_expression : rel_expression LOGICOP rel_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 2000 "y.tab.c"
+#line 2001 "y.tab.c"
     break;
 
   case 49:
-#line 405 "1705069.y"
+#line 406 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("rel_expression : simple_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 2010 "y.tab.c"
+#line 2011 "y.tab.c"
     break;
 
   case 50:
-#line 411 "1705069.y"
+#line 412 "1705069.y"
                         {
 				(yyval.symbol) = handle_RELOP((yyvsp[-2].symbol), (yyvsp[-1].symbol), (yyvsp[0].symbol));
 				printRule("rel_expression : simple_expression RELOP simple_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 2020 "y.tab.c"
+#line 2021 "y.tab.c"
     break;
 
   case 51:
-#line 418 "1705069.y"
+#line 419 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("simple_expression : term");
 				printSymbol((yyval.symbol));
 			}
-#line 2030 "y.tab.c"
+#line 2031 "y.tab.c"
     break;
 
   case 52:
-#line 424 "1705069.y"
+#line 425 "1705069.y"
                         {
 				(yyval.symbol) = handleADDOP((yyvsp[-2].symbol), (yyvsp[-1].symbol), (yyvsp[0].symbol));
 				// $$->setCode($1->getCode() + "\n" + $3->getCode());
 				printRule("simple expression : simple_expression ADDOP term");
 				printSymbol((yyval.symbol));
 			}
-#line 2041 "y.tab.c"
+#line 2042 "y.tab.c"
     break;
 
   case 53:
-#line 433 "1705069.y"
+#line 434 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("term : unary_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 2051 "y.tab.c"
+#line 2052 "y.tab.c"
     break;
 
   case 54:
-#line 439 "1705069.y"
+#line 440 "1705069.y"
                         {
 				printRule("term : term MULOP unary_expression");
 				(yyval.symbol) = handle_MULOP((yyvsp[-2].symbol), (yyvsp[-1].symbol), (yyvsp[0].symbol));
 				printSymbol((yyval.symbol));
 			}
-#line 2061 "y.tab.c"
+#line 2062 "y.tab.c"
     break;
 
   case 55:
-#line 447 "1705069.y"
+#line 448 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("unary_expression : factor");
 				printSymbol((yyval.symbol));
 			}
-#line 2071 "y.tab.c"
+#line 2072 "y.tab.c"
     break;
 
   case 56:
-#line 453 "1705069.y"
+#line 454 "1705069.y"
                         {
 				(yyval.symbol) = handle_unary_ADDOP((yyvsp[-1].symbol), (yyvsp[0].symbol));
 				printRule("unary_expression : ADDOP unary_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 2081 "y.tab.c"
+#line 2082 "y.tab.c"
     break;
 
   case 57:
-#line 459 "1705069.y"
+#line 460 "1705069.y"
                         {
 				(yyval.symbol) = handle_NOT((yyvsp[0].symbol));
 				printRule("unary_expression : NOT unary_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 2091 "y.tab.c"
+#line 2092 "y.tab.c"
     break;
 
   case 58:
-#line 467 "1705069.y"
+#line 468 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("factor : variable");
 				printSymbol((yyval.symbol));
 			}
-#line 2101 "y.tab.c"
+#line 2102 "y.tab.c"
     break;
 
   case 59:
-#line 473 "1705069.y"
+#line 474 "1705069.y"
                         {
 				printRule("factor : CONST_INT");
 				(yyval.symbol) = getConstVal((yyvsp[0].symbol), "INT");
 				printSymbol((yyval.symbol));
 				
 			}
-#line 2112 "y.tab.c"
+#line 2113 "y.tab.c"
     break;
 
   case 60:
-#line 480 "1705069.y"
+#line 481 "1705069.y"
                         {
 				printRule("factor : CONST_FLOAT");
 				(yyval.symbol) = getConstVal((yyvsp[0].symbol), "FLOAT");
 				printSymbol((yyval.symbol));
 					
 			}
-#line 2123 "y.tab.c"
+#line 2124 "y.tab.c"
     break;
 
   case 61:
-#line 487 "1705069.y"
+#line 488 "1705069.y"
                         {
 				printRule("factor : variable INCOP");
 				(yyval.symbol) = handle_INCOP((yyvsp[-1].symbol));
 				printSymbol((yyval.symbol));
 			}
-#line 2133 "y.tab.c"
+#line 2134 "y.tab.c"
     break;
 
   case 62:
-#line 493 "1705069.y"
+#line 494 "1705069.y"
                         {
 				printRule("factor: variable DECOP");
 				(yyval.symbol) = handle_DECOP((yyvsp[-1].symbol));
 				printSymbol((yyval.symbol));
 			}
-#line 2143 "y.tab.c"
+#line 2144 "y.tab.c"
     break;
 
   case 63:
-#line 499 "1705069.y"
+#line 500 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("(" + (yyvsp[-1].symbol)->getName() + "ERROR", "NON_TERMINAL");
 				printRule("factor : LPAREN expression error");
 				printError("Missing RPAREN");
 			}
-#line 2153 "y.tab.c"
+#line 2154 "y.tab.c"
     break;
 
   case 64:
-#line 505 "1705069.y"
+#line 506 "1705069.y"
                         {
 				(yyval.symbol) = handle_function((yyvsp[-3].symbol), (yyvsp[-1].symbol));
 				printRule("factor : ID LPAREN argument_list RPAREN");
 				printSymbol((yyval.symbol));
 			}
-#line 2163 "y.tab.c"
+#line 2164 "y.tab.c"
     break;
 
   case 65:
-#line 513 "1705069.y"
+#line 514 "1705069.y"
                         {
 				(yyval.symbol) = getVariable((yyvsp[0].symbol));
 				printRule("variable : ID");
 				printSymbol((yyval.symbol));
 			}
-#line 2173 "y.tab.c"
+#line 2174 "y.tab.c"
     break;
 
   case 66:
-#line 519 "1705069.y"
+#line 520 "1705069.y"
                         {
 				printRule("variable : ID LTHIRD expression RTHIRD");
 				(yyval.symbol) = getArrayIndexVar((yyvsp[-3].symbol), (yyvsp[-1].symbol));
 				printSymbol((yyval.symbol));
 			}
-#line 2183 "y.tab.c"
+#line 2184 "y.tab.c"
     break;
 
   case 67:
-#line 526 "1705069.y"
+#line 527 "1705069.y"
                            {enterScope();}
-#line 2189 "y.tab.c"
+#line 2190 "y.tab.c"
     break;
 
   case 68:
-#line 527 "1705069.y"
+#line 528 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("{\n" + (yyvsp[-1].symbol)->getName() + "\n}\n", "NON_TERMINAL");
 				(yyval.symbol)->setCode((yyvsp[-1].symbol)->getCode());
@@ -2197,38 +2198,38 @@ yyreduce:
 				printSymbol((yyval.symbol));
 				exitScope();
 			}
-#line 2201 "y.tab.c"
+#line 2202 "y.tab.c"
     break;
 
   case 69:
-#line 534 "1705069.y"
+#line 535 "1705069.y"
                                 {enterScope();}
-#line 2207 "y.tab.c"
+#line 2208 "y.tab.c"
     break;
 
   case 70:
-#line 535 "1705069.y"
+#line 536 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo("{}", "NON_TERMINAL");
 				printRule("compound_statement : LCURL RCURL");
 				printSymbol((yyval.symbol));
 				exitScope();
 			}
-#line 2218 "y.tab.c"
+#line 2219 "y.tab.c"
     break;
 
   case 71:
-#line 543 "1705069.y"
+#line 544 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("argument_list : arguments");
 				printSymbol((yyval.symbol));
 			}
-#line 2228 "y.tab.c"
+#line 2229 "y.tab.c"
     break;
 
   case 72:
-#line 551 "1705069.y"
+#line 552 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + ", " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				printRule("arguments : arguments COMMA logic_expression");
@@ -2240,11 +2241,11 @@ yyreduce:
 				}
 				argTypeList.push_back((yyvsp[0].symbol)->getVarType()); 
 			}
-#line 2244 "y.tab.c"
+#line 2245 "y.tab.c"
     break;
 
   case 73:
-#line 563 "1705069.y"
+#line 564 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("arguments : logic_expression");
@@ -2257,22 +2258,22 @@ yyreduce:
 				argTypeList.push_back((yyvsp[0].symbol)->getVarType()); 
 
 			}
-#line 2261 "y.tab.c"
+#line 2262 "y.tab.c"
     break;
 
   case 74:
-#line 576 "1705069.y"
+#line 577 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + ", " + "ERROR", "NON_TERMINAL");
 				printRule("arguments : arguments COMMA error");
 				printError("Unfinished argument list");
 				printSymbol((yyval.symbol));	
 			}
-#line 2272 "y.tab.c"
+#line 2273 "y.tab.c"
     break;
 
 
-#line 2276 "y.tab.c"
+#line 2277 "y.tab.c"
 
       default: break;
     }
@@ -2504,7 +2505,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 585 "1705069.y"
+#line 586 "1705069.y"
 
 int main(int argc,char *argv[])
 {

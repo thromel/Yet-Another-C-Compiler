@@ -71,6 +71,7 @@ start : program
 			addDataSegment();
 			startCodeSegment();
 			printCode($$);
+			addPrintFunc();
 			endCodeSegment();
 		}
 		
@@ -340,7 +341,7 @@ statement : var_declaration
 				$$ = new SymbolInfo("printf("+ $3->getName() + ");", "NON_TERMINAL");
 				printRule("PRINTLN LPAREN ID RPAREN SEMICOLON");
 				printSymbol($$);
-				handle_print($3);
+				handle_print($3, $$);
 			}
 			| RETURN expression SEMICOLON
 			{
