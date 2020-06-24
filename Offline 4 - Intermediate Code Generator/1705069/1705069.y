@@ -390,7 +390,8 @@ expression : logic_expression
 logic_expression : rel_expression
 			{
 				$$ = $1;
-				printRule("logic_expression : simple_expression");
+				cout<<$$->getCode()<<endl;
+				printRule("logic_expression : rel_expression");
 				printSymbol($$);
 			}
 			| rel_expression LOGICOP rel_expression
@@ -423,6 +424,7 @@ simple_expression : term
 			| simple_expression ADDOP term
 			{
 				$$ = handleADDOP($1, $2, $3);
+				// $$->setCode($1->getCode() + "\n" + $3->getCode());
 				printRule("simple expression : simple_expression ADDOP term");
 				printSymbol($$);
 			}

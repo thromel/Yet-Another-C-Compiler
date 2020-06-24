@@ -8,6 +8,7 @@ c1_1 DW ?
 a1_2 DW ?
 b1_2 DW ?
 c1_2 DW ?
+temp0 DW ?
 d1_1 DW 20 DUP (?)
 d1_2 DW 20 DUP (?)
 
@@ -23,13 +24,19 @@ MOV AX,@DATA
 MOV DS,AX
 
  
+ 
 MOV AX, 20
 MOV a1_2, AX 
 
+ 
 MOV AX, 69
 MOV b1_2, AX 
 
 MOV AX, a1_2
+ADD AX, 6
+MOV temp0, AX
+
+MOV AX, temp0
 MOV c1_2, AX 
 
 MOV AH, 4CH

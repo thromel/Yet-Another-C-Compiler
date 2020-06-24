@@ -75,7 +75,7 @@ Line no: 5 rel_expression : simple_expression
 
 69.69
 
-Line no: 5 logic_expression : simple_expression
+Line no: 5 logic_expression : rel_expression
 
 69.69
 
@@ -196,7 +196,7 @@ Line no: 10 rel_expression : simple_expression
 
 20
 
-Line no: 10 logic_expression : simple_expression
+Line no: 10 logic_expression : rel_expression
 
 20
 
@@ -241,7 +241,7 @@ Line no: 11 rel_expression : simple_expression
 
 69
 
-Line no: 11 logic_expression : simple_expression
+Line no: 11 logic_expression : rel_expression
 
 69
 
@@ -287,32 +287,48 @@ Line no: 12 simple_expression : term
 
 a
 
+Line no: 12 factor : CONST_INT
+
+6
+
+Line no: 12 unary_expression : factor
+
+6
+
+Line no: 12 term : unary_expression
+
+6
+
+Line no: 12 simple expression : simple_expression ADDOP term
+
+a+6
+
 Line no: 12 rel_expression : simple_expression
 
-a
+a+6
 
-Line no: 12 logic_expression : simple_expression
+Line no: 12 logic_expression : rel_expression
 
-a
+a+6
 
 Line no: 12 expression : variable ASSIGNOP logic_expression
 
-c=a
+c=a+6
 
 Line no: 12 expression_statement : expression SEMICOLON
 
-c=a;
+c=a+6;
 
 Line no: 12 statement : expression_statement
 
-c=a;
+c=a+6;
 
 Line no: 12 statements : statements statement
 
 int a, b, c, d[20];
 a=20;
 b=69;
-c=a;
+c=a+6;
 
 Line no: 13 compound_statement : LCURL statements RCURL
 
@@ -320,7 +336,7 @@ Line no: 13 compound_statement : LCURL statements RCURL
 int a, b, c, d[20];
 a=20;
 b=69;
-c=a;
+c=a+6;
 }
 
 
@@ -340,7 +356,7 @@ int main ( ) {
 int a, b, c, d[20];
 a=20;
 b=69;
-c=a;
+c=a+6;
 }
 
 
@@ -350,7 +366,7 @@ int main ( ) {
 int a, b, c, d[20];
 a=20;
 b=69;
-c=a;
+c=a+6;
 }
 
 
@@ -366,7 +382,7 @@ int main ( ) {
 int a, b, c, d[20];
 a=20;
 b=69;
-c=a;
+c=a+6;
 }
 
 
