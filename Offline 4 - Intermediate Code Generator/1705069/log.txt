@@ -18,23 +18,27 @@ x, y
 
 Line no: 2 declaration_list : declaration_list COMMA ID
 
-x, y, min
+x, y, z
+
+Line no: 2 declaration_list : declaration_list COMMA ID
+
+x, y, z, max
 
 Line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
 
-int x, y, min;
+int x, y, z, max;
 
 Line no: 2 statement : var_declaration
 
-int x, y, min;
+int x, y, z, max;
 
 Line no: 2 statements : statement
 
-int x, y, min;
+int x, y, z, max;
 
 Line no: 3 variable : ID
 
-min
+max
 
 Line no: 3 factor : CONST_INT
 
@@ -66,20 +70,20 @@ Line no: 3 logic_expression : rel_expression
 
 Line no: 3 expression : variable ASSIGNOP logic_expression
 
-min=-1
+max=-1
 
 Line no: 3 expression_statement : expression SEMICOLON
 
-min=-1;
+max=-1;
 
 Line no: 3 statement : expression_statement
 
-min=-1;
+max=-1;
 
 Line no: 3 statements : statements statement
 
-int x, y, min;
-min=-1;
+int x, y, z, max;
+max=-1;
 
 Line no: 4 variable : ID
 
@@ -87,45 +91,45 @@ x
 
 Line no: 4 factor : CONST_INT
 
-20
+0
 
 Line no: 4 unary_expression : factor
 
-20
+0
 
 Line no: 4 term : unary_expression
 
-20
+0
 
 Line no: 4 simple_expression : term
 
-20
+0
 
 Line no: 4 rel_expression : simple_expression
 
-20
+0
 
 Line no: 4 logic_expression : rel_expression
 
-20
+0
 
 Line no: 4 expression : variable ASSIGNOP logic_expression
 
-x=20
+x=0
 
 Line no: 4 expression_statement : expression SEMICOLON
 
-x=20;
+x=0;
 
 Line no: 4 statement : expression_statement
 
-x=20;
+x=0;
 
 Line no: 4 statements : statements statement
 
-int x, y, min;
-min=-1;
-x=20;
+int x, y, z, max;
+max=-1;
+x=0;
 
 Line no: 5 variable : ID
 
@@ -133,153 +137,260 @@ y
 
 Line no: 5 factor : CONST_INT
 
-30
+0
 
 Line no: 5 unary_expression : factor
 
-30
+0
 
 Line no: 5 term : unary_expression
 
-30
+0
 
 Line no: 5 simple_expression : term
 
-30
+0
 
 Line no: 5 rel_expression : simple_expression
 
-30
+0
 
 Line no: 5 logic_expression : rel_expression
 
-30
+0
 
 Line no: 5 expression : variable ASSIGNOP logic_expression
 
-y=30
+y=0
 
 Line no: 5 expression_statement : expression SEMICOLON
 
-y=30;
+y=0;
 
 Line no: 5 statement : expression_statement
 
-y=30;
+y=0;
 
 Line no: 5 statements : statements statement
 
-int x, y, min;
-min=-1;
-x=20;
-y=30;
+int x, y, z, max;
+max=-1;
+x=0;
+y=0;
 
 Line no: 6 variable : ID
 
-y
+z
 
-Line no: 6 factor : variable
+Line no: 6 factor : CONST_INT
 
-y
-
-Line no: 6 unary_expression : factor
-
-y
-
-Line no: 6 term : unary_expression
-
-y
-
-Line no: 6 simple_expression : term
-
-y
-
-Line no: 6 variable : ID
-
-x
-
-Line no: 6 factor : variable
-
-x
+1
 
 Line no: 6 unary_expression : factor
 
-x
+1
+
+Line no: 6 unary_expression : ADDOP unary_expression
+
+-1
 
 Line no: 6 term : unary_expression
 
-x
+-1
 
 Line no: 6 simple_expression : term
 
-x
+-1
 
-Line no: 6 rel_expression : simple_expression RELOP simple_expression
+Line no: 6 rel_expression : simple_expression
 
-y<x
+-1
 
 Line no: 6 logic_expression : rel_expression
 
-y<x
+-1
 
-Line no: 6 expression : logic_expression
+Line no: 6 expression : variable ASSIGNOP logic_expression
 
-y<x
+z=-1
+
+Line no: 6 expression_statement : expression SEMICOLON
+
+z=-1;
+
+Line no: 6 statement : expression_statement
+
+z=-1;
+
+Line no: 6 statements : statements statement
+
+int x, y, z, max;
+max=-1;
+x=0;
+y=0;
+z=-1;
+
+Line no: 8 variable : ID
+
+x
+
+Line no: 8 factor : variable
+
+x
+
+Line no: 8 unary_expression : factor
+
+x
+
+Line no: 8 term : unary_expression
+
+x
+
+Line no: 8 simple_expression : term
+
+x
+
+Line no: 8 variable : ID
+
+y
+
+Line no: 8 factor : variable
+
+y
+
+Line no: 8 unary_expression : factor
+
+y
+
+Line no: 8 term : unary_expression
+
+y
+
+Line no: 8 simple_expression : term
+
+y
+
+Line no: 8 rel_expression : simple_expression RELOP simple_expression
+
+x>y
+
+Line no: 8 variable : ID
+
+x
+
+Line no: 8 factor : variable
+
+x
+
+Line no: 8 unary_expression : factor
+
+x
+
+Line no: 8 term : unary_expression
+
+x
+
+Line no: 8 simple_expression : term
+
+x
+
+Line no: 8 variable : ID
+
+z
+
+Line no: 8 factor : variable
+
+z
+
+Line no: 8 unary_expression : factor
+
+z
+
+Line no: 8 term : unary_expression
+
+z
+
+Line no: 8 simple_expression : term
+
+z
+
+Line no: 8 rel_expression : simple_expression RELOP simple_expression
+
+x>z
+
+Line no: 8 logic_expression : rel_expression LOGICOP rel_expression
+
+x>y&&x>z
+
+Line no: 8 expression : logic_expression
+
+x>y&&x>z
 
 
 New ScopeTable #1_1_1 created
-Line no: 7 variable : ID
+Line no: 9 variable : ID
 
-min
+max
 
-Line no: 7 variable : ID
-
-x
-
-Line no: 7 factor : variable
+Line no: 9 variable : ID
 
 x
 
-Line no: 7 unary_expression : factor
+Line no: 9 factor : variable
 
 x
 
-Line no: 7 term : unary_expression
+Line no: 9 unary_expression : factor
 
 x
 
-Line no: 7 simple_expression : term
+Line no: 9 term : unary_expression
 
 x
 
-Line no: 7 rel_expression : simple_expression
+Line no: 9 simple_expression : term
 
 x
 
-Line no: 7 logic_expression : rel_expression
+Line no: 9 rel_expression : simple_expression
 
 x
 
-Line no: 7 expression : variable ASSIGNOP logic_expression
+Line no: 9 logic_expression : rel_expression
 
-min=x
+x
 
-Line no: 7 expression_statement : expression SEMICOLON
+Line no: 9 expression : variable ASSIGNOP logic_expression
 
-min=x;
+max=x
 
-Line no: 7 statement : expression_statement
+Line no: 9 expression_statement : expression SEMICOLON
 
-min=x;
+max=x;
 
-Line no: 7 statements : statement
+Line no: 9 statement : expression_statement
 
-min=x;
+max=x;
 
-Line no: 8 compound_statement : LCURL statements RCURL
+Line no: 9 statements : statement
+
+max=x;
+
+Line no: 10 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+printf(max);
+
+0
+Line no: 10 statements : statements statement
+
+max=x;
+printf(max);
+
+Line no: 11 compound_statement : LCURL statements RCURL
 
 {
-min=x;
+max=x;
+printf(max);
 }
 
 
@@ -288,116 +399,111 @@ ScopeTable #1_1_1
 
 ScopeTable #1_1
 1 --> <x: ID> 
-2 --> <y: ID>  <min: ID> 
+2 --> <y: ID> 
+3 --> <z: ID> 
+4 --> <max: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-Line no: 8 statement : compound_statement
+Line no: 11 statement : compound_statement
 
 {
-min=x;
+max=x;
+printf(max);
 }
 
 
-Line no: 9 IF LPAREN expression RPAREN statement
+Line no: 12 IF LPAREN expression RPAREN statement
 
-if(y<x){
-min=x;
+if(x>y&&x>z){
+max=x;
+printf(max);
 }
 
 
-Line no: 9 statements : statements statement
+Line no: 12 statements : statements statement
 
-int x, y, min;
-min=-1;
-x=20;
-y=30;
-if(y<x){
-min=x;
+int x, y, z, max;
+max=-1;
+x=0;
+y=0;
+z=-1;
+if(x>y&&x>z){
+max=x;
+printf(max);
 }
 
 
-Line no: 9 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(min);
-
-20
-Line no: 9 statements : statements statement
-
-int x, y, min;
-min=-1;
-x=20;
-y=30;
-if(y<x){
-min=x;
-}
-
-printf(min);
-
-Line no: 10 compound_statement : LCURL statements RCURL
+Line no: 12 compound_statement : LCURL statements RCURL
 
 {
-int x, y, min;
-min=-1;
-x=20;
-y=30;
-if(y<x){
-min=x;
+int x, y, z, max;
+max=-1;
+x=0;
+y=0;
+z=-1;
+if(x>y&&x>z){
+max=x;
+printf(max);
 }
 
-printf(min);
 }
 
 
 
 ScopeTable #1_1
 1 --> <x: ID> 
-2 --> <y: ID>  <min: ID> 
+2 --> <y: ID> 
+3 --> <z: ID> 
+4 --> <max: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-Line no: 10 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line no: 12 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-int x, y, min;
-min=-1;
-x=20;
-y=30;
-if(y<x){
-min=x;
+int x, y, z, max;
+max=-1;
+x=0;
+y=0;
+z=-1;
+if(x>y&&x>z){
+max=x;
+printf(max);
 }
 
-printf(min);
 }
 
 
-Line no: 10 unit : func_definition
+Line no: 12 unit : func_definition
 
 int main ( ) {
-int x, y, min;
-min=-1;
-x=20;
-y=30;
-if(y<x){
-min=x;
+int x, y, z, max;
+max=-1;
+x=0;
+y=0;
+z=-1;
+if(x>y&&x>z){
+max=x;
+printf(max);
 }
 
-printf(min);
 }
 
 
-Line no: 10 program : unit
+Line no: 12 program : unit
 
 int main ( ) {
-int x, y, min;
-min=-1;
-x=20;
-y=30;
-if(y<x){
-min=x;
+int x, y, z, max;
+max=-1;
+x=0;
+y=0;
+z=-1;
+if(x>y&&x>z){
+max=x;
+printf(max);
 }
 
-printf(min);
 }
 
 
@@ -405,5 +511,5 @@ printf(min);
 ScopeTable #1
 1 --> <main: ID> 
 
-Total lines: 10
+Total lines: 12
 Total errors: 0

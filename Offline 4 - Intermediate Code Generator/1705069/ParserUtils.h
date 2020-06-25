@@ -519,14 +519,14 @@ SymbolInfo* handle_RELOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
 
     result->setCode(result->getCode() + "\n" + "MOV AX, " + lhs);
     vm.freeTempVar(lhs);
-    result->setCode(result->getCode() + "\n" + "CMP AX, " + rhs);
+    result->addCode("CMP AX, " + rhs);
     vm.freeTempVar(rhs);
-    result->setCode(result->getCode() + "\n" + jmpCondition + " " + label1);
-    result->setCode(result->getCode() + "\n" + "MOV " + asmTempVar + ", 0");
-    result->setCode(result->getCode() + "\n" + "JMP " + label2);
-    result->setCode(result->getCode() + "\n" + label1 + ": ");
-    result->setCode(result->getCode() + "\n" + "MOV " + asmTempVar + ", 1");
-    result->setCode(result->getCode() + "\n" + label2 + ": \n");
+    result->addCode(jmpCondition + " " + label1);
+    result->addCode("MOV " + asmTempVar + ", 0");
+    result->addCode("JMP " + label2);
+    result->addCode(label1 + ": ");
+    result->addCode("MOV " + asmTempVar + ", 1");
+    result->addCode(label2 + ": \n");
     result->setAsmVar(asmTempVar);
 
     result->setIntValue(resultValue);
@@ -563,7 +563,7 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
         
         string asmTempVar = vm.getTempVar();
             result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
-            "\nMOV AX, AX\nCWD\nIDIV BX\nMOV " + asmTempVar + ", BX\n" );
+            "\nMOV AX, AX\nCWD\nIDIV BX\nMOV " + asmTempVar + ", DX\n" );
             result->setAsmVar(asmTempVar);
     } else if (mulOp == "*"){
         if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
@@ -664,8 +664,51 @@ SymbolInfo* handle_LOGICOP(SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
     }
 
     if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
-        if (logicOp == "||") resultValue = leftInt || rightInt;
-        else resultValue = leftInt && rightInt;
+        
+        string leftAsmVar = sym1->getAsmVar();
+        string rightAsmVar = sym2->getAsmVar();
+        string tempAsmVar = vm.getTempVar();
+        string label1 = newLabel();
+        string label2 = newLabel();
+        result->setAsmVar(tempAsmVar);
+        result->setCode(sym1->getCode() + "\n" + sym2->getCode());
+        vm.freeTempVar(leftAsmVar);
+        vm.freeTempVar(rightAsmVar);
+
+        if (logicOp == "||") {
+            resultValue = leftInt || rightInt;
+            result->addCode("MOV AX, " + leftAsmVar);
+            result->addCode("CMP AX, 0");
+            result->addCode("JNE " + label1); //true
+            result->addCode("MOV AX, " + rightAsmVar);
+            result->addCode("CMP AX, 0");
+            result->addCode("JNE " + label1); //true
+            result->addCode("MOV AX, 0"); //false
+            result->addCode("JMP " + label2); //exit
+            result->addCode(label1 + ":");
+            result->addCode("MOV AX, 1"); //true
+            result->addCode(label2 + ":"); //exit
+            result->addCode("MOV " + tempAsmVar + ", AX");
+        }
+        else {
+            resultValue = leftInt && rightInt;
+            result->addCode("MOV AX, " + leftAsmVar);
+            result->addCode("CMP AX, 0");
+            result->addCode("JE " + label1); //false
+            result->addCode("MOV AX, " + rightAsmVar);
+            result->addCode("CMP AX, 0");
+            result->addCode("JE " + label1); //false
+            result->addCode("MOV AX, 1"); //true
+            result->addCode("JMP " + label2); //exit
+            result->addCode(label1 + ":");
+            result->addCode("MOV AX, 0"); //false
+            result->addCode(label2 + ":"); //exit
+            result->addCode("MOV " + tempAsmVar + ", AX");
+
+        }
+
+        
+        
     } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT"){
         if (logicOp == "||") resultValue = leftFloat || rightInt;
         else resultValue = leftFloat && rightInt;
