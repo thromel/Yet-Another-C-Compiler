@@ -20,8 +20,8 @@ class SymbolInfo
     int arrSize = 0;
     int arrIndex = 0;
 
-    int defaultInt = 0;
-    float defaultFloat = 0.0;
+    int defaultInt = -1;
+    float defaultFloat = -1.0;
 
     SymbolInfo *next;
     
@@ -32,16 +32,10 @@ class SymbolInfo
     bool isConst = false;
     string funcStart;
     string funcEnd;
+    vector<string> asmVarList;
     //
 
 public:
-    struct param
-    {
-        string type;
-        string name;
-    };
-
-    vector<param> paramList;
 
     vector<int> intData;
     vector<float> floatData;
@@ -49,6 +43,15 @@ public:
     bool isDummy = false;
     SymbolInfo *real = NULL;
 
+    vector<SymbolInfo *> paramSymList;
+
+    void addParam(string name, string type){
+        SymbolInfo *sym = new SymbolInfo(name, "ID");
+        sym->setIdType("VARIABLE");
+        for (auto & c: type) c = toupper(c);
+        sym->setVarType(type);
+        this->paramSymList.push_back(sym);
+    }
 
     SymbolInfo(string name, string type)
     {
@@ -75,12 +78,12 @@ public:
 		this->intData = symbolInfo.intData;
 		this->floatData = symbolInfo.floatData;
 
-		this->paramList = symbolInfo.paramList;
         this->isDummy = symbolInfo.isDummy;
         this->real = symbolInfo.real;
         this->code = symbolInfo.code;
         this->asmVar = symbolInfo.asmVar;
         this->isConst = symbolInfo.isConst;
+        this->paramSymList = symbolInfo.paramSymList;
 	}
 
     void setFuncDefined(bool funcDefined){
@@ -169,26 +172,11 @@ public:
 
     ~SymbolInfo()
     {
-        paramList.clear();
+        paramSymList.clear();
     }
 
     //Added for parser
 
-    void addParam(string name, string type)
-    {
-        param temp;
-        for (auto & c: type) c = toupper(c);
-        temp.name = name;
-        temp.type = type;
-
-        
-        paramList.push_back(temp);
-    }
-
-    param getParam(int index)
-    {
-        return paramList[index];
-    }
 
     void setIdType(string idType)
     {

@@ -345,7 +345,7 @@ statement : var_declaration
 			}
 			| RETURN expression SEMICOLON
 			{
-				$$ = new SymbolInfo("return " + $2->getName() + ";", "NON_TERMINAL");
+				$$ = handle_return($2);
 				printRule("RETURN expression SEMICOLON");
 				printSymbol($$);
 			}
@@ -560,6 +560,7 @@ arguments: arguments COMMA logic_expression
 					$3->setVarType("FLOAT");
 				}
 				argTypeList.push_back($3->getVarType()); 
+				asmArgList.push_back($3->getAsmVar());
 			}
 			| logic_expression
 			{
@@ -571,7 +572,8 @@ arguments: arguments COMMA logic_expression
 					printError("Argument cannot be void");
 					$1->setVarType("FLOAT");
 				}
-				argTypeList.push_back($1->getVarType()); 
+				argTypeList.push_back($1->getVarType());
+				asmArgList.push_back($1->getAsmVar()); 
 
 			}
 			| arguments COMMA error 

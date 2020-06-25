@@ -2,11 +2,13 @@
 .STACK 100H 
 .DATA
 
-x1_1 DW ?
-sum1_1 DW ?
+a1_1 DW ?
+b1_1 DW ?
+c1_1 DW ?
+i1_1 DW ?
 temp0 DW ?
 temp1 DW ?
-temp2 DW ?
+return_loc DW ?
 
 .CODE
 MAIN PROC 
@@ -16,21 +18,28 @@ MOV DS,AX
 
  
  
+ 
 MOV AX, 0
-MOV sum1_1, AX 
+MOV b1_1, AX 
+
+ 
+ 
+MOV AX, 1
+MOV c1_1, AX 
 
  
 ;for loop start
  
-MOV AX, 1
-MOV x1_1, AX 
+ 
+MOV AX, 0
+MOV i1_1, AX 
 
-L2:
+L4:
  
  
-MOV AX, x1_1
-CMP AX, 20
-JLE L0
+MOV AX, i1_1
+CMP AX, 4
+JL L0
 MOV temp0, 0
 JMP L1
 L0: 
@@ -39,53 +48,48 @@ L1:
 
 MOV AX, temp0
 CMP AX, 0
-JE L3
-MOV AX, sum1_1
-ADD AX, x1_1
-MOV temp1, AX
-
-MOV AX, temp1
-MOV sum1_1, AX 
-
-MOV AX, x1_1
-INC AX
-MOV x1_1, AX
-
-JMP L2
-L3:
-;for loop end
-
-MOV AX, sum1_1
-CALL OUTDEC
+JE L5
+ 
+ 
+MOV AX, 3
+MOV a1_1, AX 
 
  
 ;while loop start
-L6:
- 
- 
-MOV AX, x1_1
-CMP AX, 40
-JLE L4
-MOV temp1, 0
-JMP L5
-L4: 
-MOV temp1, 1
-L5: 
+L2:
+MOV AX, a1_1
+DEC AX
+MOV a1_1, AX
 
-MOV AX, temp1
+MOV AX, a1_1
 CMP AX, 0
-JE L7
+JE L3
+MOV AX, b1_1
+INC AX
+MOV b1_1, AX
 
-MOV AX, x1_1
+JMP L2
+L3:
+;while loop end
+MOV AX, i1_1
+INC AX
+MOV i1_1, AX
+
+JMP L4
+L5:
+;for loop end
+
+MOV AX, a1_1
 CALL OUTDEC
 
-MOV AX, x1_1
-INC AX
-MOV x1_1, AX
 
-JMP L6
-L7:
-;while loop end
+MOV AX, b1_1
+CALL OUTDEC
+
+
+MOV AX, c1_1
+CALL OUTDEC
+
 MOV AH, 4CH
 INT 21H
 MAIN ENDP

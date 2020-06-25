@@ -10,27 +10,35 @@ int
 
 Line no: 2 declaration_list : ID
 
-x
+a
 
 Line no: 2 declaration_list : declaration_list COMMA ID
 
-x, sum
+a, b
+
+Line no: 2 declaration_list : declaration_list COMMA ID
+
+a, b, c
+
+Line no: 2 declaration_list : declaration_list COMMA ID
+
+a, b, c, i
 
 Line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
 
-int x, sum;
+int a, b, c, i;
 
 Line no: 2 statement : var_declaration
 
-int x, sum;
+int a, b, c, i;
 
 Line no: 2 statements : statement
 
-int x, sum;
+int a, b, c, i;
 
 Line no: 3 variable : ID
 
-sum
+b
 
 Line no: 3 factor : CONST_INT
 
@@ -58,24 +66,24 @@ Line no: 3 logic_expression : rel_expression
 
 Line no: 3 expression : variable ASSIGNOP logic_expression
 
-sum=0
+b=0
 
 Line no: 3 expression_statement : expression SEMICOLON
 
-sum=0;
+b=0;
 
 Line no: 3 statement : expression_statement
 
-sum=0;
+b=0;
 
 Line no: 3 statements : statements statement
 
-int x, sum;
-sum=0;
+int a, b, c, i;
+b=0;
 
 Line no: 4 variable : ID
 
-x
+c
 
 Line no: 4 factor : CONST_INT
 
@@ -103,170 +111,315 @@ Line no: 4 logic_expression : rel_expression
 
 Line no: 4 expression : variable ASSIGNOP logic_expression
 
-x=1
+c=1
 
 Line no: 4 expression_statement : expression SEMICOLON
 
-x=1;
+c=1;
 
-Line no: 4 variable : ID
+Line no: 4 statement : expression_statement
 
-x
+c=1;
 
-Line no: 4 factor : variable
+Line no: 4 statements : statements statement
 
-x
-
-Line no: 4 unary_expression : factor
-
-x
-
-Line no: 4 term : unary_expression
-
-x
-
-Line no: 4 simple_expression : term
-
-x
-
-Line no: 4 factor : CONST_INT
-
-20
-
-Line no: 4 unary_expression : factor
-
-20
-
-Line no: 4 term : unary_expression
-
-20
-
-Line no: 4 simple_expression : term
-
-20
-
-Line no: 4 rel_expression : simple_expression RELOP simple_expression
-
-x<=20
-
-Line no: 4 logic_expression : rel_expression
-
-x<=20
-
-Line no: 4 expression : logic_expression
-
-x<=20
-
-Line no: 4 expression_statement : expression SEMICOLON
-
-x<=20;
-
-Line no: 4 variable : ID
-
-x
-
-Line no: 4 factor : variable INCOP
-
-x++
-
-Line no: 4 unary_expression : factor
-
-x++
-
-Line no: 4 term : unary_expression
-
-x++
-
-Line no: 4 simple_expression : term
-
-x++
-
-Line no: 4 rel_expression : simple_expression
-
-x++
-
-Line no: 4 logic_expression : rel_expression
-
-x++
-
-Line no: 4 expression : logic_expression
-
-x++
-
-
-New ScopeTable #1_1_1 created
-Line no: 5 variable : ID
-
-sum
+int a, b, c, i;
+b=0;
+c=1;
 
 Line no: 5 variable : ID
 
-sum
+i
 
-Line no: 5 factor : variable
+Line no: 5 factor : CONST_INT
 
-sum
+0
 
 Line no: 5 unary_expression : factor
 
-sum
+0
 
 Line no: 5 term : unary_expression
 
-sum
+0
 
 Line no: 5 simple_expression : term
 
-sum
-
-Line no: 5 variable : ID
-
-x
-
-Line no: 5 factor : variable
-
-x
-
-Line no: 5 unary_expression : factor
-
-x
-
-Line no: 5 term : unary_expression
-
-x
-
-Line no: 5 simple expression : simple_expression ADDOP term
-
-sum+x
+0
 
 Line no: 5 rel_expression : simple_expression
 
-sum+x
+0
 
 Line no: 5 logic_expression : rel_expression
 
-sum+x
+0
 
 Line no: 5 expression : variable ASSIGNOP logic_expression
 
-sum=sum+x
+i=0
 
 Line no: 5 expression_statement : expression SEMICOLON
 
-sum=sum+x;
+i=0;
 
-Line no: 5 statement : expression_statement
+Line no: 5 variable : ID
 
-sum=sum+x;
+i
 
-Line no: 5 statements : statement
+Line no: 5 factor : variable
 
-sum=sum+x;
+i
 
-Line no: 6 compound_statement : LCURL statements RCURL
+Line no: 5 unary_expression : factor
+
+i
+
+Line no: 5 term : unary_expression
+
+i
+
+Line no: 5 simple_expression : term
+
+i
+
+Line no: 5 factor : CONST_INT
+
+4
+
+Line no: 5 unary_expression : factor
+
+4
+
+Line no: 5 term : unary_expression
+
+4
+
+Line no: 5 simple_expression : term
+
+4
+
+Line no: 5 rel_expression : simple_expression RELOP simple_expression
+
+i<4
+
+Line no: 5 logic_expression : rel_expression
+
+i<4
+
+Line no: 5 expression : logic_expression
+
+i<4
+
+Line no: 5 expression_statement : expression SEMICOLON
+
+i<4;
+
+Line no: 5 variable : ID
+
+i
+
+Line no: 5 factor : variable INCOP
+
+i++
+
+Line no: 5 unary_expression : factor
+
+i++
+
+Line no: 5 term : unary_expression
+
+i++
+
+Line no: 5 simple_expression : term
+
+i++
+
+Line no: 5 rel_expression : simple_expression
+
+i++
+
+Line no: 5 logic_expression : rel_expression
+
+i++
+
+Line no: 5 expression : logic_expression
+
+i++
+
+
+New ScopeTable #1_1_1 created
+Line no: 6 variable : ID
+
+a
+
+Line no: 6 factor : CONST_INT
+
+3
+
+Line no: 6 unary_expression : factor
+
+3
+
+Line no: 6 term : unary_expression
+
+3
+
+Line no: 6 simple_expression : term
+
+3
+
+Line no: 6 rel_expression : simple_expression
+
+3
+
+Line no: 6 logic_expression : rel_expression
+
+3
+
+Line no: 6 expression : variable ASSIGNOP logic_expression
+
+a=3
+
+Line no: 6 expression_statement : expression SEMICOLON
+
+a=3;
+
+Line no: 6 statement : expression_statement
+
+a=3;
+
+Line no: 6 statements : statement
+
+a=3;
+
+Line no: 7 variable : ID
+
+a
+
+Line no: 7 factor: variable DECOP
+
+a--
+
+Line no: 7 unary_expression : factor
+
+a--
+
+Line no: 7 term : unary_expression
+
+a--
+
+Line no: 7 simple_expression : term
+
+a--
+
+Line no: 7 rel_expression : simple_expression
+
+a--
+
+Line no: 7 logic_expression : rel_expression
+
+a--
+
+Line no: 7 expression : logic_expression
+
+a--
+
+
+New ScopeTable #1_1_1_1 created
+Line no: 8 variable : ID
+
+b
+
+Line no: 8 factor : variable INCOP
+
+b++
+
+Line no: 8 unary_expression : factor
+
+b++
+
+Line no: 8 term : unary_expression
+
+b++
+
+Line no: 8 simple_expression : term
+
+b++
+
+Line no: 8 rel_expression : simple_expression
+
+b++
+
+Line no: 8 logic_expression : rel_expression
+
+b++
+
+Line no: 8 expression : logic_expression
+
+b++
+
+Line no: 8 expression_statement : expression SEMICOLON
+
+b++;
+
+Line no: 8 statement : expression_statement
+
+b++;
+
+Line no: 8 statements : statement
+
+b++;
+
+Line no: 9 compound_statement : LCURL statements RCURL
 
 {
-sum=sum+x;
+b++;
+}
+
+
+
+ScopeTable #1_1_1_1
+
+ScopeTable #1_1_1
+
+ScopeTable #1_1
+0 --> <b: ID>  <i: ID> 
+1 --> <c: ID> 
+6 --> <a: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+Line no: 9 statement : compound_statement
+
+{
+b++;
+}
+
+
+Line no: 9 WHILE LPAREN expression RPAREN statement
+
+while(a--) {
+b++;
+}
+
+
+Line no: 9 statements : statements statement
+
+a=3;
+while(a--) {
+b++;
+}
+
+
+Line no: 10 compound_statement : LCURL statements RCURL
+
+{
+a=3;
+while(a--) {
+b++;
+}
+
 }
 
 
@@ -274,277 +427,196 @@ sum=sum+x;
 ScopeTable #1_1_1
 
 ScopeTable #1_1
-1 --> <x: ID> 
-5 --> <sum: ID> 
+0 --> <b: ID>  <i: ID> 
+1 --> <c: ID> 
+6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-Line no: 6 statement : compound_statement
+Line no: 10 statement : compound_statement
 
 {
-sum=sum+x;
+a=3;
+while(a--) {
+b++;
+}
+
 }
 
 
-Line no: 6 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+Line no: 10 FOR LPAREN expression_statement expression_statement expression RPAREN statement
 
-for(x=1;x<=20;x++){
-sum=sum+x;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
+}
+
 }
 
 
-Line no: 6 statements : statements statement
+Line no: 10 statements : statements statement
 
-int x, sum;
-sum=0;
-for(x=1;x<=20;x++){
-sum=sum+x;
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
+}
+
 }
 
 
-Line no: 7 PRINTLN LPAREN ID RPAREN SEMICOLON
+Line no: 11 PRINTLN LPAREN ID RPAREN SEMICOLON
 
-printf(sum);
+printf(a);
 
 2
-Line no: 7 statements : statements statement
-
-int x, sum;
-sum=0;
-for(x=1;x<=20;x++){
-sum=sum+x;
-}
-
-printf(sum);
-
-Line no: 9 variable : ID
-
-x
-
-Line no: 9 factor : variable
-
-x
-
-Line no: 9 unary_expression : factor
-
-x
-
-Line no: 9 term : unary_expression
-
-x
-
-Line no: 9 simple_expression : term
-
-x
-
-Line no: 9 factor : CONST_INT
-
-40
-
-Line no: 9 unary_expression : factor
-
-40
-
-Line no: 9 term : unary_expression
-
-40
-
-Line no: 9 simple_expression : term
-
-40
-
-Line no: 9 rel_expression : simple_expression RELOP simple_expression
-
-x<=40
-
-Line no: 9 logic_expression : rel_expression
-
-x<=40
-
-Line no: 9 expression : logic_expression
-
-x<=40
-
-
-New ScopeTable #1_1_2 created
-Line no: 10 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-printf(x);
-
-2
-Line no: 10 statements : statement
-
-printf(x);
-
-Line no: 11 variable : ID
-
-x
-
-Line no: 11 factor : variable INCOP
-
-x++
-
-Line no: 11 unary_expression : factor
-
-x++
-
-Line no: 11 term : unary_expression
-
-x++
-
-Line no: 11 simple_expression : term
-
-x++
-
-Line no: 11 rel_expression : simple_expression
-
-x++
-
-Line no: 11 logic_expression : rel_expression
-
-x++
-
-Line no: 11 expression : logic_expression
-
-x++
-
-Line no: 11 expression_statement : expression SEMICOLON
-
-x++;
-
-Line no: 11 statement : expression_statement
-
-x++;
-
 Line no: 11 statements : statements statement
 
-printf(x);
-x++;
-
-Line no: 12 compound_statement : LCURL statements RCURL
-
-{
-printf(x);
-x++;
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
 }
 
-
-
-ScopeTable #1_1_2
-
-ScopeTable #1_1
-1 --> <x: ID> 
-5 --> <sum: ID> 
-
-ScopeTable #1
-1 --> <main: ID> 
-Line no: 12 statement : compound_statement
-
-{
-printf(x);
-x++;
 }
 
+printf(a);
 
-Line no: 12 WHILE LPAREN expression RPAREN statement
+Line no: 12 PRINTLN LPAREN ID RPAREN SEMICOLON
 
-while(x<=40) {
-printf(x);
-x++;
-}
+printf(b);
 
-
+1
 Line no: 12 statements : statements statement
 
-int x, sum;
-sum=0;
-for(x=1;x<=20;x++){
-sum=sum+x;
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
 }
 
-printf(sum);
-while(x<=40) {
-printf(x);
-x++;
 }
 
+printf(a);
+printf(b);
 
-Line no: 13 compound_statement : LCURL statements RCURL
+Line no: 13 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+printf(c);
+
+1
+Line no: 13 statements : statements statement
+
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
+}
+
+}
+
+printf(a);
+printf(b);
+printf(c);
+
+Line no: 14 compound_statement : LCURL statements RCURL
 
 {
-int x, sum;
-sum=0;
-for(x=1;x<=20;x++){
-sum=sum+x;
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
 }
 
-printf(sum);
-while(x<=40) {
-printf(x);
-x++;
 }
 
+printf(a);
+printf(b);
+printf(c);
 }
 
 
 
 ScopeTable #1_1
-1 --> <x: ID> 
-5 --> <sum: ID> 
+0 --> <b: ID>  <i: ID> 
+1 --> <c: ID> 
+6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-Line no: 13 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line no: 14 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-int x, sum;
-sum=0;
-for(x=1;x<=20;x++){
-sum=sum+x;
-}
-
-printf(sum);
-while(x<=40) {
-printf(x);
-x++;
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
 }
 
 }
 
+printf(a);
+printf(b);
+printf(c);
+}
 
-Line no: 13 unit : func_definition
+
+Line no: 14 unit : func_definition
 
 int main ( ) {
-int x, sum;
-sum=0;
-for(x=1;x<=20;x++){
-sum=sum+x;
-}
-
-printf(sum);
-while(x<=40) {
-printf(x);
-x++;
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
 }
 
 }
 
+printf(a);
+printf(b);
+printf(c);
+}
 
-Line no: 13 program : unit
+
+Line no: 14 program : unit
 
 int main ( ) {
-int x, sum;
-sum=0;
-for(x=1;x<=20;x++){
-sum=sum+x;
+int a, b, c, i;
+b=0;
+c=1;
+for(i=0;i<4;i++){
+a=3;
+while(a--) {
+b++;
 }
 
-printf(sum);
-while(x<=40) {
-printf(x);
-x++;
 }
 
+printf(a);
+printf(b);
+printf(c);
 }
 
 
@@ -552,5 +624,5 @@ x++;
 ScopeTable #1
 1 --> <main: ID> 
 
-Total lines: 13
+Total lines: 15
 Total errors: 0

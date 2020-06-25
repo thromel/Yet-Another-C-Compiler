@@ -606,7 +606,7 @@ static const yytype_int16 yyrline[] =
      339,   346,   354,   360,   368,   378,   384,   392,   398,   406,
      412,   419,   425,   434,   440,   448,   454,   460,   468,   474,
      481,   488,   494,   500,   506,   514,   520,   528,   528,   536,
-     536,   544,   552,   564,   577
+     536,   544,   552,   565,   579
 };
 #endif
 
@@ -1920,7 +1920,7 @@ yyreduce:
   case 41:
 #line 347 "1705069.y"
                         {
-				(yyval.symbol) = new SymbolInfo("return " + (yyvsp[-1].symbol)->getName() + ";", "NON_TERMINAL");
+				(yyval.symbol) = handle_return((yyvsp[-1].symbol));
 				printRule("RETURN expression SEMICOLON");
 				printSymbol((yyval.symbol));
 			}
@@ -2241,12 +2241,13 @@ yyreduce:
 					(yyvsp[0].symbol)->setVarType("FLOAT");
 				}
 				argTypeList.push_back((yyvsp[0].symbol)->getVarType()); 
+				asmArgList.push_back((yyvsp[0].symbol)->getAsmVar());
 			}
-#line 2246 "y.tab.c"
+#line 2247 "y.tab.c"
     break;
 
   case 73:
-#line 565 "1705069.y"
+#line 566 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("arguments : logic_expression");
@@ -2256,25 +2257,26 @@ yyreduce:
 					printError("Argument cannot be void");
 					(yyvsp[0].symbol)->setVarType("FLOAT");
 				}
-				argTypeList.push_back((yyvsp[0].symbol)->getVarType()); 
+				argTypeList.push_back((yyvsp[0].symbol)->getVarType());
+				asmArgList.push_back((yyvsp[0].symbol)->getAsmVar()); 
 
 			}
-#line 2263 "y.tab.c"
+#line 2265 "y.tab.c"
     break;
 
   case 74:
-#line 578 "1705069.y"
+#line 580 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + ", " + "ERROR", "NON_TERMINAL");
 				printRule("arguments : arguments COMMA error");
 				printError("Unfinished argument list");
 				printSymbol((yyval.symbol));	
 			}
-#line 2274 "y.tab.c"
+#line 2276 "y.tab.c"
     break;
 
 
-#line 2278 "y.tab.c"
+#line 2280 "y.tab.c"
 
       default: break;
     }
@@ -2506,7 +2508,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 587 "1705069.y"
+#line 589 "1705069.y"
 
 int main(int argc,char *argv[])
 {

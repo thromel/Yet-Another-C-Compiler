@@ -32,6 +32,7 @@ struct param {
 
 vector<param> paramList;
 vector<string> argTypeList;
+vector<string> asmArgList;
 
 string type = "";
 
@@ -92,12 +93,27 @@ void enterScope(){
     st.enterScope();
     // cout<<currentFunction<<endl;
     if (currentFunction != ""){
+        SymbolInfo *funcVal = st.lookup(currentFunction);
         for(param p : paramList){
             SymbolInfo *sym = new SymbolInfo(p.name, "ID");
             sym->setIdType("VARIABLE");
             for (auto & c: p.type) c = toupper(c);
             sym->setVarType(p.type);
             insertSymbol(sym);
+            asmVarList.push_back(sym->getAsmVar());
+            funcVal->paramSymList.push_back(sym);
+        }
+        
+        if (currentFunction != "main"){
+
+            funcVal->setFuncStart(funcVal->getName() + " PROC\n");
+            funcVal->setFuncStart(funcVal->getFuncStart() + "\n" + "POP return_loc");
+            for(int i = funcVal->paramSymList.size() - 1; i >= 0; --i){
+                funcVal->setFuncStart(funcVal->getFuncStart() + "\nPOP " + funcVal->paramSymList[i]->getAsmVar());
+            }
+            funcVal->setFuncStart(funcVal->getFuncStart() +
+                                    "\nPUSH BX\nPUSH CX\nPUSH DX\n");
+            funcVal->setFuncEnd("POP DX\nPOP CX\nPOP BX\nPUSH return_loc\nRET\n" + funcVal->getName() + " ENDP\n\n");
         }
         paramList.clear();
     }
@@ -164,18 +180,18 @@ void addFuncDef (SymbolInfo *funcVal, SymbolInfo *returnType)
             return;
 
         } else if (!func->isFuncDefined() ){
-            if (paramList.size() != func->paramList.size()){
+            if (paramList.size() != func->paramSymList.size()){
                 printError(funcVal->getName() + " Number of parameters in definition is not equal to the number of paramters in prototype");
                 paramList.clear();
                 return;
             } else {
                 for(int i = 0; i < paramList.size(); ++i){
-                    if (paramList[i].type != func->paramList[i].type){
+                    if (paramList[i].type != func->paramSymList[i]->getIdType()){
                         printError(funcVal->getName() + "Function parameter mismatch");
                         paramList.clear();
                         return;
                     } else {
-                        func->paramList[i].name = paramList[i].name;
+                        func->paramSymList[i]->setName(paramList[i].name);
                     }
                 }
             }
@@ -184,9 +200,7 @@ void addFuncDef (SymbolInfo *funcVal, SymbolInfo *returnType)
     }
 
     else {
-        for(param p : paramList){
-            funcVal->addParam(p.name, p.type);
-        }
+        
         funcVal->setIdType("FUNCTION");
         funcVal->setReturnType(returnType->getName());
         funcVal->setFuncDefined(true);
@@ -195,13 +209,15 @@ void addFuncDef (SymbolInfo *funcVal, SymbolInfo *returnType)
         if (funcVal->getName() == "main") {
             funcVal->setFuncStart("MAIN PROC \n\nMOV AX,@DATA\nMOV DS,AX\n");
             funcVal->setFuncEnd("MOV AH, 4CH\nINT 21H\nMAIN ENDP\n\n");
+        } else {
+            
         }
         
-
+        currentFunction = funcVal->getName();
     }
     
     //Set the current function name
-    currentFunction = funcVal->getName();
+    
 }
 
 
@@ -220,6 +236,7 @@ void addFuncDecl (SymbolInfo *funcVal, SymbolInfo *returnType)
         func->setVarType(returnType->getName());
         
         for(param p : paramList){
+
             func->addParam(p.name, p.type);
         }
 
@@ -322,6 +339,8 @@ SymbolInfo* getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index)
              var->setName(arr->getName()+"["+to_string(index->getIntValue())+"]");
              var->setReal(arrIdxVar);
         }
+        var->setCode("MOV SI, " + index->getAsmVar() + "\n");
+        var->setAsmVar(arrIdxVar->getAsmVar()+"[SI]");
 
     }
     return var;
@@ -373,9 +392,9 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
 
     //asm part
     if (sym2->getIsConst()){
-        result->setCode(sym2->getCode() + "\n" + constToMem(sym1, sym2));
+        result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" + constToMem(sym1, sym2));
     } else 
-    result->setCode(sym2->getCode() + "\n" + memToMem(sym1, sym2));
+    result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" + memToMem(sym1, sym2));
     
     result->setAsmVar(sym1->getAsmVar());
 
@@ -728,6 +747,8 @@ SymbolInfo* handle_LOGICOP(SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
 
 SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
     SymbolInfo *func = st.lookup(funcVal->getName());
+    SymbolInfo *sym = new SymbolInfo(funcVal->getName() + "(" + 
+                        argList->getName() + ")", "NON_TERMINAL");
 
     if (func == NULL){
         printError("Function " + funcVal->getName() + " is not declared or defined");
@@ -738,20 +759,27 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
     } else if (!func->isFunction()){
         printError(funcVal->getName() + " is not a function");
         argTypeList.clear();
-    } else if (argTypeList.size() != func->paramList.size()) {
+    } else if (argTypeList.size() != func->paramSymList.size()) {
+        cout<<func->paramSymList.size()<<" "<<argTypeList.size()<<endl;
+        
         printError(funcVal->getName() + " argument number mismatch");
         argTypeList.clear();
     } else {
-        for(int i = 0; i < func->paramList.size(); i++){
-            if (func->paramList[i].type != argTypeList[i]){
-                printError(funcVal->getName() + " argument type mismatch for" + func->paramList[i].name);
+        for(int i = 0; i < func->paramSymList.size(); i++){
+            if (func->paramSymList[i]->getVarType() != argTypeList[i]){
+                printError(funcVal->getName() + " argument type mismatch for" + func->paramSymList[i]->getName());
                 argTypeList.clear();
                 return nullSym();
+            } else {
+                sym->addCode("PUSH " + asmArgList[i]);
             }
         }
-    }
+        asmArgList.clear();
 
-    SymbolInfo *sym = new SymbolInfo(funcVal->getName() + "(" + argList->getName() + ")", "NON_TERMINAL");
+    }
+    sym->addCode("CALL " + funcVal->getName());
+    sym->setAsmVar("AX");
+    argTypeList.clear();
     return sym;
     
 }
@@ -797,19 +825,22 @@ SymbolInfo *handle_unary_ADDOP(SymbolInfo *op, SymbolInfo *sym){
             operand->setFloatValue(-sym->getFloatValue());
         }
         operand->setName(sym->getName());
-        string asmTempVar = vm.getTempVar();
-        if (!sym->getIsConst()) operand->setCode("MOV AX, " + sym->getAsmVar() + "\nMOV " + asmTempVar + ", AX\nNEG " + asmTempVar + "\n" );
+        
+        if (!sym->getIsConst()) {
+            string asmTempVar = vm.getTempVar();
+            operand->setCode("MOV AX, " + sym->getAsmVar() + "\nMOV " + asmTempVar + ", AX\nNEG " + asmTempVar + "\n" );
+            operand->setAsmVar(asmTempVar);
+        } 
         else {
             sym->setAsmVar("-"+sym->getAsmVar());
-            operand->setAsmVar("-"+sym->getAsmVar());
+            operand->setAsmVar(sym->getAsmVar());
             operand->setName("-"+operand->getName());
         }
         
-        operand->setAsmVar(asmTempVar);
+        
     } else {
         operand->setName(sym->getName());
     } 
-    
     return operand;
 }
 
@@ -921,5 +952,15 @@ SymbolInfo *handle_while(SymbolInfo *condition, SymbolInfo *statement){
     // cout<<result->getCode()<<endl;
     return result;
 
+}
+
+SymbolInfo *handle_return(SymbolInfo *expr){
+    SymbolInfo *sym = new SymbolInfo("return " + expr->getName() + ";", "NON_TERMINAL");
+
+    sym->setCode(expr->getCode());
+    sym->addCode("MOV AX, " + expr->getAsmVar() + "\n");
+    sym->setAsmVar("AX");
+
+    return sym;
 }
 #endif
