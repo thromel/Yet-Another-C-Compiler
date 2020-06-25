@@ -314,7 +314,7 @@ statement : var_declaration
 			}
 			| FOR LPAREN expression_statement expression_statement expression RPAREN statement
 			{
-				$$ = new SymbolInfo("for("+$3->getName()+$4->getName()+$5->getName()+")"+$7->getName(), "NON_TERMINAL");
+				$$ = handle_for($3, $4, $5, $7);
 				printRule("FOR LPAREN expression_statement expression_statement expression RPAREN statement");
 				printSymbol($$);
 			}
@@ -332,7 +332,7 @@ statement : var_declaration
 			}
 			| WHILE LPAREN expression RPAREN statement
 			{
-				$$ = new SymbolInfo("while(" + $3->getName() + ") " + $5->getName(), "NON_TERMINAL");
+				$$ = handle_while($3, $5);
 				printRule("WHILE LPAREN expression RPAREN statement");
 				printSymbol($$);
 			}
@@ -360,6 +360,7 @@ expression_statement : SEMICOLON
 			| expression SEMICOLON
 			{
 				$$ = new SymbolInfo($1->getName()+";", "NON_TERMINAL");
+				$$->setAsmVar($1->getAsmVar());
 				$$->setCode($1->getCode());
 				printRule("expression_statement : expression SEMICOLON");
 				printSymbol($$);
