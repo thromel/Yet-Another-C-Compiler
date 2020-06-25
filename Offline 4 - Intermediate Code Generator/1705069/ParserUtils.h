@@ -53,7 +53,12 @@ void printRule(string rule)
 
 void printSymbol(SymbolInfo *sym)
 {
+
+    log<<"------------------"<<endl;
     log << sym->getName()<<endl<<endl;
+    log << sym->getCode()<<endl<<endl;
+    log<<"------------------"<<endl;
+
 }
 
 void printLog(string msg)
@@ -411,13 +416,14 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
 
 SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
 {
+    SymbolInfo *result = new SymbolInfo("", "");
+    
     if(sym1->getVarType() == "VOID" || sym2->getVarType() == "VOID")
     {
         printError("Operand of void type");
         return nullSym();
     }
 
-    SymbolInfo *result = new SymbolInfo("", "");
     if (sym1->getVarType() == "FLOAT" || sym2->getVarType() == "FLOAT" )
     {
         result->setVarType("FLOAT");
@@ -447,7 +453,9 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                         result->setIntValue(sym1->getIntValue()+sym2->getIntValue());
                 
                         //asm
-                        result->setCode("MOV AX, " + sym1->getAsmVar() + "\nADD AX, " + sym2->getAsmVar() + "\nMOV " + result->getAsmVar() + ", AX\n");
+                        result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" + 
+                        "MOV AX, " + sym1->getAsmVar() + "\nADD AX, " + sym2->getAsmVar() + 
+                        "\nMOV " + result->getAsmVar() + ", AX\n");
                     } else {
                         result->setFloatValue(sym1->getIntValue()+sym2->getFloatValue());
                     }
@@ -468,7 +476,9 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                 } else if (sym1->getVarType() == "INT"){
                     if (sym2->getVarType() == "INT"){
                         result->setIntValue(sym1->getIntValue()-sym2->getIntValue());
-                        result->setCode("MOV AX, " + sym1->getAsmVar() + "\nSUB AX, " + sym2->getAsmVar() + "\nMOV " + result->getAsmVar() + ", AX\n");
+                        result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" + 
+                        "MOV AX, " + sym1->getAsmVar() + "\nSUB AX, " + sym2->getAsmVar() + 
+                        "\nMOV " + result->getAsmVar() + ", AX\n");
                     } else {
                         result->setFloatValue(sym1->getIntValue()-sym2->getFloatValue());
                     }
@@ -577,12 +587,13 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
         result->setVarType("INT");
     }
     result->setIdType("VARIABLE");
+    result->addCode(sym1->getCode() + "\n" + sym2->getCode());
 
     if (mulOp == "%"){
         result->setIntValue(sym1->getIntValue() % sym2->getIntValue());
         
         string asmTempVar = vm.getTempVar();
-            result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
+            result->addCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
             "\nMOV AX, AX\nCWD\nIDIV BX\nMOV " + asmTempVar + ", DX\n" );
             result->setAsmVar(asmTempVar);
     } else if (mulOp == "*"){
@@ -591,7 +602,7 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
             
             //asm
             string asmTempVar = vm.getTempVar();
-            result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() + 
+            result->addCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() + 
             "\nIMUL BX\nMOV " + asmTempVar + ", AX\n" );
             result->setAsmVar(asmTempVar);
 
@@ -613,7 +624,7 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
             
             //asm
             string asmTempVar = vm.getTempVar();
-            result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
+            result->addCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
             "\nMOV AX, AX\nCWD\nIDIV BX\nMOV " + asmTempVar + ", AX\n" );
             result->setAsmVar(asmTempVar);
 
@@ -635,7 +646,12 @@ SymbolInfo* handle_INCOP(SymbolInfo *sym1)
     SymbolInfo *one = getConstVal(temp, "INT");
     SymbolInfo *addOp = new SymbolInfo("+", "");
     SymbolInfo *result = handle_assign(sym1, handleADDOP(sym1, addOp, one));
-    result->setCode("MOV AX, " + sym1->getAsmVar() + "\nINC AX\nMOV " + sym1->getAsmVar() + ", AX\n");
+
+    string tempAsmVar = vm.getTempVar();
+    result->setAsmVar(tempAsmVar);
+    
+    result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV " + tempAsmVar + ", AX"+
+                 "\nINC AX\nMOV " + sym1->getAsmVar() + ", AX\n");
     result->setName(sym1->getName() + "++");
     return result;
 }
@@ -646,8 +662,12 @@ SymbolInfo* handle_DECOP(SymbolInfo *sym1)
     SymbolInfo *one = getConstVal(temp, "INT");
     SymbolInfo *addOp = new SymbolInfo("-", "");
     SymbolInfo *result = handle_assign(sym1, handleADDOP(sym1, addOp, one));
-    result->setName(sym1->getName() + "--");
-    result->setCode("MOV AX, " + sym1->getAsmVar() + "\nDEC AX\nMOV " + sym1->getAsmVar() + ", AX\n");
+    string tempAsmVar = vm.getTempVar();
+    result->setAsmVar(tempAsmVar);
+    
+    result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV " + tempAsmVar + ", AX"+
+                 "\nDEC AX\nMOV " + sym1->getAsmVar() + ", AX\n");
+    result->setName(sym1->getName() + "++");
     return result;
 }
 
@@ -760,8 +780,6 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
         printError(funcVal->getName() + " is not a function");
         argTypeList.clear();
     } else if (argTypeList.size() != func->paramSymList.size()) {
-        cout<<func->paramSymList.size()<<" "<<argTypeList.size()<<endl;
-        
         printError(funcVal->getName() + " argument number mismatch");
         argTypeList.clear();
     } else {
@@ -943,7 +961,9 @@ SymbolInfo *handle_while(SymbolInfo *condition, SymbolInfo *statement){
     result->addCode(loop + ":");
     result->addCode(condition->getCode());
     result->addCode("MOV AX, " + condition->getAsmVar());
+    vm.freeTempVar(condition->getAsmVar());
     result->addCode("CMP AX, 0");
+    
     result->addCode("JE " + loopExit);
     result->addCode(statement->getCode());
     result->addCode("JMP " + loop);

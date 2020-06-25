@@ -362,6 +362,7 @@ expression_statement : SEMICOLON
 				$$ = new SymbolInfo($1->getName()+";", "NON_TERMINAL");
 				$$->setAsmVar($1->getAsmVar());
 				$$->setCode($1->getCode());
+				vm.freeTempVar($1->getAsmVar());
 				printRule("expression_statement : expression SEMICOLON");
 				printSymbol($$);
 			}
@@ -495,6 +496,13 @@ factor : variable
 			{
 				printRule("factor: variable DECOP");
 				$$ = handle_DECOP($1);
+				printSymbol($$);
+			}
+			|LPAREN expression RPAREN
+			{
+				$$ = $2;
+				$$->setName("("+$2->getName()+")");
+				printRule("factor : LPAREN expression RPAREN");
 				printSymbol($$);
 			}
 			| LPAREN expression error
