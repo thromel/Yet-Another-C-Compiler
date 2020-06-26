@@ -2,18 +2,109 @@
 .STACK 100H 
 .DATA
 
-n1_1 DW ?
-i1_1 DW ?
-fact1_1 DW ?
+a1_1 DW ?
+b1_1 DW ?
 temp0 DW ?
+a1_2 DW ?
+b1_2 DW ?
+c1_2 DW ?
+maxab1_2 DW ?
+maxabc1_2 DW ?
+n1_3 DW ?
+i1_3 DW ?
+fact1_3 DW ?
 temp1 DW ?
+x1_4 DW ?
 return_loc DW ?
 
 .CODE
-fact PROC
+max2 PROC
 
 POP return_loc
-POP n1_1
+POP b1_1
+POP a1_1
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
+MOV temp0, 0
+JMP L2
+L1: 
+MOV temp0, 1
+L2: 
+
+MOV AX, temp0
+CMP AX, 1
+JNE L3
+ 
+MOV AX, a1_1
+
+JMP L0
+JMP L4
+L3:
+ 
+MOV AX, b1_1
+
+JMP L0
+L4:
+
+L0: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+max2 ENDP
+
+
+max3 PROC
+
+POP return_loc
+POP c1_2
+POP b1_2
+POP a1_2
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+PUSH return_loc
+PUSH a1_2
+PUSH b1_2
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV maxab1_2, AX 
+
+ 
+PUSH return_loc
+PUSH c1_2
+PUSH maxab1_2
+CALL max2
+POP return_loc
+MOV AX, AX
+
+JMP L5
+L5: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+max3 ENDP
+
+
+factorial PROC
+
+POP return_loc
+POP n1_3
 PUSH BX
 PUSH CX
 PUSH DX
@@ -22,66 +113,66 @@ PUSH DX
  
  
 MOV AX, 1
-MOV fact1_1, AX 
+MOV i1_3, AX 
 
  
  
-MOV AX, fact1_1
-MOV i1_1, AX 
+MOV AX, i1_3
+MOV fact1_3, AX 
 
  
 ;for loop start
  
  
 MOV AX, 1
-MOV i1_1, AX 
+MOV i1_3, AX 
 
-L3:
+L9:
  
  
-MOV AX, i1_1
-CMP AX, n1_1
-JLE L1
+MOV AX, i1_3
+CMP AX, n1_3
+JLE L7
 MOV temp0, 0
-JMP L2
-L1: 
+JMP L8
+L7: 
 MOV temp0, 1
-L2: 
+L8: 
 
 MOV AX, temp0
 CMP AX, 0
-JE L4
+JE L10
  
  
  
  
-MOV AX, fact1_1
-MOV BX, i1_1
+MOV AX, fact1_3
+MOV BX, i1_3
 IMUL BX
 MOV temp1, AX
 
 MOV AX, temp1
-MOV fact1_1, AX 
+MOV fact1_3, AX 
 
-
-MOV AX, fact1_1
-CALL OUTDEC
-
-MOV AX, i1_1
+MOV AX, i1_3
 MOV temp0, AX
 INC AX
-MOV i1_1, AX
+MOV i1_3, AX
 
-JMP L3
-L4:
+JMP L9
+L10:
 ;for loop end
-L0: 
+ 
+MOV AX, fact1_3
+
+JMP L6
+L6: 
 POP DX
 POP CX
 POP BX
 PUSH return_loc
 RET
-fact ENDP
+factorial ENDP
 
 
 MAIN PROC 
@@ -90,10 +181,30 @@ MOV AX,@DATA
 MOV DS,AX
 
  
+ 
+ 
 PUSH return_loc
-PUSH 10
-CALL fact
+PUSH 5
+PUSH 3
+PUSH 2
+CALL max3
 POP return_loc
+MOV AX, AX
+MOV x1_4, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH x1_4
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV x1_4, AX 
+
+
+MOV AX, x1_4
+CALL OUTDEC
+
 MOV AH, 4CH
 INT 21H
 MAIN ENDP

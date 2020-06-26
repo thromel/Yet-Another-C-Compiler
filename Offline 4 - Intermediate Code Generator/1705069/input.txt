@@ -1,13 +1,30 @@
-void fact(int n){
-	int i, fact;
-	fact = 1;
-	i = fact;
-	for(i = 1; i <=n; i++){
-		fact = fact * i;
-		printf(fact);
+int max2(int a, int b){
+	if (a >= b) {
+		return a;
+	} else {
+		return b;
 	}
 }
 
+int max3(int a, int b, int c){
+	int maxab, maxabc;
+	maxab = max2(a, b);
+	return max2(c, maxab);
+}
+
+int factorial(int n){
+	int i, fact;
+	i = 1;
+	fact = i;
+	for(i = 1; i <= n; i++){
+		fact = fact * i;
+	}
+	return fact;
+}
+
 int main(){
-	fact(10);
+	int x;
+	x = max3(5, 3, 2);
+	x = factorial(x);
+	printf(x);
 }
