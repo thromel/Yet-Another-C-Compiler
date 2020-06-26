@@ -792,6 +792,7 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
         printError(funcVal->getName() + " argument number mismatch");
         argTypeList.clear();
     } else {
+        sym->setCode(argList->getCode());
         sym->addCode("PUSH return_loc");
         for(int i = 0; i < func->paramSymList.size(); i++){
             
@@ -923,6 +924,13 @@ SymbolInfo *handle_if_else(SymbolInfo *exp, SymbolInfo *ifstmnt, SymbolInfo *els
     result->addCode(elsestmnt->getCode());
     result->addCode(label2 + ":\n");
     vm.freeTempVar(exp->getAsmVar());
+
+    cout<<"-----------------------------"<<endl;
+    cout<<"expr: \n" + exp->getCode()<<endl;
+    cout<<"if: \n" + ifstmnt->getCode()<<endl;
+    cout<<"else: \n" + elsestmnt->getCode()<<endl;
+    cout<<"-----------------------------"<<endl;
+    cout<<result->getCode()<<endl;
 
     return result;
 }

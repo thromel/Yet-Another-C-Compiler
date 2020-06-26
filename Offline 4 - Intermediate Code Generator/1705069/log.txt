@@ -17,7 +17,23 @@ int
 Line no: 1 parameter_list : type_specifier ID
 
 ------------------
-int x
+int a
+
+ 
+
+------------------
+Line no: 1 type_specifier	: INT
+
+------------------
+int
+
+ 
+
+------------------
+Line no: 1 parameter_list : parameter_list COMMA type_specifier ID
+
+------------------
+int a,int b
 
  
 
@@ -27,7 +43,7 @@ New ScopeTable #1_1 created
 Line no: 2 variable : ID
 
 ------------------
-x
+a
 
  
 
@@ -35,7 +51,7 @@ x
 Line no: 2 factor : variable
 
 ------------------
-x
+a
 
  
 
@@ -43,7 +59,7 @@ x
 Line no: 2 unary_expression : factor
 
 ------------------
-x
+a
 
  
 
@@ -51,7 +67,7 @@ x
 Line no: 2 term : unary_expression
 
 ------------------
-x
+a
 
  
 
@@ -59,15 +75,23 @@ x
 Line no: 2 simple_expression : term
 
 ------------------
-x
+a
 
  
 
 ------------------
-Line no: 2 factor : CONST_INT
+Line no: 2 variable : ID
 
 ------------------
-1
+b
+
+ 
+
+------------------
+Line no: 2 factor : variable
+
+------------------
+b
 
  
 
@@ -75,7 +99,7 @@ Line no: 2 factor : CONST_INT
 Line no: 2 unary_expression : factor
 
 ------------------
-1
+b
 
  
 
@@ -83,7 +107,7 @@ Line no: 2 unary_expression : factor
 Line no: 2 term : unary_expression
 
 ------------------
-1
+b
 
  
 
@@ -91,7 +115,7 @@ Line no: 2 term : unary_expression
 Line no: 2 simple_expression : term
 
 ------------------
-1
+b
 
  
 
@@ -99,13 +123,13 @@ Line no: 2 simple_expression : term
 Line no: 2 rel_expression : simple_expression RELOP simple_expression
 
 ------------------
-x==1
+a>=b
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -117,13 +141,13 @@ L2:
 Line no: 2 logic_expression : rel_expression
 
 ------------------
-x==1
+a>=b
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -135,13 +159,13 @@ L2:
 Line no: 2 expression : logic_expression
 
 ------------------
-x==1
+a>=b
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -155,7 +179,7 @@ New ScopeTable #1_1_1 created
 Line no: 3 variable : ID
 
 ------------------
-x
+a
 
  
 
@@ -163,7 +187,7 @@ x
 Line no: 3 factor : variable
 
 ------------------
-x
+a
 
  
 
@@ -171,7 +195,7 @@ x
 Line no: 3 unary_expression : factor
 
 ------------------
-x
+a
 
  
 
@@ -179,7 +203,7 @@ x
 Line no: 3 term : unary_expression
 
 ------------------
-x
+a
 
  
 
@@ -187,7 +211,7 @@ x
 Line no: 3 simple_expression : term
 
 ------------------
-x
+a
 
  
 
@@ -195,7 +219,7 @@ x
 Line no: 3 rel_expression : simple_expression
 
 ------------------
-x
+a
 
  
 
@@ -203,7 +227,7 @@ x
 Line no: 3 logic_expression : rel_expression
 
 ------------------
-x
+a
 
  
 
@@ -211,7 +235,7 @@ x
 Line no: 3 expression : logic_expression
 
 ------------------
-x
+a
 
  
 
@@ -219,10 +243,10 @@ x
 Line no: 3 RETURN expression SEMICOLON
 
 ------------------
-return x;
+return a;
 
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 
@@ -230,10 +254,10 @@ JMP L3
 Line no: 3 statements : statement
 
 ------------------
-return x;
+return a;
 
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 
@@ -242,12 +266,12 @@ Line no: 4 compound_statement : LCURL statements RCURL
 
 ------------------
 {
-return x;
+return a;
 }
 
 
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 
@@ -256,20 +280,21 @@ JMP L3
 ScopeTable #1_1_1
 
 ScopeTable #1_1
-1 --> <x: ID> 
+0 --> <b: ID> 
+6 --> <a: ID> 
 
 ScopeTable #1
-4 --> <factorial: ID> 
+4 --> <maxnum: ID> 
 Line no: 4 statement : compound_statement
 
 ------------------
 {
-return x;
+return a;
 }
 
 
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 
@@ -279,7 +304,7 @@ New ScopeTable #1_1_2 created
 Line no: 5 variable : ID
 
 ------------------
-x
+b
 
  
 
@@ -287,7 +312,7 @@ x
 Line no: 5 factor : variable
 
 ------------------
-x
+b
 
  
 
@@ -295,7 +320,7 @@ x
 Line no: 5 unary_expression : factor
 
 ------------------
-x
+b
 
  
 
@@ -303,7 +328,7 @@ x
 Line no: 5 term : unary_expression
 
 ------------------
-x
+b
 
  
 
@@ -311,99 +336,42 @@ x
 Line no: 5 simple_expression : term
 
 ------------------
-x
+b
 
  
-
-------------------
-Line no: 5 factor : CONST_INT
-
-------------------
-1
-
- 
-
-------------------
-Line no: 5 unary_expression : factor
-
-------------------
-1
-
- 
-
-------------------
-Line no: 5 term : unary_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 5 simple expression : simple_expression ADDOP term
-
-------------------
-x+1
-
- 
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
 
 ------------------
 Line no: 5 rel_expression : simple_expression
 
 ------------------
-x+1
+b
 
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
 
 ------------------
 Line no: 5 logic_expression : rel_expression
 
 ------------------
-x+1
+b
 
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
 
 ------------------
 Line no: 5 expression : logic_expression
 
 ------------------
-x+1
+b
 
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
 
 ------------------
 Line no: 5 RETURN expression SEMICOLON
 
 ------------------
-return x+1;
+return b;
 
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 
@@ -411,15 +379,10 @@ JMP L4
 Line no: 5 statements : statement
 
 ------------------
-return x+1;
+return b;
 
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 
@@ -428,17 +391,12 @@ Line no: 6 compound_statement : LCURL statements RCURL
 
 ------------------
 {
-return x+1;
+return b;
 }
 
 
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 
@@ -447,25 +405,21 @@ JMP L4
 ScopeTable #1_1_2
 
 ScopeTable #1_1
-1 --> <x: ID> 
+0 --> <b: ID> 
+6 --> <a: ID> 
 
 ScopeTable #1
-4 --> <factorial: ID> 
+4 --> <maxnum: ID> 
 Line no: 6 statement : compound_statement
 
 ------------------
 {
-return x+1;
+return b;
 }
 
 
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 
@@ -473,19 +427,19 @@ JMP L4
 Line no: 6 IF LPAREN expression RPAREN statement ELSE statement
 
 ------------------
-if(x==1){
-return x;
+if(a>=b){
+return a;
 }
 else {
-return x+1;
+return b;
 }
 
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -496,18 +450,13 @@ MOV AX, temp0
 CMP AX, 1
 JNE L5
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 JMP L6
 L5:
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 L6:
@@ -517,19 +466,19 @@ L6:
 Line no: 6 statements : statement
 
 ------------------
-if(x==1){
-return x;
+if(a>=b){
+return a;
 }
 else {
-return x+1;
+return b;
 }
 
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -540,18 +489,13 @@ MOV AX, temp0
 CMP AX, 1
 JNE L5
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 JMP L6
 L5:
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 L6:
@@ -562,11 +506,11 @@ Line no: 7 compound_statement : LCURL statements RCURL
 
 ------------------
 {
-if(x==1){
-return x;
+if(a>=b){
+return a;
 }
 else {
-return x+1;
+return b;
 }
 
 }
@@ -574,9 +518,9 @@ return x+1;
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -587,18 +531,13 @@ MOV AX, temp0
 CMP AX, 1
 JNE L5
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 JMP L6
 L5:
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 L6:
@@ -607,37 +546,39 @@ L6:
 ------------------
 
 ScopeTable #1_1
-1 --> <x: ID> 
+0 --> <b: ID> 
+6 --> <a: ID> 
 
 ScopeTable #1
-4 --> <factorial: ID> 
+4 --> <maxnum: ID> 
 Line no: 7 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 
 ------------------
-int factorial ( int x ) {
-if(x==1){
-return x;
+int maxnum ( int a,int b ) {
+if(a>=b){
+return a;
 }
 else {
-return x+1;
+return b;
 }
 
 }
 
 
-factorial PROC
+maxnum PROC
 
 POP return_loc
-POP x1_1
+POP b1_1
+POP a1_1
 PUSH BX
 PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -648,18 +589,13 @@ MOV AX, temp0
 CMP AX, 1
 JNE L5
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 JMP L6
 L5:
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 L6:
@@ -670,7 +606,7 @@ POP CX
 POP BX
 PUSH return_loc
 RET
-factorial ENDP
+maxnum ENDP
 
 
 
@@ -678,30 +614,31 @@ factorial ENDP
 Line no: 7 unit : func_definition
 
 ------------------
-int factorial ( int x ) {
-if(x==1){
-return x;
+int maxnum ( int a,int b ) {
+if(a>=b){
+return a;
 }
 else {
-return x+1;
+return b;
 }
 
 }
 
 
-factorial PROC
+maxnum PROC
 
 POP return_loc
-POP x1_1
+POP b1_1
+POP a1_1
 PUSH BX
 PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -712,18 +649,13 @@ MOV AX, temp0
 CMP AX, 1
 JNE L5
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 JMP L6
 L5:
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 L6:
@@ -734,7 +666,7 @@ POP CX
 POP BX
 PUSH return_loc
 RET
-factorial ENDP
+maxnum ENDP
 
 
 
@@ -742,30 +674,31 @@ factorial ENDP
 Line no: 7 program : unit
 
 ------------------
-int factorial ( int x ) {
-if(x==1){
-return x;
+int maxnum ( int a,int b ) {
+if(a>=b){
+return a;
 }
 else {
-return x+1;
+return b;
 }
 
 }
 
 
-factorial PROC
+maxnum PROC
 
 POP return_loc
-POP x1_1
+POP b1_1
+POP a1_1
 PUSH BX
 PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -776,18 +709,13 @@ MOV AX, temp0
 CMP AX, 1
 JNE L5
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 JMP L6
 L5:
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 L6:
@@ -798,15 +726,15 @@ POP CX
 POP BX
 PUSH return_loc
 RET
-factorial ENDP
+maxnum ENDP
 
 
 
 ------------------
 
 ScopeTable #1
-4 --> <factorial: ID> 
-Line no: 8 type_specifier	: INT
+4 --> <maxnum: ID> 
+Line no: 9 type_specifier	: INT
 
 ------------------
 int
@@ -816,7 +744,7 @@ int
 ------------------
 
 New ScopeTable #1_2 created
-Line no: 9 type_specifier	: INT
+Line no: 10 type_specifier	: INT
 
 ------------------
 int
@@ -824,156 +752,50 @@ int
  
 
 ------------------
-Line no: 9 declaration_list : ID
+Line no: 10 declaration_list : ID
 
 ------------------
-a
+x
 
  
 
 ------------------
-Line no: 9 declaration_list : declaration_list COMMA ID
+Line no: 10 declaration_list : declaration_list COMMA ID
 
 ------------------
-a, b
+x, y
 
  
 
 ------------------
-Line no: 9 var_declaration : type_specifier declaration_list SEMICOLON
+Line no: 10 declaration_list : declaration_list COMMA ID
 
 ------------------
-int a, b;
+x, y, max
 
  
 
 ------------------
-Line no: 9 statement : var_declaration
+Line no: 10 var_declaration : type_specifier declaration_list SEMICOLON
 
 ------------------
-int a, b;
+int x, y, max;
 
  
 
 ------------------
-Line no: 9 statements : statement
+Line no: 10 statement : var_declaration
 
 ------------------
-int a, b;
+int x, y, max;
 
  
 
 ------------------
-Line no: 10 variable : ID
+Line no: 10 statements : statement
 
 ------------------
-a
-
- 
-
-------------------
-Line no: 10 factor : CONST_INT
-
-------------------
-5
-
- 
-
-------------------
-Line no: 10 unary_expression : factor
-
-------------------
-5
-
- 
-
-------------------
-Line no: 10 term : unary_expression
-
-------------------
-5
-
- 
-
-------------------
-Line no: 10 simple_expression : term
-
-------------------
-5
-
- 
-
-------------------
-Line no: 10 rel_expression : simple_expression
-
-------------------
-5
-
- 
-
-------------------
-Line no: 10 logic_expression : rel_expression
-
-------------------
-5
-
- 
-
-------------------
-Line no: 10 expression : variable ASSIGNOP logic_expression
-
-------------------
-a=5
-
- 
- 
-MOV AX, 5
-MOV a1_2, AX 
-
-
-------------------
-Line no: 10 expression_statement : expression SEMICOLON
-
-------------------
-a=5;
-
- 
- 
-MOV AX, 5
-MOV a1_2, AX 
-
-
-------------------
-Line no: 10 statement : expression_statement
-
-------------------
-a=5;
-
- 
- 
-MOV AX, 5
-MOV a1_2, AX 
-
-
-------------------
-Line no: 10 statements : statements statement
-
-------------------
-int a, b;
-a=5;
-
- 
- 
- 
-MOV AX, 5
-MOV a1_2, AX 
-
-
-------------------
-Line no: 11 variable : ID
-
-------------------
-b
+int x, y, max;
 
  
 
@@ -981,15 +803,15 @@ b
 Line no: 11 variable : ID
 
 ------------------
-a
+x
 
  
 
 ------------------
-Line no: 11 factor : variable
+Line no: 11 factor : CONST_INT
 
 ------------------
-a
+10
 
  
 
@@ -997,7 +819,7 @@ a
 Line no: 11 unary_expression : factor
 
 ------------------
-a
+10
 
  
 
@@ -1005,7 +827,7 @@ a
 Line no: 11 term : unary_expression
 
 ------------------
-a
+10
 
  
 
@@ -1013,7 +835,7 @@ a
 Line no: 11 simple_expression : term
 
 ------------------
-a
+10
 
  
 
@@ -1021,7 +843,7 @@ a
 Line no: 11 rel_expression : simple_expression
 
 ------------------
-a
+10
 
  
 
@@ -1029,257 +851,579 @@ a
 Line no: 11 logic_expression : rel_expression
 
 ------------------
-a
+10
 
  
-
-------------------
-Line no: 11 arguments : logic_expression
-
-------------------
-a
-
- 
-
-------------------
-Line no: 11 argument_list : arguments
-
-------------------
-a
-
- 
-
-------------------
-Line no: 11 factor : ID LPAREN argument_list RPAREN
-
-------------------
-factorial(a)
-
- 
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 11 unary_expression : factor
-
-------------------
-factorial(a)
-
- 
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 11 term : unary_expression
-
-------------------
-factorial(a)
-
- 
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 11 simple_expression : term
-
-------------------
-factorial(a)
-
- 
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 11 rel_expression : simple_expression
-
-------------------
-factorial(a)
-
- 
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 11 logic_expression : rel_expression
-
-------------------
-factorial(a)
-
- 
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
 
 ------------------
 Line no: 11 expression : variable ASSIGNOP logic_expression
 
 ------------------
-b=factorial(a)
+x=10
 
  
  
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV b1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
 
 
 ------------------
 Line no: 11 expression_statement : expression SEMICOLON
 
 ------------------
-b=factorial(a);
+x=10;
 
  
  
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV b1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
 
 
 ------------------
 Line no: 11 statement : expression_statement
 
 ------------------
-b=factorial(a);
+x=10;
 
  
  
-PUSH return_loc
-PUSH a1_2
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV b1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
 
 
 ------------------
 Line no: 11 statements : statements statement
 
 ------------------
-int a, b;
-a=5;
-b=factorial(a);
+int x, y, max;
+x=10;
 
  
  
  
-MOV AX, 5
-MOV a1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
+
+
+------------------
+Line no: 12 variable : ID
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 12 factor : CONST_INT
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 12 unary_expression : factor
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 12 term : unary_expression
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 12 simple_expression : term
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 12 rel_expression : simple_expression
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 12 logic_expression : rel_expression
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 12 expression : variable ASSIGNOP logic_expression
+
+------------------
+y=20
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
+
+
+------------------
+Line no: 12 expression_statement : expression SEMICOLON
+
+------------------
+y=20;
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
+
+
+------------------
+Line no: 12 statement : expression_statement
+
+------------------
+y=20;
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
+
+
+------------------
+Line no: 12 statements : statements statement
+
+------------------
+int x, y, max;
+x=10;
+y=20;
+
+ 
+ 
+ 
+MOV AX, 10
+MOV x1_2, AX 
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
+
+
+------------------
+Line no: 13 variable : ID
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 13 variable : ID
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 factor : variable
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 unary_expression : factor
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 term : unary_expression
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 simple_expression : term
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 rel_expression : simple_expression
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 logic_expression : rel_expression
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 arguments : logic_expression
+
+------------------
+x
+
+ 
+
+------------------
+Line no: 13 variable : ID
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 13 factor : variable
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 13 unary_expression : factor
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 13 term : unary_expression
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 13 simple_expression : term
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 13 rel_expression : simple_expression
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 13 logic_expression : rel_expression
+
+------------------
+y
+
+ 
+
+------------------
+Line no: 13 arguments : arguments COMMA logic_expression
+
+------------------
+x, y
+
+ 
+
+------------------
+Line no: 13 argument_list : arguments
+
+------------------
+x, y
+
+ 
+
+------------------
+Line no: 13 factor : ID LPAREN argument_list RPAREN
+
+------------------
+maxnum(x, y)
+
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+
+------------------
+Line no: 13 unary_expression : factor
+
+------------------
+maxnum(x, y)
+
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+
+------------------
+Line no: 13 term : unary_expression
+
+------------------
+maxnum(x, y)
+
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+
+------------------
+Line no: 13 simple_expression : term
+
+------------------
+maxnum(x, y)
+
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+
+------------------
+Line no: 13 rel_expression : simple_expression
+
+------------------
+maxnum(x, y)
+
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+
+------------------
+Line no: 13 logic_expression : rel_expression
+
+------------------
+maxnum(x, y)
+
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+
+------------------
+Line no: 13 expression : variable ASSIGNOP logic_expression
+
+------------------
+max=maxnum(x, y)
 
  
  
 PUSH return_loc
-PUSH a1_2
-CALL factorial
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
 POP return_loc
 MOV AX, AX
-MOV b1_2, AX 
+MOV max1_2, AX 
 
 
 ------------------
-Line no: 12 PRINTLN LPAREN ID RPAREN SEMICOLON
+Line no: 13 expression_statement : expression SEMICOLON
 
 ------------------
-printf(b);
+max=maxnum(x, y);
+
+ 
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+MOV AX, AX
+MOV max1_2, AX 
+
+
+------------------
+Line no: 13 statement : expression_statement
+
+------------------
+max=maxnum(x, y);
+
+ 
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+MOV AX, AX
+MOV max1_2, AX 
+
+
+------------------
+Line no: 13 statements : statements statement
+
+------------------
+int x, y, max;
+x=10;
+y=20;
+max=maxnum(x, y);
+
+ 
+ 
+ 
+MOV AX, 10
+MOV x1_2, AX 
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
+POP return_loc
+MOV AX, AX
+MOV max1_2, AX 
+
+
+------------------
+Line no: 14 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+------------------
+printf(max);
 
  
 
 ------------------
 -1
-Line no: 12 statements : statements statement
+Line no: 14 statements : statements statement
 
 ------------------
-int a, b;
-a=5;
-b=factorial(a);
-printf(b);
+int x, y, max;
+x=10;
+y=20;
+max=maxnum(x, y);
+printf(max);
 
  
  
  
-MOV AX, 5
-MOV a1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
 
  
  
 PUSH return_loc
-PUSH a1_2
-CALL factorial
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
 POP return_loc
 MOV AX, AX
-MOV b1_2, AX 
+MOV max1_2, AX 
 
 
-MOV AX, b1_2
+MOV AX, max1_2
 CALL OUTDEC
 
 
 ------------------
-Line no: 13 compound_statement : LCURL statements RCURL
+Line no: 15 compound_statement : LCURL statements RCURL
 
 ------------------
 {
-int a, b;
-a=5;
-b=factorial(a);
-printf(b);
+int x, y, max;
+x=10;
+y=20;
+max=maxnum(x, y);
+printf(max);
 }
 
 
  
  
  
-MOV AX, 5
-MOV a1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
 
  
  
 PUSH return_loc
-PUSH a1_2
-CALL factorial
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
 POP return_loc
 MOV AX, AX
-MOV b1_2, AX 
+MOV max1_2, AX 
 
 
-MOV AX, b1_2
+MOV AX, max1_2
 CALL OUTDEC
 
 
 ------------------
 
 ScopeTable #1_2
-0 --> <b: ID> 
-6 --> <a: ID> 
+1 --> <x: ID> 
+2 --> <y: ID> 
+4 --> <max: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-4 --> <factorial: ID> 
-Line no: 13 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+4 --> <maxnum: ID> 
+Line no: 15 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 ------------------
 int main ( ) {
-int a, b;
-a=5;
-b=factorial(a);
-printf(b);
+int x, y, max;
+x=10;
+y=20;
+max=maxnum(x, y);
+printf(max);
 }
 
 
@@ -1291,20 +1435,26 @@ MOV DS,AX
  
  
  
-MOV AX, 5
-MOV a1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
 
  
  
 PUSH return_loc
-PUSH a1_2
-CALL factorial
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
 POP return_loc
 MOV AX, AX
-MOV b1_2, AX 
+MOV max1_2, AX 
 
 
-MOV AX, b1_2
+MOV AX, max1_2
 CALL OUTDEC
 
 MOV AH, 4CH
@@ -1314,14 +1464,15 @@ MAIN ENDP
 
 
 ------------------
-Line no: 13 unit : func_definition
+Line no: 15 unit : func_definition
 
 ------------------
 int main ( ) {
-int a, b;
-a=5;
-b=factorial(a);
-printf(b);
+int x, y, max;
+x=10;
+y=20;
+max=maxnum(x, y);
+printf(max);
 }
 
 
@@ -1333,20 +1484,26 @@ MOV DS,AX
  
  
  
-MOV AX, 5
-MOV a1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
 
  
  
 PUSH return_loc
-PUSH a1_2
-CALL factorial
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
 POP return_loc
 MOV AX, AX
-MOV b1_2, AX 
+MOV max1_2, AX 
 
 
-MOV AX, b1_2
+MOV AX, max1_2
 CALL OUTDEC
 
 MOV AH, 4CH
@@ -1356,40 +1513,42 @@ MAIN ENDP
 
 
 ------------------
-Line no: 13 program : program unit
+Line no: 15 program : program unit
 
 ------------------
-int factorial ( int x ) {
-if(x==1){
-return x;
+int maxnum ( int a,int b ) {
+if(a>=b){
+return a;
 }
 else {
-return x+1;
+return b;
 }
 
 }
 
 int main ( ) {
-int a, b;
-a=5;
-b=factorial(a);
-printf(b);
+int x, y, max;
+x=10;
+y=20;
+max=maxnum(x, y);
+printf(max);
 }
 
 
-factorial PROC
+maxnum PROC
 
 POP return_loc
-POP x1_1
+POP b1_1
+POP a1_1
 PUSH BX
 PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
-CMP AX, 1
-JE L1
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -1400,18 +1559,13 @@ MOV AX, temp0
 CMP AX, 1
 JNE L5
  
-MOV AX, x1_1
+MOV AX, a1_1
 
 JMP L3
 JMP L6
 L5:
  
- 
-MOV AX, x1_1
-ADD AX, 1
-MOV temp1, AX
-
-MOV AX, temp1
+MOV AX, b1_1
 
 JMP L4
 L6:
@@ -1422,7 +1576,7 @@ POP CX
 POP BX
 PUSH return_loc
 RET
-factorial ENDP
+maxnum ENDP
 
 
 MAIN PROC 
@@ -1433,20 +1587,26 @@ MOV DS,AX
  
  
  
-MOV AX, 5
-MOV a1_2, AX 
+MOV AX, 10
+MOV x1_2, AX 
+
+ 
+ 
+MOV AX, 20
+MOV y1_2, AX 
 
  
  
 PUSH return_loc
-PUSH a1_2
-CALL factorial
+PUSH x1_2
+PUSH y1_2
+CALL maxnum
 POP return_loc
 MOV AX, AX
-MOV b1_2, AX 
+MOV max1_2, AX 
 
 
-MOV AX, b1_2
+MOV AX, max1_2
 CALL OUTDEC
 
 MOV AH, 4CH
@@ -1457,5 +1617,5 @@ MAIN ENDP
 
 ------------------
 
-Total lines: 14
+Total lines: 16
 Total errors: 0
