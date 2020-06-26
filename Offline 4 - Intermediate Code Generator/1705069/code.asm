@@ -2,29 +2,46 @@
 .STACK 100H 
 .DATA
 
-a1_1 DW ?
-b1_1 DW ?
+n1_1 DW ?
+i1_1 DW ?
+fact1_1 DW ?
 temp0 DW ?
-x1_2 DW ?
-y1_2 DW ?
-max1_2 DW ?
+temp1 DW ?
 return_loc DW ?
 
 .CODE
-maxnum PROC
+fact PROC
 
 POP return_loc
-POP b1_1
-POP a1_1
+POP n1_1
 PUSH BX
 PUSH CX
 PUSH DX
 
  
  
-MOV AX, a1_1
-CMP AX, b1_1
-JGE L1
+ 
+MOV AX, 1
+MOV fact1_1, AX 
+
+ 
+ 
+MOV AX, fact1_1
+MOV i1_1, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 1
+MOV i1_1, AX 
+
+L3:
+ 
+ 
+MOV AX, i1_1
+CMP AX, n1_1
+JLE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -32,27 +49,39 @@ MOV temp0, 1
 L2: 
 
 MOV AX, temp0
-CMP AX, 1
-JNE L5
+CMP AX, 0
+JE L4
  
-MOV AX, a1_1
+ 
+ 
+ 
+MOV AX, fact1_1
+MOV BX, i1_1
+IMUL BX
+MOV temp1, AX
+
+MOV AX, temp1
+MOV fact1_1, AX 
+
+
+MOV AX, fact1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
 
 JMP L3
-JMP L6
-L5:
- 
-MOV AX, b1_1
-
-JMP L4
-L6:
-
-L4: 
+L4:
+;for loop end
+L0: 
 POP DX
 POP CX
 POP BX
 PUSH return_loc
 RET
-maxnum ENDP
+fact ENDP
 
 
 MAIN PROC 
@@ -61,30 +90,10 @@ MOV AX,@DATA
 MOV DS,AX
 
  
- 
- 
-MOV AX, 10
-MOV x1_2, AX 
-
- 
- 
-MOV AX, 20
-MOV y1_2, AX 
-
- 
- 
 PUSH return_loc
-PUSH x1_2
-PUSH y1_2
-CALL maxnum
+PUSH 10
+CALL fact
 POP return_loc
-MOV AX, AX
-MOV max1_2, AX 
-
-
-MOV AX, max1_2
-CALL OUTDEC
-
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
