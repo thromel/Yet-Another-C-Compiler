@@ -2,7 +2,6 @@
 #define ASMUTILS
 
 #include<stack>
-#include<set>
 #include<fstream>
 
 extern vector<string> asmVarList;
@@ -15,7 +14,6 @@ class VarManager {
     int size = 0;
 
     stack<string> free;
-    set<string> used;
 
 public:
     string getTempVar(){
@@ -23,7 +21,6 @@ public:
         if (free.empty()){
             tempVar = "temp"+to_string(size);
             size++;
-            used.insert(tempVar);
             asmVarList.push_back(tempVar);
         } else {
             tempVar = free.top();
@@ -34,7 +31,6 @@ public:
 
     void freeTempVar(string tempVar){
         if (tempVar.substr(0, 4) == "temp"){
-            used.erase(tempVar);
             free.push(tempVar);
         }
     }

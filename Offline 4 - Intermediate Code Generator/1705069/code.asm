@@ -3,15 +3,90 @@
 .DATA
 
 a1_1 DW ?
-b1_1 DW ?
 temp0 DW ?
 temp1 DW ?
+a1_2 DW ?
+b1_2 DW ?
+x1_2 DW ?
 temp2 DW ?
 temp3 DW ?
+a1_3 DW ?
+b1_3 DW ?
+temp4 DW ?
 return_loc DW ?
-c1_1 DW 3 DUP (?)
 
 .CODE
+f PROC
+
+POP return_loc
+POP a1_1
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+MOV AX, 2
+MOV BX, a1_1
+IMUL BX
+MOV temp0, AX
+
+MOV AX, temp0
+
+MOV temp1, AX
+JMP L0
+ 
+ 
+MOV AX, 9
+MOV a1_1, AX 
+
+L0: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+f ENDP
+
+
+g PROC
+
+POP return_loc
+POP b1_2
+POP a1_2
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+PUSH a1_2
+CALL f
+ 
+ 
+MOV AX, temp2
+ADD AX, b1_2
+MOV temp3, AX
+
+MOV AX, temp3
+MOV x1_2, AX 
+
+ 
+MOV AX, x1_2
+
+MOV temp3, AX
+JMP L1
+L1: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+g ENDP
+
+
 MAIN PROC 
 
 MOV AX,@DATA
@@ -20,92 +95,31 @@ MOV DS,AX
  
  
  
- 
- 
+MOV AX, 1
+MOV a1_3, AX 
+
  
  
 MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
+MOV b1_3, AX 
 
  
-MOV AX, temp1
-MOV BX, 3
+ 
+PUSH a1_3
+PUSH b1_3
+CALL g
 MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
+MOV a1_3, AX 
 
-MOV AX, temp2
-MOV a1_1, AX 
 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
-MOV SI, 0
+MOV AX, a1_3
+CALL OUTDEC
 
  
-MOV AX, 2
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
 MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[SI]
-MOV temp3, AX
-INC AX
-MOV c1_1[SI], AX
 
-JMP L5
-L4:
-MOV SI, 1
-
-MOV SI, 0
-
-MOV AX, c1_1[SI]
-MOV c1_1[SI], AX 
-
-L5:
-
-
-MOV AX, a1_1
-CALL OUTDEC
-
-
-MOV AX, b1_1
-CALL OUTDEC
-
+MOV temp4, AX
+JMP 
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
