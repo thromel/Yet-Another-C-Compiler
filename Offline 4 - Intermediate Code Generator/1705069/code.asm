@@ -2,89 +2,60 @@
 .STACK 100H 
 .DATA
 
-a1_1 DW ?
+x1_1 DW ?
 temp0 DW ?
 temp1 DW ?
 a1_2 DW ?
 b1_2 DW ?
-x1_2 DW ?
-temp2 DW ?
-temp3 DW ?
-a1_3 DW ?
-b1_3 DW ?
-temp4 DW ?
 return_loc DW ?
 
 .CODE
-f PROC
+factorial PROC
 
 POP return_loc
-POP a1_1
+POP x1_1
 PUSH BX
 PUSH CX
 PUSH DX
 
  
  
- 
-MOV AX, 2
-MOV BX, a1_1
-IMUL BX
-MOV temp0, AX
+MOV AX, x1_1
+CMP AX, 1
+JE L1
+MOV temp0, 0
+JMP L2
+L1: 
+MOV temp0, 1
+L2: 
 
 MOV AX, temp0
+CMP AX, 1
+JNE L5
+ 
+MOV AX, x1_1
 
+JMP L3
+JMP L6
+L5:
+ 
+ 
+MOV AX, x1_1
+ADD AX, 1
 MOV temp1, AX
-JMP L0
- 
- 
-MOV AX, 9
-MOV a1_1, AX 
 
-L0: 
+MOV AX, temp1
+
+JMP L4
+L6:
+
+L4: 
 POP DX
 POP CX
 POP BX
 PUSH return_loc
 RET
-f ENDP
-
-
-g PROC
-
-POP return_loc
-POP b1_2
-POP a1_2
-PUSH BX
-PUSH CX
-PUSH DX
-
- 
- 
- 
-PUSH a1_2
-CALL f
- 
- 
-MOV AX, temp2
-ADD AX, b1_2
-MOV temp3, AX
-
-MOV AX, temp3
-MOV x1_2, AX 
-
- 
-MOV AX, x1_2
-
-MOV temp3, AX
-JMP L1
-L1: 
-POP DX
-POP CX
-POP BX
-PUSH return_loc
-RET
-g ENDP
+factorial ENDP
 
 
 MAIN PROC 
@@ -95,31 +66,22 @@ MOV DS,AX
  
  
  
-MOV AX, 1
-MOV a1_3, AX 
+MOV AX, 5
+MOV a1_2, AX 
 
  
  
-MOV AX, 2
-MOV b1_3, AX 
-
- 
- 
-PUSH a1_3
-PUSH b1_3
-CALL g
+PUSH return_loc
+PUSH a1_2
+CALL factorial
+POP return_loc
 MOV AX, AX
-MOV a1_3, AX 
+MOV b1_2, AX 
 
 
-MOV AX, a1_3
+MOV AX, b1_2
 CALL OUTDEC
 
- 
-MOV AX, 0
-
-MOV temp4, AX
-JMP 
 MOV AH, 4CH
 INT 21H
 MAIN ENDP

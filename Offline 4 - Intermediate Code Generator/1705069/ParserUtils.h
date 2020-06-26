@@ -96,7 +96,6 @@ bool insertSymbol(SymbolInfo *sym)
 
 void enterScope(){
     st.enterScope();
-    // cout<<currentFunction<<endl;
     if (currentFunction != ""){
         SymbolInfo *funcVal = st.lookup(currentFunction);
         for(param p : paramList){
@@ -128,7 +127,7 @@ void enterScope(){
 
 void exitScope()
 {
-    currentFunction = "";
+    // currentFunction = "";
     st.printAll();
     st.exitScope();
     
@@ -455,8 +454,7 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                         result->setIntValue(sym1->getIntValue()+sym2->getIntValue());
                 
                         //asm
-                        result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" + 
-                        "MOV AX, " + sym1->getAsmVar() + "\nADD AX, " + sym2->getAsmVar() + 
+                        result->addCode("MOV AX, " + sym1->getAsmVar() + "\nADD AX, " + sym2->getAsmVar() + 
                         "\nMOV " + result->getAsmVar() + ", AX\n");
                     } else {
                         result->setFloatValue(sym1->getIntValue()+sym2->getFloatValue());
@@ -478,8 +476,7 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                 } else if (sym1->getVarType() == "INT"){
                     if (sym2->getVarType() == "INT"){
                         result->setIntValue(sym1->getIntValue()-sym2->getIntValue());
-                        result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" + 
-                        "MOV AX, " + sym1->getAsmVar() + "\nSUB AX, " + sym2->getAsmVar() + 
+                        result->addCode("MOV AX, " + sym1->getAsmVar() + "\nSUB AX, " + sym2->getAsmVar() + 
                         "\nMOV " + result->getAsmVar() + ", AX\n");
                     } else {
                         result->setFloatValue(sym1->getIntValue()-sym2->getFloatValue());
@@ -489,6 +486,13 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
         }
     }
     result->setName(sym1->getName() + ADDOP + sym2->getName());
+
+    // cout<<"--------------"<<endl;
+    // cout<<sym1->getCode()<<"--"<<sym1->getName()<<endl;
+    // cout<<sym2->getCode()<<"--"<<sym2->getName()<<endl;
+    // cout<<"resultCode:\n"<<result->getCode()<<endl;
+    // cout<<"asmTempVar = "<<asmTempVar<<endl;
+    // cout<<"--------------"<<endl;
     return result;
 }
 
@@ -749,6 +753,8 @@ SymbolInfo* handle_LOGICOP(SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
 
         }
 
+        vm.freeTempVar(leftAsmVar);
+        vm.freeTempVar(rightAsmVar);
         
         
     } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT"){
@@ -764,6 +770,7 @@ SymbolInfo* handle_LOGICOP(SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
 
     result->setIntValue(resultValue);
     result->setName(sym1->getName()+logicOp+sym2->getName());
+    
     return result;
 }
 
@@ -785,7 +792,9 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
         printError(funcVal->getName() + " argument number mismatch");
         argTypeList.clear();
     } else {
+        sym->addCode("PUSH return_loc");
         for(int i = 0; i < func->paramSymList.size(); i++){
+            
             if (func->paramSymList[i]->getVarType() != argTypeList[i]){
                 printError(funcVal->getName() + " argument type mismatch for" + func->paramSymList[i]->getName());
                 argTypeList.clear();
@@ -797,10 +806,12 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
         asmArgList.clear();
 
     }
-    string asmTempVar = vm.getTempVar();
+    
     sym->addCode("CALL " + funcVal->getName());
-    sym->addCode("POP " + asmTempVar);
-    sym->setAsmVar(asmTempVar);
+    sym->addCode("POP return_loc");
+    sym->setAsmVar("AX");
+    sym->setIdType("VARIABLE");
+    sym->setVarType("INT"); //This is a kamla way-around, must be modified later
     argTypeList.clear();
     return sym;
     
@@ -911,6 +922,7 @@ SymbolInfo *handle_if_else(SymbolInfo *exp, SymbolInfo *ifstmnt, SymbolInfo *els
     result->addCode(label1 + ":");
     result->addCode(elsestmnt->getCode());
     result->addCode(label2 + ":\n");
+    vm.freeTempVar(exp->getAsmVar());
 
     return result;
 }
@@ -926,7 +938,7 @@ SymbolInfo *handle_if(SymbolInfo *exp, SymbolInfo *ifstmnt){
     result->addCode("JNE " + label2);
     result->addCode(ifstmnt->getCode());
     result->addCode(label2 + ":\n");
-
+    vm.freeTempVar(exp->getAsmVar());
     return result;
 
 }
@@ -980,13 +992,19 @@ SymbolInfo *handle_while(SymbolInfo *condition, SymbolInfo *statement){
 
 SymbolInfo *handle_return(SymbolInfo *expr){
     SymbolInfo *sym = new SymbolInfo("return " + expr->getName() + ";", "NON_TERMINAL");
+    if(currentFunction == "") {
+        cout<<"blank\n";
+    }
+
     SymbolInfo *funcVal = st.lookup(currentFunction);
-    string tempAsmVar = vm.getTempVar();
-    sym->setCode(expr->getCode());
-    sym->addCode("MOV AX, " + expr->getAsmVar() + "\n");
-    sym->addCode("MOV " + tempAsmVar + ", AX");
-    sym->addCode("JMP " + funcVal->funcEndLabel);
-    sym->setAsmVar(tempAsmVar);
+    // string tempAsmVar = vm.getTempVar();
+    if (currentFunction != "main"){
+        sym->setCode(expr->getCode());
+        sym->addCode("MOV AX, " + expr->getAsmVar() + "\n");
+        sym->addCode("JMP " + funcVal->funcEndLabel);
+        sym->setAsmVar("AX");
+    }
+    
 
     return sym;
 }
