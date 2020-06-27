@@ -22,9 +22,38 @@ int factorial(int n){
 	return fact;
 }
 
+int fibonacci(int n){
+	int term1, term2, ans, i;
+	term1 = 0;
+	term2 = 1;
+	ans = 1;
+
+	for(i = 0; i < n; i++){
+		term1 = term2;
+		term2 = ans;
+		ans = term1 + term2;
+		printf(ans);
+	}
+	return ans;
+}
 int main(){
-	int x;
-	x = max3(5, 3, 2);
-	x = factorial(x);
-	printf(x);
+	int x[20], i, max;
+	
+	max = 0;
+	i = 6;
+	i = factorial(23%6);
+	printf(i);
+
+	for(i = 0; i <20; i++){
+		x[i] = (i+1)*(i+1);
+	}
+	
+	for(i = 0; i < 20; i++){
+		max = max2(x[i], max);
+	}
+	
+	max = max/20;
+
+	max = fibonacci(10);	
+	printf(max);
 }
