@@ -1,29 +1,19 @@
-int max2(int a, int b) {
-  if (a >= b) {
-    return a;
-  } else {
-    return b;
-  }
+int f(int a) {
+  return 2 * a;
+  a = 9;
 }
 
-int max3(int a, int b, int c) {
-  int maxab;
-  maxab = max2(a, b);
-  return max2(c, maxab);
-}
-
-int max4(int a, int b, int c, int d) {
-  int maxabc;
-  maxabc = max3(a, b, c);
-  return max2(maxabc, d);
+int g(int a, int b) {
+  int x;
+  x = f(a) + a + b;
+  return x;
 }
 
 int main() {
-  int a, b, c, d, max;
-  a = 20 * 1;
-  b = 69 + 0;
-  c = 1;
-  d = 35;
-  max = max4(a, b, c, d);
-  printf(max);
+  int a, b;
+  a = 1;
+  b = 2;
+  a = g(a, b);
+  println(a);
+  return 0;
 }

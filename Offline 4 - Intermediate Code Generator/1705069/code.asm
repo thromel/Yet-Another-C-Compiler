@@ -3,29 +3,20 @@
 .DATA
 
 a1_1 DW ?
-b1_1 DW ?
 temp0 DW ?
 a1_2 DW ?
 b1_2 DW ?
-c1_2 DW ?
-maxab1_2 DW ?
+x1_2 DW ?
+temp1 DW ?
+temp2 DW ?
 a1_3 DW ?
 b1_3 DW ?
-c1_3 DW ?
-d1_3 DW ?
-maxabc1_3 DW ?
-a1_4 DW ?
-b1_4 DW ?
-c1_4 DW ?
-d1_4 DW ?
-max1_4 DW ?
 return_loc DW ?
 
 .CODE
-max2 PROC
+f PROC
 
 POP return_loc
-POP b1_1
 POP a1_1
 PUSH BX
 PUSH CX
@@ -33,29 +24,19 @@ PUSH DX
 
  
  
-MOV AX, a1_1
-CMP AX, b1_1
-JGE L1
-MOV temp0, 0
-JMP L2
-L1: 
-MOV temp0, 1
-L2: 
+ 
+MOV AX, 2
+MOV BX, a1_1
+IMUL BX
+MOV temp0, AX
 
 MOV AX, temp0
-CMP AX, 1
-JNE L3
- 
-MOV AX, a1_1
 
 JMP L0
-JMP L4
-L3:
  
-MOV AX, b1_1
-
-JMP L0
-L4:
+ 
+MOV AX, 9
+MOV a1_1, AX 
 
 L0: 
 POP DX
@@ -63,13 +44,12 @@ POP CX
 POP BX
 PUSH return_loc
 RET
-max2 ENDP
+f ENDP
 
 
-max3 PROC
+g PROC
 
 POP return_loc
-POP c1_2
 POP b1_2
 POP a1_2
 PUSH BX
@@ -81,69 +61,32 @@ PUSH DX
  
 PUSH return_loc
 PUSH a1_2
-PUSH b1_2
-CALL max2
+CALL f
 POP return_loc
+ 
 MOV AX, AX
-MOV maxab1_2, AX 
+ADD AX, a1_2
+MOV temp1, AX
 
  
-PUSH return_loc
-PUSH c1_2
-PUSH maxab1_2
-CALL max2
-POP return_loc
-MOV AX, AX
+MOV AX, temp1
+ADD AX, b1_2
+MOV temp2, AX
 
-JMP L5
-L5: 
+MOV AX, temp2
+MOV x1_2, AX 
+
+ 
+MOV AX, x1_2
+
+JMP L1
+L1: 
 POP DX
 POP CX
 POP BX
 PUSH return_loc
 RET
-max3 ENDP
-
-
-max4 PROC
-
-POP return_loc
-POP d1_3
-POP c1_3
-POP b1_3
-POP a1_3
-PUSH BX
-PUSH CX
-PUSH DX
-
- 
- 
- 
-PUSH return_loc
-PUSH a1_3
-PUSH b1_3
-PUSH c1_3
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV maxabc1_3, AX 
-
- 
-PUSH return_loc
-PUSH maxabc1_3
-PUSH d1_3
-CALL max2
-POP return_loc
-MOV AX, AX
-
-JMP L6
-L6: 
-POP DX
-POP CX
-POP BX
-PUSH return_loc
-RET
-max4 ENDP
+g ENDP
 
 
 MAIN PROC 
@@ -154,52 +97,29 @@ MOV DS,AX
  
  
  
- 
- 
-MOV AX, 20
-MOV BX, 1
-IMUL BX
-MOV temp0, AX
-
-MOV AX, temp0
-MOV a1_4, AX 
-
- 
- 
- 
-MOV AX, 69
-ADD AX, 0
-MOV temp0, AX
-
-MOV AX, temp0
-MOV b1_4, AX 
-
- 
- 
 MOV AX, 1
-MOV c1_4, AX 
+MOV a1_3, AX 
 
  
  
-MOV AX, 35
-MOV d1_4, AX 
+MOV AX, 2
+MOV b1_3, AX 
 
  
  
 PUSH return_loc
-PUSH a1_4
-PUSH b1_4
-PUSH c1_4
-PUSH d1_4
-CALL max4
+PUSH a1_3
+PUSH b1_3
+CALL g
 POP return_loc
 MOV AX, AX
-MOV max1_4, AX 
+MOV a1_3, AX 
 
 
-MOV AX, max1_4
+MOV AX, a1_3
 CALL OUTDEC
 
+ 
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
