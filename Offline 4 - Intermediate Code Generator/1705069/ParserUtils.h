@@ -10,7 +10,7 @@
 #include <vector>
 using namespace std;
 
-ofstream log, error, code;
+ofstream log, error, code, optimized;
 
 extern int line_count;
 int error_count = 0;

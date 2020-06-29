@@ -1192,7 +1192,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 #line 124 "1705069.l"
-{log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<error_count<<endl; log.close(); return 0;}
+{log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<error_count<<endl; return 0;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP

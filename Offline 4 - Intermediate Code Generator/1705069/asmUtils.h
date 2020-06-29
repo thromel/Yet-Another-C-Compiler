@@ -2,14 +2,20 @@
 #define ASMUTILS
 
 #include "SymbolTable/SymbolInfo.h"
+#include <algorithm>
 #include <fstream>
+#include <regex>
 #include <stack>
 #include <string>
+
 extern vector<string> asmVarList;
 extern vector<pair<string, int>> asmArrList;
-extern ofstream code;
+extern ofstream code, optimized, log;
 using namespace std;
 int label_count = 0;
+
+string prevMovLhs = "", prevMovRhs = "";
+string BXval = "";
 
 class VarManager {
   int size = 0;
@@ -78,6 +84,95 @@ inline void addPrintFunc() {
   string line;
   while (std::getline(srcFile, line, '.'))
     code << line << '\n';
+  srcFile.close();
+}
+
+inline vector<string> split(const string &str, const string &delim) {
+  vector<string> tokens;
+  size_t prev = 0, pos = 0;
+  do {
+    pos = str.find(delim, prev);
+    if (pos == string::npos)
+      pos = str.length();
+    string token = str.substr(prev, pos - prev);
+    if (!token.empty())
+      tokens.push_back(token);
+    prev = pos + delim.length();
+  } while (pos < str.length() && prev < str.length());
+  return tokens;
+}
+
+inline bool optimize_mov(string inst) {
+  inst.erase(std::remove(inst.begin(), inst.end(), ','), inst.end());
+  vector<string> tokens = split(inst, " ");
+  if (tokens.size() == 3 && tokens[0] == "MOV") {
+    // cout << "MOV operation: " << tokens[1] << " " << tokens[2] << endl;
+
+    string movLhs = tokens[1];
+    string movRhs = tokens[2];
+
+    if (movLhs == prevMovRhs && movRhs == prevMovLhs) {
+      return true;
+    } else if (movLhs == "BX") {
+      BXval = movRhs;
+    }
+
+    prevMovLhs = movLhs;
+    prevMovRhs = movRhs;
+  }
+  return false;
+}
+
+inline bool optimize_arithmetic(string inst) {
+  inst.erase(std::remove(inst.begin(), inst.end(), ','), inst.end());
+  vector<string> tokens = split(inst, " ");
+
+  if (tokens.size() == 3 && (tokens[0] == "ADD" || tokens[0] == "SUB") &&
+      tokens[2] == "0") {
+    return true;
+  } else if (tokens.size() == 2 &&
+             (tokens[0] == "IMUL" || tokens[0] == "IDIV") && BXval == "1") {
+    return true;
+  }
+
+  return false;
+}
+
+inline void optimize() {
+  ifstream srcFile("code.asm");
+  string line;
+  int line_count = 0, line_removed = 0;
+  vector<string> lines;
+  while (std::getline(srcFile, line, '\n')) {
+    lines.push_back(line);
+  }
+
+  log << "-------------------------------------" << endl;
+  log << "Optimizer log: " << endl;
+
+  for (string s : lines) {
+    line_count++;
+    if (s == " ") {
+      log << "Removed blank line : " << line_count << endl;
+      line_removed++;
+    } else if (s == "MOV AX, AX") {
+      log << "Optimized redundant reg to reg assignment: " << line_count
+          << endl;
+      line_removed++;
+    } else if (optimize_mov(s)) {
+      log << "Optimized redundant MOV operation: " << line_count << endl;
+      line_removed++;
+    } else if (optimize_arithmetic(s)) {
+      log << "Optimized redundant arithmetic operation : " << line_count
+          << endl;
+      line_removed++;
+    } else {
+      optimized << s << endl;
+    }
+  }
+  log << "Line removed:" << line_removed << endl;
+  log << "-------------------------------------" << endl;
+  optimized << "END MAIN" << endl;
   srcFile.close();
 }
 
