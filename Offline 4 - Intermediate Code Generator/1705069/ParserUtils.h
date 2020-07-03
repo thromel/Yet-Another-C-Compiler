@@ -305,7 +305,11 @@ inline SymbolInfo *getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index) {
                    "]");
       var->setReal(arrIdxVar);
     }
-    var->setCode("MOV SI, " + index->getAsmVar() + "\n");
+
+    var->addCode("MOV AX, " + index->getAsmVar());
+    var->addCode("MOV BX, 2");
+    var->addCode("IMUL BX");
+    var->addCode("MOV SI, AX");
     var->setAsmVar(arrIdxVar->getAsmVar() + "[SI]");
   }
   return var;
