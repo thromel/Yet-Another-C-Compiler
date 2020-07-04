@@ -107,8 +107,11 @@ inline void enterScope() {
   }
 }
 
-void exitScope() {
+inline void exitScope() {
   // currentFunction = "";
+  // for (string s : asmVarList) {
+  //   vm.freeTempVar(s);
+  // }
   st.printAll();
   st.exitScope();
 }
@@ -282,6 +285,8 @@ inline SymbolInfo *getConstVal(SymbolInfo *val, string varType) {
   return val;
 }
 
+bool SIorBX = false;
+
 inline SymbolInfo *getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index) {
   SymbolInfo *arrIdxVar = st.lookup(arr->getName());
   SymbolInfo *var;
@@ -306,11 +311,17 @@ inline SymbolInfo *getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index) {
       var->setReal(arrIdxVar);
     }
 
-    var->addCode("MOV AX, " + index->getAsmVar());
-    var->addCode("MOV BX, 2");
-    var->addCode("IMUL BX");
-    var->addCode("MOV SI, AX");
-    var->setAsmVar(arrIdxVar->getAsmVar() + "[SI]");
+    var->addCode("MOV BX, " + index->getAsmVar());
+    var->addCode("SHL BX, 1");
+    var->arrAsmVar = arrIdxVar->getAsmVar();
+    if (SIorBX) {
+      var->addCode("MOV SI, BX");
+      var->setAsmVar(arrIdxVar->getAsmVar() + "[SI]");
+    } else {
+      var->setAsmVar(arrIdxVar->getAsmVar() + "[BX]");
+    }
+
+    SIorBX = !SIorBX;
   }
   return var;
 }
@@ -345,17 +356,20 @@ inline SymbolInfo *handle_assign(SymbolInfo *sym1, SymbolInfo *sym2) {
 
   // asm part
   if (sym2->getIsConst()) {
-    result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
+    result->addCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
                     constToMem(sym1, sym2));
-  } else
-    result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
+  } else if (sym1->isArray()) {
+    result->addCode(sym2->getCode());
+    result->addCode(sym1->getCode());
+    result->addCode(memToMem(sym1, sym2));
+  } else {
+    result->addCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
                     memToMem(sym1, sym2));
+  }
 
   result->setAsmVar(sym1->getAsmVar());
 
-  if (sym2->getAsmVar().substr(0, 4) == "temp") {
-    vm.freeTempVar(sym2->getAsmVar());
-  }
+  vm.freeTempVar(sym2->getAsmVar());
   //
 
   return result;
