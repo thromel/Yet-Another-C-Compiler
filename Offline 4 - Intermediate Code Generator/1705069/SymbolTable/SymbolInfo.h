@@ -45,6 +45,7 @@ public:
 
   string funcEndLabel = "";
   string arrAsmVar = "";
+  bool isFunctionCall = false;
 
   void addParam(string name, string type) {
     SymbolInfo *sym = new SymbolInfo(name, "ID");
@@ -85,6 +86,7 @@ public:
     this->asmVar = symbolInfo.asmVar;
     this->isConst = symbolInfo.isConst;
     this->paramSymList = symbolInfo.paramSymList;
+    this->isFunctionCall = symbolInfo.isFunctionCall;
   }
 
   void setFuncDefined(bool funcDefined) { this->funcDefined = funcDefined; }
