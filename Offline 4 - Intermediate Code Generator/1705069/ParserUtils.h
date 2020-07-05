@@ -883,7 +883,9 @@ inline SymbolInfo *handle_unary_ADDOP(SymbolInfo *op, SymbolInfo *sym) {
   return operand;
 }
 
-inline SymbolInfo *handle_NOT(SymbolInfo *sym) {
+inline SymbolInfo *handle_NOT(SymbolInfo *symbol) {
+  SymbolInfo *sym = new SymbolInfo(*symbol);
+
   if (sym->getIdType() != "VARIABLE") {
     printError(sym->getName() + " is not an expression");
     return nullSym();
