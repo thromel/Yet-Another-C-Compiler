@@ -17,7 +17,7 @@ int
 Line no: 1 parameter_list : type_specifier ID
 
 ------------------
-int x
+int n
 
  
 
@@ -27,7 +27,7 @@ New ScopeTable #1_1 created
 Line no: 2 variable : ID
 
 ------------------
-x
+n
 
  
 
@@ -35,7 +35,7 @@ x
 Line no: 2 factor : variable
 
 ------------------
-x
+n
 
  
 
@@ -43,7 +43,7 @@ x
 Line no: 2 unary_expression : factor
 
 ------------------
-x
+n
 
  
 
@@ -51,7 +51,7 @@ x
 Line no: 2 term : unary_expression
 
 ------------------
-x
+n
 
  
 
@@ -59,7 +59,7 @@ x
 Line no: 2 simple_expression : term
 
 ------------------
-x
+n
 
  
 
@@ -99,13 +99,13 @@ Line no: 2 simple_expression : term
 Line no: 2 rel_expression : simple_expression RELOP simple_expression
 
 ------------------
-x>0
+n==0
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -117,13 +117,13 @@ L2:
 Line no: 2 logic_expression : rel_expression
 
 ------------------
-x>0
+n==0
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -135,59 +135,19 @@ L2:
 Line no: 2 expression : logic_expression
 
 ------------------
-x>0
+n==0
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
 MOV temp0, 1
 L2: 
 
-
-------------------
-Line no: 3 variable : ID
-
-------------------
-x
-
- 
-
-------------------
-Line no: 3 factor : variable
-
-------------------
-x
-
- 
-
-------------------
-Line no: 3 unary_expression : factor
-
-------------------
-x
-
- 
-
-------------------
-Line no: 3 term : unary_expression
-
-------------------
-x
-
- 
-
-------------------
-Line no: 3 simple_expression : term
-
-------------------
-x
-
- 
 
 ------------------
 Line no: 3 factor : CONST_INT
@@ -214,261 +174,59 @@ Line no: 3 term : unary_expression
  
 
 ------------------
-Line no: 3 simple expression : simple_expression ADDOP term
-
-------------------
-x-1
-
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-
-------------------
-Line no: 3 rel_expression : simple_expression
-
-------------------
-x-1
-
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-
-------------------
-Line no: 3 logic_expression : rel_expression
-
-------------------
-x-1
-
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-
-------------------
-Line no: 3 arguments : logic_expression
-
-------------------
-x-1
-
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-
-------------------
-Line no: 3 argument_list : arguments
-
-------------------
-x-1
-
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-
-------------------
-Line no: 3 factor : ID LPAREN argument_list RPAREN
-
-------------------
-rec(x-1)
-
- 
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
-
-------------------
-Line no: 3 unary_expression : factor
-
-------------------
-rec(x-1)
-
- 
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
-
-------------------
-Line no: 3 term : unary_expression
-
-------------------
-rec(x-1)
-
- 
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
-
-------------------
 Line no: 3 simple_expression : term
 
 ------------------
-rec(x-1)
+1
 
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
 
 ------------------
 Line no: 3 rel_expression : simple_expression
 
 ------------------
-rec(x-1)
+1
 
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
 
 ------------------
 Line no: 3 logic_expression : rel_expression
 
 ------------------
-rec(x-1)
+1
 
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
 
 ------------------
 Line no: 3 expression : logic_expression
 
 ------------------
-rec(x-1)
+1
 
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
 
 ------------------
-Line no: 3 expression_statement : expression SEMICOLON
+Line no: 3 RETURN expression SEMICOLON
 
 ------------------
-rec(x-1);
+return 1;
 
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
-
-------------------
-Line no: 3 statement : expression_statement
-
-------------------
-rec(x-1);
-
- 
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
-
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 
 ------------------
 Line no: 4 IF LPAREN expression RPAREN statement
 
 ------------------
-if(x>0)rec(x-1);
+if(n==0)return 1;
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -479,18 +237,9 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
 
@@ -498,13 +247,13 @@ L3:
 Line no: 4 statements : statement
 
 ------------------
-if(x>0)rec(x-1);
+if(n==0)return 1;
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -515,42 +264,406 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
 
 ------------------
-Line no: 4 PRINTLN LPAREN ID RPAREN SEMICOLON
+Line no: 4 variable : ID
 
 ------------------
-printf(x);
+n
 
  
 
 ------------------
--1
+Line no: 4 factor : variable
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 unary_expression : factor
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 term : unary_expression
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 variable : ID
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 factor : variable
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 unary_expression : factor
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 term : unary_expression
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 simple_expression : term
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 4 factor : CONST_INT
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 unary_expression : factor
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 term : unary_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 simple expression : simple_expression ADDOP term
+
+------------------
+n-1
+
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+
+------------------
+Line no: 4 rel_expression : simple_expression
+
+------------------
+n-1
+
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+
+------------------
+Line no: 4 logic_expression : rel_expression
+
+------------------
+n-1
+
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+
+------------------
+Line no: 4 arguments : logic_expression
+
+------------------
+n-1
+
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+
+------------------
+Line no: 4 argument_list : arguments
+
+------------------
+n-1
+
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+
+------------------
+Line no: 4 factor : ID LPAREN argument_list RPAREN
+
+------------------
+rec(n-1)
+
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+
+------------------
+Line no: 4 unary_expression : factor
+
+------------------
+rec(n-1)
+
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+
+------------------
+Line no: 4 term : term MULOP unary_expression
+
+------------------
+n*rec(n-1)
+
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
+
+
+------------------
+Line no: 4 simple_expression : term
+
+------------------
+n*rec(n-1)
+
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
+
+
+------------------
+Line no: 4 rel_expression : simple_expression
+
+------------------
+n*rec(n-1)
+
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
+
+
+------------------
+Line no: 4 logic_expression : rel_expression
+
+------------------
+n*rec(n-1)
+
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
+
+
+------------------
+Line no: 4 expression : logic_expression
+
+------------------
+n*rec(n-1)
+
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
+
+
+------------------
+Line no: 4 RETURN expression SEMICOLON
+
+------------------
+return n*rec(n-1);
+
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
+
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
+
+MOV CX, temp0
+
+JMP L0
+
+------------------
 Line no: 4 statements : statements statement
 
 ------------------
-if(x>0)rec(x-1);
-printf(x);
+if(n==0)return 1;
+return n*rec(n-1);
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -561,40 +674,52 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
 
-MOV AX, x1_1
-CALL OUTDEC
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
 
+MOV CX, temp0
+
+JMP L0
 
 ------------------
 Line no: 5 compound_statement : LCURL statements RCURL
 
 ------------------
 {
-if(x>0)rec(x-1);
-printf(x);
+if(n==0)return 1;
+return n*rec(n-1);
 }
 
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -605,54 +730,65 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
 
-MOV AX, x1_1
-CALL OUTDEC
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
 
+MOV CX, temp0
+
+JMP L0
 
 ------------------
 
 ScopeTable #1_1
-1 --> <x: ID> 
+5 --> <n: ID> 
 
 ScopeTable #1
 6 --> <rec: ID> 
 Line no: 5 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 
 ------------------
-int rec ( int x ) {
-if(x>0)rec(x-1);
-printf(x);
+int rec ( int n ) {
+if(n==0)return 1;
+return n*rec(n-1);
 }
 
 
 rec PROC
 
 POP return_loc
-POP x1_1
+POP n1_1
 PUSH BX
-PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -663,27 +799,38 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
 
-MOV AX, x1_1
-CALL OUTDEC
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
 
+MOV CX, temp0
+
+JMP L0
 L0: 
 POP DX
-POP CX
 POP BX
 PUSH return_loc
 RET
@@ -695,25 +842,24 @@ rec ENDP
 Line no: 5 unit : func_definition
 
 ------------------
-int rec ( int x ) {
-if(x>0)rec(x-1);
-printf(x);
+int rec ( int n ) {
+if(n==0)return 1;
+return n*rec(n-1);
 }
 
 
 rec PROC
 
 POP return_loc
-POP x1_1
+POP n1_1
 PUSH BX
-PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -724,27 +870,38 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
 
-MOV AX, x1_1
-CALL OUTDEC
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
 
+MOV CX, temp0
+
+JMP L0
 L0: 
 POP DX
-POP CX
 POP BX
 PUSH return_loc
 RET
@@ -756,25 +913,24 @@ rec ENDP
 Line no: 5 program : unit
 
 ------------------
-int rec ( int x ) {
-if(x>0)rec(x-1);
-printf(x);
+int rec ( int n ) {
+if(n==0)return 1;
+return n*rec(n-1);
 }
 
 
 rec PROC
 
 POP return_loc
-POP x1_1
+POP n1_1
 PUSH BX
-PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -785,27 +941,38 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
 
-MOV AX, x1_1
-CALL OUTDEC
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
 
+MOV CX, temp0
+
+JMP L0
 L0: 
 POP DX
-POP CX
 POP BX
 PUSH return_loc
 RET
@@ -827,326 +994,490 @@ int
 ------------------
 
 New ScopeTable #1_2 created
-Line no: 7 factor : CONST_INT
+Line no: 8 type_specifier	: INT
 
 ------------------
-5
+int
 
  
 
 ------------------
-Line no: 7 unary_expression : factor
+Line no: 8 declaration_list : ID
 
 ------------------
-5
+x
 
  
 
 ------------------
-Line no: 7 term : unary_expression
+Line no: 8 var_declaration : type_specifier declaration_list SEMICOLON
 
 ------------------
-5
+int x;
 
  
 
 ------------------
-Line no: 7 simple_expression : term
+Line no: 8 statement : var_declaration
 
 ------------------
-5
+int x;
 
  
 
 ------------------
-Line no: 7 rel_expression : simple_expression
+Line no: 8 statements : statement
 
 ------------------
-5
+int x;
 
  
 
 ------------------
-Line no: 7 logic_expression : rel_expression
+Line no: 9 variable : ID
 
 ------------------
-5
+x
 
  
 
 ------------------
-Line no: 7 arguments : logic_expression
+Line no: 9 factor : CONST_INT
 
 ------------------
-5
+7
 
  
 
 ------------------
-Line no: 7 argument_list : arguments
+Line no: 9 unary_expression : factor
 
 ------------------
-5
+7
 
  
 
 ------------------
-Line no: 7 factor : ID LPAREN argument_list RPAREN
+Line no: 9 term : unary_expression
 
 ------------------
-rec(5)
+7
 
  
-PUSH x1_1
+
+------------------
+Line no: 9 simple_expression : term
+
+------------------
+7
+
  
+
+------------------
+Line no: 9 rel_expression : simple_expression
+
+------------------
+7
+
+ 
+
+------------------
+Line no: 9 logic_expression : rel_expression
+
+------------------
+7
+
+ 
+
+------------------
+Line no: 9 arguments : logic_expression
+
+------------------
+7
+
+ 
+
+------------------
+Line no: 9 argument_list : arguments
+
+------------------
+7
+
+ 
+
+------------------
+Line no: 9 factor : ID LPAREN argument_list RPAREN
+
+------------------
+rec(7)
+
+ 
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
 
 ------------------
-Line no: 7 unary_expression : factor
+Line no: 9 unary_expression : factor
 
 ------------------
-rec(5)
+rec(7)
 
  
-PUSH x1_1
  
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
 
 ------------------
-Line no: 7 term : unary_expression
+Line no: 9 term : unary_expression
 
 ------------------
-rec(5)
+rec(7)
 
  
-PUSH x1_1
  
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
 
 ------------------
-Line no: 7 simple_expression : term
+Line no: 9 simple_expression : term
 
 ------------------
-rec(5)
+rec(7)
 
  
-PUSH x1_1
  
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
 
 ------------------
-Line no: 7 rel_expression : simple_expression
+Line no: 9 rel_expression : simple_expression
 
 ------------------
-rec(5)
+rec(7)
 
  
-PUSH x1_1
  
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
 
 ------------------
-Line no: 7 logic_expression : rel_expression
+Line no: 9 logic_expression : rel_expression
 
 ------------------
-rec(5)
+rec(7)
 
  
-PUSH x1_1
  
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
 
 ------------------
-Line no: 7 expression : logic_expression
+Line no: 9 expression : variable ASSIGNOP logic_expression
 
 ------------------
-rec(5)
+x=rec(7)
 
  
-PUSH x1_1
  
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
 
 ------------------
-Line no: 7 expression_statement : expression SEMICOLON
+Line no: 9 expression_statement : expression SEMICOLON
 
 ------------------
-rec(5);
+x=rec(7);
 
  
-PUSH x1_1
  
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
 
 ------------------
-Line no: 7 statement : expression_statement
+Line no: 9 statement : expression_statement
 
 ------------------
-rec(5);
+x=rec(7);
 
  
-PUSH x1_1
  
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
 
 ------------------
-Line no: 7 statements : statement
+Line no: 9 statements : statements statement
 
 ------------------
-rec(5);
+int x;
+x=rec(7);
 
  
-PUSH x1_1
  
+ 
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
 
 ------------------
-Line no: 7 compound_statement : LCURL statements RCURL
+Line no: 10 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+------------------
+printf(x);
+
+ 
+
+------------------
+-1
+Line no: 10 statements : statements statement
+
+------------------
+int x;
+x=rec(7);
+printf(x);
+
+ 
+ 
+ 
+ 
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH 7
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
+
+MOV AX, x1_2
+CALL OUTDEC
+
+
+------------------
+Line no: 11 compound_statement : LCURL statements RCURL
 
 ------------------
 {
-rec(5);
+int x;
+x=rec(7);
+printf(x);
 }
 
 
  
-PUSH x1_1
  
+ 
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
+
+MOV AX, x1_2
+CALL OUTDEC
+
 
 ------------------
 
 ScopeTable #1_2
+1 --> <x: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
 6 --> <rec: ID> 
-Line no: 7 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line no: 11 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 ------------------
 int main ( ) {
-rec(5);
-}
-
-
-MAIN PROC 
-
-MOV AX,@DATA
-MOV DS,AX
-
- 
-PUSH x1_1
- 
-PUSH return_loc
-PUSH 5
-CALL rec
-POP return_loc
-POP x1_1
-MOV AH, 4CH
-INT 21H
-MAIN ENDP
-
-
-
-------------------
-Line no: 7 unit : func_definition
-
-------------------
-int main ( ) {
-rec(5);
-}
-
-
-MAIN PROC 
-
-MOV AX,@DATA
-MOV DS,AX
-
- 
-PUSH x1_1
- 
-PUSH return_loc
-PUSH 5
-CALL rec
-POP return_loc
-POP x1_1
-MOV AH, 4CH
-INT 21H
-MAIN ENDP
-
-
-
-------------------
-Line no: 7 program : program unit
-
-------------------
-int rec ( int x ) {
-if(x>0)rec(x-1);
+int x;
+x=rec(7);
 printf(x);
 }
 
+
+MAIN PROC 
+
+MOV AX,@DATA
+MOV DS,AX
+
+ 
+ 
+ 
+ 
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH 7
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
+
+MOV AX, x1_2
+CALL OUTDEC
+
+MOV AH, 4CH
+INT 21H
+MAIN ENDP
+
+
+
+------------------
+Line no: 11 unit : func_definition
+
+------------------
 int main ( ) {
-rec(5);
+int x;
+x=rec(7);
+printf(x);
+}
+
+
+MAIN PROC 
+
+MOV AX,@DATA
+MOV DS,AX
+
+ 
+ 
+ 
+ 
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH 7
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
+
+MOV AX, x1_2
+CALL OUTDEC
+
+MOV AH, 4CH
+INT 21H
+MAIN ENDP
+
+
+
+------------------
+Line no: 11 program : program unit
+
+------------------
+int rec ( int n ) {
+if(n==0)return 1;
+return n*rec(n-1);
+}
+
+int main ( ) {
+int x;
+x=rec(7);
+printf(x);
 }
 
 
 rec PROC
 
 POP return_loc
-POP x1_1
+POP n1_1
 PUSH BX
-PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -1157,27 +1488,38 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
 
-MOV AX, x1_1
-CALL OUTDEC
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
 
+MOV CX, temp0
+
+JMP L0
 L0: 
 POP DX
-POP CX
 POP BX
 PUSH return_loc
 RET
@@ -1190,13 +1532,24 @@ MOV AX,@DATA
 MOV DS,AX
 
  
-PUSH x1_1
  
+ 
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
+
+MOV AX, x1_2
+CALL OUTDEC
+
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
@@ -1205,18 +1558,24 @@ MAIN ENDP
 
 ------------------
 
-Total lines: 7
+Total lines: 11
 Total errors: 0
 -------------------------------------
 Optimizer log: 
+Removed blank line : 18
 Removed blank line : 19
-Removed blank line : 20
-Removed blank line : 33
-Removed blank line : 35
-Removed blank line : 36
-Removed blank line : 66
-Removed blank line : 68
-Line removed:7
+Removed blank line : 32
+Removed blank line : 38
+Removed blank line : 39
+Removed blank line : 40
+Removed blank line : 41
+Removed blank line : 42
+Removed blank line : 76
+Removed blank line : 77
+Removed blank line : 78
+Removed blank line : 79
+Optimized redundant MOV operation: 92
+Line removed:13
 -------------------------------------
 
 ScopeTable #1

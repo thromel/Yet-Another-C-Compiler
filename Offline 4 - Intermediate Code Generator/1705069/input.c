@@ -1,7 +1,11 @@
-int rec(int x) {
-  if (x > 0)
-    rec(x - 1);
-  printf(x);
+int rec(int n) {
+  if (n == 0)
+    return 1;
+  return n * rec(n - 1);
 }
 
-int main() { rec(5); }
+int main() {
+  int x;
+  x = rec(7);
+  printf(x);
+}

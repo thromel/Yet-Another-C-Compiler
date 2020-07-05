@@ -97,10 +97,9 @@ inline void enterScope() {
                               funcVal->paramSymList[i]->getAsmVar());
       }
 
-      funcVal->setFuncStart(funcVal->getFuncStart() +
-                            "\nPUSH BX\nPUSH CX\nPUSH DX\n");
+      funcVal->setFuncStart(funcVal->getFuncStart() + "\nPUSH BX\nPUSH DX\n");
       funcVal->setFuncEnd(funcVal->funcEndLabel + ": \n" +
-                          "POP DX\nPOP CX\nPOP BX\nPUSH return_loc\nRET\n" +
+                          "POP DX\nPOP BX\nPUSH return_loc\nRET\n" +
                           funcVal->getName() + " ENDP\n\n");
     }
     paramList.clear();
@@ -229,6 +228,7 @@ inline void addFuncDecl(SymbolInfo *funcVal, SymbolInfo *returnType) {
 }
 
 inline SymbolInfo *insertVar(SymbolInfo *var) {
+
   if (st.lookUpCurrent(var->getName())) {
     printError(var->getName() + " is already declared");
 
@@ -236,10 +236,19 @@ inline SymbolInfo *insertVar(SymbolInfo *var) {
     printError(var->getName() + " is of void type");
 
   } else {
+
     var->setVarType(type);
     var->setIdType("VARIABLE");
     st.insertSymbol(var);
     asmVarList.push_back(var->getAsmVar());
+
+    // Adds variable to currentFuncion's varList;
+    // Added to deal with recursion
+
+    SymbolInfo *currFunc = st.lookup(currentFunction);
+    if (currFunc != NULL)
+      currFunc->varList.push_back(var);
+
     return var;
   }
   return nullSym();
@@ -756,12 +765,23 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
     // All ok, function call happens
     SymbolInfo *currFunc = st.lookup(currentFunction);
 
-    // Saves all values in stack for recursive function calls
+    sym->addCode(argList->getCode());
+
+    // Pushes all variables to stack for recursive function calls
     for (int i = 0; i < func->paramSymList.size(); i++) {
       sym->addCode("PUSH " + func->paramSymList[i]->getAsmVar());
     }
 
-    sym->addCode(argList->getCode());
+    for (int i = 0; i < func->varList.size(); i++) {
+      sym->addCode("PUSH " + func->varList[i]->getAsmVar());
+    }
+
+    for (int i = 0; i < vm.getSize(); i++) {
+      sym->addCode("PUSH temp" + to_string(i));
+    }
+
+    //
+
     sym->addCode("PUSH return_loc");
     for (int i = 0; i < func->paramSymList.size(); i++) {
 
@@ -783,15 +803,23 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
 
   // Pops all saved local variables
 
+  for (int i = vm.getSize() - 1; i >= 0; i--) {
+    sym->addCode("POP temp" + to_string(i));
+  }
+
+  for (int i = func->varList.size() - 1; i >= 0; i--) {
+    sym->addCode("POP " + func->varList[i]->getAsmVar());
+  }
+
   for (int i = func->paramSymList.size() - 1; i >= 0; i--) {
     sym->addCode("POP " + func->paramSymList[i]->getAsmVar());
   }
 
   //
 
-  sym->setAsmVar("AX");
+  sym->setAsmVar("CX");
   sym->setIdType("VARIABLE");
-  sym->setVarType("INT"); // This is a kamla way-around, must be modified later
+  sym->setVarType("INT"); // This is a way-around, must be modified later
   argTypeList.clear();
   return sym;
 }
@@ -993,9 +1021,9 @@ inline SymbolInfo *handle_return(SymbolInfo *expr) {
   // string tempAsmVar = vm.getTempVar();
   if (currentFunction != "main") {
     sym->setCode(expr->getCode());
-    sym->addCode("MOV AX, " + expr->getAsmVar() + "\n");
+    sym->addCode("MOV CX, " + expr->getAsmVar() + "\n");
     sym->addCode("JMP " + funcVal->funcEndLabel);
-    sym->setAsmVar("AX");
+    sym->setAsmVar("CX");
   }
 
   return sym;

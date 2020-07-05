@@ -41,6 +41,8 @@ public:
   SymbolInfo *real = NULL;
 
   vector<SymbolInfo *> paramSymList;
+  vector<SymbolInfo *> varList;
+
   string funcEndLabel = "";
   string arrAsmVar = "";
 
