@@ -2,170 +2,75 @@
 .STACK 100H 
 .DATA
 
-i1_1 DW ?
-b1_1 DW ?
+x1_1 DW ?
 temp0 DW ?
 temp1 DW ?
 return_loc DW ?
-c1_1 DW 21 DUP (?)
 
 .CODE
+rec PROC
+
+POP return_loc
+POP x1_1
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+MOV AX, x1_1
+CMP AX, 0
+JG L1
+MOV temp0, 0
+JMP L2
+L1: 
+MOV temp0, 1
+L2: 
+
+MOV AX, temp0
+CMP AX, 1
+JNE L3
+ 
+PUSH x1_1
+ 
+ 
+MOV AX, x1_1
+SUB AX, 1
+MOV temp1, AX
+
+PUSH return_loc
+PUSH temp1
+CALL rec
+POP return_loc
+POP x1_1
+L3:
+
+
+MOV AX, x1_1
+CALL OUTDEC
+
+L0: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+rec ENDP
+
+
 MAIN PROC 
 
 MOV AX,@DATA
 MOV DS,AX
 
  
+PUSH x1_1
  
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 0
-MOV c1_1[BX], AX 
-
- 
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 1
-MOV c1_1[SI], AX 
-
- 
-;for loop start
- 
- 
-MOV AX, 2
-MOV i1_1, AX 
-
-L2:
- 
- 
-MOV AX, i1_1
-CMP AX, 21
-JL L0
-MOV temp0, 0
-JMP L1
-L0: 
-MOV temp0, 1
-L1: 
-
-MOV AX, temp0
-CMP AX, 0
-JE L3
- 
- 
- 
-MOV AX, i1_1
-SUB AX, 1
-MOV temp1, AX
-
-MOV BX, temp1
-SHL BX, 1
-MOV SI, BX
- 
- 
- 
-MOV AX, i1_1
-SUB AX, 2
-MOV temp1, AX
-
-MOV BX, temp1
-SHL BX, 1
-MOV AX, c1_1[SI]
-ADD AX, c1_1[BX]
-MOV temp1, AX
-
- 
- 
-MOV BX, i1_1
-SHL BX, 1
-MOV AX, temp1
-MOV c1_1[BX], AX
- 
- 
- 
- 
-MOV AX, i1_1
-SUB AX, 1
-MOV temp1, AX
-
-MOV BX, temp1
-SHL BX, 1
-MOV SI, BX
- 
- 
- 
-MOV AX, i1_1
-SUB AX, 2
-MOV temp1, AX
-
-MOV BX, temp1
-SHL BX, 1
-MOV AX, c1_1[SI]
-ADD AX, c1_1[BX]
-MOV temp1, AX
-
-MOV AX, temp1
-MOV b1_1, AX 
-
-
-MOV AX, b1_1
-CALL OUTDEC
-
-MOV AX, i1_1
-MOV temp0, AX
-INC AX
-MOV i1_1, AX
-
-JMP L2
-L3:
-;for loop end
- 
-;for loop start
- 
- 
-MOV AX, 0
-MOV i1_1, AX 
-
-L6:
- 
- 
-MOV AX, i1_1
-CMP AX, 21
-JL L4
-MOV temp1, 0
-JMP L5
-L4: 
-MOV temp1, 1
-L5: 
-
-MOV AX, temp1
-CMP AX, 0
-JE L7
- 
- 
- 
-MOV BX, i1_1
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[SI]
-MOV b1_1, AX 
-
-
-MOV AX, b1_1
-CALL OUTDEC
-
-MOV AX, i1_1
-MOV temp1, AX
-INC AX
-MOV i1_1, AX
-
-JMP L6
-L7:
-;for loop end
+PUSH return_loc
+PUSH 5
+CALL rec
+POP return_loc
+POP x1_1
 MOV AH, 4CH
 INT 21H
 MAIN ENDP

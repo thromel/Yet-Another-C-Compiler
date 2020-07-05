@@ -752,7 +752,16 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
     printError(funcVal->getName() + " argument number mismatch");
     argTypeList.clear();
   } else {
-    sym->setCode(argList->getCode());
+
+    // All ok, function call happens
+    SymbolInfo *currFunc = st.lookup(currentFunction);
+
+    // Saves all values in stack for recursive function calls
+    for (int i = 0; i < func->paramSymList.size(); i++) {
+      sym->addCode("PUSH " + func->paramSymList[i]->getAsmVar());
+    }
+
+    sym->addCode(argList->getCode());
     sym->addCode("PUSH return_loc");
     for (int i = 0; i < func->paramSymList.size(); i++) {
 
@@ -771,6 +780,15 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
 
   sym->addCode("CALL " + funcVal->getName());
   sym->addCode("POP return_loc");
+
+  // Pops all saved local variables
+
+  for (int i = func->paramSymList.size() - 1; i >= 0; i--) {
+    sym->addCode("POP " + func->paramSymList[i]->getAsmVar());
+  }
+
+  //
+
   sym->setAsmVar("AX");
   sym->setIdType("VARIABLE");
   sym->setVarType("INT"); // This is a kamla way-around, must be modified later
