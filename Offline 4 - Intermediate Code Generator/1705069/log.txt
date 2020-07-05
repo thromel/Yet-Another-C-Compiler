@@ -16,10 +16,10 @@ int
  
 
 ------------------
-Line no: 2 declaration_list : ID
+Line no: 2 declaration_list :ID LTHIRD CONST_INT RTHIRD 
 
 ------------------
-a
+c[21]
 
  
 
@@ -27,15 +27,15 @@ a
 Line no: 2 declaration_list : declaration_list COMMA ID
 
 ------------------
-a, b
+c[21], i
 
  
 
 ------------------
-Line no: 2 declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD 
+Line no: 2 declaration_list : declaration_list COMMA ID
 
 ------------------
-a, b, c[3]
+c[21], i, b
 
  
 
@@ -43,7 +43,7 @@ a, b, c[3]
 Line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
 
 ------------------
-int a, b, c[3];
+int c[21], i, b;
 
  
 
@@ -51,7 +51,7 @@ int a, b, c[3];
 Line no: 2 statement : var_declaration
 
 ------------------
-int a, b, c[3];
+int c[21], i, b;
 
  
 
@@ -59,15 +59,7 @@ int a, b, c[3];
 Line no: 2 statements : statement
 
 ------------------
-int a, b, c[3];
-
- 
-
-------------------
-Line no: 3 variable : ID
-
-------------------
-a
+int c[21], i, b;
 
  
 
@@ -75,7 +67,7 @@ a
 Line no: 3 factor : CONST_INT
 
 ------------------
-1
+0
 
  
 
@@ -83,7 +75,7 @@ Line no: 3 factor : CONST_INT
 Line no: 3 unary_expression : factor
 
 ------------------
-1
+0
 
  
 
@@ -91,31 +83,7 @@ Line no: 3 unary_expression : factor
 Line no: 3 term : unary_expression
 
 ------------------
-1
-
- 
-
-------------------
-Line no: 3 factor : CONST_INT
-
-------------------
-2
-
- 
-
-------------------
-Line no: 3 unary_expression : factor
-
-------------------
-2
-
- 
-
-------------------
-Line no: 3 term : unary_expression
-
-------------------
-2
+0
 
  
 
@@ -123,137 +91,50 @@ Line no: 3 term : unary_expression
 Line no: 3 simple_expression : term
 
 ------------------
-2
+0
 
  
-
-------------------
-Line no: 3 factor : CONST_INT
-
-------------------
-3
-
- 
-
-------------------
-Line no: 3 unary_expression : factor
-
-------------------
-3
-
- 
-
-------------------
-Line no: 3 term : unary_expression
-
-------------------
-3
-
- 
-
-------------------
-Line no: 3 simple expression : simple_expression ADDOP term
-
-------------------
-2+3
-
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
 
 ------------------
 Line no: 3 rel_expression : simple_expression
 
 ------------------
-2+3
+0
 
  
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
 
 ------------------
 Line no: 3 logic_expression : rel_expression
 
 ------------------
-2+3
+0
 
  
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
 
 ------------------
 Line no: 3 expression : logic_expression
 
 ------------------
-2+3
+0
 
  
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
 
 ------------------
-Line no: 3 factor : LPAREN expression RPAREN
+Line no: 3 variable : ID LTHIRD expression RTHIRD
 
 ------------------
-(2+3)
+c[0]
 
  
  
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-
-------------------
-Line no: 3 unary_expression : factor
-
-------------------
-(2+3)
-
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-
-------------------
-Line no: 3 term : term MULOP unary_expression
-
-------------------
-1*(2+3)
-
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
+MOV BX, 0
+SHL BX, 1
 
 ------------------
 Line no: 3 factor : CONST_INT
 
 ------------------
-3
+0
 
  
 
@@ -261,271 +142,103 @@ Line no: 3 factor : CONST_INT
 Line no: 3 unary_expression : factor
 
 ------------------
-3
+0
 
  
 
 ------------------
-Line no: 3 term : term MULOP unary_expression
+Line no: 3 term : unary_expression
 
 ------------------
-1*(2+3)%3
+0
 
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
 
 ------------------
 Line no: 3 simple_expression : term
 
 ------------------
-1*(2+3)%3
+0
 
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
 
 ------------------
 Line no: 3 rel_expression : simple_expression
 
 ------------------
-1*(2+3)%3
+0
 
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
 
 ------------------
 Line no: 3 logic_expression : rel_expression
 
 ------------------
-1*(2+3)%3
+0
 
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
 
 ------------------
 Line no: 3 expression : variable ASSIGNOP logic_expression
 
 ------------------
-a=1*(2+3)%3
+c[0]=0
 
  
  
+MOV BX, 0
+SHL BX, 1
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
+MOV AX, 0
+MOV c1_1[BX], AX 
 
 
 ------------------
 Line no: 3 expression_statement : expression SEMICOLON
 
 ------------------
-a=1*(2+3)%3;
+c[0]=0;
 
  
  
+MOV BX, 0
+SHL BX, 1
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
+MOV AX, 0
+MOV c1_1[BX], AX 
 
 
 ------------------
 Line no: 3 statement : expression_statement
 
 ------------------
-a=1*(2+3)%3;
+c[0]=0;
 
  
  
+MOV BX, 0
+SHL BX, 1
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
+MOV AX, 0
+MOV c1_1[BX], AX 
 
 
 ------------------
 Line no: 3 statements : statements statement
 
 ------------------
-int a, b, c[3];
-a=1*(2+3)%3;
+int c[21], i, b;
+c[0]=0;
 
  
  
  
+MOV BX, 0
+SHL BX, 1
  
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
+MOV AX, 0
+MOV c1_1[BX], AX 
 
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
-
-------------------
-Line no: 4 variable : ID
-
-------------------
-b
-
- 
 
 ------------------
 Line no: 4 factor : CONST_INT
@@ -560,496 +273,177 @@ Line no: 4 simple_expression : term
  
 
 ------------------
-Line no: 4 factor : CONST_INT
+Line no: 4 rel_expression : simple_expression
 
 ------------------
-5
+1
 
  
-
-------------------
-Line no: 4 unary_expression : factor
-
-------------------
-5
-
- 
-
-------------------
-Line no: 4 term : unary_expression
-
-------------------
-5
-
- 
-
-------------------
-Line no: 4 simple_expression : term
-
-------------------
-5
-
- 
-
-------------------
-Line no: 4 rel_expression : simple_expression RELOP simple_expression
-
-------------------
-1<5
-
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
 
 ------------------
 Line no: 4 logic_expression : rel_expression
 
 ------------------
-1<5
+1
+
+ 
+
+------------------
+Line no: 4 expression : logic_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 variable : ID LTHIRD expression RTHIRD
+
+------------------
+c[1]
 
  
  
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
+MOV BX, 1
+SHL BX, 1
+MOV SI, BX
 
+------------------
+Line no: 4 factor : CONST_INT
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 unary_expression : factor
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 term : unary_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 simple_expression : term
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 rel_expression : simple_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 4 logic_expression : rel_expression
+
+------------------
+1
+
+ 
 
 ------------------
 Line no: 4 expression : variable ASSIGNOP logic_expression
 
 ------------------
-b=1<5
+c[1]=1
 
  
  
- 
+MOV BX, 1
+SHL BX, 1
+MOV SI, BX
  
 MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
+MOV c1_1[SI], AX 
 
 
 ------------------
 Line no: 4 expression_statement : expression SEMICOLON
 
 ------------------
-b=1<5;
+c[1]=1;
 
  
  
- 
+MOV BX, 1
+SHL BX, 1
+MOV SI, BX
  
 MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
+MOV c1_1[SI], AX 
 
 
 ------------------
 Line no: 4 statement : expression_statement
 
 ------------------
-b=1<5;
+c[1]=1;
 
  
  
- 
+MOV BX, 1
+SHL BX, 1
+MOV SI, BX
  
 MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
+MOV c1_1[SI], AX 
 
 
 ------------------
 Line no: 4 statements : statements statement
 
 ------------------
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
+int c[21], i, b;
+c[0]=0;
+c[1]=1;
 
  
  
- 
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
-
-------------------
-Line no: 5 factor : CONST_INT
-
-------------------
-0
-
- 
-
-------------------
-Line no: 5 unary_expression : factor
-
-------------------
-0
-
- 
-
-------------------
-Line no: 5 term : unary_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 5 simple_expression : term
-
-------------------
-0
-
- 
-
-------------------
-Line no: 5 rel_expression : simple_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 5 logic_expression : rel_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 5 expression : logic_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 5 variable : ID LTHIRD expression RTHIRD
-
-------------------
-c[0]
-
- 
-MOV BX, 0
-SHL BX, 1
-
-------------------
-Line no: 5 factor : CONST_INT
-
-------------------
-2
-
- 
-
-------------------
-Line no: 5 unary_expression : factor
-
-------------------
-2
-
- 
-
-------------------
-Line no: 5 term : unary_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 5 simple_expression : term
-
-------------------
-2
-
- 
-
-------------------
-Line no: 5 rel_expression : simple_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 5 logic_expression : rel_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 5 expression : variable ASSIGNOP logic_expression
-
-------------------
-c[0]=2
-
  
 MOV BX, 0
 SHL BX, 1
  
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
+MOV AX, 0
 MOV c1_1[BX], AX 
 
-
-------------------
-Line no: 5 expression_statement : expression SEMICOLON
-
-------------------
-c[0]=2;
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
-
-------------------
-Line no: 5 statement : expression_statement
-
-------------------
-c[0]=2;
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
-
-------------------
-Line no: 5 statements : statements statement
-
-------------------
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-
  
  
- 
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
-
-------------------
-Line no: 6 factor : CONST_INT
-
-------------------
-2
-
- 
-
-------------------
-Line no: 6 unary_expression : factor
-
-------------------
-2
-
- 
-
-------------------
-Line no: 6 term : unary_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 6 simple_expression : term
-
-------------------
-2
-
- 
-
-------------------
-Line no: 6 rel_expression : simple_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 6 logic_expression : rel_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 6 expression : logic_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 6 variable : ID LTHIRD expression RTHIRD
-
-------------------
-c[2]
-
- 
-MOV BX, 2
+MOV BX, 1
 SHL BX, 1
 MOV SI, BX
+ 
+MOV AX, 1
+MOV c1_1[SI], AX 
+
+
+------------------
+Line no: 6 variable : ID
+
+------------------
+i
+
+ 
 
 ------------------
 Line no: 6 factor : CONST_INT
 
 ------------------
-69
+2
 
  
 
@@ -1057,7 +451,7 @@ Line no: 6 factor : CONST_INT
 Line no: 6 unary_expression : factor
 
 ------------------
-69
+2
 
  
 
@@ -1065,7 +459,7 @@ Line no: 6 unary_expression : factor
 Line no: 6 term : unary_expression
 
 ------------------
-69
+2
 
  
 
@@ -1073,7 +467,7 @@ Line no: 6 term : unary_expression
 Line no: 6 simple_expression : term
 
 ------------------
-69
+2
 
  
 
@@ -1081,7 +475,7 @@ Line no: 6 simple_expression : term
 Line no: 6 rel_expression : simple_expression
 
 ------------------
-69
+2
 
  
 
@@ -1089,7 +483,7 @@ Line no: 6 rel_expression : simple_expression
 Line no: 6 logic_expression : rel_expression
 
 ------------------
-69
+2
 
  
 
@@ -1097,141 +491,269 @@ Line no: 6 logic_expression : rel_expression
 Line no: 6 expression : variable ASSIGNOP logic_expression
 
 ------------------
-c[2]=69
+i=2
 
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
+MOV AX, 2
+MOV i1_1, AX 
 
 
 ------------------
 Line no: 6 expression_statement : expression SEMICOLON
 
 ------------------
-c[2]=69;
+i=2;
 
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
-
-------------------
-Line no: 6 statement : expression_statement
-
-------------------
-c[2]=69;
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
-
-------------------
-Line no: 6 statements : statements statement
-
-------------------
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-
- 
- 
- 
- 
- 
- 
  
  
 MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
+MOV i1_1, AX 
 
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
 
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
+------------------
+Line no: 6 variable : ID
 
-MOV AX, temp2
-MOV a1_1, AX 
+------------------
+i
 
  
+
+------------------
+Line no: 6 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 6 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 6 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 6 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 6 factor : CONST_INT
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 6 unary_expression : factor
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 6 term : unary_expression
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 6 simple_expression : term
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 6 rel_expression : simple_expression RELOP simple_expression
+
+------------------
+i<21
+
  
  
- 
-MOV AX, 1
-CMP AX, 5
+MOV AX, i1_1
+CMP AX, 21
 JL L0
-MOV temp2, 0
+MOV temp0, 0
 JMP L1
 L0: 
-MOV temp2, 1
+MOV temp0, 1
 L1: 
 
-MOV AX, temp2
-MOV b1_1, AX 
+
+------------------
+Line no: 6 logic_expression : rel_expression
+
+------------------
+i<21
 
  
-MOV BX, 0
-SHL BX, 1
  
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
 
 
 ------------------
+Line no: 6 expression : logic_expression
+
+------------------
+i<21
+
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+
+------------------
+Line no: 6 expression_statement : expression SEMICOLON
+
+------------------
+i<21;
+
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+
+------------------
+Line no: 6 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 6 factor : variable INCOP
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 6 unary_expression : factor
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 6 term : unary_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 6 simple_expression : term
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 6 rel_expression : simple_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 6 logic_expression : rel_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 6 expression : logic_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+
+New ScopeTable #1_1_1 created
 Line no: 7 variable : ID
 
 ------------------
-a
+i
 
  
 
@@ -1239,7 +761,7 @@ a
 Line no: 7 factor : variable
 
 ------------------
-a
+i
 
  
 
@@ -1247,7 +769,7 @@ a
 Line no: 7 unary_expression : factor
 
 ------------------
-a
+i
 
  
 
@@ -1255,7 +777,7 @@ a
 Line no: 7 term : unary_expression
 
 ------------------
-a
+i
 
  
 
@@ -1263,7 +785,7 @@ a
 Line no: 7 simple_expression : term
 
 ------------------
-a
+i
 
  
 
@@ -1271,105 +793,705 @@ a
 Line no: 7 rel_expression : simple_expression
 
 ------------------
-a
+i
 
  
 
 ------------------
-Line no: 7 variable : ID
+Line no: 7 logic_expression : rel_expression
 
 ------------------
-b
+i
 
  
-
-------------------
-Line no: 7 factor : variable
-
-------------------
-b
-
- 
-
-------------------
-Line no: 7 unary_expression : factor
-
-------------------
-b
-
- 
-
-------------------
-Line no: 7 term : unary_expression
-
-------------------
-b
-
- 
-
-------------------
-Line no: 7 simple_expression : term
-
-------------------
-b
-
- 
-
-------------------
-Line no: 7 rel_expression : simple_expression
-
-------------------
-b
-
- 
-
-------------------
-Line no: 7 logic_expression : rel_expression LOGICOP rel_expression
-
-------------------
-a&&b
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
 
 ------------------
 Line no: 7 expression : logic_expression
 
 ------------------
-a&&b
+i
+
+ 
+
+------------------
+Line no: 7 variable : ID LTHIRD expression RTHIRD
+
+------------------
+c[3]
 
  
  
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
+MOV BX, i1_1
+SHL BX, 1
+
+------------------
+Line no: 7 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 factor : CONST_INT
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 7 unary_expression : factor
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 7 term : unary_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 7 simple expression : simple_expression ADDOP term
+
+------------------
+i-1
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+
+------------------
+Line no: 7 rel_expression : simple_expression
+
+------------------
+i-1
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+
+------------------
+Line no: 7 logic_expression : rel_expression
+
+------------------
+i-1
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+
+------------------
+Line no: 7 expression : logic_expression
+
+------------------
+i-1
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+
+------------------
+Line no: 7 variable : ID LTHIRD expression RTHIRD
+
+------------------
+c[2]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 7 factor : variable
+
+------------------
+c[2]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 7 unary_expression : factor
+
+------------------
+c[2]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 7 term : unary_expression
+
+------------------
+c[2]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 7 simple_expression : term
+
+------------------
+c[2]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 7 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 7 factor : CONST_INT
+
+------------------
+2
+
+ 
+
+------------------
+Line no: 7 unary_expression : factor
+
+------------------
+2
+
+ 
+
+------------------
+Line no: 7 term : unary_expression
+
+------------------
+2
+
+ 
+
+------------------
+Line no: 7 simple expression : simple_expression ADDOP term
+
+------------------
+i-2
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+
+------------------
+Line no: 7 rel_expression : simple_expression
+
+------------------
+i-2
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+
+------------------
+Line no: 7 logic_expression : rel_expression
+
+------------------
+i-2
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+
+------------------
+Line no: 7 expression : logic_expression
+
+------------------
+i-2
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+
+------------------
+Line no: 7 variable : ID LTHIRD expression RTHIRD
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 7 factor : variable
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 7 unary_expression : factor
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 7 term : unary_expression
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 7 simple expression : simple_expression ADDOP term
+
+------------------
+c[2]+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+
+------------------
+Line no: 7 rel_expression : simple_expression
+
+------------------
+c[2]+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+
+------------------
+Line no: 7 logic_expression : rel_expression
+
+------------------
+c[2]+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+
+------------------
+Line no: 7 expression : variable ASSIGNOP logic_expression
+
+------------------
+c[3]=c[2]+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+
+------------------
+Line no: 7 expression_statement : expression SEMICOLON
+
+------------------
+c[3]=c[2]+c[1];
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+
+------------------
+Line no: 7 statement : expression_statement
+
+------------------
+c[3]=c[2]+c[1];
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+
+------------------
+Line no: 7 statements : statement
+
+------------------
+c[3]=c[2]+c[1];
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+
+------------------
+Line no: 8 variable : ID
+
+------------------
+b
+
+ 
+
+------------------
+Line no: 8 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 simple_expression : term
+
+------------------
+i
+
+ 
 
 ------------------
 Line no: 8 factor : CONST_INT
 
 ------------------
-0
+1
 
  
 
@@ -1377,7 +1499,7 @@ Line no: 8 factor : CONST_INT
 Line no: 8 unary_expression : factor
 
 ------------------
-0
+1
 
  
 
@@ -1385,1385 +1507,926 @@ Line no: 8 unary_expression : factor
 Line no: 8 term : unary_expression
 
 ------------------
-0
+1
 
  
 
 ------------------
-Line no: 8 simple_expression : term
+Line no: 8 simple expression : simple_expression ADDOP term
 
 ------------------
-0
+i-1
 
  
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
 
 ------------------
 Line no: 8 rel_expression : simple_expression
 
 ------------------
-0
+i-1
 
  
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
 
 ------------------
 Line no: 8 logic_expression : rel_expression
 
 ------------------
-0
+i-1
 
  
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
 
 ------------------
 Line no: 8 expression : logic_expression
 
 ------------------
-0
+i-1
 
  
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
 
 ------------------
 Line no: 8 variable : ID LTHIRD expression RTHIRD
 
 ------------------
-c[0]
+c[2]
 
  
-MOV BX, 0
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
+MOV SI, BX
 
 ------------------
-Line no: 8 factor : variable INCOP
+Line no: 8 factor : variable
 
 ------------------
-c[0]++
+c[2]
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
 
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
 
 ------------------
 Line no: 8 unary_expression : factor
 
 ------------------
-c[0]++
+c[2]
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
 
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
 
 ------------------
 Line no: 8 term : unary_expression
 
 ------------------
-c[0]++
+c[2]
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
 
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
 
 ------------------
 Line no: 8 simple_expression : term
 
 ------------------
-c[0]++
+c[2]
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 8 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 8 factor : CONST_INT
+
+------------------
+2
+
+ 
+
+------------------
+Line no: 8 unary_expression : factor
+
+------------------
+2
+
+ 
+
+------------------
+Line no: 8 term : unary_expression
+
+------------------
+2
+
+ 
+
+------------------
+Line no: 8 simple expression : simple_expression ADDOP term
+
+------------------
+i-2
+
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
 
 ------------------
 Line no: 8 rel_expression : simple_expression
 
 ------------------
-c[0]++
+i-2
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
 
 ------------------
 Line no: 8 logic_expression : rel_expression
 
 ------------------
-c[0]++
+i-2
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
 
 ------------------
 Line no: 8 expression : logic_expression
 
 ------------------
-c[0]++
+i-2
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+
+------------------
+Line no: 8 variable : ID LTHIRD expression RTHIRD
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 8 factor : variable
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 8 unary_expression : factor
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 8 term : unary_expression
+
+------------------
+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+
+------------------
+Line no: 8 simple expression : simple_expression ADDOP term
+
+------------------
+c[2]+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+
+------------------
+Line no: 8 rel_expression : simple_expression
+
+------------------
+c[2]+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+
+------------------
+Line no: 8 logic_expression : rel_expression
+
+------------------
+c[2]+c[1]
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+
+------------------
+Line no: 8 expression : variable ASSIGNOP logic_expression
+
+------------------
+b=c[2]+c[1]
+
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
 ------------------
 Line no: 8 expression_statement : expression SEMICOLON
 
 ------------------
-c[0]++;
+b=c[2]+c[1];
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
 ------------------
 Line no: 8 statement : expression_statement
 
 ------------------
-c[0]++;
+b=c[2]+c[1];
 
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
+
+
+------------------
+Line no: 8 statements : statements statement
+
+------------------
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
 MOV c1_1[BX], AX
-
-
-------------------
-Line no: 10 factor : CONST_INT
-
-------------------
-1
-
  
-
-------------------
-Line no: 10 unary_expression : factor
-
-------------------
-1
-
  
-
-------------------
-Line no: 10 term : unary_expression
-
-------------------
-1
-
  
-
-------------------
-Line no: 10 simple_expression : term
-
-------------------
-1
-
  
-
-------------------
-Line no: 10 rel_expression : simple_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 10 logic_expression : rel_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 10 expression : logic_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 10 variable : ID LTHIRD expression RTHIRD
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-
-------------------
-Line no: 10 factor : CONST_INT
-
-------------------
-0
-
- 
-
-------------------
-Line no: 10 unary_expression : factor
-
-------------------
-0
-
- 
-
-------------------
-Line no: 10 term : unary_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 10 simple_expression : term
-
-------------------
-0
-
- 
-
-------------------
-Line no: 10 rel_expression : simple_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 10 logic_expression : rel_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 10 expression : logic_expression
-
-------------------
-0
-
- 
-
-------------------
-Line no: 10 variable : ID LTHIRD expression RTHIRD
-
-------------------
-c[0]
-
- 
-MOV BX, 0
-SHL BX, 1
-
-------------------
-Line no: 10 factor : variable
-
-------------------
-c[0]
-
- 
-MOV BX, 0
-SHL BX, 1
-
-------------------
-Line no: 10 unary_expression : factor
-
-------------------
-c[0]
-
- 
-MOV BX, 0
-SHL BX, 1
-
-------------------
-Line no: 10 term : unary_expression
-
-------------------
-c[0]
-
- 
-MOV BX, 0
-SHL BX, 1
-
-------------------
-Line no: 10 simple_expression : term
-
-------------------
-c[0]
-
- 
-MOV BX, 0
-SHL BX, 1
-
-------------------
-Line no: 10 factor : CONST_INT
-
-------------------
-2
-
- 
-
-------------------
-Line no: 10 unary_expression : factor
-
-------------------
-2
-
- 
-
-------------------
-Line no: 10 term : unary_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 10 simple_expression : term
-
-------------------
-2
-
- 
-
-------------------
-Line no: 10 rel_expression : simple_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 10 logic_expression : rel_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 10 expression : logic_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 10 variable : ID LTHIRD expression RTHIRD
-
-------------------
-c[2]
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-
-------------------
-Line no: 10 factor : variable
-
-------------------
-c[2]
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-
-------------------
-Line no: 10 unary_expression : factor
-
-------------------
-c[2]
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-
-------------------
-Line no: 10 term : unary_expression
-
-------------------
-c[2]
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-
-------------------
-Line no: 10 simple expression : simple_expression ADDOP term
-
-------------------
-c[0]+c[2]
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
-
-------------------
-Line no: 10 rel_expression : simple_expression
-
-------------------
-c[0]+c[2]
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
-
-------------------
-Line no: 10 logic_expression : rel_expression
-
-------------------
-c[0]+c[2]
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
-
-------------------
-Line no: 10 expression : variable ASSIGNOP logic_expression
-
-------------------
-c[1]=c[0]+c[2]
-
- 
-MOV BX, 1
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
 MOV SI, BX
  
-MOV BX, 0
-SHL BX, 1
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
- 
-MOV BX, 1
+MOV BX, temp1
 SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
 ------------------
-Line no: 10 expression_statement : expression SEMICOLON
+Line no: 9 PRINTLN LPAREN ID RPAREN SEMICOLON
 
 ------------------
-c[1]=c[0]+c[2];
+printf(b);
 
  
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
-
 
 ------------------
-Line no: 10 statement : expression_statement
+4
+Line no: 9 statements : statements statement
 
 ------------------
-c[1]=c[0]+c[2];
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
+printf(b);
 
  
-MOV BX, 1
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
 MOV SI, BX
  
-MOV BX, 0
-SHL BX, 1
  
-MOV BX, 2
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
 MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
  
-MOV BX, 1
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
-------------------
-Line no: 10 IF LPAREN expression RPAREN statement ELSE statement
-
-------------------
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
 MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
+CALL OUTDEC
+
+
+------------------
+Line no: 10 compound_statement : LCURL statements RCURL
+
+------------------
+{
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
+printf(b);
+}
+
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
 MOV c1_1[BX], AX
-
-JMP L5
-L4:
  
-MOV BX, 1
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
 MOV SI, BX
  
-MOV BX, 0
-SHL BX, 1
  
-MOV BX, 2
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+
+------------------
+
+ScopeTable #1_1_1
+
+ScopeTable #1_1
+0 --> <i: ID>  <b: ID> 
+1 --> <c: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+Line no: 10 statement : compound_statement
+
+------------------
+{
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
+printf(b);
+}
+
+
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
 MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
 
  
-MOV BX, 1
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
 MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
-L5:
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
 
+MOV AX, temp1
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+
+------------------
+Line no: 10 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+------------------
+for(i=2;i<21;i++){
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
+printf(b);
+}
+
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 2
+MOV i1_1, AX 
+
+L2:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
 
 ------------------
 Line no: 10 statements : statements statement
 
 ------------------
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-
- 
- 
- 
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
-
-L5:
-
-
-------------------
-Line no: 11 variable : ID
-
-------------------
-a
-
- 
-
-------------------
-Line no: 11 factor : CONST_INT
-
-------------------
-1
-
- 
-
-------------------
-Line no: 11 unary_expression : factor
-
-------------------
-1
-
- 
-
-------------------
-Line no: 11 term : unary_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 11 simple_expression : term
-
-------------------
-1
-
- 
-
-------------------
-Line no: 11 rel_expression : simple_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 11 logic_expression : rel_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 11 expression : logic_expression
-
-------------------
-1
-
- 
-
-------------------
-Line no: 11 variable : ID LTHIRD expression RTHIRD
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-
-------------------
-Line no: 11 factor : variable
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-
-------------------
-Line no: 11 unary_expression : factor
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-
-------------------
-Line no: 11 term : unary_expression
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-
-------------------
-Line no: 11 simple_expression : term
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-
-------------------
-Line no: 11 rel_expression : simple_expression
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-
-------------------
-Line no: 11 logic_expression : rel_expression
-
-------------------
-c[1]
-
- 
-MOV BX, 1
-SHL BX, 1
-
-------------------
-Line no: 11 expression : variable ASSIGNOP logic_expression
-
-------------------
-a=c[1]
-
- 
- 
- 
-MOV BX, 1
-SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
-
-
-------------------
-Line no: 11 expression_statement : expression SEMICOLON
-
-------------------
-a=c[1];
-
- 
- 
- 
-MOV BX, 1
-SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
-
-
-------------------
-Line no: 11 statement : expression_statement
-
-------------------
-a=c[1];
-
- 
- 
- 
-MOV BX, 1
-SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
-
-
-------------------
-Line no: 11 statements : statements statement
-
-------------------
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-a=c[1];
-
- 
- 
- 
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
-
-L5:
-
- 
- 
- 
-MOV BX, 1
-SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
-
-
-------------------
-Line no: 12 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-------------------
-printf(a);
-
- 
-
-------------------
-140
-Line no: 12 statements : statements statement
-
-------------------
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-a=c[1];
-printf(a);
-
- 
- 
- 
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
-
-L5:
-
- 
- 
- 
-MOV BX, 1
-SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
-
-
-MOV AX, a1_1
-CALL OUTDEC
-
-
-------------------
-Line no: 13 PRINTLN LPAREN ID RPAREN SEMICOLON
-
-------------------
-printf(b);
-
- 
-
-------------------
-1
-Line no: 13 statements : statements statement
-
-------------------
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-a=c[1];
-printf(a);
-printf(b);
-
- 
- 
- 
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
-MOV c1_1[BX], AX 
-
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
-MOV c1_1[SI], AX 
-
-L5:
-
- 
- 
- 
-MOV BX, 1
-SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
-
-
-MOV AX, a1_1
-CALL OUTDEC
-
-
-MOV AX, b1_1
-CALL OUTDEC
-
-
-------------------
-Line no: 14 compound_statement : LCURL statements RCURL
-
-------------------
-{
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-a=c[1];
-printf(a);
+int c[21], i, b;
+c[0]=0;
+c[1]=1;
+for(i=2;i<21;i++){
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
 printf(b);
 }
 
@@ -2771,156 +2434,1162 @@ printf(b);
  
  
  
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
 MOV BX, 0
 SHL BX, 1
  
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
+MOV AX, 0
 MOV c1_1[BX], AX 
 
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
-MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
  
 MOV BX, 1
 SHL BX, 1
 MOV SI, BX
+ 
+MOV AX, 1
+MOV c1_1[SI], AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 2
+MOV i1_1, AX 
+
+L2:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
+
+------------------
+Line no: 12 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 12 factor : CONST_INT
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 12 unary_expression : factor
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 12 term : unary_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 12 simple_expression : term
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 12 rel_expression : simple_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 12 logic_expression : rel_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 12 expression : variable ASSIGNOP logic_expression
+
+------------------
+i=0
+
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+
+------------------
+Line no: 12 expression_statement : expression SEMICOLON
+
+------------------
+i=0;
+
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+
+------------------
+Line no: 12 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 12 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 12 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 12 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 12 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 12 factor : CONST_INT
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 12 unary_expression : factor
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 12 term : unary_expression
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 12 simple_expression : term
+
+------------------
+21
+
+ 
+
+------------------
+Line no: 12 rel_expression : simple_expression RELOP simple_expression
+
+------------------
+i<21
+
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+
+------------------
+Line no: 12 logic_expression : rel_expression
+
+------------------
+i<21
+
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+
+------------------
+Line no: 12 expression : logic_expression
+
+------------------
+i<21
+
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+
+------------------
+Line no: 12 expression_statement : expression SEMICOLON
+
+------------------
+i<21;
+
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+
+------------------
+Line no: 12 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 12 factor : variable INCOP
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 12 unary_expression : factor
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 12 term : unary_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 12 simple_expression : term
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 12 rel_expression : simple_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 12 logic_expression : rel_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+Line no: 12 expression : logic_expression
+
+------------------
+i++
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+
+------------------
+
+New ScopeTable #1_1_2 created
+Line no: 13 variable : ID
+
+------------------
+b
+
+ 
+
+------------------
+Line no: 13 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 rel_expression : simple_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 logic_expression : rel_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 expression : logic_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 13 variable : ID LTHIRD expression RTHIRD
+
+------------------
+c[1]
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 13 factor : variable
+
+------------------
+c[1]
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 13 unary_expression : factor
+
+------------------
+c[1]
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 13 term : unary_expression
+
+------------------
+c[1]
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 13 simple_expression : term
+
+------------------
+c[1]
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 13 rel_expression : simple_expression
+
+------------------
+c[1]
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 13 logic_expression : rel_expression
+
+------------------
+c[1]
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+
+------------------
+Line no: 13 expression : variable ASSIGNOP logic_expression
+
+------------------
+b=c[1]
+
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+------------------
+Line no: 13 expression_statement : expression SEMICOLON
+
+------------------
+b=c[1];
+
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+------------------
+Line no: 13 statement : expression_statement
+
+------------------
+b=c[1];
+
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+------------------
+Line no: 13 statements : statement
+
+------------------
+b=c[1];
+
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+------------------
+Line no: 14 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+------------------
+printf(b);
+
+ 
+
+------------------
+2
+Line no: 14 statements : statements statement
+
+------------------
+b=c[1];
+printf(b);
+
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+
+------------------
+Line no: 15 compound_statement : LCURL statements RCURL
+
+------------------
+{
+b=c[1];
+printf(b);
+}
+
+
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+
+------------------
+
+ScopeTable #1_1_2
+
+ScopeTable #1_1
+0 --> <i: ID>  <b: ID> 
+1 --> <c: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+Line no: 15 statement : compound_statement
+
+------------------
+{
+b=c[1];
+printf(b);
+}
+
+
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+
+------------------
+Line no: 15 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+------------------
+for(i=0;i<21;i++){
+b=c[1];
+printf(b);
+}
+
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
+
+------------------
+Line no: 15 statements : statements statement
+
+------------------
+int c[21], i, b;
+c[0]=0;
+c[1]=1;
+for(i=2;i<21;i++){
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
+printf(b);
+}
+
+for(i=0;i<21;i++){
+b=c[1];
+printf(b);
+}
+
+
+ 
+ 
  
 MOV BX, 0
 SHL BX, 1
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
+MOV AX, 0
+MOV c1_1[BX], AX 
 
+ 
  
 MOV BX, 1
 SHL BX, 1
 MOV SI, BX
-MOV AX, temp3
+ 
+MOV AX, 1
 MOV c1_1[SI], AX 
 
-L5:
+ 
+;for loop start
+ 
+ 
+MOV AX, 2
+MOV i1_1, AX 
 
+L2:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
  
  
  
-MOV BX, 1
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
 
-MOV AX, a1_1
-CALL OUTDEC
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
 MOV AX, b1_1
 CALL OUTDEC
 
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
+
+------------------
+Line no: 16 compound_statement : LCURL statements RCURL
+
+------------------
+{
+int c[21], i, b;
+c[0]=0;
+c[1]=1;
+for(i=2;i<21;i++){
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
+printf(b);
+}
+
+for(i=0;i<21;i++){
+b=c[1];
+printf(b);
+}
+
+}
+
+
+ 
+ 
+ 
+MOV BX, 0
+SHL BX, 1
+ 
+MOV AX, 0
+MOV c1_1[BX], AX 
+
+ 
+ 
+MOV BX, 1
+SHL BX, 1
+MOV SI, BX
+ 
+MOV AX, 1
+MOV c1_1[SI], AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 2
+MOV i1_1, AX 
+
+L2:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
 
 ------------------
 
 ScopeTable #1_1
-0 --> <b: ID> 
+0 --> <i: ID>  <b: ID> 
 1 --> <c: ID> 
-6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-Line no: 14 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line no: 16 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 ------------------
 int main ( ) {
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-a=c[1];
-printf(a);
+int c[21], i, b;
+c[0]=0;
+c[1]=1;
+for(i=2;i<21;i++){
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
 printf(b);
+}
+
+for(i=0;i<21;i++){
+b=c[1];
+printf(b);
+}
+
 }
 
 
@@ -2932,133 +3601,154 @@ MOV DS,AX
  
  
  
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
 MOV BX, 0
 SHL BX, 1
  
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
+MOV AX, 0
 MOV c1_1[BX], AX 
 
  
-MOV BX, 2
+ 
+MOV BX, 1
 SHL BX, 1
 MOV SI, BX
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
 MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
 MOV c1_1[SI], AX 
 
-L5:
+ 
+;for loop start
+ 
+ 
+MOV AX, 2
+MOV i1_1, AX 
 
+L2:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
  
  
  
-MOV BX, 1
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
 
-MOV AX, a1_1
-CALL OUTDEC
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
 MOV AX, b1_1
 CALL OUTDEC
 
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
@@ -3066,19 +3756,24 @@ MAIN ENDP
 
 
 ------------------
-Line no: 14 unit : func_definition
+Line no: 16 unit : func_definition
 
 ------------------
 int main ( ) {
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-a=c[1];
-printf(a);
+int c[21], i, b;
+c[0]=0;
+c[1]=1;
+for(i=2;i<21;i++){
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
 printf(b);
+}
+
+for(i=0;i<21;i++){
+b=c[1];
+printf(b);
+}
+
 }
 
 
@@ -3090,133 +3785,154 @@ MOV DS,AX
  
  
  
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
 MOV BX, 0
 SHL BX, 1
  
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
+MOV AX, 0
 MOV c1_1[BX], AX 
 
  
-MOV BX, 2
+ 
+MOV BX, 1
 SHL BX, 1
 MOV SI, BX
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
 MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
 MOV c1_1[SI], AX 
 
-L5:
+ 
+;for loop start
+ 
+ 
+MOV AX, 2
+MOV i1_1, AX 
 
+L2:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
  
  
  
-MOV BX, 1
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
 
-MOV AX, a1_1
-CALL OUTDEC
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
 MOV AX, b1_1
 CALL OUTDEC
 
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
@@ -3224,19 +3940,24 @@ MAIN ENDP
 
 
 ------------------
-Line no: 14 program : unit
+Line no: 16 program : unit
 
 ------------------
 int main ( ) {
-int a, b, c[3];
-a=1*(2+3)%3;
-b=1<5;
-c[0]=2;
-c[2]=69;
-if(a&&b)c[0]++;else c[1]=c[0]+c[2];
-a=c[1];
-printf(a);
+int c[21], i, b;
+c[0]=0;
+c[1]=1;
+for(i=2;i<21;i++){
+c[3]=c[2]+c[1];
+b=c[2]+c[1];
 printf(b);
+}
+
+for(i=0;i<21;i++){
+b=c[1];
+printf(b);
+}
+
 }
 
 
@@ -3248,133 +3969,154 @@ MOV DS,AX
  
  
  
- 
- 
- 
- 
- 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
- 
-MOV AX, temp1
-MOV BX, 3
-MOV AX, AX
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
- 
- 
- 
- 
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
- 
 MOV BX, 0
 SHL BX, 1
  
-MOV BX, 0
-SHL BX, 1
- 
-MOV AX, 2
+MOV AX, 0
 MOV c1_1[BX], AX 
 
  
-MOV BX, 2
+ 
+MOV BX, 1
 SHL BX, 1
 MOV SI, BX
  
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
- 
-MOV AX, 69
-MOV c1_1[SI], AX 
-
- 
- 
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
 MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-MOV AX, temp2
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
- 
-MOV BX, 0
-SHL BX, 1
- 
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
- 
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
 MOV c1_1[SI], AX 
 
-L5:
+ 
+;for loop start
+ 
+ 
+MOV AX, 2
+MOV i1_1, AX 
 
+L2:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
  
  
  
-MOV BX, 1
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
 
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
 
-MOV AX, a1_1
-CALL OUTDEC
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+ 
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+ 
+ 
+ 
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV AX, temp1
+MOV b1_1, AX 
 
 
 MOV AX, b1_1
 CALL OUTDEC
 
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+ 
+ 
+ 
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
+MOV AX, b1_1
+CALL OUTDEC
+
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
@@ -3386,43 +4128,49 @@ MAIN ENDP
 ScopeTable #1
 1 --> <main: ID> 
 
-Total lines: 14
+Total lines: 16
 Total errors: 0
 -------------------------------------
 Optimizer log: 
+Removed blank line : 18
+Removed blank line : 19
 Removed blank line : 20
-Removed blank line : 21
-Removed blank line : 22
 Removed blank line : 23
-Removed blank line : 24
-Removed blank line : 25
-Removed blank line : 26
 Removed blank line : 27
-Removed blank line : 37
-Optimized redundant MOV operation: 38
-Optimized redundant MOV operation: 40
-Removed blank line : 48
-Removed blank line : 49
-Removed blank line : 50
-Removed blank line : 51
-Removed blank line : 64
-Removed blank line : 67
+Removed blank line : 28
+Removed blank line : 32
+Removed blank line : 36
+Removed blank line : 38
+Removed blank line : 39
+Removed blank line : 44
+Removed blank line : 45
+Removed blank line : 58
+Removed blank line : 59
+Removed blank line : 60
+Removed blank line : 68
+Removed blank line : 69
 Removed blank line : 70
-Removed blank line : 74
-Removed blank line : 78
+Removed blank line : 81
 Removed blank line : 82
-Removed blank line : 86
 Removed blank line : 87
-Optimized redundant MOV operation: 100
-Removed blank line : 110
-Removed blank line : 114
-Removed blank line : 117
-Removed blank line : 125
+Removed blank line : 88
+Removed blank line : 89
+Removed blank line : 90
+Removed blank line : 98
+Removed blank line : 99
+Removed blank line : 100
+Optimized redundant MOV operation: 111
+Optimized redundant MOV operation: 115
+Removed blank line : 126
+Removed blank line : 128
+Removed blank line : 129
 Removed blank line : 134
 Removed blank line : 135
-Removed blank line : 136
-Optimized redundant MOV operation: 143
-Line removed:32
+Removed blank line : 148
+Removed blank line : 149
+Removed blank line : 150
+Optimized redundant MOV operation: 158
+Line removed:38
 -------------------------------------
 
 ScopeTable #1

@@ -2,14 +2,12 @@
 .STACK 100H 
 .DATA
 
-a1_1 DW ?
+i1_1 DW ?
 b1_1 DW ?
 temp0 DW ?
 temp1 DW ?
-temp2 DW ?
-temp3 DW ?
 return_loc DW ?
-c1_1 DW 3 DUP (?)
+c1_1 DW 21 DUP (?)
 
 .CODE
 MAIN PROC 
@@ -17,104 +15,119 @@ MAIN PROC
 MOV AX,@DATA
 MOV DS,AX
 
-MOV AX, 2
-ADD AX, 3
-MOV temp0, AX
-
-MOV AX, 1
-MOV BX, temp0
-IMUL BX
-MOV temp1, AX
-
-MOV BX, 3
-CWD
-IDIV BX
-MOV temp2, DX
-
-MOV AX, temp2
-MOV a1_1, AX 
-
-MOV AX, 1
-CMP AX, 5
-JL L0
-MOV temp2, 0
-JMP L1
-L0: 
-MOV temp2, 1
-L1: 
-
-MOV AX, temp2
-MOV b1_1, AX 
-
 MOV BX, 0
 SHL BX, 1
-MOV BX, 0
-SHL BX, 1
-MOV AX, 2
+MOV AX, 0
 MOV c1_1[BX], AX 
 
-MOV BX, 2
+MOV BX, 1
 SHL BX, 1
 MOV SI, BX
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, 69
-MOV c1_1[SI], AX 
-
-MOV AX, a1_1
-CMP AX, 0
-JE L2
-MOV AX, b1_1
-CMP AX, 0
-JE L2
 MOV AX, 1
-JMP L3
-L2:
-MOV AX, 0
-L3:
-MOV temp2, AX
-CMP AX, 1
-JNE L4
-MOV AX, c1_1[BX]
-MOV temp3, AX
-INC AX
-MOV c1_1[BX], AX
-
-JMP L5
-L4:
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV BX, 0
-SHL BX, 1
-MOV BX, 2
-SHL BX, 1
-MOV SI, BX
-MOV AX, c1_1[BX]
-ADD AX, c1_1[SI]
-MOV temp3, AX
-
-MOV BX, 1
-SHL BX, 1
-MOV SI, BX
-MOV AX, temp3
 MOV c1_1[SI], AX 
 
-L5:
+;for loop start
+MOV AX, 2
+MOV i1_1, AX 
 
-MOV BX, 1
+L2:
+MOV AX, i1_1
+CMP AX, 21
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L3
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
 SHL BX, 1
-MOV AX, c1_1[BX]
-MOV a1_1, AX 
+MOV SI, BX
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV BX, i1_1
+SHL BX, 1
+MOV AX, temp1
+MOV c1_1[BX], AX
+MOV AX, i1_1
+SUB AX, 1
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV SI, BX
+MOV AX, i1_1
+SUB AX, 2
+MOV temp1, AX
+
+MOV BX, temp1
+SHL BX, 1
+MOV AX, c1_1[SI]
+ADD AX, c1_1[BX]
+MOV temp1, AX
+
+MOV b1_1, AX 
 
 
 CALL OUTDEC
 
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
 
-MOV AX, b1_1
+JMP L2
+L3:
+;for loop end
+;for loop start
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+MOV AX, i1_1
+CMP AX, 21
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+MOV BX, i1_1
+SHL BX, 1
+MOV SI, BX
+MOV AX, c1_1[SI]
+MOV b1_1, AX 
+
+
 CALL OUTDEC
 
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
