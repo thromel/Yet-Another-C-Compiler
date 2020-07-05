@@ -921,7 +921,7 @@ inline SymbolInfo *handle_NOT(SymbolInfo *sym) {
     }
   }
 
-  sym->setName(sym->getName());
+  sym->setName("!" + sym->getName());
   return sym;
 }
 
