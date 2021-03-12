@@ -147,6 +147,8 @@ public:
         delete temp; //Deletes the symbolInfo object
 
         cout << "Deleted entry at " << index << ", " << pos << " from current scopeTable" << endl;
+
+        return true;
     }
 
     void print()

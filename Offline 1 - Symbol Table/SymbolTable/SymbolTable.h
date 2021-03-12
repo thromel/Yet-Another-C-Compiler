@@ -5,6 +5,7 @@ class SymbolTable
 {
     ScopeTable *current;
 
+public:
     void enterScope(int id, int buckets)
     {
         ScopeTable *st = new ScopeTable(id, buckets, current);
