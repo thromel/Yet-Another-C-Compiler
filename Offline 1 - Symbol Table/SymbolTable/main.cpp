@@ -13,7 +13,7 @@ int main()
 
     cin >> length;
 
-    st.enterScope(number++, length);
+    st.enterScope(length);
     current++;
 
     string choice, name, type;
@@ -61,7 +61,7 @@ int main()
         else if (choice == "S")
         {
             cout << choice << "\n";
-            st.enterScope(number++, length);
+            st.enterScope(length);
             current++;
         }
         else if (choice == "E")

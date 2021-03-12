@@ -6,11 +6,11 @@ class ScopeTable
     SymbolInfo **symbols;
     ScopeTable *parentScope = NULL;
     int total_buckets = 0;
-    int id;
+    string id;
     int childCount = 0;
 
 public:
-    ScopeTable(int id, int total_buckets, ScopeTable *parentScope)
+    ScopeTable(int total_buckets, ScopeTable *parentScope)
     {
         this->id = id;
         this->total_buckets = total_buckets;
@@ -23,6 +23,16 @@ public:
         }
 
         this->parentScope = parentScope;
+
+        if (parentScope == NULL)
+        {
+            id = "1";
+        }
+        else
+        {
+            parentScope->setChildCount(parentScope->getChildCount() + 1);
+            id = parentScope->getID() + "." + to_string(parentScope->getChildCount());
+        }
     }
 
     int hashFunction(string name)
@@ -37,7 +47,7 @@ public:
         return hashValue % total_buckets;
     }
 
-    int getID() const
+    string getID() const
     {
         return id;
     }
