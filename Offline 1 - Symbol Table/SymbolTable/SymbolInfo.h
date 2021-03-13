@@ -44,6 +44,6 @@ public:
 
 ostream &operator<<(ostream &out, SymbolInfo &ref)
 {
-    out << "< " << ref.name << ", " << ref.type << ">";
+    out << "< " << ref.name << " : " << ref.type << " >";
     return out;
 }

@@ -20,6 +20,7 @@ int main()
 
     while (true)
     {
+        cout << ">> ";
         cin >> choice;
 
         if (choice == "I")
@@ -71,9 +72,13 @@ int main()
             st.exitScope();
             current--;
         }
-        else
+        else if (choice == "exit")
         {
             break;
+        }
+        else
+        {
+            cout << "Invalid operation"
         }
     }
 

@@ -11,7 +11,7 @@ public:
         ScopeTable *st = new ScopeTable(buckets, current);
         current = st;
 
-        cout << "New ScopeTable with id " << st->getID() << " created" << endl;
+        cout << "New ScopeTable #" << st->getID() << " created" << endl;
     }
 
     void exitScope()
@@ -22,9 +22,12 @@ public:
             return;
         }
 
-        cout << "ScopeTable with id " << current->getID() << " removed" << endl;
+        cout << "Exited ScopeTable #" << current->getID() << endl;
+        cout << "Deleted ScopeTable #" << current->getID() << endl;
 
+        ScopeTable *temp = current;
         current = current->getParentScope();
+        // delete temp;
     }
 
     bool insertSymbol(string name, string type)
