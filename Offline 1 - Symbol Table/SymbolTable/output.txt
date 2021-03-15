@@ -1,0 +1,364 @@
+New ScopeTable #1 created
+>> D d
+
+Not found in ScopeTable #1
+d not found
+>> I b b
+
+Not found in ScopeTable #1
+Inserted in ScopeTable #1 at position 2, 0
+>> D b
+
+Found in ScopeTable #1 at position 2, 0
+Deleted entry at 2, 0 from current scopeTable
+>> I b a
+
+Not found in ScopeTable #1
+Inserted in ScopeTable #1 at position 2, 0
+>> I b d
+
+Found in ScopeTable #1 at position 2, 0
+< b : a > already exists in the current ScopeTable
+>> D c
+
+Not found in ScopeTable #1
+c not found
+>> D d
+
+Not found in ScopeTable #1
+d not found
+>> D d
+
+Not found in ScopeTable #1
+d not found
+>> D a
+
+Not found in ScopeTable #1
+a not found
+>> P A
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 -->
+
+>> I c b
+
+Not found in ScopeTable #1
+Inserted in ScopeTable #1 at position 3, 0
+>> S
+New ScopeTable #1.1 created
+>> P A
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> L b
+
+Not found in ScopeTable #1.1
+Found in ScopeTable #1 at position 2, 0
+>> D b
+
+Not found in ScopeTable #1.1
+b not found
+>> S
+New ScopeTable #1.1.1 created
+>> P A
+
+ScopeTable #1.1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> P A
+
+ScopeTable #1.1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> I a b
+
+Not found in ScopeTable #1.1.1
+Inserted in ScopeTable #1.1.1 at position 1, 0
+>> L c
+
+Not found in ScopeTable #1.1.1
+Not found in ScopeTable #1.1
+Found in ScopeTable #1 at position 3, 0
+>> I a d
+
+Found in ScopeTable #1.1.1 at position 1, 0
+< a : b > already exists in the current ScopeTable
+>> D b
+
+Not found in ScopeTable #1.1.1
+b not found
+>> I b a
+
+Not found in ScopeTable #1.1.1
+Inserted in ScopeTable #1.1.1 at position 2, 0
+>> P A
+
+ScopeTable #1.1.1
+0 -->
+1 --> < a : b >
+2 --> < b : a >
+3 -->
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> I a a
+
+Found in ScopeTable #1.1.1 at position 1, 0
+< a : b > already exists in the current ScopeTable
+>> S
+New ScopeTable #1.1.1.1 created
+>> P A
+
+ScopeTable #1.1.1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1.1.1
+0 -->
+1 --> < a : b >
+2 --> < b : a >
+3 -->
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> D b
+
+Not found in ScopeTable #1.1.1.1
+b not found
+>> D d
+
+Not found in ScopeTable #1.1.1.1
+d not found
+>> D d
+
+Not found in ScopeTable #1.1.1.1
+d not found
+>> I d b
+
+Not found in ScopeTable #1.1.1.1
+Inserted in ScopeTable #1.1.1.1 at position 0, 0
+>> S
+New ScopeTable #1.1.1.1.1 created
+>> I d c
+
+Not found in ScopeTable #1.1.1.1.1
+Inserted in ScopeTable #1.1.1.1.1 at position 0, 0
+>> I b b
+
+Not found in ScopeTable #1.1.1.1.1
+Inserted in ScopeTable #1.1.1.1.1 at position 2, 0
+>> L b
+
+Found in ScopeTable #1.1.1.1.1 at position 2, 0
+>> D b
+
+Found in ScopeTable #1.1.1.1.1 at position 2, 0
+Deleted entry at 2, 0 from current scopeTable
+>> P A
+
+ScopeTable #1.1.1.1.1
+0 --> < d : c >
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1.1.1.1
+0 --> < d : b >
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1.1.1
+0 -->
+1 --> < a : b >
+2 --> < b : a >
+3 -->
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> S
+New ScopeTable #1.1.1.1.1.1 created
+>> D c
+
+Not found in ScopeTable #1.1.1.1.1.1
+c not found
+>> D d
+
+Not found in ScopeTable #1.1.1.1.1.1
+d not found
+>> E
+Exited ScopeTable #1.1.1.1.1.1
+Deleted ScopeTable #1.1.1.1.1.1
+>> I c a
+
+Not found in ScopeTable #1.1.1.1.1
+Inserted in ScopeTable #1.1.1.1.1 at position 3, 0
+>> D c
+
+Found in ScopeTable #1.1.1.1.1 at position 3, 0
+Deleted entry at 3, 0 from current scopeTable
+>> I d a
+
+Found in ScopeTable #1.1.1.1.1 at position 0, 0
+< d : c > already exists in the current ScopeTable
+>> I a d
+
+Not found in ScopeTable #1.1.1.1.1
+Inserted in ScopeTable #1.1.1.1.1 at position 1, 0
+>> P A
+
+ScopeTable #1.1.1.1.1
+0 --> < d : c >
+1 --> < a : d >
+2 -->
+3 -->
+
+ScopeTable #1.1.1.1
+0 --> < d : b >
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1.1.1
+0 -->
+1 --> < a : b >
+2 --> < b : a >
+3 -->
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> D b
+
+Not found in ScopeTable #1.1.1.1.1
+b not found
+>> P A
+
+ScopeTable #1.1.1.1.1
+0 --> < d : c >
+1 --> < a : d >
+2 -->
+3 -->
+
+ScopeTable #1.1.1.1
+0 --> < d : b >
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1.1.1
+0 -->
+1 --> < a : b >
+2 --> < b : a >
+3 -->
+
+ScopeTable #1.1
+0 -->
+1 -->
+2 -->
+3 -->
+
+ScopeTable #1
+0 -->
+1 -->
+2 --> < b : a >
+3 --> < c : b >
+
+>> L a
+
+Found in ScopeTable #1.1.1.1.1 at position 1, 0
+>> Exited ScopeTable #1.1.1.1.1
+Deleted ScopeTable #1.1.1.1.1
+Exited ScopeTable #1.1.1.1
+Deleted ScopeTable #1.1.1.1
+Exited ScopeTable #1.1.1
+Deleted ScopeTable #1.1.1
+Exited ScopeTable #1.1
+Deleted ScopeTable #1.1
+Exited ScopeTable #1
+Deleted ScopeTable #1
+No ScopeTable in the SymbolTable

@@ -196,7 +196,8 @@ public:
 
     ~ScopeTable()
     {
+        cout << "Deleted ScopeTable #" << id << endl;
         delete[] symbols;
-        delete parentScope;
+        parentScope = NULL;
     }
 };

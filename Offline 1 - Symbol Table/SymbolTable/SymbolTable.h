@@ -23,11 +23,11 @@ public:
         }
 
         cout << "Exited ScopeTable #" << current->getID() << endl;
-        cout << "Deleted ScopeTable #" << current->getID() << endl;
 
         ScopeTable *temp = current;
         current = current->getParentScope();
-        // delete temp;
+
+        delete temp;
     }
 
     bool insertSymbol(string name, string type)
