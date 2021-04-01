@@ -1,0 +1,113 @@
+#include "ScopeTable.h"
+using namespace std;
+#define SYMBOL_TABLE_SIZE 69
+class SymbolTable
+{
+    ScopeTable *current = NULL;
+
+public:
+    SymbolTable()
+    {
+        enterScope();
+    }
+
+    void enterScope(int buckets = SYMBOL_TABLE_SIZE)
+    {
+        ScopeTable *st = new ScopeTable(buckets, current);
+        current = st;
+
+        cout << "New ScopeTable #" << st->getID() << " created" << endl;
+    }
+
+    void exitScope()
+    {
+        if (current == NULL)
+        {
+            cout << "No ScopeTable in the SymbolTable" << endl;
+            return;
+        }
+
+        cout << "Exited ScopeTable #" << current->getID() << endl;
+
+        ScopeTable *temp = current;
+        current = current->getParentScope();
+
+        delete temp;
+    }
+
+    bool insertSymbol(string name, string type)
+    {
+        if (current == NULL)
+        {
+            cout << "No ScopeTable in the SymbolTable" << endl;
+            return false;
+        }
+
+        return current->insertSymbol(name, type);
+    }
+
+    bool deleteSymbol(string name)
+    {
+        if (current == NULL)
+        {
+            cout << "No ScopeTable in the SymbolTable" << endl;
+            return false;
+        }
+
+        return current->deleteSymbol(name);
+    }
+
+    SymbolInfo *lookup(string name)
+    {
+        if (current == NULL)
+        {
+            cout << "No ScopeTable in the SymbolTable" << endl;
+            return NULL;
+        }
+
+        ScopeTable *temp = current;
+        SymbolInfo *symbol = NULL;
+
+        while (temp != NULL)
+        {
+            symbol = temp->lookUp(name);
+
+            if (symbol != NULL)
+            {
+                return symbol;
+            }
+            temp = temp->getParentScope();
+        }
+
+        return NULL;
+    }
+
+    void printCurrent()
+    {
+        if (current == NULL)
+        {
+            cout << "No ScopeTable in the SymbolTable" << endl;
+            return;
+        }
+
+        current->print();
+    }
+
+    void printAll()
+    {
+        if (current == NULL)
+        {
+            cout << "No ScopeTable in the SymbolTable" << endl;
+            return;
+        }
+
+        ScopeTable *itr = current;
+
+        while (itr != NULL)
+        {
+            itr->print();
+            cout << endl;
+            itr = itr->getParentScope();
+        }
+    }
+};
