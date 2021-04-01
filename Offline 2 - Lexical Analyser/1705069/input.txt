@@ -23,6 +23,13 @@ int main(){
     char x = 'a';
     char y = '\n';
 
+	{
+		int x = 69;
+		int y = 269;
+		{
+			int xyz = 269;
+		}
+	}
     return 0;
 
 

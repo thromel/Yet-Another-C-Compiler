@@ -1,4 +1,6 @@
 #include "SymbolInfo.h"
+#include<iostream>
+#include<fstream>
 using namespace std;
 
 class ScopeTable
@@ -8,12 +10,14 @@ class ScopeTable
     int total_buckets = 0;
     string id;
     int childCount = 0;
+    ofstream *log;
 
 public:
-    ScopeTable(int total_buckets, ScopeTable *parentScope)
+    ScopeTable(int total_buckets, ScopeTable *parentScope, ofstream *log)
     {
         this->id = id;
         this->total_buckets = total_buckets;
+        this->log = log;
 
         symbols = new SymbolInfo *[total_buckets];
 
@@ -73,13 +77,13 @@ public:
         {
             if (name == symbol->getName())
             {
-                cout << "Found in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
+                // *log << "\nFound in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
                 return symbol;
             }
             pos++;
             symbol = symbol->getNext();
         }
-        cout << "Not found in ScopeTable #" << id << endl;
+        // *log << "\nNot found in ScopeTable #" << id << endl;
 
         return NULL;
     }
@@ -91,7 +95,7 @@ public:
         SymbolInfo *searched = lookUp(symbol->getName());
         if (searched != NULL)
         {
-            // cout << *searched << " already exists in the current ScopeTable" << endl;
+            // *log << *searched << " already exists in the current ScopeTable" << endl;
             return false;
         }
 
@@ -117,7 +121,7 @@ public:
             temp->setNext(symbol);
             symbol->setNext(NULL);
         }
-        // cout << "Inserted in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
+        // *log << "Inserted in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
         return true;
     }
 
@@ -125,7 +129,7 @@ public:
     {
         if (lookUp(name) == NULL)
         {
-            cout << name << " not found" << endl;
+            *log << name << " not found" << endl;
             return false;
         }
 
@@ -158,29 +162,29 @@ public:
 
         delete temp; //Deletes the symbolInfo object
 
-        // cout << "Deleted entry at " << index << ", " << pos << " from current scopeTable" << endl;
+        // *log << "Deleted entry at " << index << ", " << pos << " from current scopeTable" << endl;
 
         return true;
     }
 
     void print()
     {
-        cout << "ScopeTable #" << this->id << endl;
+        *log << "\nScopeTable #" << this->id << endl;
 
         for (int i = 0; i < total_buckets; ++i)
         {
-            cout << i << " -->";
+            *log << i << " -->";
 
             SymbolInfo *temp = symbols[i];
 
             while (temp != NULL)
             {
-                cout << " " << *temp;
+                *log << " " << *temp;
 
                 temp = temp->getNext();
             }
 
-            cout << "\n";
+            *log << "\n";
         }
     }
 
@@ -196,7 +200,7 @@ public:
 
     ~ScopeTable()
     {
-        cout << "Deleted ScopeTable #" << id << endl;
+        *log << "\nDeleted ScopeTable #" << id << endl;
         delete[] symbols;
         parentScope = NULL;
     }

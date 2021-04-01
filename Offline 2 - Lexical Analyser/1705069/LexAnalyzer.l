@@ -35,25 +35,23 @@ FRAC (\.{DIGITS})
 
 INTEGER {DIGITS}
 FLOAT ({INTEGER})?(\.?{DIGITS})(E[+-]?{INTEGER})?
-TOO_DECPOINT {DIGIT}*((\.)+{DIGITS})+(E{DECPT}[+-]?{DECPT}{DIGITS})?{DECPOINT}{DIGITS}*
-ILL_NUM ({DIGITS}|{FLOATING_POINT})[E]*{FLOATING_POINT}*
+TOO_DECPOINT {DIGIT}*((\.)+{DIGITS})+(E{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
+ILL_NUM ({DIGITS}|{FLOAT})[E]*{FLOAT}*
 
 
-ILLEGAL_CHAR ([^\n\t\\\a\f\r\b\0\v])
-CHAR_CONST ('{ILLEGAL_CHAR}')
+CHAR_CONST (.)|\\[ntvfrab0\\"'?e]
+CHARACTER '{CHAR_CONST}'
 
 EMPTY_CHARACTER ('')
 MULTI_CHARACTER '{CHAR_CONST}{2,}'
 UNFINISHED_CHARACTER '({CHAR_CONST}|\\)*
 
 
-ANYTHING_EXCEPT_SLASH [^\\]
+NOT_SLASH [^\\]
 SLASH [\\]
-NOT_QUOTE_SLASH_OR_NEWLINE [^"\\\r\n]
-ANYTHING ({ANYTHING_EXCEPT_NEWLINE}|{NEWLINE})
 
 
-UNFINISHED_STRING \"({NOT_QUOTE_SLASH_OR_NEWLINE}|{SLASH}{ANYTHING})*
+UNFINISHED_STRING \"({CHAR_CONST})*
 STRING {UNFINISHED_STRING}\"
 
 
@@ -92,15 +90,48 @@ switch |
 case |
 default |
 continue {
-        handle_Keyword(yytext);
+        handle_keyword(yytext);
     }
 
 
-{INTEGER} {handle_CONST_INT(yytext);}
-{FLOAT} {handle_CONST_FLOAT(yytext);}
-{CHAR_CONST} {handle_CONST_CHAR(yytext);}
+{INTEGER} {handle_const_int(yytext);}
+{FLOAT} {handle_const_float(yytext);}
+{CHARACTER} {handle_const_char(yytext, "CONST_CHAR");}
+{STRING} {handle_const_char(yytext, "STRING");}
+
+{ILL_NUM} {handle_error(yytext, "Ill formed number");}
+{UNFINISHED_CHARACTER} {handle_error(yytext, "Unfinished character");}
+{EMPTY_CHARACTER} {handle_error(yytext, "Empty Character");}
+{MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
+{UNFINISHED_STRING} {handle_error(yytext, "Unfinished string");}
+
+
+
+
+{ADDOP} {handle_operator(yytext, "ADDOP");}
+("++"|"--") {handle_operator(yytext, "INCOP");}
+("*"|"/"|"%") {handle_operator(yytext, "MULOP");}
+("<="|">="|"=="|"!="|"<"|">") {handle_operator(yytext, "RELOP");}
+("&&"|"||") {handle_operator(yytext, "LOGICOP");}
+("&"|"|"|"^"|"<<"|">>") {handle_operator(yytext, "BITOP");}
+";" {handle_operator(yytext, "SEMICOLON");}
+"," {handle_operator(yytext, "COMMA");}
+"[" {handle_operator(yytext, "LTHIRD");}
+"]" {handle_operator(yytext, "RTHIRD");}
+"{" {handle_operator(yytext, "LCURL");}
+"}" {handle_operator(yytext, "RCURL");}
+"(" {handle_operator(yytext, "LPAREN");}
+")" {handle_operator(yytext, "RPAREN");}
+"=" {handle_operator(yytext, "ASSIGNOP");}
+"!" {handle_operator(yytext, "NOT");}
+
+{ID} {handle_id(yytext);}
+{NOT_ID} {handle_error(yytext, "Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence");}
+
+
 {NEWLINE} {line_count++;}
 {WHITESPACE} {}
+. {handle_error(yytext, "Unrecognized character");}
 <<EOF>> {log << "\nTotal Line number: " << line_count<<"\nTotal Errors: "<<err_count<<endl; log.close(); return 0;}
 %%
 
