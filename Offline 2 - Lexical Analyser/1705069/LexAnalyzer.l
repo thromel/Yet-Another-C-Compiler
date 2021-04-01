@@ -26,23 +26,22 @@ DIGIT [0-9]
 ALPHABET {LETTER}|_
 ALPHANUM {ALPHABET}|{DIGIT}
 
-IDENTIFIER {ALPHABET}({ALPHANUM})*
-NOT_IDENTIFIER {DIGIT}({ALPHANUM})*
+ID {ALPHABET}({ALPHANUM})*
+NOT_ID {DIGIT}({ALPHANUM})*
 
 DIGITS {DIGIT}+
-DECPOINT (\.)*
-FRACTION (\.{DIGITS})
+DECPT (\.)*
+FRAC (\.{DIGITS})
 
 INTEGER {DIGITS}
-FLOATING_POINT ({INTEGER})?(\.?{DIGITS})(E[+-]?{INTEGER})?
-TOO_DECPOINT {DIGIT}*((\.)+{DIGITS})+(E{DECPOINT}[+-]?{DECPOINT}{DIGITS})?{DECPOINT}{DIGITS}*
+FLOAT ({INTEGER})?(\.?{DIGITS})(E[+-]?{INTEGER})?
+TOO_DECPOINT {DIGIT}*((\.)+{DIGITS})+(E{DECPT}[+-]?{DECPT}{DIGITS})?{DECPOINT}{DIGITS}*
 ILL_NUM ({DIGITS}|{FLOATING_POINT})[E]*{FLOATING_POINT}*
 
 
+ILLEGAL_CHAR ([^\n\t\\\a\f\r\b\0\v])
+CHAR_CONST ('{ILLEGAL_CHAR}')
 
-CHAR_CONST ((\\{ANYTHING_EXCEPT_NEWLINE})|[^\\'(\r\n)])
-
-CHARACTER ('{CHAR_CONST}')
 EMPTY_CHARACTER ('')
 MULTI_CHARACTER '{CHAR_CONST}{2,}'
 UNFINISHED_CHARACTER '({CHAR_CONST}|\\)*
@@ -93,14 +92,16 @@ switch |
 case |
 default |
 continue {
-        handleKeyword(yytext);
+        handle_Keyword(yytext);
     }
 
 
+{INTEGER} {handle_CONST_INT(yytext);}
+{FLOAT} {handle_CONST_FLOAT(yytext);}
+{CHAR_CONST} {handle_CONST_CHAR(yytext);}
 {NEWLINE} {line_count++;}
 {WHITESPACE} {}
-. {}
-
+<<EOF>> {log << "\nTotal Line number: " << line_count<<"\nTotal Errors: "<<err_count<<endl; log.close(); return 0;}
 %%
 
 int main(int argc, char *argv[]){
