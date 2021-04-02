@@ -48,15 +48,17 @@ UNFINISHED_CHARACTER \'({CHAR_CONST}|\\)*
 STRING \"([^"\\]|\\['"?\\abfnrtv0])*\"
 UNFINISHED_STRING \"([^"\\]|\\['"?\\abfnrtv0])*
 
-STAR_NOT_FOLLOWED_BY_SLASH [\*][^/]
-SLASH_COMMENT "//"({NOT_NEWLINE}*({\\}({NEWLINE}))?{NOT_NEWLINE}*)*
-UNFINISHED_STAR_COMMENT (/*)(^\*|([\*]+[^*/]))*
-STAR_COMMENT {UNFINISHED_STAR_COMMENT}[\*]*(*/)
-
+STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
+COMMENT "//".*
+UNFINISHED_STAR_COMMENT [/][*]
 
 ADDOP ("+"|"-")
 
 %%
+
+{COMMENT} |
+{STAR_COMMENT} {handle_comment(yytext);}
+{UNFINISHED_STAR_COMMENT} {handle_error(yytext, "Unfinished comment");}
 
 if |
 else |
@@ -117,7 +119,7 @@ continue {
 {NEWLINE} {line_count++;}
 {WHITESPACE} {}
 . {handle_error(yytext, "Unrecognized character");}
-<<EOF>> {log << "\nTotal Line number: " << line_count<<"\nTotal Errors: "<<err_count<<endl; log.close(); return 0;}
+<<EOF>> {log << "\nTotal Line number: " << line_count-1<<"\nTotal Errors: "<<err_count<<endl; log.close(); return 0;}
 %%
 
 int main(int argc, char *argv[]){
@@ -128,9 +130,6 @@ int main(int argc, char *argv[]){
     log.open("log.txt", ios::out);
     token.open("token.txt", ios::out);
 
-    
-
-    cout<<argv[1]<<endl;
     input = fopen(argv[1], "r");
     yyin = input;
     yylex();
