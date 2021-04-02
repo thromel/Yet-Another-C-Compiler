@@ -1,213 +1,46 @@
 
-Line no 1: Token <INT> Lexeme int found
-Line no 1: Token <ID> Lexeme main found
+Error at line no: 1. Unfinished string: "Hello
+
+Error at line no: 1. Unrecognized character: \
+
+Line no 2: Token <ID> Lexeme from found
 ScopeTable #1
 0 -->
-1 --> < main : ID >
+1 --> < from : ID >
 2 -->
 3 -->
 4 -->
 
 
-Line no 1: Token <LPAREN> Lexeme ( found
-Line no 1: Token <RPAREN> Lexeme ) found
-Line no 1: Token <LCURL> Lexeme { found
-New ScopeTable #1.1 created
-
-Line no 2: Token <INT> Lexeme int found
-Line no 2: Token <ID> Lexeme a found
-ScopeTable #1.1
-0 -->
-1 -->
-2 --> < a : ID >
-3 -->
-4 -->
-
-
+Line no 2: Token <ID> Lexeme the found
 ScopeTable #1
 0 -->
-1 --> < main : ID >
+1 --> < from : ID > < the : ID >
 2 -->
 3 -->
 4 -->
 
 
-Line no 2: Token <COMMA> Lexeme , found
-Line no 2: Token <ID> Lexeme b found
-ScopeTable #1.1
-0 -->
-1 -->
-2 --> < a : ID >
-3 --> < b : ID >
-4 -->
-
-
+Line no 2: Token <ID> Lexeme other found
 ScopeTable #1
 0 -->
-1 --> < main : ID >
+1 --> < from : ID > < the : ID > < other : ID >
 2 -->
 3 -->
 4 -->
 
 
-Line no 2: Token <SEMICOLON> Lexeme ; found
-Line no 3: Token <ID> Lexeme a found
-a already exists in current scopeTable
-
-Line no 3: Token <ASSIGNOP> Lexeme = found
-Line no 3: Token <ID> Lexeme a found
-a already exists in current scopeTable
-
-Line no 3: Token <ADDOP> Lexeme + found
-ScopeTable #1.1
-0 -->
-1 -->
-2 --> < a : ID >
-3 --> < b : ID >
-4 --> < 1 : CONST_INT >
-
-
+Line no 2: Token <ID> Lexeme side found
 ScopeTable #1
 0 -->
-1 --> < main : ID >
+1 --> < from : ID > < the : ID > < other : ID > < side : ID >
 2 -->
 3 -->
 4 -->
 
 
-Line no 3: Token <CONST_INT> Lexeme 1 found
-Line no 3: Token <SEMICOLON> Lexeme ; found
-Line no 4: Token <CHAR> Lexeme char found
-Line no 4: Token <ID> Lexeme ch found
-ScopeTable #1.1
-0 -->
-1 -->
-2 --> < a : ID >
-3 --> < b : ID > < ch : ID >
-4 --> < 1 : CONST_INT >
+Error at line no: 2. Unfinished string: ";
 
 
-ScopeTable #1
-0 -->
-1 --> < main : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 4: Token <ASSIGNOP> Lexeme = found
-Line no 4: Token <CONST_CHAR> Lexeme 'a' found
-ScopeTable #1.1
-0 --> < 'a' : CONST_CHAR >
-1 -->
-2 --> < a : ID >
-3 --> < b : ID > < ch : ID >
-4 --> < 1 : CONST_INT >
-
-
-ScopeTable #1
-0 -->
-1 --> < main : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 4: Token <SEMICOLON> Lexeme ; found
-Line no 5: Token <ID> Lexeme ch found
-ch already exists in current scopeTable
-
-Line no 5: Token <ASSIGNOP> Lexeme = found
-Line no 5: Token <CONST_CHAR> Lexeme '\t' found
-ScopeTable #1.1
-0 --> < 'a' : CONST_CHAR >
-1 --> < '\t' : CONST_CHAR >
-2 --> < a : ID >
-3 --> < b : ID > < ch : ID >
-4 --> < 1 : CONST_INT >
-
-
-ScopeTable #1
-0 -->
-1 --> < main : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 5: Token <SEMICOLON> Lexeme ; found
-Line no 6: Token <CHAR> Lexeme char found
-Line no 6: Token <ID> Lexeme c found
-ScopeTable #1.1
-0 --> < 'a' : CONST_CHAR >
-1 --> < '\t' : CONST_CHAR >
-2 --> < a : ID >
-3 --> < b : ID > < ch : ID >
-4 --> < 1 : CONST_INT > < c : ID >
-
-
-ScopeTable #1
-0 -->
-1 --> < main : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 6: Token <LTHIRD> Lexeme [ found
-Line no 6: Token <RTHIRD> Lexeme ] found
-Line no 6: Token <ASSIGNOP> Lexeme = found
-Line no 6: Token <STRING> Lexeme "ab\td" found
-ScopeTable #1.1
-0 --> < 'a' : CONST_CHAR >
-1 --> < '\t' : CONST_CHAR > < "ab\td" : STRING >
-2 --> < a : ID >
-3 --> < b : ID > < ch : ID >
-4 --> < 1 : CONST_INT > < c : ID >
-
-
-ScopeTable #1
-0 -->
-1 --> < main : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 6: Token <SEMICOLON> Lexeme ; found
-Line no 7: Token <FLOAT> Lexeme float found
-Line no 7: Token <ID> Lexeme a found
-a already exists in current scopeTable
-
-Line no 7: Token <SEMICOLON> Lexeme ; found
-Line no 8: Token <RETURN> Lexeme return found
-ScopeTable #1.1
-0 --> < 'a' : CONST_CHAR >
-1 --> < '\t' : CONST_CHAR > < "ab\td" : STRING >
-2 --> < a : ID >
-3 --> < b : ID > < ch : ID > < 0 : CONST_INT >
-4 --> < 1 : CONST_INT > < c : ID >
-
-
-ScopeTable #1
-0 -->
-1 --> < main : ID >
-2 -->
-3 -->
-4 -->
-
-
-Line no 8: Token <CONST_INT> Lexeme 0 found
-Line no 8: Token <SEMICOLON> Lexeme ; found
-Line no 10: Token <COMMENT> Lexeme /* HELLO 
-	
-	adsad
-	sadasd
-	
-	
-	*/ found
-Line no 17: Token <RCURL> Lexeme } found
-Deleted ScopeTable #1.1
-
-Total Line number: 17
-Total Errors: 0
+Total Line number: 1
+Total Errors: 3

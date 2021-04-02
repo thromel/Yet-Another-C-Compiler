@@ -19,7 +19,7 @@ public:
         ScopeTable *st = new ScopeTable(buckets, current, log);
         current = st;
 
-        *log << "\nNew ScopeTable #" << st->getID() << " created" << endl;
+        // *log << "\nNew ScopeTable #" << st->getID() << " created" << endl;
     }
 
     void exitScope()
@@ -89,7 +89,7 @@ public:
     {
         if (current == NULL)
         {
-            *log << "\nNo ScopeTable in the SymbolTable" << endl;
+            // *log << "\nNo ScopeTable in the SymbolTable" << endl;
             return;
         }
 
@@ -100,7 +100,7 @@ public:
     {
         if (current == NULL)
         {
-            *log << "\nNo ScopeTable in the SymbolTable" << endl;
+            // *log << "\nNo ScopeTable in the SymbolTable" << endl;
             return;
         }
 

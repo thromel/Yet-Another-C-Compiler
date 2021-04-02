@@ -1,17 +1,2 @@
-int main(){
-	int a,b;
-	a=a+1;
-	char ch='a';
-	ch='\t';
-	char c[]="ab\td";
-	float a;
-	return 0;
-	
-	/* HELLO 
-	
-	adsad
-	sadasd
-	
-	
-	*/
-}	
+"Hello\
+from the other side";
