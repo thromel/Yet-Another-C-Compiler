@@ -1,6 +1,6 @@
 %option noyywrap
 
-%x MYSTATE
+%x COMMENT STRING
 
 %{
 // #include <stdlib.h>
@@ -17,7 +17,6 @@ FILE *input;
 
 NEWLINE \r?\n
 NOT_NEWLINE [^\r\n]
-
 WHITESPACE [ \t\f\r\v]+
 
 LETTER [a-zA-Z]
@@ -35,39 +34,24 @@ FRAC (\.{DIGITS})
 
 INTEGER {DIGITS}
 FLOAT ({INTEGER})?(\.?{DIGITS})(E[+-]?{INTEGER})?
-TOO_DECPOINT {DIGIT}*((\.)+{DIGITS})+(E{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
+TOO_DECPT {DIGIT}*((\.)+{DIGITS})+(E{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
 ILL_NUM ({DIGITS}|{FLOAT})[E]*{FLOAT}*
 
 
-CHAR_CONST (.)|\\[ntvfrab0\\"'?e]
-CHARACTER '{CHAR_CONST}'
-
+CHAR_CONST ([^'\\]|\\['?\\abfnrtv0])
+CHARACTER \'{CHAR_CONST}\'
 EMPTY_CHARACTER ('')
-MULTI_CHARACTER '{CHAR_CONST}{2,}'
-UNFINISHED_CHARACTER '({CHAR_CONST}|\\)*
+MULTI_CHARACTER \'{CHAR_CONST}{2,}\'
+UNFINISHED_CHARACTER \'({CHAR_CONST}|\\)*
 
 
-NOT_SLASH [^\\]
-SLASH [\\]
+STRING \"([^"\\]|\\['"?\\abfnrtv0])*\"
+UNFINISHED_STRING \"([^"\\]|\\['"?\\abfnrtv0])*
 
-
-UNFINISHED_STRING \"({CHAR_CONST})*
-STRING {UNFINISHED_STRING}\"
-
-
-
-
-STAR_COMMENT_START "/*"
-STAR_COMMENT_END "*/"
-ANYTHING_EXCEPT_STAR [^\*]
 STAR_NOT_FOLLOWED_BY_SLASH [\*][^/]
-
-SLASH_COMMENT "//"({ANYTHING_EXCEPT_NEWLINE}*({SLASH}({NEWLINE}))?{ANYTHING_EXCEPT_NEWLINE}*)*
-
-/* UNFINISHED_STAR_COMMENT {STAR_COMMENT_START}({ANYTHING_EXCEPT_STAR}|{STAR_NOT_FOLLOWED_BY_SLASH})* */
-UNFINISHED_STAR_COMMENT {STAR_COMMENT_START}({ANYTHING_EXCEPT_STAR}|([\*]+[^*/]))*
-/* STAR_COMMENT {UNFINISHED_STAR_COMMENT}{STAR_COMMENT_END} */
-STAR_COMMENT {UNFINISHED_STAR_COMMENT}[\*]*{STAR_COMMENT_END}
+SLASH_COMMENT "//"({NOT_NEWLINE}*({\\}({NEWLINE}))?{NOT_NEWLINE}*)*
+UNFINISHED_STAR_COMMENT (/*)(^\*|([\*]+[^*/]))*
+STAR_COMMENT {UNFINISHED_STAR_COMMENT}[\*]*(*/)
 
 
 ADDOP ("+"|"-")
@@ -99,11 +83,12 @@ continue {
 {CHARACTER} {handle_const_char(yytext, "CONST_CHAR");}
 {STRING} {handle_const_char(yytext, "STRING");}
 
+{TOO_DECPT} {handle_error(yytext, "Too many decimal points");}
 {ILL_NUM} {handle_error(yytext, "Ill formed number");}
 {UNFINISHED_CHARACTER} {handle_error(yytext, "Unfinished character");}
 {EMPTY_CHARACTER} {handle_error(yytext, "Empty Character");}
 {MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
-{UNFINISHED_STRING} {handle_error(yytext, "Unfinished string");}
+{UNFINISHED_STRING} {handle_error(yytext, "Unfinished string"); }
 
 
 

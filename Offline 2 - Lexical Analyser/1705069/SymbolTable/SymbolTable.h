@@ -11,6 +11,7 @@ public:
     SymbolTable(ofstream* log)
     {
         this->log = log;
+        enterScope();
     }
 
     void enterScope(int buckets = SYMBOL_TABLE_SIZE)
