@@ -101,7 +101,9 @@ void handle_const_char(char *str, string type){
     s = replaceAll(s,"\"", "" );
     s = replaceAll(s, "\\n", "\n");
     s = replaceAll(s, "\\t", "\t");
+    s = replaceAll(s, "\\t", "\t");
     printToken(type, s);
+
 }
 
 void handle_operator(char *str, string opr){
