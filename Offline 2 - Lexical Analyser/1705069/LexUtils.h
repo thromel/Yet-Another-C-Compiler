@@ -93,6 +93,10 @@ void handle_const_char(char *str, string type){
     printLog(line_count, type, s);
     insertToken(s, type);
 
+    size_t n = std::count(s.begin(), s.end(), '\n');
+    line_count += (int)n;
+    
+
     s = replaceAll(s, "\'", "");
     s = replaceAll(s,"\"", "" );
     s = replaceAll(s, "\\n", "\n");

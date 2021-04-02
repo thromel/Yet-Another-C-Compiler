@@ -33,9 +33,9 @@ DECPT (\.)*
 FRAC (\.{DIGITS})
 
 INTEGER {DIGITS}
-FLOAT ({INTEGER})?(\.?{DIGITS})(E[+-]?{INTEGER})?
-TOO_DECPT {DIGIT}*((\.)+{DIGITS})+(E{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
-ILL_NUM ({DIGITS}|{FLOAT})[E]*{FLOAT}*
+FLOAT ({INTEGER})?(\.?{DIGITS})([Ee][+-]?{INTEGER})?
+TOO_DECPT {DIGIT}*((\.)+{DIGITS})+([Ee]{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
+ILL_NUM ({DIGITS}|{FLOAT})[Ee]*{FLOAT}*
 
 
 CHAR_CONST ([^'\\]|\\['?\\abfnrtv0])
@@ -45,8 +45,8 @@ MULTI_CHARACTER \'{CHAR_CONST}{2,}\'
 UNFINISHED_CHARACTER \'({CHAR_CONST}|\\)*
 
 
-STRING \"([^"\\]|\\['"?\\abfnrtv0]|(\\NEWLINE))*\"
-UNFINISHED_STRING \"([^"\\]|\\['"?\\abfnrtv0]|(\\NEWLINE))*
+STRING \"([^"\\]|\\['"?\\abfnrtv0]|([\\][\r\n]))*\"
+UNFINISHED_STRING \"([^"\\]|\\['"?\\abfnrtv0]|([\\][NEWLINE]))*
 
 STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
 COMMENT "//".*
@@ -59,6 +59,19 @@ ADDOP ("+"|"-")
 {COMMENT} |
 {STAR_COMMENT} {handle_comment(yytext);}
 {UNFINISHED_STAR_COMMENT} {handle_error(yytext, "Unfinished comment");}
+
+
+{INTEGER} {handle_const_int(yytext);}
+{FLOAT} {handle_const_float(yytext);}
+{CHARACTER} {handle_const_char(yytext, "CONST_CHAR");}
+{STRING} {handle_const_char(yytext, "STRING");}
+
+{TOO_DECPT} {handle_error(yytext, "Too many decimal points");}
+{ILL_NUM} {handle_error(yytext, "Ill formed number");}
+{UNFINISHED_CHARACTER} {handle_error(yytext, "Unfinished character");}
+{EMPTY_CHARACTER} {handle_error(yytext, "Empty Character");}
+{MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
+{UNFINISHED_STRING} {handle_error(yytext, "Unfinished string"); }
 
 if |
 else |
@@ -78,21 +91,6 @@ default |
 continue {
         handle_keyword(yytext);
     }
-
-
-{INTEGER} {handle_const_int(yytext);}
-{FLOAT} {handle_const_float(yytext);}
-{CHARACTER} {handle_const_char(yytext, "CONST_CHAR");}
-{STRING} {handle_const_char(yytext, "STRING");}
-
-{TOO_DECPT} {handle_error(yytext, "Too many decimal points");}
-{ILL_NUM} {handle_error(yytext, "Ill formed number");}
-{UNFINISHED_CHARACTER} {handle_error(yytext, "Unfinished character");}
-{EMPTY_CHARACTER} {handle_error(yytext, "Empty Character");}
-{MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
-{UNFINISHED_STRING} {handle_error(yytext, "Unfinished string"); }
-
-
 
 
 {ADDOP} {handle_operator(yytext, "ADDOP");}
