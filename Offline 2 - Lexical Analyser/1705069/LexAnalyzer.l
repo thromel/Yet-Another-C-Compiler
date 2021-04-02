@@ -49,8 +49,8 @@ STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][\r\n]))*\"
 UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][NEWLINE]))*
 
 STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
-COMMENT "//"((.)|([\\][\r\n]))
-UNFINISHED_STAR_COMMENT [/][*]
+COMMENT "//"([^\r\n]*|([\\][\r\n]))
+UNFINISHED_STAR_COMMENT [\/][*][^*]*([^*\/][^*]*)*({NEWLINE})
 
 ADDOP ("+"|"-")
 
@@ -58,7 +58,10 @@ ADDOP ("+"|"-")
 
 {COMMENT} |
 {STAR_COMMENT} {handle_comment(yytext);}
-{UNFINISHED_STAR_COMMENT} {handle_error(yytext, "Unfinished comment");}
+{UNFINISHED_STAR_COMMENT} {
+    handle_error(yytext, "Unfinished comment");
+    line_count++;
+    }
 
 
 {INTEGER} {handle_const_int(yytext);}
@@ -117,7 +120,7 @@ continue {
 {NEWLINE} {line_count++;}
 {WHITESPACE} {}
 . {handle_error(yytext, "Unrecognized character");}
-<<EOF>> {log << "\nTotal Line number: " << line_count-1<<"\nTotal Errors: "<<err_count<<endl; log.close(); return 0;}
+<<EOF>> {log << "\nTotal lines: " << line_count-1<<"\nTotal errors: "<<err_count<<endl; log.close(); return 0;}
 %%
 
 int main(int argc, char *argv[]){
