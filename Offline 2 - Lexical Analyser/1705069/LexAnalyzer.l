@@ -68,7 +68,7 @@ ADDOP ("+"|"-")
 {EMPTY_CHARACTER} {handle_error(yytext, "Empty character");}
 {MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
 
-{STRING} {handle_const_char(yytext, "CONST_STRING");}
+{STRING} {handle_const_char(yytext, "STRING");}
 {UNFINISHED_STRING} {handle_error(yytext, "Unfinished string");}
 
 {INTEGER} {handle_const_int(yytext);}

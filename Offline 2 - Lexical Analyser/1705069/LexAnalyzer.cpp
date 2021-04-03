@@ -973,7 +973,7 @@ case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
 #line 71 "LexAnalyzer.l"
-{handle_const_char(yytext, "CONST_STRING");}
+{handle_const_char(yytext, "STRING");}
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
