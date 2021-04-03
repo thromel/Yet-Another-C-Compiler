@@ -16,7 +16,7 @@ FILE *input;
 %}
 
 NEWLINE \r?\n
-NOT_NEWLINE [^\r\n]
+NOT_NEWLINE ([^\r\n])
 WHITESPACE [ \t\f\r\v]+
 
 LETTER [a-zA-Z]
@@ -37,14 +37,14 @@ FLOAT ({INTEGER})?(\.?{DIGITS}*)([Ee][+-]?{INTEGER})?
 ILL_NUM ({DIGITS}|{FLOAT})[Ee]*{FLOAT}*
 TOO_DECPT {DIGIT}*((\.)+{DIGITS})+([Ee]{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
 
-CHAR_CONST ((\\{NOT_NEWLINE})|[^\\'(\r\n)])
+CHAR_CONST ((\\[^\r\n])|[^\\'\r\n])
 CHARACTER [\']{CHAR_CONST}[\']
 EMPTY_CHARACTER ('')
 MULTI_CHARACTER [\']{CHAR_CONST}{2,}[\']
-UNFINISHED_CHARACTER [\']({CHAR_CONST}|\\)*
+UNFINISHED_CHARACTER [\']({CHAR_CONST})*
 
 
-STRING [\"](\\[^\r\n]|[^\\\'(\r\n)]|([\\](\r?\n)))*[\"]
+STRING [\"](\\[^\r\n]|[^\\(\r\n)]|([\\](\r?\n)))*[\"]
 UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\](\r?\n)))* 
 
 STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
@@ -59,14 +59,13 @@ ADDOP ("+"|"-")
 {STAR_COMMENT} {handle_comment(yytext);}
 {UNFINISHED_STAR_COMMENT} {
     handle_error(yytext, "Unfinished comment");
-    line_count++;
     }
 
   
 
 {CHARACTER} {handle_const_char(yytext, "CONST_CHAR");}
 {UNFINISHED_CHARACTER} {handle_error(yytext, "Unfinished character");}
-{EMPTY_CHARACTER} {handle_error(yytext, "Empty Character");}
+{EMPTY_CHARACTER} {handle_error(yytext, "Empty character");}
 {MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
 
 {STRING} {handle_const_char(yytext, "CONST_STRING");}

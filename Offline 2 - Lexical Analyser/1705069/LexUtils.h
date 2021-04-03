@@ -159,6 +159,9 @@ void handle_error(char *str, string msg){
     string s(str);
     log <<"\n"<<"Error at line no: "<<line_count<<". "<<msg<<": "<<s<<endl;
     err_count++;
+    
+    size_t n = std::count(s.begin(), s.end(), '\n');
+    line_count += (int)n;
 }
 
 void handle_comment(char *str){
