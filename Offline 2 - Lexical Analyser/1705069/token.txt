@@ -1,6 +1,7 @@
-<CONST_FLOAT,7.><ID,_____12><ID,wefrg><CONST_CHAR,
-><CONST_CHAR,
-><ID,erfeg997578><CONST_CHAR,
-><ID,a><STRING,Hello 
-><ID,This><ID,is><ID,second><ID,unfinished><ID,string><STRING,A valid\
-string>
+<CONST_CHAR,h><CONST_CHAR,
+><CONST_CHAR,\m><CONST_STRING,Hello><CONST_STRING,Hello
+sadasdaasdad><CONST_STRING,
+
+
+	><CHAR><ID,c><ASSIGNOP,=><CONST_CHAR,
+>
