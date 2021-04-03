@@ -33,24 +33,25 @@ DECPT (\.)*
 FRAC (\.{DIGITS})
 
 INTEGER {DIGITS}
-FLOAT ({INTEGER})?(\.?{DIGITS})([Ee][+-]?{INTEGER})?
-TOO_DECPT {DIGIT}*((\.)+{DIGITS})+([Ee]{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
+FLOAT ({INTEGER})?(\.?{DIGITS}*)([Ee][+-]?{INTEGER})?
 ILL_NUM ({DIGITS}|{FLOAT})[Ee]*{FLOAT}*
+TOO_DECPT {DIGIT}*((\.)+{DIGITS})+([Ee]{DECPT}[+-]?{DECPT}{DIGITS})?{DECPT}{DIGITS}*
 
 
-CHAR_CONST ([^'\\]|\\['?\\abfnrtv0])
+
+CHAR_CONST ([^\'\\]|\\[\'\\abfnrtv0])
 CHARACTER \'{CHAR_CONST}\'
 EMPTY_CHARACTER ('')
-MULTI_CHARACTER \'{CHAR_CONST}{2,}\'
-UNFINISHED_CHARACTER \'({CHAR_CONST}|\\)*
+MULTI_CHARACTER [\']([^\'\n\r]{2,})[\']
+UNFINISHED_CHARACTER [\']([^\'\n\r]*){NEWLINE}
 
 
 STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][\r\n]))*\"
 UNFINISHED_STRING \"([^"\\]|\\['"?\\a-zA-Z0-9]|([\\][NEWLINE]))*
 
 STAR_COMMENT [\/][*][^*]*[*]+([^*\/][^*]*[*]+)*[\/]
-COMMENT "//"([^\r\n]*|([\\][\r\n]))
-UNFINISHED_STAR_COMMENT [\/][*][^*]*([^*\/][^*]*)*({NEWLINE})
+COMMENT "//"([^\r\n]*|([\\][\r\n]))*
+UNFINISHED_STAR_COMMENT [\/][*][^*]*([^*\/][^*]*)*(\r?\n)
 
 ADDOP ("+"|"-")
 
@@ -63,18 +64,18 @@ ADDOP ("+"|"-")
     line_count++;
     }
 
+{CHARACTER} {handle_const_char(yytext, "CONST_CHAR");}
+{STRING} {handle_const_char(yytext, "STRING");}
+{UNFINISHED_CHARACTER} {handle_error(yytext, "Unfinished character");}
+{UNFINISHED_STRING} {handle_error(yytext, "Unfinished string"); }
+{EMPTY_CHARACTER} {handle_error(yytext, "Empty Character");}
+{MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
 
 {INTEGER} {handle_const_int(yytext);}
 {FLOAT} {handle_const_float(yytext);}
-{CHARACTER} {handle_const_char(yytext, "CONST_CHAR");}
-{STRING} {handle_const_char(yytext, "STRING");}
-
 {TOO_DECPT} {handle_error(yytext, "Too many decimal points");}
 {ILL_NUM} {handle_error(yytext, "Ill formed number");}
-{UNFINISHED_CHARACTER} {handle_error(yytext, "Unfinished character");}
-{EMPTY_CHARACTER} {handle_error(yytext, "Empty Character");}
-{MULTI_CHARACTER} {handle_error(yytext, "Multi character constant");}
-{UNFINISHED_STRING} {handle_error(yytext, "Unfinished string"); }
+
 
 if |
 else |
