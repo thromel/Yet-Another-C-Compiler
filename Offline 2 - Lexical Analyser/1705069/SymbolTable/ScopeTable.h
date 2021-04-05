@@ -169,7 +169,7 @@ public:
 
     void print()
     {
-        *log << "\nScopeTable #" << this->id << endl;
+        *log << "\nScopeTable #" << this->id;
 
         for (int i = 0; i < total_buckets; ++i)
         {
@@ -201,7 +201,6 @@ public:
 
     ~ScopeTable()
     {
-        *log << "\nDeleted ScopeTable #" << id << endl;
         delete[] symbols;
         parentScope = NULL;
     }

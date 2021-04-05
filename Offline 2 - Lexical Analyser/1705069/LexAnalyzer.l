@@ -1,6 +1,5 @@
 %option noyywrap
 
-%x COMMENT STRING
 
 %{
 // #include <stdlib.h>
@@ -121,7 +120,7 @@ continue {
 {NEWLINE} {line_count++;}
 {WHITESPACE} {}
 . {handle_error(yytext, "Unrecognized character");}
-<<EOF>> {log << "\nTotal lines: " << line_count-1<<"\nTotal errors: "<<err_count<<endl; log.close(); return 0;}
+<<EOF>> {log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<err_count<<endl; log.close(); return 0;}
 %%
 
 int main(int argc, char *argv[]){

@@ -1,2 +1,0 @@
-<CONST_FLOAT,7.><ID,_____12><STRING,A valid
-string>
