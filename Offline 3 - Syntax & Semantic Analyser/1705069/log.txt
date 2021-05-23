@@ -1,0 +1,27 @@
+At line no: 1 type_specifier	: INT
+
+int
+
+TODO : Function definiton
+New ScopeTable #1.1 created
+
+ScopeTable #1.1
+
+ScopeTable #1
+At line no: 3 compound_statement : LCURL RCURL
+
+{}
+
+At line no: 3 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+int a ( ) {}
+
+int a ( ) {}
+
+At line no: 3 program : unit
+
+int a ( ) {}
+
+
+Total lines: 4
+Total errors: 0
