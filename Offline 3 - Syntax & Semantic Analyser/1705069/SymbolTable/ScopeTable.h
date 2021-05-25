@@ -128,6 +128,41 @@ public:
         return true;
     }
 
+    bool insertSymbol(SymbolInfo* symbol)
+    {
+        SymbolInfo *searched = lookUp(symbol->getName());
+        if (searched != NULL)
+        {
+            // *log << *searched << " already exists in the current ScopeTable" << endl;
+            return false;
+        }
+
+        int index = hashFunction(symbol->getName());
+        int pos = 0;
+
+        SymbolInfo *temp = symbols[index];
+
+        //If there is no symbol at that position
+        if (temp == NULL)
+        {
+            symbols[index] = symbol;
+            symbol->setNext(NULL);
+        }
+        else
+        {
+            //if there is already a symbol at that position
+            while (temp->getNext() != NULL)
+            {
+                temp = temp->getNext();
+                pos++;
+            }
+            temp->setNext(symbol);
+            symbol->setNext(NULL);
+        }
+        // *log << "Inserted in ScopeTable #" << id << " at position " << index << ", " << pos << endl;
+        return true;
+    }
+
     bool deleteSymbol(string name)
     {
         if (lookUp(name) == NULL)

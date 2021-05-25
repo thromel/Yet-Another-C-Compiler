@@ -34,7 +34,9 @@ SymbolInfo* symbol;
 %token <symbol> RELOP
 %token <symbol> BITOP
 
-
+%type <symbol> program
+%type <symbol> unit
+%type <symbol> start
 %type <symbol> type_specifier 
 %type <symbol> expression 
 %type <symbol> expression_statement
@@ -45,11 +47,8 @@ SymbolInfo* symbol;
 %type <symbol>unary_expression
 %type <symbol>factor
 %type <symbol>variable
-// %type <symbol>parameter_list
+%type <symbol>parameter_list
 %type <symbol> declaration_list
-%type <symbol> program
-%type <symbol> unit
-%type <symbol> start
 // %type <symbol>func_declaration
 %type <symbol>func_definition
 %type <symbol> compound_statement
@@ -73,15 +72,17 @@ start : program
 program : program unit 
 	{
 		$1->setName($1->getName() + "\n" + $2->getName());
-		printRule("program : program unit");
-		printSymbol($1);
 		$$ = $1;
+		printRule("program : program unit");
+		printSymbol($$);
+		
 	}
 	| unit
 	{
 		$$ = $1;
 		printRule("program : unit");
 		printSymbol($$);
+		st.printAll();
 	}
 	;
 	
@@ -94,24 +95,71 @@ unit : var_declaration
 	| func_definition
 	{
 		$$ = $1;
-		printError("unit : func_definition");
+		printRule("unit : func_definition");
 		printSymbol($$);
 	}
      ;
 
-func_definition : type_specifier ID LPAREN RPAREN {addFuncDef($1, $2);} compound_statement
+func_definition : type_specifier ID LPAREN RPAREN {addFuncDef($2, $1);} compound_statement
 		{
 			$$ = new SymbolInfo($1->getName() + " " + $2->getName() + " ( ) " + $6->getName(), "NON_TERMINAL" );
 			printRule("func_definition : type_specifier ID LPAREN RPAREN compound_statement");
 			printSymbol($$);
 		}
+		| type_specifier ID LPAREN parameter_list RPAREN {addFuncDef($2, $1);} compound_statement
+		{
+			$$ = new SymbolInfo($1->getName() + " " + $2->getName() + " ( " + $4->getName() +" ) "+ $7->getName(), "NON_TERMINAL" );
+			printRule("func_definition : type_specifier ID LPAREN parameter_list RPAREN");
+			printSymbol($$);
+		}
 		;
+
+parameter_list: parameter_list COMMA type_specifier ID
+		{	
+
+			$$ = new SymbolInfo($1->getName() + "," + $3->getName() + " " + $4->getName(), "NON_TERMINAL");
+			printRule("parameter_list : parameter_list COMMA type_specifier ID");
+			printSymbol($$);
+			addParam($4->getName(), $3->getName());
+		}
+		| parameter_list COMMA type_specifier
+		{
+			$$ = new SymbolInfo($1->getName() + "," + $3->getName(), "NON_TERMINAL");
+			printRule("parameter_list : parameter_list COMMA type_specifier");
+			printSymbol($$);
+			addParam("", $3->getName());
+		}
+		| type_specifier ID
+		{
+			$$ = new SymbolInfo($1->getName() + " " + $2->getName(), "NON_TERMINAL");
+			printRule("parameter_list : type_specifier ID");
+			printSymbol($$);
+			addParam($2->getName(), $1->getName());
+		}
+		| type_specifier
+		{
+			$$ = $1;
+			printRule("parameter_list : type_specifier");
+			printSymbol($$);
+			addParam("", $1->getName());
+		}
+		| parameter_list COMMA error ID {
+			//Error Recovery
+		}
+		| error ID {
+			//Error Recovery
+		}	
      		
 var_declaration : type_specifier declaration_list SEMICOLON
 		{
 			$$ = new SymbolInfo($1->getName() + " " + $2->getName() + ";","NON_TERMINAL");
 			printRule("var_declaration : type_specifier declaration_list SEMICOLON");
 			printSymbol($$);
+		}
+		|
+		type_specifier declaration_list error 
+		{
+			//Error Recovery
 		}
  		 ;
  		 
@@ -149,9 +197,7 @@ declaration_list : declaration_list COMMA ID
 				$$ = new SymbolInfo($1->getName() + ", " + $3->getName() + "[" + $5->getName() + "]", "NON_TERMINAL");
 				printRule("declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD ");
 				printSymbol($$);
-				if (!insertSymbol($$)) {
-					printError(" multiple declaration of " + $3->getName() );
-				}
+				insertArray($3, $5);
 			}
  		  	| ID
 		   {
@@ -167,9 +213,15 @@ declaration_list : declaration_list COMMA ID
 				printRule("declaration_list :ID LTHIRD CONST_INT RTHIRD ");
 				$$ = new SymbolInfo($1->getName() + "[" + $3->getName() + "]", "NON_TERMINAL" );
 				printSymbol($$);
-				if (!insertSymbol($$)) {
-					printError(" multiple declaration of " + $3->getName() );
-				}
+				insertArray($1, $3);
+			}
+			| ID LTHIRD error RTHIRD
+			{
+				//Error Recovery
+			}
+			| declaration_list COMMA ID LTHIRD error RTHIRD 
+			{
+				//Error Recovery
 			}
  		  ;
 
@@ -219,6 +271,10 @@ expression_statement : SEMICOLON
 				printRule("expression_statement : expression SEMICOLON");
 				printSymbol($$);
 			}
+			| expression error 
+			{
+				//Error Recovery
+			}
 			;
 
 expression : logic_expression
@@ -227,7 +283,10 @@ expression : logic_expression
 				printRule("expression : logic_expression");
 				printSymbol($$);
 			}
-			
+			| variable ASSIGNOP logic_expression
+			{
+				
+			}
 			;
 
 logic_expression : simple_expression
@@ -287,6 +346,18 @@ variable : ID
 				$$ = getVariable($1);
 				printRule("variable : ID");
 				printSymbol($$);
+			}
+			| CONST_INT
+			{
+				$$ = $1;
+				printRule("variable : CONST_INT");
+				printSymbol($$);
+			}
+			| CONST_FLOAT
+			{
+				$$ = $1;
+				printRule("variable : CONST_FLOAT");
+				printSymbol($$);	
 			}
 			;
 compound_statement : LCURL {enterScope();} statements RCURL

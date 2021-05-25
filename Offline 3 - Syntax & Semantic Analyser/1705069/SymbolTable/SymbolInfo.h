@@ -32,7 +32,7 @@ public:
         string name;
     };
 
-    vector<param> params;
+    vector<param> paramList;
 
     vector<int> intData;
     vector<float> floatData;
@@ -77,23 +77,23 @@ public:
 
     ~SymbolInfo()
     {
-        params.clear();
+        paramList.clear();
     }
 
     //Added for parser
 
-    void addParam(string type, string name)
+    void addParam(string name, string type)
     {
         param temp;
         temp.name = name;
         temp.type = type;
 
-        params.push_back(temp);
+        paramList.push_back(temp);
     }
 
     param getParam(int index)
     {
-        return params[index];
+        return paramList[index];
     }
 
     void set_idType(string idtype)
@@ -158,6 +158,10 @@ public:
         this->arrSize = arrSize;
     }
 
+    void setReturnType(string ret)
+    {
+        this->returnType = ret;
+    }
 
 };
 

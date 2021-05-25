@@ -47,6 +47,14 @@ public:
         return current->insertSymbol(name, type);
     }
 
+    bool insertSymbol(SymbolInfo* symbol)
+    {
+        if (current == NULL){
+            return false;
+        }
+        return current->insertSymbol(symbol);
+    }
+
     bool deleteSymbol(string name)
     {
         if (current == NULL)

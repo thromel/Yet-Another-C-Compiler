@@ -1,1 +1,1 @@
-Error at line no: 3unit : func_definition
+Error at line no: 3 multiple declaration of a
