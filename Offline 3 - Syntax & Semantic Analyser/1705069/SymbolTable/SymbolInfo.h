@@ -8,17 +8,17 @@ using namespace std;
 
 class SymbolInfo
 {
-    string name;
-    string type;
+    string name = "";
+    string type = "";
 
-    string idType; //FUNCTION, VARIABLE, ARRAY
-    string varType; //INT, FLOAT, VOID
+    string idType = ""; //FUNCTION, VARIABLE, ARRAY
+    string varType = ""; //INT, FLOAT, VOID
 
-    string returnType; //INT, FLOAT, VOID
+    string returnType = ""; //INT, FLOAT, VOID
     bool funcDefined = false;
 
-    int arrSize;
-    int arrIndex;
+    int arrSize = 0;
+    int arrIndex = 0;
 
     int defaultInt = 0;
     float defaultFloat = 0.0;
@@ -42,7 +42,27 @@ public:
         this->name = name;
         this->type = type;
         next = NULL;
+        fill(intData.begin(), intData.end(), 0);
+        fill(floatData.begin(), floatData.end(), 0.0);
     }
+
+    SymbolInfo(const SymbolInfo &symbolInfo) {
+		this->name = symbolInfo.name;
+		this->type = symbolInfo.type;
+		this->arrSize = symbolInfo.arrSize;
+		this->arrIndex = symbolInfo.arrIndex;
+
+		this->varType = symbolInfo.varType;
+		this->idType = symbolInfo.idType;
+
+		this->funcDefined = symbolInfo.funcDefined;
+		this->returnType = symbolInfo.returnType;
+
+		this->intData = symbolInfo.intData;
+		this->floatData = symbolInfo.floatData;
+
+		this->paramList = symbolInfo.paramList;
+	}
 
     string getName() const
     {
@@ -96,22 +116,32 @@ public:
         return paramList[index];
     }
 
-    void set_idType(string idtype)
+    void setIdType(string idType)
     {
         this->idType = idType;
     }
 
-    string get_idType()
+    string getIdType()
     {
         return idType;
     }
 
-    void set_arrSize(int size)
+    void setVarType(string vt)
+    {
+        this->varType = vt;
+    }
+
+    string getVarType()
+    {
+        return this->varType;
+    }
+
+    void setArrSize(int size)
     {
         arrSize = size;
     }
 
-    int get_arrSize()
+    int getArrSize()
     {
         return arrSize;
     }
@@ -131,16 +161,42 @@ public:
         return idType == "ARRAY";
     }
 
-    int intValue(int index = 0)
+    int getIntValue(int index = 0)
     {
-        if (idType == "VARIABLE"  && varType == "INT"){
-            if (intData.size() == 0) return 0;
-            else intData[index];
-        } else if (idType == "ARRAY" && varType == "FLOAT"){
-            return intData[arrIndex];    
-        }
-        return defaultInt;
+        if (intData.size() == 0) return defaultInt;
+        else return intData[index];
+        
     }
+
+    void setIntValue(int value)
+    {
+        if (intData.size() == 0) intData.push_back(value);
+        else intData[0] = value;
+    }
+
+    float getFloatValue(int index = 0)
+    {
+        if (floatData.size() == 0) return defaultFloat;
+        return floatData[index];
+    }
+
+    void addIntValue(int value)
+    {
+        intData.push_back(value);
+    }
+
+    void addFloatValue(float value)
+    {
+        floatData.push_back(value);
+    }
+
+    void setFloatValue(float value)
+    {
+        if (floatData.size() == 0) floatData.push_back(value);
+        else floatData[0]=value;
+    }
+
+
 
     void setArrIndex(int arrIndex)
     {
@@ -148,14 +204,6 @@ public:
             return;
         }
         this->arrIndex = arrIndex;
-    }
-
-    void setArrSize (int arrSize)
-    {
-        if (!isArray()){
-            return;
-        }
-        this->arrSize = arrSize;
     }
 
     void setReturnType(string ret)

@@ -109,7 +109,7 @@ continue {return CONTINUE;}
 "}" {return RCURL;}
 "(" {return LPAREN;}
 ")" {return RPAREN;}
-"=" {return ASSIGNOP;}
+"=" {handle_operator(yytext, "ASSIGNOP"); return ASSIGNOP;}
 "!" {return NOT;}
 
 {ID} {handle_id(yytext); return ID;}

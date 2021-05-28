@@ -1,1 +1,2 @@
-Error at line no: 3 multiple declaration of a
+Warning at line no: 4 Assigning integer to a float variable
+Warning at line no: 5 Assigning float to an integer variable

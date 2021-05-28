@@ -67,27 +67,27 @@ extern int yydebug;
     CONTINUE = 273,
     INCOP = 274,
     DECOP = 275,
-    ASSIGNOP = 276,
-    NOT = 277,
-    LPAREN = 278,
-    RPAREN = 279,
-    LCURL = 280,
-    RCURL = 281,
-    LTHIRD = 282,
-    RTHIRD = 283,
-    COMMA = 284,
-    SEMICOLON = 285,
-    PRINTLN = 286,
-    STRING = 287,
-    ID = 288,
-    CONST_INT = 289,
-    CONST_FLOAT = 290,
-    CONST_CHAR = 291,
-    ADDOP = 292,
-    MULOP = 293,
-    LOGICOP = 294,
-    RELOP = 295,
-    BITOP = 296
+    NOT = 276,
+    LPAREN = 277,
+    RPAREN = 278,
+    LCURL = 279,
+    RCURL = 280,
+    LTHIRD = 281,
+    RTHIRD = 282,
+    COMMA = 283,
+    SEMICOLON = 284,
+    PRINTLN = 285,
+    STRING = 286,
+    ID = 287,
+    CONST_INT = 288,
+    CONST_FLOAT = 289,
+    CONST_CHAR = 290,
+    ADDOP = 291,
+    MULOP = 292,
+    LOGICOP = 293,
+    RELOP = 294,
+    BITOP = 295,
+    ASSIGNOP = 296
   };
 #endif
 /* Tokens.  */
@@ -109,27 +109,27 @@ extern int yydebug;
 #define CONTINUE 273
 #define INCOP 274
 #define DECOP 275
-#define ASSIGNOP 276
-#define NOT 277
-#define LPAREN 278
-#define RPAREN 279
-#define LCURL 280
-#define RCURL 281
-#define LTHIRD 282
-#define RTHIRD 283
-#define COMMA 284
-#define SEMICOLON 285
-#define PRINTLN 286
-#define STRING 287
-#define ID 288
-#define CONST_INT 289
-#define CONST_FLOAT 290
-#define CONST_CHAR 291
-#define ADDOP 292
-#define MULOP 293
-#define LOGICOP 294
-#define RELOP 295
-#define BITOP 296
+#define NOT 276
+#define LPAREN 277
+#define RPAREN 278
+#define LCURL 279
+#define RCURL 280
+#define LTHIRD 281
+#define RTHIRD 282
+#define COMMA 283
+#define SEMICOLON 284
+#define PRINTLN 285
+#define STRING 286
+#define ID 287
+#define CONST_INT 288
+#define CONST_FLOAT 289
+#define CONST_CHAR 290
+#define ADDOP 291
+#define MULOP 292
+#define LOGICOP 293
+#define RELOP 294
+#define BITOP 295
+#define ASSIGNOP 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
