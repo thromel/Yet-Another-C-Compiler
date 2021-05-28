@@ -161,6 +161,7 @@ void insertArray(SymbolInfo *id, SymbolInfo *size)
     }
     id->setIdType("ARRAY");
     id->setArrSize(stoi(size->getName()));
+    id->setVarType(type);
 
     for(int i = 0; i < id->getArrSize(); ++i){
         id->intData.push_back(0);
@@ -172,28 +173,26 @@ void insertArray(SymbolInfo *id, SymbolInfo *size)
 SymbolInfo* getConstVal(SymbolInfo *val, string varType)
 {   
 
-    SymbolInfo *const_val = new SymbolInfo(val->getName(), val->getType());
     
-    const_val->setIdType("VARIABLE");
-    const_val->setVarType(varType);
+    val->setIdType("VARIABLE");
+    val->setVarType(varType);
 
     if (varType == "FLOAT")
     {
-        const_val->setFloatValue(stof(val->getName()));
+        val->setFloatValue(stof(val->getName()));
     } else if (varType == "INT")
     {
-        const_val->setIntValue(stoi(val->getName()));
+        val->setIntValue(stoi(val->getName()));
     }
-
-    return const_val;
+    
+    return val;
 }
 
 SymbolInfo* getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index)
 {
     SymbolInfo *arrIdxVar = st.lookup(arr->getName());
     SymbolInfo *var;
-
-    if (arrIdxVar = NULL)
+    if (arrIdxVar == NULL)
     {
         printError(arr->getName() + " doesn't exist");
         return nullSym();
@@ -211,6 +210,7 @@ SymbolInfo* getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index)
          else {
              var = new SymbolInfo(*arrIdxVar);
              var->setArrIndex(index->getIntValue());
+             var->setName(arr->getName()+"["+to_string(index->getIntValue())+"]");
         }
 
     }
@@ -289,8 +289,8 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
 
     string ADDOP = op->getName();
     if (ADDOP == "+"){
-        if (sym1->isVariable()){
-            if (sym2->isVariable()){
+        if (sym1->isVariable() || sym1->isArray()){
+            if (sym2->isVariable() || sym2->isArray()){
                 if (sym1->getVarType() == "FLOAT"){
                     if (sym2->getVarType() == "INT"){
                         result->setFloatValue(sym1->getFloatValue()+sym2->getIntValue());
@@ -311,7 +311,25 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
     } 
     else if (ADDOP == "-")
     {
+        if (sym1->isVariable() || sym1->isArray()){
+            if (sym2->isVariable() || sym2->isArray()){
+                if (sym1->getVarType() == "FLOAT"){
+                    if (sym2->getVarType() == "INT"){
+                        result->setFloatValue(sym1->getFloatValue()-sym2->getIntValue());
+                    } else {
+                        result->setFloatValue(sym1->getFloatValue()-sym2->getFloatValue());
+                    }                    
+                } else if (sym1->getVarType() == "INT"){
+                    if (sym2->getVarType() == "INT"){
+                        result->setIntValue(sym1->getIntValue()-sym2->getIntValue());
+                    } else {
+                        result->setFloatValue(sym1->getIntValue()-sym2->getFloatValue());
+                    }
+                }
+            } else if (sym2->isArray()){
 
+            }
+        }
     }
     result->setName(sym1->getName() + ADDOP + sym2->getName());
     return result;
