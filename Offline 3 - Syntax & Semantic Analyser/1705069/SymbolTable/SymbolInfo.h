@@ -37,6 +37,10 @@ public:
     vector<int> intData;
     vector<float> floatData;
 
+    bool isDummy = false;
+    SymbolInfo *real = NULL;
+
+
     SymbolInfo(string name, string type)
     {
         this->name = name;
@@ -44,6 +48,7 @@ public:
         next = NULL;
         fill(intData.begin(), intData.end(), 0);
         fill(floatData.begin(), floatData.end(), 0.0);
+        isDummy = false;
     }
 
     SymbolInfo(const SymbolInfo &symbolInfo) {
@@ -62,6 +67,8 @@ public:
 		this->floatData = symbolInfo.floatData;
 
 		this->paramList = symbolInfo.paramList;
+        this->isDummy = symbolInfo.isDummy;
+        this->real = symbolInfo.real;
 	}
 
     string getName() const
@@ -163,43 +170,54 @@ public:
 
     int getIntValue()
     {
-        if (intData.size() == 0) return defaultInt;
-        else if (varType == "VARIABLE") return intData[0];
-        else if (varType == "ARRAY" && arrIndex < arrSize) return intData[arrIndex];
+        if (!isDummy){
+            if (intData.size() == 0) return defaultInt;
+            else if (idType == "VARIABLE") return intData[0];
+            else if (idType == "ARRAY" && arrIndex < arrSize) return intData[arrIndex];
+        } else {
+            return real->getIntValue();
+        }
         
     }
 
     void setIntValue(int value)
     {
-        if (intData.size() == 0) intData.push_back(value);
-        else if (varType == "VARIABLE") intData[0]=value;
-        else if (varType == "ARRAY" || arrIndex < arrSize) intData[arrIndex] = value;
+        if (!isDummy){
+            if (intData.size() == 0) intData.push_back(value);
+            else if (idType == "VARIABLE") intData[0]=value;
+            else if (idType == "ARRAY" || arrIndex < arrSize) intData[arrIndex] = value;
+        } else {
+            real->setIntValue(value);
+        }
+
+        
     }
 
     float getFloatValue()
     {
-        if (floatData.size() == 0) return defaultFloat;
-        else if (varType == "VARIABLE") return floatData[0];
-        else if (varType == "ARRAY" && arrIndex < arrSize) return floatData[arrIndex];
-    }
-
-    void addIntValue(int value)
-    {
-        intData.push_back(value);
-    }
-
-    void addFloatValue(float value)
-    {
-        floatData.push_back(value);
+        if (!isDummy){
+            if (floatData.size() == 0) return defaultFloat;
+            else if (idType == "VARIABLE") return floatData[0];
+            else if (idType == "ARRAY" && arrIndex < arrSize) return floatData[arrIndex];
+        } else {
+            return real->getFloatValue();
+        }
+        
     }
 
     void setFloatValue(float value)
     {
-        if (floatData.size() == 0) floatData.push_back(value);
-        else if (varType == "VARIABLE") floatData[0]=value;
-        else if (varType == "ARRAY" || arrIndex < arrSize) floatData[arrIndex] = value;
+        if (!isDummy){
+            if (floatData.size() == 0) floatData.push_back(value);
+            else if (idType == "VARIABLE") floatData[0]=value;
+            else if (idType == "ARRAY" || arrIndex < arrSize) floatData[arrIndex] = value;
+        } else {
+            real->setFloatValue(value);
+        }
+        
     }
 
+    
     void setArrIndex(int arrIndex)
     {
         if (!isArray()){
@@ -211,6 +229,12 @@ public:
     void setReturnType(string ret)
     {
         this->returnType = ret;
+    }
+
+    void setReal(SymbolInfo *actual)
+    {
+        isDummy = true;
+        this->real = actual;
     }
 
 

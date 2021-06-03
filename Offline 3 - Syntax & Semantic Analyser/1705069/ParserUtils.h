@@ -211,6 +211,7 @@ SymbolInfo* getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index)
              var = new SymbolInfo(*arrIdxVar);
              var->setArrIndex(index->getIntValue());
              var->setName(arr->getName()+"["+to_string(index->getIntValue())+"]");
+             var->setReal(arrIdxVar);
         }
 
     }
@@ -234,13 +235,13 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
             printWarning("Assigning integer to a float variable");
             sym1->setFloatValue(sym2->getIntValue());
             result = new SymbolInfo(*sym1);
-            result->setName(sym1->getName() + "=" + to_string(sym1->getFloatValue()));
+            // result->setName(sym1->getName() + "=" + to_string(sym1->getFloatValue()));
         } 
         else if (sym1->getVarType() == "INT")
         {
             sym1->setIntValue(sym2->getIntValue());
             result = new SymbolInfo(*sym1);
-            result->setName(sym1->getName() + "=" + to_string(sym1->getIntValue()));
+            // result->setName(sym1->getName() + "=" + to_string(sym1->getIntValue()));
         }
         
         
@@ -252,18 +253,21 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
         {
             sym1->setFloatValue(sym2->getFloatValue());
             result = new SymbolInfo(*sym1);
-            result->setName(sym1->getName() + "=" + to_string(sym1->getFloatValue()));
+            // result->setName(sym1->getName() + "=" + to_string(sym1->getFloatValue()));
         } 
         else if (sym1->getVarType() == "INT")
         {
             printWarning("Assigning float to an integer variable");
             sym1->setIntValue(sym2->getFloatValue());
             result = new SymbolInfo(*sym1);
-            result->setName(sym1->getName() + "=" + to_string(sym1->getIntValue()));
+            // result->setName(sym1->getName() + "=" + to_string(sym1->getIntValue()));
         }
         
         
     }
+    result->setName(sym1->getName() + "=" + sym2->getName());
+    result->setIdType("VARIABLE");
+
     return result;
     
 }
@@ -285,6 +289,7 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
     {
         result->setVarType("INT");
     }
+    result->setIdType("VARIABLE");
 
 
     string ADDOP = op->getName();
@@ -300,6 +305,7 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                 } else if (sym1->getVarType() == "INT"){
                     if (sym2->getVarType() == "INT"){
                         result->setIntValue(sym1->getIntValue()+sym2->getIntValue());
+                        // cout<<result->getIntValue()<<" "<<result->getVarType()<<endl;
                     } else {
                         result->setFloatValue(sym1->getIntValue()+sym2->getFloatValue());
                     }

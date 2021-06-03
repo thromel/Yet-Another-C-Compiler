@@ -1,4 +1,8 @@
-int main (int c) {
-    int a[69];
-    a [60] = 1;
+int main () {
+    int a;
+    a = 1;
+    int b;
+    b = a;
+    int c[69];
+    c[60] = b;
 }

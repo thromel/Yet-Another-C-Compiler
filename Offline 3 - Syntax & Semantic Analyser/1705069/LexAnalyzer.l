@@ -111,6 +111,7 @@ continue {return CONTINUE;}
 ")" {return RPAREN;}
 "=" {handle_operator(yytext, "ASSIGNOP"); return ASSIGNOP;}
 "!" {return NOT;}
+"PRINT" {return PRINT;}
 
 {ID} {handle_id(yytext); return ID;}
 {NOT_ID} {handle_error(yytext, "Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence");}
