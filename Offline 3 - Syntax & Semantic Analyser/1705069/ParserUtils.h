@@ -235,13 +235,11 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
             printWarning("Assigning integer to a float variable");
             sym1->setFloatValue(sym2->getIntValue());
             result = new SymbolInfo(*sym1);
-            // result->setName(sym1->getName() + "=" + to_string(sym1->getFloatValue()));
         } 
         else if (sym1->getVarType() == "INT")
         {
             sym1->setIntValue(sym2->getIntValue());
             result = new SymbolInfo(*sym1);
-            // result->setName(sym1->getName() + "=" + to_string(sym1->getIntValue()));
         }
         
         
@@ -253,14 +251,12 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
         {
             sym1->setFloatValue(sym2->getFloatValue());
             result = new SymbolInfo(*sym1);
-            // result->setName(sym1->getName() + "=" + to_string(sym1->getFloatValue()));
         } 
         else if (sym1->getVarType() == "INT")
         {
             printWarning("Assigning float to an integer variable");
             sym1->setIntValue(sym2->getFloatValue());
             result = new SymbolInfo(*sym1);
-            // result->setName(sym1->getName() + "=" + to_string(sym1->getIntValue()));
         }
         
         
@@ -332,13 +328,118 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                         result->setFloatValue(sym1->getIntValue()-sym2->getFloatValue());
                     }
                 }
-            } else if (sym2->isArray()){
-
             }
         }
     }
     result->setName(sym1->getName() + ADDOP + sym2->getName());
     return result;
+}
+
+SymbolInfo* handle_RELOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
+{
+    if (sym1->getVarType() == "VOID" || sym2->getVarType() == "VOID"){
+        printError("Void type expressions are not comparable");
+        return nullSym();
+    }
+
+    if (sym1->getVarType() != sym2->getVarType()){
+        printWarning("Comparison between different types");
+    }
+
+    string relop = op->getName();
+
+
+
+    SymbolInfo *result = new SymbolInfo("","");
+    result->setVarType("INT");
+    result->setIdType("VARIABLE");
+
+    int leftInt = 0, rightInt = 0;
+    float leftFloat = 0.0, rightFloat = 0.0;
+    int resultValue = 0;
+
+    if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
+        leftInt = sym1->getIntValue();
+        rightInt = sym2->getIntValue();
+        
+        if (relop == "=="){
+            resultValue = leftInt == rightInt;
+
+        } else if (relop == "!="){
+            resultValue = leftInt != rightInt;
+
+        } else if (relop == "<="){
+            resultValue = leftInt <= rightInt;
+
+        } else if (relop == ">="){
+            resultValue = leftInt >= rightInt;
+        } else if (relop == ">"){
+            resultValue = leftInt > rightInt;
+        } else if (relop == "<"){
+            resultValue = leftInt < rightInt;
+        } 
+    } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT"){
+        leftInt = sym1->getIntValue();
+        rightFloat = sym2->getFloatValue();
+        if (relop == "=="){
+            resultValue = leftInt == rightFloat;
+
+        } else if (relop == "!="){
+            resultValue = leftInt != rightFloat;
+
+        } else if (relop == "<="){
+            resultValue = leftInt <= rightFloat;
+
+        } else if (relop == ">="){
+            resultValue = leftInt >= rightFloat;
+        } else if (relop == ">"){
+            resultValue = leftInt > rightFloat;
+        } else if (relop == "<"){
+            resultValue = leftInt < rightFloat;
+        } 
+    } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT"){
+        leftFloat = sym1->getFloatValue();
+        rightInt = sym2->getIntValue();
+        if (relop == "=="){
+            resultValue = leftFloat == rightInt;
+
+        } else if (relop == "!="){
+            resultValue = leftFloat != rightInt;
+
+        } else if (relop == "<="){
+            resultValue = leftFloat <= rightInt;
+
+        } else if (relop == ">="){
+            resultValue = leftFloat >= rightInt;
+        } else if (relop == ">"){
+            resultValue = leftFloat > rightInt;
+        } else if (relop == "<"){
+            resultValue = leftFloat < rightInt;
+        } 
+    } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "FLOAT"){
+        leftFloat = sym1->getFloatValue();
+        rightFloat = sym2->getFloatValue();
+        if (relop == "=="){
+            resultValue = leftFloat == rightFloat;
+
+        } else if (relop == "!="){
+            resultValue = leftFloat != rightFloat;
+
+        } else if (relop == "<="){
+            resultValue = leftFloat <= rightFloat;
+
+        } else if (relop == ">="){
+            resultValue = leftFloat >= rightFloat;
+        } else if (relop == ">"){
+            resultValue = leftFloat > rightFloat;
+        } else if (relop == "<"){
+            resultValue = leftFloat < rightFloat;
+        } 
+    }
+    result->setIntValue(resultValue);
+    result->setName(sym1->getName() + relop + sym2->getName());
+    cout<<resultValue<<endl;
+    return result; 
 }
 
 #endif

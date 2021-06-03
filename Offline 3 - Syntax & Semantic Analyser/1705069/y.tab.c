@@ -601,9 +601,9 @@ static const yytype_int16 yyrline[] =
      111,   119,   127,   134,   141,   148,   151,   155,   162,   168,
      175,   182,   191,   198,   205,   212,   219,   223,   229,   235,
      242,   249,   255,   263,   269,   275,   279,   285,   291,   299,
-     305,   315,   321,   326,   332,   340,   346,   352,   360,   366,
-     373,   380,   384,   388,   394,   400,   408,   408,   414,   414,
-     421
+     305,   315,   321,   328,   334,   342,   348,   354,   362,   368,
+     375,   382,   386,   390,   396,   402,   410,   410,   416,   416,
+     423
 };
 #endif
 
@@ -1865,178 +1865,180 @@ yyreduce:
   case 42:
 #line 322 "GrammarParser.y"
                         {
-
+				(yyval.symbol) = handle_RELOP((yyvsp[-2].symbol), (yyvsp[-1].symbol), (yyvsp[0].symbol));
+				printRule("rel_expression : simple_expression RELOP simple_expression");
+				printSymbol((yyval.symbol));
 			}
-#line 1871 "y.tab.c"
+#line 1873 "y.tab.c"
     break;
 
   case 43:
-#line 327 "GrammarParser.y"
+#line 329 "GrammarParser.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("simple_expression : term");
 				printSymbol((yyval.symbol));
 			}
-#line 1881 "y.tab.c"
+#line 1883 "y.tab.c"
     break;
 
   case 44:
-#line 333 "GrammarParser.y"
+#line 335 "GrammarParser.y"
                         {
 				(yyval.symbol) = handleADDOP((yyvsp[-2].symbol), (yyvsp[-1].symbol), (yyvsp[0].symbol));
 				printRule("simple expression : simple_expression ADDOP term");
 				printSymbol((yyval.symbol));
 			}
-#line 1891 "y.tab.c"
+#line 1893 "y.tab.c"
     break;
 
   case 45:
-#line 341 "GrammarParser.y"
+#line 343 "GrammarParser.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("term : unary_expression");
 				printSymbol((yyval.symbol));
 			}
-#line 1901 "y.tab.c"
+#line 1903 "y.tab.c"
     break;
 
   case 46:
-#line 347 "GrammarParser.y"
+#line 349 "GrammarParser.y"
                         {
 
 			}
-#line 1909 "y.tab.c"
+#line 1911 "y.tab.c"
     break;
 
   case 47:
-#line 353 "GrammarParser.y"
+#line 355 "GrammarParser.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("unary_expression : factor");
 				printSymbol((yyval.symbol));
 			}
-#line 1919 "y.tab.c"
+#line 1921 "y.tab.c"
     break;
 
   case 48:
-#line 361 "GrammarParser.y"
+#line 363 "GrammarParser.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("factor : variable");
 				printSymbol((yyval.symbol));
 			}
-#line 1929 "y.tab.c"
+#line 1931 "y.tab.c"
     break;
 
   case 49:
-#line 367 "GrammarParser.y"
+#line 369 "GrammarParser.y"
                         {
 				printRule("factor : CONST_INT");
 				(yyval.symbol) = getConstVal((yyvsp[0].symbol), "INT");
 				printSymbol((yyval.symbol));
 				
 			}
-#line 1940 "y.tab.c"
+#line 1942 "y.tab.c"
     break;
 
   case 50:
-#line 374 "GrammarParser.y"
+#line 376 "GrammarParser.y"
                         {
 				printRule("factor : CONST_FLOAT");
 				(yyval.symbol) = getConstVal((yyvsp[0].symbol), "FLOAT");
 				printSymbol((yyval.symbol));
 					
 			}
-#line 1951 "y.tab.c"
+#line 1953 "y.tab.c"
     break;
 
   case 51:
-#line 381 "GrammarParser.y"
+#line 383 "GrammarParser.y"
                         {
 
 			}
-#line 1959 "y.tab.c"
+#line 1961 "y.tab.c"
     break;
 
   case 52:
-#line 385 "GrammarParser.y"
+#line 387 "GrammarParser.y"
                         {
 
 			}
-#line 1967 "y.tab.c"
+#line 1969 "y.tab.c"
     break;
 
   case 53:
-#line 389 "GrammarParser.y"
+#line 391 "GrammarParser.y"
                         {
 
 			}
-#line 1975 "y.tab.c"
+#line 1977 "y.tab.c"
     break;
 
   case 54:
-#line 395 "GrammarParser.y"
+#line 397 "GrammarParser.y"
                         {
 				(yyval.symbol) = getVariable((yyvsp[0].symbol));
 				printRule("variable : ID");
 				printSymbol((yyval.symbol));
 			}
-#line 1985 "y.tab.c"
+#line 1987 "y.tab.c"
     break;
 
   case 55:
-#line 401 "GrammarParser.y"
+#line 403 "GrammarParser.y"
                         {
 				printRule("variable : ID LTHIRD expression RTHIRD");
 				(yyval.symbol) = getArrayIndexVar((yyvsp[-3].symbol), (yyvsp[-1].symbol));
 				printSymbol((yyval.symbol));
 			}
-#line 1995 "y.tab.c"
+#line 1997 "y.tab.c"
     break;
 
   case 56:
-#line 408 "GrammarParser.y"
+#line 410 "GrammarParser.y"
                            {enterScope();}
-#line 2001 "y.tab.c"
+#line 2003 "y.tab.c"
     break;
 
   case 57:
-#line 409 "GrammarParser.y"
+#line 411 "GrammarParser.y"
                         {
 				(yyval.symbol) = new SymbolInfo("{\n" + (yyvsp[-1].symbol)->getName() + "}\n", "NON_TERMINAL");
 				printRule("compound_statement : LCURL statements RCURL");
 				printSymbol((yyval.symbol));
 			}
-#line 2011 "y.tab.c"
+#line 2013 "y.tab.c"
     break;
 
   case 58:
-#line 414 "GrammarParser.y"
+#line 416 "GrammarParser.y"
                                 {enterScope();}
-#line 2017 "y.tab.c"
+#line 2019 "y.tab.c"
     break;
 
   case 59:
-#line 415 "GrammarParser.y"
+#line 417 "GrammarParser.y"
                         {
 				(yyval.symbol) = new SymbolInfo("{}", "NON_TERMINAL");
 				printRule("compound_statement : LCURL RCURL");
 				printSymbol((yyval.symbol));
 			}
-#line 2027 "y.tab.c"
+#line 2029 "y.tab.c"
     break;
 
   case 60:
-#line 422 "GrammarParser.y"
+#line 424 "GrammarParser.y"
                         {
 				(yyval.symbol) = new SymbolInfo ("PRINT" + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				cout<<(yyvsp[0].symbol)->getIntValue();
 			}
-#line 2036 "y.tab.c"
+#line 2038 "y.tab.c"
     break;
 
 
-#line 2040 "y.tab.c"
+#line 2042 "y.tab.c"
 
       default: break;
     }
@@ -2268,7 +2270,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 428 "GrammarParser.y"
+#line 430 "GrammarParser.y"
 
 int main(int argc,char *argv[])
 {
