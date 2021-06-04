@@ -347,7 +347,9 @@ term : unary_expression
 			}
 			| term MULOP unary_expression
 			{
-
+				printRule("term : term MULOP unary_expression");
+				$$ = handle_MULOP($1, $2, $3);
+				printSymbol($$);
 			}
 			;
 

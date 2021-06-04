@@ -1,0 +1,1 @@
+Warning at line no: 4 Assigning float to an integer variable

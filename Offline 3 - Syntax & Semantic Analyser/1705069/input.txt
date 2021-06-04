@@ -1,8 +1,6 @@
 int main () {
-    int a;
-    a = 10;
-    a++;
-    a = a + 10;
-    a--;
+    int a, b;
+    a = 3 % 2;
+    b = a + 69.6;
     
 }
