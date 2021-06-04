@@ -76,7 +76,7 @@ extern int yydebug;
     RTHIRD = 282,
     COMMA = 283,
     SEMICOLON = 284,
-    PRINT = 285,
+    PRINTLN = 285,
     STRING = 286,
     ID = 287,
     CONST_INT = 288,
@@ -87,7 +87,8 @@ extern int yydebug;
     LOGICOP = 293,
     RELOP = 294,
     BITOP = 295,
-    ASSIGNOP = 296
+    ASSIGNOP = 296,
+    second_prec = 297
   };
 #endif
 /* Tokens.  */
@@ -118,7 +119,7 @@ extern int yydebug;
 #define RTHIRD 282
 #define COMMA 283
 #define SEMICOLON 284
-#define PRINT 285
+#define PRINTLN 285
 #define STRING 286
 #define ID 287
 #define CONST_INT 288
@@ -130,6 +131,7 @@ extern int yydebug;
 #define RELOP 294
 #define BITOP 295
 #define ASSIGNOP 296
+#define second_prec 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -139,7 +141,7 @@ union YYSTYPE
 
 SymbolInfo* symbol;
 
-#line 143 "y.tab.h"
+#line 145 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

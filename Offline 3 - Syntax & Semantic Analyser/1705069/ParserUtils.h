@@ -513,4 +513,54 @@ SymbolInfo* handle_DECOP(SymbolInfo *sym1)
     return result;
 }
 
+SymbolInfo* handle_LOGICOP(SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
+{
+    bool resultValue = false;
+    SymbolInfo *result = new SymbolInfo("","");
+    if (sym1->getVarType() == "VOID" || sym2->getVarType() == "VOID"){
+        printError("Void type operand");
+        return nullSym();
+    }
+
+    if (sym1->getVarType() != sym2->getVarType()){
+        printWarning("Comparison between two different types");
+    }
+
+    string logicOp = op->getName();
+    result->setIdType("VARIABLE");
+    result->setVarType("INT");
+
+    float leftFloat = 0, rightFloat = 0;
+    int leftInt = 0, rightInt = 0;
+
+    if (sym1->getVarType() == "INT"){
+        leftInt = sym1->getIntValue();
+    } else {
+        leftFloat = sym1->getFloatValue();
+    }
+
+    if (sym2->getVarType() == "INT"){
+        rightInt = sym2->getIntValue();
+    } else {
+        rightFloat = sym2->getFloatValue();
+    }
+
+    if (sym1->getVarType() == "INT" && sym2->getVarType() == "INT"){
+        if (logicOp == "||") resultValue = leftInt || rightInt;
+        else resultValue = leftInt && rightInt;
+    } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT"){
+        if (logicOp == "||") resultValue = leftFloat || rightInt;
+        else resultValue = leftFloat && rightInt;
+    } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT"){
+        if (logicOp == "||") resultValue = leftInt || rightFloat;
+        else resultValue = leftInt && rightFloat;
+    } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "FLOAT"){
+        if (logicOp == "||") resultValue = leftFloat || rightFloat;
+        else resultValue = leftFloat && rightFloat;
+    }
+
+    result->setIntValue(resultValue);
+    result->setName(sym1->getName()+logicOp+sym2->getName());
+    return result;
+}
 #endif
