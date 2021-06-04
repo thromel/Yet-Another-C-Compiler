@@ -381,11 +381,15 @@ factor : variable
 			}
 			| variable INCOP
 			{
-
+				printRule("factor : variable INCOP");
+				$$ = handle_INCOP($1);
+				printSymbol($$);
 			}
 			| variable DECOP
 			{
-
+				printRule("factor: variable DECOP");
+				$$ = handle_DECOP($1);
+				printSymbol($$);
 			}
 			| LPAREN expression error
 			{

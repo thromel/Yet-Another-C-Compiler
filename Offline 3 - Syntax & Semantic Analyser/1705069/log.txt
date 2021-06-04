@@ -22,38 +22,17 @@ ScopeTable #1.1
 
 ScopeTable #1
 1 --> <main: ID> 
-At line no: 2 declaration_list : declaration_list COMMA ID
-
-a, b
-
-
-ScopeTable #1.1
-6 --> <a: ID> 
-
-ScopeTable #1
-1 --> <main: ID> 
-At line no: 2 declaration_list : declaration_list COMMA ID
-
-a, b, c
-
-
-ScopeTable #1.1
-0 --> <b: ID> 
-6 --> <a: ID> 
-
-ScopeTable #1
-1 --> <main: ID> 
 At line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
 
-int a, b, c;
+int a;
 
 At line no: 2 statement : var_declaration
 
-int a, b, c;
+int a;
 
 At line no: 2 statements : statement
 
-int a, b, c;
+int a;
 
 At line no: 3 variable : ID
 
@@ -61,91 +40,91 @@ a
 
 At line no: 3 factor : CONST_INT
 
-60
+10
 
 At line no: 3 unary_expression : factor
 
-60
+10
 
 At line no: 3 term : unary_expression
 
-60
+10
 
 At line no: 3 simple_expression : term
 
-60
+10
 
 At line no: 3 rel_expression : simple_expression
 
-60
+10
 
 At line no: 3 logic_expression : simple_expression
 
-60
+10
 
 At line no: 3 expression : variable ASSIGNOP logic_expression
 
-a=60
+a=10
 
 At line no: 3 expression_statement : expression SEMICOLON
 
-a=60;
+a=10;
 
 At line no: 3 statement : expression_statement
 
-a=60;
+a=10;
 
 At line no: 3 statements : statements statement
 
-int a, b, c; a=60;
+int a; a=10;
 
 At line no: 4 variable : ID
 
-b
+a
 
-At line no: 4 factor : CONST_INT
+At line no: 4 factor : variable INCOP
 
-69
+a++
 
 At line no: 4 unary_expression : factor
 
-69
+a++
 
 At line no: 4 term : unary_expression
 
-69
+a++
 
 At line no: 4 simple_expression : term
 
-69
+a++
 
 At line no: 4 rel_expression : simple_expression
 
-69
+a++
 
 At line no: 4 logic_expression : simple_expression
 
-69
+a++
 
-At line no: 4 expression : variable ASSIGNOP logic_expression
+At line no: 4 expression : logic_expression
 
-b=69
+a++
 
 At line no: 4 expression_statement : expression SEMICOLON
 
-b=69;
+a++;
 
 At line no: 4 statement : expression_statement
 
-b=69;
+a++;
 
 At line no: 4 statements : statements statement
 
-int a, b, c; a=60; b=69;
+int a; a=10; a++;
 
 At line no: 5 variable : ID
 
-c
+a
 
 At line no: 5 variable : ID
 
@@ -167,82 +146,120 @@ At line no: 5 simple_expression : term
 
 a
 
-At line no: 5 variable : ID
+At line no: 5 factor : CONST_INT
 
-b
-
-At line no: 5 factor : variable
-
-b
+10
 
 At line no: 5 unary_expression : factor
 
-b
+10
 
 At line no: 5 term : unary_expression
 
-b
+10
 
-At line no: 5 simple_expression : term
+At line no: 5 simple expression : simple_expression ADDOP term
 
-b
+a+10
 
-At line no: 5 rel_expression : simple_expression RELOP simple_expression
+At line no: 5 rel_expression : simple_expression
 
-a>b
+a+10
 
 At line no: 5 logic_expression : simple_expression
 
-a>b
+a+10
 
 At line no: 5 expression : variable ASSIGNOP logic_expression
 
-c=a>b
+a=a+10
 
 At line no: 5 expression_statement : expression SEMICOLON
 
-c=a>b;
+a=a+10;
 
 At line no: 5 statement : expression_statement
 
-c=a>b;
+a=a+10;
 
 At line no: 5 statements : statements statement
 
-int a, b, c; a=60; b=69; c=a>b;
+int a; a=10; a++; a=a+10;
 
-At line no: 6 compound_statement : LCURL statements RCURL
+At line no: 6 variable : ID
+
+a
+
+At line no: 6 factor: variable DECOP
+
+a--
+
+At line no: 6 unary_expression : factor
+
+a--
+
+At line no: 6 term : unary_expression
+
+a--
+
+At line no: 6 simple_expression : term
+
+a--
+
+At line no: 6 rel_expression : simple_expression
+
+a--
+
+At line no: 6 logic_expression : simple_expression
+
+a--
+
+At line no: 6 expression : logic_expression
+
+a--
+
+At line no: 6 expression_statement : expression SEMICOLON
+
+a--;
+
+At line no: 6 statement : expression_statement
+
+a--;
+
+At line no: 6 statements : statements statement
+
+int a; a=10; a++; a=a+10; a--;
+
+At line no: 8 compound_statement : LCURL statements RCURL
 
 {
-int a, b, c; a=60; b=69; c=a>b;}
+int a; a=10; a++; a=a+10; a--;}
 
 
-At line no: 6 func_definition : type_specifier ID LPAREN RPAREN compound_statement
-
-int main ( ) {
-int a, b, c; a=60; b=69; c=a>b;}
-
-
-At line no: 6 unit : func_definition
+At line no: 8 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-int a, b, c; a=60; b=69; c=a>b;}
+int a; a=10; a++; a=a+10; a--;}
 
 
-At line no: 6 program : unit
+At line no: 8 unit : func_definition
 
 int main ( ) {
-int a, b, c; a=60; b=69; c=a>b;}
+int a; a=10; a++; a=a+10; a--;}
+
+
+At line no: 8 program : unit
+
+int main ( ) {
+int a; a=10; a++; a=a+10; a--;}
 
 
 
 ScopeTable #1.1
-0 --> <b: ID> 
-1 --> <c: ID> 
 6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
 
-Total lines: 7
+Total lines: 9
 Total errors: 0
