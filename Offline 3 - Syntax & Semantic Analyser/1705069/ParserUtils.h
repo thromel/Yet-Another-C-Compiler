@@ -35,7 +35,8 @@ string type = "";
 
 void yyerror(const char *s)
 {
-    error << "Error at line no: "<<line_count<<endl;
+    printError(s);
+
 }
 
 void printRule(string rule)
