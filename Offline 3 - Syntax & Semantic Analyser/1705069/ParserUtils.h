@@ -13,6 +13,8 @@ ofstream log, error;
 extern int line_count;
 int error_count = 0;
 
+string currentFunction = "";
+
 SymbolTable st(&log);
 
 struct param { 
@@ -45,9 +47,6 @@ void printSymbol(SymbolInfo *sym)
     log << sym->getName()<<endl<<endl;
 }
 
-void printSymbol(SymbolInfo sym1, SymbolInfo sym2){
-}
-
 void printLog(string msg)
 {
     log << msg << endl;
@@ -71,11 +70,22 @@ bool insertSymbol(SymbolInfo *sym)
 
 void enterScope(){
     st.enterScope();
-    st.printAll();
+    // cout<<currentFunction<<endl;
+    if (currentFunction != ""){
+        for(param p : paramList){
+            SymbolInfo *sym = new SymbolInfo(p.name, "ID");
+            sym->setIdType("VARIABLE");
+            for (auto & c: p.type) c = toupper(c);
+            sym->setVarType(p.type);
+            insertSymbol(sym);
+        }
+        paramList.clear();
+    }
 }
 
 void exitScope()
 {
+    currentFunction = "";
     st.exitScope();
     st.printAll();
 }
@@ -115,22 +125,74 @@ SymbolInfo* getVariable(SymbolInfo* sym)
 
 void addFuncDef (SymbolInfo *funcVal, SymbolInfo *returnType)
 {
+
     SymbolInfo *func = st.lookup(funcVal->getName());
 
     if (func != NULL){
-        printError(funcVal->getName() + " is already declared");
-        paramList.clear();
-        return;
-    } else {
+        if (func->getIdType() != "FUNCTION" && func->isFuncDefined()){
+            printError(funcVal->getName() + " is already defined");
+            paramList.clear();
+            return;
+        }
+        else if (returnType->getName() != func->getReturnType()){
+            printError(funcVal->getName() + " return type doesn't match");
+            paramList.clear();
+            return;
+        } else if (!func->isFuncDefined() ){
+            if (paramList.size() != func->paramList.size()){
+                printError(funcVal->getName() + " Number of parameters in definition is not equal to the number of paramters in prototype");
+                paramList.clear();
+                return;
+            } else {
+                for(int i = 0; i < paramList.size(); ++i){
+                    if (paramList[i].type != func->paramList[i].type){
+                        printError(funcVal->getName() + "Function parameter mismatch");
+                        paramList.clear();
+                        return;
+                    } else {
+                        func->paramList[i].name = paramList[i].name;
+                    }
+                }
+            }
+        
+        }
+    }
+
+    else {
         for(param p : paramList){
             funcVal->addParam(p.name, p.type);
         }
         funcVal->setIdType("FUNCTION");
         funcVal->setReturnType(returnType->getName());
+        funcVal->setFuncDefined(true);
         st.insertSymbol(funcVal);
-        paramList.clear();
     }
     
+    //Set the current function name
+    currentFunction = funcVal->getName();
+}
+
+
+void addFuncDecl (SymbolInfo *funcVal, SymbolInfo *returnType)
+{
+    SymbolInfo *func = st.lookup(funcVal->getName());
+
+    if (func != NULL && func->getIdType() != "FUNCTION" && !func->isFuncDefined()){
+        printError(funcVal->getName() + " is already declared");
+        paramList.clear();
+        return;
+    } else {
+        SymbolInfo *func = new SymbolInfo(funcVal->getName(), "ID");
+        func->setIdType("FUNCTION");
+        func->setReturnType(returnType->getName());
+        func->setVarType(returnType->getName());
+        
+        for(param p : paramList){
+            func->addParam(p.name, p.type);
+        }
+
+        st.insertSymbol(func);
+    }
 }
 
 SymbolInfo *insertVar(SymbolInfo *var)
@@ -202,10 +264,12 @@ SymbolInfo* getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index)
         if (!arrIdxVar->isArray())
         {
             printError(arrIdxVar->getName() + " is not an array");
+            return nullSym();
         }
         else if (index->getVarType() != "INT")
         {
             printError(arrIdxVar->getName() + " array index must be an integer");
+            return nullSym();
         }
          else {
              var = new SymbolInfo(*arrIdxVar);
@@ -260,7 +324,7 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
     result = new SymbolInfo(*sym1);
     result->setName(sym1->getName() + "=" + sym2->getName());
     result->setIdType("VARIABLE");
-    cout<<result->getName()<<" -- "<<sym1->getIntValue()<<" "<<sym2->getFloatValue()<<endl;
+    // cout<<result->getName()<<" -- "<<sym1->getIntValue()<<" "<<sym2->getFloatValue()<<endl;
     return result;
     
 }
@@ -435,7 +499,7 @@ SymbolInfo* handle_RELOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
     }
     result->setIntValue(resultValue);
     result->setName(sym1->getName() + relop + sym2->getName());
-    cout<<resultValue<<endl;
+    // cout<<resultValue<<endl;
     return result; 
 }
 

@@ -1,17 +1,27 @@
-int main () {
+void func();
+
+int main (int xy, int yz) {
     int a, b;
     a = 3 % 2;
     b = a + 69.6;
     b = 0;
     a = a || b;
     
+    if (a == b){
+    	
+    } else {
+    
+    }
+    
 }
 
-void func () {
+void func (int x) {
 	int a, b, c[69], d;
 	
 	for(a = 0; a <= 10; a++) {
 		a = a + 1;
 	}
-
+	void fuck;
+	fuck = 69;
+	return 0;
 }

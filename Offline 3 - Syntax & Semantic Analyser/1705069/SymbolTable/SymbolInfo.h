@@ -71,6 +71,15 @@ public:
         this->real = symbolInfo.real;
 	}
 
+    void setFuncDefined(bool funcDefined){
+        this->funcDefined = funcDefined;
+    }
+
+    bool isFuncDefined()
+    {
+        return funcDefined;
+    }
+
     string getName() const
     {
         return this->name;
@@ -229,6 +238,11 @@ public:
     void setReturnType(string ret)
     {
         this->returnType = ret;
+    }
+
+    string getReturnType()
+    {
+        return returnType;
     }
 
     void setReal(SymbolInfo *actual)
