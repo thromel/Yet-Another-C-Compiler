@@ -638,8 +638,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "LexAnalyzer.l"
-#line 5 "LexAnalyzer.l"
+#line 1 "1705069.l"
+#line 5 "1705069.l"
 // #include <stdlib.h>
 #include "LexUtils.h"
 #include<iostream>
@@ -869,7 +869,7 @@ YY_DECL
 		}
 
 	{
-#line 56 "LexAnalyzer.l"
+#line 56 "1705069.l"
 
 
 #line 876 "lex.yy.c"
@@ -931,276 +931,276 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 /* rule 1 can match eol */
-#line 59 "LexAnalyzer.l"
+#line 59 "1705069.l"
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 59 "LexAnalyzer.l"
+#line 59 "1705069.l"
 {handle_comment(yytext);}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 60 "LexAnalyzer.l"
+#line 60 "1705069.l"
 {
     handle_error(yytext, "Unfinished comment");
     }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 66 "LexAnalyzer.l"
+#line 66 "1705069.l"
 {handle_const_char(yytext, "CONST_CHAR");}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 67 "LexAnalyzer.l"
+#line 67 "1705069.l"
 {handle_error(yytext, "Unfinished character");}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 68 "LexAnalyzer.l"
+#line 68 "1705069.l"
 {handle_error(yytext, "Empty character");}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 69 "LexAnalyzer.l"
+#line 69 "1705069.l"
 {handle_error(yytext, "Multi character constant");}
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 71 "LexAnalyzer.l"
+#line 71 "1705069.l"
 {handle_const_char(yytext, "STRING"); return STRING;}
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 72 "LexAnalyzer.l"
+#line 72 "1705069.l"
 {handle_error(yytext, "Unfinished string");}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 74 "LexAnalyzer.l"
+#line 74 "1705069.l"
 {handle_const_int(yytext); return CONST_INT;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 75 "LexAnalyzer.l"
+#line 75 "1705069.l"
 {handle_const_float(yytext); return CONST_FLOAT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 76 "LexAnalyzer.l"
+#line 76 "1705069.l"
 {handle_error(yytext, "Too many decimal points");}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 77 "LexAnalyzer.l"
+#line 77 "1705069.l"
 {handle_error(yytext, "Ill formed number");}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 80 "LexAnalyzer.l"
+#line 80 "1705069.l"
 {return IF;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 81 "LexAnalyzer.l"
+#line 81 "1705069.l"
 {return ELSE;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 82 "LexAnalyzer.l"
+#line 82 "1705069.l"
 {return FOR;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 83 "LexAnalyzer.l"
+#line 83 "1705069.l"
 {return WHILE;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 84 "LexAnalyzer.l"
+#line 84 "1705069.l"
 {return DO;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 85 "LexAnalyzer.l"
+#line 85 "1705069.l"
 {return BREAK;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 86 "LexAnalyzer.l"
+#line 86 "1705069.l"
 {return INT;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 87 "LexAnalyzer.l"
+#line 87 "1705069.l"
 {return CHAR;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 88 "LexAnalyzer.l"
+#line 88 "1705069.l"
 {return FLOAT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 89 "LexAnalyzer.l"
+#line 89 "1705069.l"
 {return DOUBLE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 90 "LexAnalyzer.l"
+#line 90 "1705069.l"
 {return VOID;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 91 "LexAnalyzer.l"
+#line 91 "1705069.l"
 {return RETURN;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 92 "LexAnalyzer.l"
+#line 92 "1705069.l"
 {return SWITCH;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 93 "LexAnalyzer.l"
+#line 93 "1705069.l"
 {return CASE;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 94 "LexAnalyzer.l"
+#line 94 "1705069.l"
 {return DEFAULT;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 95 "LexAnalyzer.l"
+#line 95 "1705069.l"
 {return CONTINUE;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 98 "LexAnalyzer.l"
+#line 98 "1705069.l"
 {handle_operator(yytext, "ADDOP"); return ADDOP;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 99 "LexAnalyzer.l"
+#line 99 "1705069.l"
 {handle_operator(yytext, "INCOP"); return INCOP;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 100 "LexAnalyzer.l"
+#line 100 "1705069.l"
 {handle_operator(yytext, "DECOP"); return DECOP;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 101 "LexAnalyzer.l"
+#line 101 "1705069.l"
 {handle_operator(yytext, "MULOP"); return MULOP;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 102 "LexAnalyzer.l"
+#line 102 "1705069.l"
 {handle_operator(yytext, "RELOP"); return RELOP;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 103 "LexAnalyzer.l"
+#line 103 "1705069.l"
 {handle_operator(yytext, "LOGICOP"); return LOGICOP;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 104 "LexAnalyzer.l"
+#line 104 "1705069.l"
 {handle_operator(yytext, "BITOP"); return BITOP;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 105 "LexAnalyzer.l"
+#line 105 "1705069.l"
 {return SEMICOLON;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 106 "LexAnalyzer.l"
+#line 106 "1705069.l"
 {return COMMA;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 107 "LexAnalyzer.l"
+#line 107 "1705069.l"
 {return LTHIRD;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 108 "LexAnalyzer.l"
+#line 108 "1705069.l"
 {return RTHIRD;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 109 "LexAnalyzer.l"
+#line 109 "1705069.l"
 {return LCURL;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 110 "LexAnalyzer.l"
+#line 110 "1705069.l"
 {return RCURL;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 111 "LexAnalyzer.l"
+#line 111 "1705069.l"
 {return LPAREN;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 112 "LexAnalyzer.l"
+#line 112 "1705069.l"
 {return RPAREN;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 113 "LexAnalyzer.l"
+#line 113 "1705069.l"
 {handle_operator(yytext, "ASSIGNOP"); return ASSIGNOP;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 114 "LexAnalyzer.l"
+#line 114 "1705069.l"
 {return NOT;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 115 "LexAnalyzer.l"
+#line 115 "1705069.l"
 {return PRINTLN;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 117 "LexAnalyzer.l"
+#line 117 "1705069.l"
 {handle_id(yytext); return ID;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 118 "LexAnalyzer.l"
+#line 118 "1705069.l"
 {handle_error(yytext, "Invalid Suffix on numeric constant or invalid prefix on identifier for character sequence");}
 	YY_BREAK
 case 50:
 /* rule 50 can match eol */
 YY_RULE_SETUP
-#line 121 "LexAnalyzer.l"
+#line 121 "1705069.l"
 {line_count++;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 122 "LexAnalyzer.l"
+#line 122 "1705069.l"
 {}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 123 "LexAnalyzer.l"
+#line 123 "1705069.l"
 {handle_error(yytext, "Unrecognized character");}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 124 "LexAnalyzer.l"
+#line 124 "1705069.l"
 {log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<lex_err_count<<endl; log.close(); return 0;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 125 "LexAnalyzer.l"
+#line 125 "1705069.l"
 ECHO;
 	YY_BREAK
 #line 1207 "lex.yy.c"
@@ -2206,7 +2206,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 125 "LexAnalyzer.l"
+#line 125 "1705069.l"
 
 
 

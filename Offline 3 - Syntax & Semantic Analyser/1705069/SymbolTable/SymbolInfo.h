@@ -121,9 +121,11 @@ public:
     void addParam(string name, string type)
     {
         param temp;
+        for (auto & c: type) c = toupper(c);
         temp.name = name;
         temp.type = type;
 
+        
         paramList.push_back(temp);
     }
 

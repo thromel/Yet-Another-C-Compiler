@@ -724,149 +724,140 @@ int a, b, c[69], d; for(a=0;a<=10;a++){
 a=a+1;}
 
 
-At line no: 24 type_specifier	: VOID
-
-void
-
-At line no: 24 declaration_list : ID
-
-fuck
-
-
-ScopeTable #1.2
-0 --> <b: ID> 
-1 --> <c: ID> 
-2 --> <d: ID> 
-6 --> <a: ID> 
-
-ScopeTable #1
-1 --> <func: ID>  <main: ID> 
-At line no: 24 var_declaration : type_specifier declaration_list SEMICOLON
-
-void fuck;
-
-At line no: 24 statement : var_declaration
-
-void fuck;
-
-At line no: 24 statements : statements statement
-
-int a, b, c[69], d; for(a=0;a<=10;a++){
-a=a+1;}
- void fuck;
-
 At line no: 25 variable : ID
 
-fuck
+a
 
 At line no: 25 factor : CONST_INT
 
-69
+2
 
 At line no: 25 unary_expression : factor
 
-69
+2
 
 At line no: 25 term : unary_expression
 
-69
+2
 
 At line no: 25 simple_expression : term
 
-69
+2
 
 At line no: 25 rel_expression : simple_expression
 
-69
+2
 
 At line no: 25 logic_expression : simple_expression
 
-69
+2
+
+At line no: 25 arguments : logic_expression
+
+2
+
+At line no: 25 factor : CONST_INT
+
+3
+
+At line no: 25 unary_expression : factor
+
+3
+
+At line no: 25 term : unary_expression
+
+3
+
+At line no: 25 simple_expression : term
+
+3
+
+At line no: 25 rel_expression : simple_expression
+
+3
+
+At line no: 25 logic_expression : simple_expression
+
+3
+
+At line no: 25 arguments : arguments COMMA logic_expression
+
+2, 3
+
+At line no: 25 argument_list : arguments
+
+2, 3
+
+At line no: 25 factor : ID LPAREN argument_list RPAREN
+
+main(2, 3)
+
+At line no: 25 unary_expression : factor
+
+main(2, 3)
+
+At line no: 25 term : unary_expression
+
+main(2, 3)
+
+At line no: 25 simple_expression : term
+
+main(2, 3)
+
+At line no: 25 rel_expression : simple_expression
+
+main(2, 3)
+
+At line no: 25 logic_expression : simple_expression
+
+main(2, 3)
 
 At line no: 25 expression : variable ASSIGNOP logic_expression
 
-NULL
+a=main(2, 3)
 
 At line no: 25 expression_statement : expression SEMICOLON
 
-NULL;
+a=main(2, 3);
 
 At line no: 25 statement : expression_statement
 
-NULL;
+a=main(2, 3);
 
 At line no: 25 statements : statements statement
 
 int a, b, c[69], d; for(a=0;a<=10;a++){
 a=a+1;}
- void fuck; NULL;
+ a=main(2, 3);
 
-At line no: 26 factor : CONST_INT
-
-0
-
-At line no: 26 unary_expression : factor
-
-0
-
-At line no: 26 term : unary_expression
-
-0
-
-At line no: 26 simple_expression : term
-
-0
-
-At line no: 26 rel_expression : simple_expression
-
-0
-
-At line no: 26 logic_expression : simple_expression
-
-0
-
-At line no: 26 expression : logic_expression
-
-0
-
-At line no: 26 RETURN expression SEMICOLON
-
-return 0;
-
-At line no: 26 statements : statements statement
-
-int a, b, c[69], d; for(a=0;a<=10;a++){
-a=a+1;}
- void fuck; NULL; return 0;
-
-At line no: 27 compound_statement : LCURL statements RCURL
+At line no: 26 compound_statement : LCURL statements RCURL
 
 {
 int a, b, c[69], d; for(a=0;a<=10;a++){
 a=a+1;}
- void fuck; NULL; return 0;}
+ a=main(2, 3);}
 
 
 
 ScopeTable #1
 1 --> <func: ID>  <main: ID> 
-At line no: 27 func_definition : type_specifier ID LPAREN parameter_list RPAREN
+At line no: 26 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 
 void func ( int x ) {
 int a, b, c[69], d; for(a=0;a<=10;a++){
 a=a+1;}
- void fuck; NULL; return 0;}
+ a=main(2, 3);}
 
 
-At line no: 27 unit : func_definition
+At line no: 26 unit : func_definition
 
 void func ( int x ) {
 int a, b, c[69], d; for(a=0;a<=10;a++){
 a=a+1;}
- void fuck; NULL; return 0;}
+ a=main(2, 3);}
 
 
-At line no: 27 program : program unit
+At line no: 26 program : program unit
 
 void func( );
 int main ( int xy,int yz ) {
@@ -875,9 +866,9 @@ int a, b; a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
 void func ( int x ) {
 int a, b, c[69], d; for(a=0;a<=10;a++){
 a=a+1;}
- void fuck; NULL; return 0;}
+ a=main(2, 3);}
 
 
 
-Total lines: 28
+Total lines: 27
 Total errors: 0
