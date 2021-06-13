@@ -21,21 +21,19 @@ At line no: 3 type_specifier	: INT
 
 int
 
-At line no: 3 type_specifier	: INT
+Error at line no: 3 - syntax error
+At line no: 3 parameter_list : error ID
 
-int
+ERROR xy
 
-At line no: 3 parameter_list : type_specifier ID
-
-int xy
-
+Error at line no: 3 - Missing type specifier before ID
 At line no: 3 type_specifier	: INT
 
 int
 
 At line no: 3 parameter_list : parameter_list COMMA type_specifier ID
 
-int xy,int yz
+ERROR xy,int yz
 
 
 New ScopeTable #1.1 created
@@ -49,34 +47,34 @@ a
 
 
 ScopeTable #1.1
-3 --> <xy: ID> 
 5 --> <yz: ID> 
 
 ScopeTable #1
 1 --> <func: ID>  <main: ID> 
-At line no: 4 declaration_list : declaration_list COMMA ID
+At line no: 5 declaration_list : declaration_list COMMA ID
 
 a, b
 
 
 ScopeTable #1.1
-3 --> <xy: ID> 
 5 --> <yz: ID> 
 6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <func: ID>  <main: ID> 
-At line no: 4 var_declaration : type_specifier declaration_list SEMICOLON
+Error at line no: 5 - syntax error
+At line no: 5 var_declaration : type_specifier declaration_list error
 
-int a, b;
+int a, b
 
-At line no: 4 statement : var_declaration
+Error at line no: 5 - Missing SEMICOLON
+At line no: 5 statement : var_declaration
 
-int a, b;
+int a, b
 
-At line no: 4 statements : statement
+At line no: 5 statements : statement
 
-int a, b;
+int a, b
 
 At line no: 5 variable : ID
 
@@ -132,7 +130,7 @@ a=3%2;
 
 At line no: 5 statements : statements statement
 
-int a, b; a=3%2;
+int a, b a=3%2;
 
 At line no: 6 variable : ID
 
@@ -196,7 +194,7 @@ b=a+69.6;
 
 At line no: 6 statements : statements statement
 
-int a, b; a=3%2; b=a+69.6;
+int a, b a=3%2; b=a+69.6;
 
 At line no: 7 variable : ID
 
@@ -240,7 +238,7 @@ b=0;
 
 At line no: 7 statements : statements statement
 
-int a, b; a=3%2; b=a+69.6; b=0;
+int a, b a=3%2; b=a+69.6; b=0;
 
 At line no: 8 variable : ID
 
@@ -312,7 +310,7 @@ a=a||b;
 
 At line no: 8 statements : statements statement
 
-int a, b; a=3%2; b=a+69.6; b=0; a=a||b;
+int a, b a=3%2; b=a+69.6; b=0; a=a||b;
 
 At line no: 10 variable : ID
 
@@ -375,7 +373,6 @@ At line no: 12 compound_statement : LCURL RCURL
 
 ScopeTable #1.1
 0 --> <b: ID> 
-3 --> <xy: ID> 
 5 --> <yz: ID> 
 6 --> <a: ID> 
 
@@ -394,7 +391,6 @@ At line no: 14 compound_statement : LCURL RCURL
 
 ScopeTable #1.1
 0 --> <b: ID> 
-3 --> <xy: ID> 
 5 --> <yz: ID> 
 6 --> <a: ID> 
 
@@ -410,12 +406,12 @@ if(a==b){} else {}
 
 At line no: 14 statements : statements statement
 
-int a, b; a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}
+int a, b a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}
 
 At line no: 16 compound_statement : LCURL statements RCURL
 
 {
-int a, b; a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
+int a, b a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
 
 
 
@@ -423,21 +419,21 @@ ScopeTable #1
 1 --> <func: ID>  <main: ID> 
 At line no: 16 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 
-int main ( int xy,int yz ) {
-int a, b; a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
+int main ( ERROR xy,int yz ) {
+int a, b a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
 
 
 At line no: 16 unit : func_definition
 
-int main ( int xy,int yz ) {
-int a, b; a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
+int main ( ERROR xy,int yz ) {
+int a, b a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
 
 
 At line no: 16 program : program unit
 
 void func( );
-int main ( int xy,int yz ) {
-int a, b; a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
+int main ( ERROR xy,int yz ) {
+int a, b a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
 
 
 At line no: 18 type_specifier	: VOID
@@ -452,6 +448,7 @@ At line no: 18 parameter_list : type_specifier ID
 
 int x
 
+Error at line no: 18 - func Number of parameters in definition is not equal to the number of paramters in prototype
 
 New ScopeTable #1.2 created
 At line no: 19 type_specifier	: INT
@@ -477,33 +474,34 @@ ScopeTable #1.2
 
 ScopeTable #1
 1 --> <func: ID>  <main: ID> 
-At line no: 19 declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD 
+Error at line no: 19 - syntax error
+At line no: 19 declaration_list : declaration_list COMMA ID LTHIRD error RTHIRD 
 
-a, b, c[69]
+a, b, c[ERROR]
 
+Error at line no: 19 - Missing array size
 At line no: 19 declaration_list : declaration_list COMMA ID
 
-a, b, c[69], d
+a, b, c[ERROR], d
 
 
 ScopeTable #1.2
 0 --> <b: ID> 
-1 --> <c: ID> 
 6 --> <a: ID> 
 
 ScopeTable #1
 1 --> <func: ID>  <main: ID> 
 At line no: 19 var_declaration : type_specifier declaration_list SEMICOLON
 
-int a, b, c[69], d;
+int a, b, c[ERROR], d;
 
 At line no: 19 statement : var_declaration
 
-int a, b, c[69], d;
+int a, b, c[ERROR], d;
 
 At line no: 19 statements : statement
 
-int a, b, c[69], d;
+int a, b, c[ERROR], d;
 
 At line no: 21 variable : ID
 
@@ -700,7 +698,6 @@ a=a+1;}
 
 ScopeTable #1.2
 0 --> <b: ID> 
-1 --> <c: ID> 
 2 --> <d: ID> 
 6 --> <a: ID> 
 
@@ -720,7 +717,7 @@ a=a+1;}
 
 At line no: 23 statements : statements statement
 
-int a, b, c[69], d; for(a=0;a<=10;a++){
+int a, b, c[ERROR], d; for(a=0;a<=10;a++){
 a=a+1;}
 
 
@@ -788,6 +785,7 @@ At line no: 25 argument_list : arguments
 
 2, 3
 
+Error at line no: 25 - main argument number mismatch
 At line no: 25 factor : ID LPAREN argument_list RPAREN
 
 main(2, 3)
@@ -826,14 +824,14 @@ a=main(2, 3);
 
 At line no: 25 statements : statements statement
 
-int a, b, c[69], d; for(a=0;a<=10;a++){
+int a, b, c[ERROR], d; for(a=0;a<=10;a++){
 a=a+1;}
  a=main(2, 3);
 
 At line no: 26 compound_statement : LCURL statements RCURL
 
 {
-int a, b, c[69], d; for(a=0;a<=10;a++){
+int a, b, c[ERROR], d; for(a=0;a<=10;a++){
 a=a+1;}
  a=main(2, 3);}
 
@@ -844,7 +842,7 @@ ScopeTable #1
 At line no: 26 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 
 void func ( int x ) {
-int a, b, c[69], d; for(a=0;a<=10;a++){
+int a, b, c[ERROR], d; for(a=0;a<=10;a++){
 a=a+1;}
  a=main(2, 3);}
 
@@ -852,7 +850,7 @@ a=a+1;}
 At line no: 26 unit : func_definition
 
 void func ( int x ) {
-int a, b, c[69], d; for(a=0;a<=10;a++){
+int a, b, c[ERROR], d; for(a=0;a<=10;a++){
 a=a+1;}
  a=main(2, 3);}
 
@@ -860,11 +858,11 @@ a=a+1;}
 At line no: 26 program : program unit
 
 void func( );
-int main ( int xy,int yz ) {
-int a, b; a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
+int main ( ERROR xy,int yz ) {
+int a, b a=3%2; b=a+69.6; b=0; a=a||b; if(a==b){} else {}}
 
 void func ( int x ) {
-int a, b, c[69], d; for(a=0;a<=10;a++){
+int a, b, c[ERROR], d; for(a=0;a<=10;a++){
 a=a+1;}
  a=main(2, 3);}
 

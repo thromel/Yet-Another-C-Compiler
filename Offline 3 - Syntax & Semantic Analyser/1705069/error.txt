@@ -1,2 +1,9 @@
+Error at line no: 3 - syntax error
+Error at line no: 3 - Missing type specifier before ID
+Error at line no: 5 - syntax error
+Error at line no: 5 - Missing SEMICOLON
 Warning at line no: 6 Assigning float to an integer variable
 Error at line no: 18 - func Number of parameters in definition is not equal to the number of paramters in prototype
+Error at line no: 19 - syntax error
+Error at line no: 19 - Missing array size
+Error at line no: 25 - main argument number mismatch
