@@ -277,7 +277,7 @@ statements : statement
 			}
 			| statements statement
 			{
-				$$ = new SymbolInfo($1->getName() + " " + $2->getName(), "NON_TERMINAL");
+				$$ = new SymbolInfo($1->getName() + "\n" + $2->getName(), "NON_TERMINAL");
 				printRule("statements : statements statement");
 				printSymbol($$);
 			}
@@ -327,7 +327,10 @@ statement : var_declaration
 			}
 			| PRINTLN LPAREN ID RPAREN SEMICOLON
 			{
-
+				$$ = new SymbolInfo("printf("+ $3->getName() + ");", "NON_TERMINAL");
+				printRule("PRINTLN LPAREN ID RPAREN SEMICOLON");
+				printSymbol($$);
+				handle_print($3);
 			}
 			| RETURN expression SEMICOLON
 			{
@@ -383,8 +386,6 @@ logic_expression : rel_expression
 				$$ = handle_LOGICOP($1, $2, $3);
 				printRule("logic_expression : rel_expression LOGICOP rel_expression");
 				printSymbol($$);
-
-				//TODO
 			}
 			;
 
@@ -437,11 +438,15 @@ unary_expression : factor
 			}
 			| ADDOP unary_expression
 			{
-
+				$$ = handle_unary_ADDOP($1, $2);
+				printRule("unary_expression : ADDOP unary_expression");
+				printSymbol($$);
 			}
 			| NOT unary_expression
 			{
-
+				$$ = handle_NOT($2);
+				printRule("unary_expression : NOT unary_expression");
+				printSymbol($$);
 			}
 			;
 
@@ -479,7 +484,9 @@ factor : variable
 			}
 			| LPAREN expression error
 			{
-
+				$$ = new SymbolInfo("(" + $2->getName() + "ERROR", "NON_TERMINAL");
+				printRule("factor : LPAREN expression error");
+				printError("Missing RPAREN");
 			}
 			| ID LPAREN argument_list RPAREN
 			{
@@ -505,7 +512,7 @@ variable : ID
 			;
 compound_statement : LCURL {enterScope();} statements RCURL
 			{
-				$$ = new SymbolInfo("{\n" + $3->getName() + "}\n", "NON_TERMINAL");
+				$$ = new SymbolInfo("{\n" + $3->getName() + "\n}\n", "NON_TERMINAL");
 				printRule("compound_statement : LCURL statements RCURL");
 				printSymbol($$);
 				exitScope();
@@ -553,7 +560,10 @@ arguments: arguments COMMA logic_expression
 			}
 			| arguments COMMA error 
 			{
-
+				$$ = new SymbolInfo($1->getName() + ", " + "ERROR", "NON_TERMINAL");
+				printRule("arguments : arguments COMMA error");
+				printError("Unfinished argument list");
+				printSymbol($$);	
 			}
 			;
  

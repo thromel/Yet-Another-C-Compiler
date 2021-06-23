@@ -1,9 +1,8 @@
-Error at line no: 3 - syntax error
-Error at line no: 3 - Missing type specifier before ID
-Error at line no: 5 - syntax error
-Error at line no: 5 - Missing SEMICOLON
-Warning at line no: 6 Assigning float to an integer variable
-Error at line no: 18 - func Number of parameters in definition is not equal to the number of paramters in prototype
-Error at line no: 19 - syntax error
-Error at line no: 19 - Missing array size
-Error at line no: 25 - main argument number mismatch
+Error at line no: 2 - b doesn't exist
+Error at line no: 6 - c is already declared
+Error at line no: 7 - a array index must be an integer
+Warning at line no: 8 Assigning float to an integer variable
+Error at line no: 13 - Float operand for mod operation
+Error at line no: 14 - a is an array and must be accessed with an index
+Error at line no: 15 - a is an array and must be accessed with an index
+Error at line no: 16 - b doesn't exist
