@@ -1,0 +1,41 @@
+.MODEL MEDIUM 
+.STACK 100H 
+.DATA
+
+a1_1 DW ?
+b1_1 DW ?
+c1_1 DW ?
+a1_2 DW ?
+b1_2 DW ?
+c1_2 DW ?
+d1_1 DW 20 DUP (?)
+d1_2 DW 20 DUP (?)
+
+.CODE
+ 
+
+ 
+ 
+
+MAIN PROC 
+
+MOV AX,@DATA
+MOV DS,AX
+
+ 
+MOV AX, 20
+MOV a1_2, AX 
+
+MOV AX, 69
+MOV b1_2, AX 
+
+MOV AX, a1_2
+MOV c1_2, AX 
+
+MOV AH, 4CH
+INT 21H
+MAIN ENDP
+
+
+
+END MAIN
