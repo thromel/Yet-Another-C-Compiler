@@ -17,6 +17,10 @@ public:
         enterScope();
     }
 
+    ScopeTable* getCurrent(){
+        return current;
+    }
+
     void enterScope(int buckets = SYMBOL_TABLE_SIZE)
     {
         ScopeTable *st = new ScopeTable(buckets, current, log);
@@ -86,6 +90,24 @@ public:
                 return symbol;
             }
             temp = temp->getParentScope();
+        }
+
+        return NULL;
+    }
+
+    SymbolInfo *lookUpCurrent(string name){
+        if (current == NULL)
+        {
+            return NULL;
+        }
+
+        ScopeTable *temp = current;
+        SymbolInfo *symbol = NULL;
+
+        
+        symbol = temp->lookUp(name);
+        if (symbol != NULL){
+            return symbol;
         }
 
         return NULL;

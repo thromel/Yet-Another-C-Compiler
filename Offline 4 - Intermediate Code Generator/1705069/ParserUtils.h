@@ -229,7 +229,7 @@ void addFuncDecl (SymbolInfo *funcVal, SymbolInfo *returnType)
 
 SymbolInfo *insertVar(SymbolInfo *var)
 {   
-    if (st.lookup(var->getName())){
+    if (st.lookUpCurrent(var->getName())){
         printError(var->getName() + " is already declared");
     
     } else if (type == "VOID") {
@@ -279,6 +279,7 @@ SymbolInfo* getConstVal(SymbolInfo *val, string varType)
     val->setIdType("VARIABLE");
     val->setVarType(varType);
     val->setIsConst(true);
+    val->setAsmVar(val->getName());
 
     if (varType == "FLOAT")
     {
@@ -372,9 +373,9 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
 
     //asm part
     if (sym2->getIsConst()){
-        result->setCode(constToMem(sym1, sym2));
+        result->setCode(sym2->getCode() + "\n" + constToMem(sym1, sym2));
     } else {
-        result->setCode(memToMem(sym1, sym2));
+        result->setCode(sym2->getCode() + "\n" + memToMem(sym1, sym2));
     }
     //
 
@@ -403,6 +404,9 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
 
 
     string ADDOP = op->getName();
+    string asmTempVar = vm.getTempVar();
+    result->setAsmVar(asmTempVar);
+
     if (ADDOP == "+"){
         if (sym1->isVariable() || sym1->isArray()){
             if (sym2->isVariable() || sym2->isArray()){
@@ -415,13 +419,13 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
                 } else if (sym1->getVarType() == "INT"){
                     if (sym2->getVarType() == "INT"){
                         result->setIntValue(sym1->getIntValue()+sym2->getIntValue());
-                        // cout<<result->getIntValue()<<" "<<result->getVarType()<<endl;
+                
+                        //asm
+                        result->setCode("MOV AX, " + sym1->getAsmVar() + "\nADD AX, " + sym2->getAsmVar() + "\nMOV " + result->getAsmVar() + ", AX\n");
                     } else {
                         result->setFloatValue(sym1->getIntValue()+sym2->getFloatValue());
                     }
                 }
-            } else if (sym2->isArray()){
-
             }
         }
     } 

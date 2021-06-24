@@ -9,6 +9,6 @@ int main(){
 	int a, b, c, d[20];
 	a = 20;
 	b = 69;
-	c = a;
+	c = a + 6;
 }
 
