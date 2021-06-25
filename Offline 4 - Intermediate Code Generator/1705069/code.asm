@@ -4,8 +4,11 @@
 
 x1_1 DW ?
 y1_1 DW ?
-min1_1 DW ?
+z1_1 DW ?
+max1_1 DW ?
 temp0 DW ?
+temp1 DW ?
+temp2 DW ?
 
 .CODE
 MAIN PROC 
@@ -16,39 +19,66 @@ MOV DS,AX
  
  
 MOV AX, -1
-MOV min1_1, AX 
+MOV max1_1, AX 
 
  
-MOV AX, 20
+MOV AX, 0
 MOV x1_1, AX 
 
  
-MOV AX, 30
+MOV AX, 0
 MOV y1_1, AX 
 
  
+MOV AX, -1
+MOV z1_1, AX 
+
  
-MOV AX, y1_1
-CMP AX, x1_1
-JL L0
+ 
+MOV AX, x1_1
+CMP AX, y1_1
+JG L0
 MOV temp0, 0
 JMP L1
 L0: 
 MOV temp0, 1
 L1: 
 
-MOV AX, temp0
-CMP AX, 1
-JNE L2
+ 
  
 MOV AX, x1_1
-MOV min1_1, AX 
+CMP AX, z1_1
+JG L2
+MOV temp1, 0
+JMP L3
+L2: 
+MOV temp1, 1
+L3: 
 
-L2:
+MOV AX, temp0
+CMP AX, 0
+JE L4
+MOV AX, temp1
+CMP AX, 0
+JE L4
+MOV AX, 1
+JMP L5
+L4:
+MOV AX, 0
+L5:
+MOV temp2, AX
+MOV AX, temp2
+CMP AX, 1
+JNE L6
+ 
+MOV AX, x1_1
+MOV max1_1, AX 
 
 
-MOV AX, min1_1
+MOV AX, max1_1
 CALL OUTDEC
+
+L6:
 
 MOV AH, 4CH
 INT 21H
