@@ -377,6 +377,7 @@ SymbolInfo* handle_assign(SymbolInfo *sym1, SymbolInfo *sym2)
     } else 
     result->setCode(sym2->getCode() + "\n" + memToMem(sym1, sym2));
     
+    result->setAsmVar(sym1->getAsmVar());
 
 
     if (sym2->getAsmVar().substr(0, 4) == "temp"){
@@ -873,6 +874,51 @@ SymbolInfo *handle_if(SymbolInfo *exp, SymbolInfo *ifstmnt){
     result->addCode(ifstmnt->getCode());
     result->addCode(label2 + ":\n");
 
+    return result;
+
+}
+
+SymbolInfo *handle_for(SymbolInfo *init, SymbolInfo *termimation, SymbolInfo *inc, SymbolInfo *statement){
+    SymbolInfo *result = new SymbolInfo("for("+init->getName()+termimation->getName()+
+                        inc->getName()+")"+statement->getName(), "NON_TERMINAL");
+
+    string loop = newLabel();
+    string loopExit = newLabel();
+
+    result->addCode(";for loop start");
+    result->addCode(init->getCode());
+    result->addCode(loop + ":");
+    result->addCode(termimation->getCode());
+    result->addCode("MOV AX, " + termimation->getAsmVar());
+    result->addCode("CMP AX, 0");
+    result->addCode("JE " + loopExit);
+    result->addCode(statement->getCode());
+    result->addCode(inc->getCode());
+    result->addCode("JMP " + loop);
+    result->addCode(loopExit + ":");
+    result->addCode(";for loop end");
+    // cout<<result->getCode()<<endl;
+    return result;
+}
+
+SymbolInfo *handle_while(SymbolInfo *condition, SymbolInfo *statement){
+    SymbolInfo *result = new SymbolInfo("while(" + condition->getName() + ") " +
+                         statement->getName(), "NON_TERMINAL");
+    
+    string loop = newLabel();
+    string loopExit = newLabel();
+
+    result->addCode(";while loop start");
+    result->addCode(loop + ":");
+    result->addCode(condition->getCode());
+    result->addCode("MOV AX, " + condition->getAsmVar());
+    result->addCode("CMP AX, 0");
+    result->addCode("JE " + loopExit);
+    result->addCode(statement->getCode());
+    result->addCode("JMP " + loop);
+    result->addCode(loopExit + ":");
+    result->addCode(";while loop end");
+    // cout<<result->getCode()<<endl;
     return result;
 
 }

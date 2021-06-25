@@ -14,76 +14,64 @@ x
 
 Line no: 2 declaration_list : declaration_list COMMA ID
 
-x, y
-
-Line no: 2 declaration_list : declaration_list COMMA ID
-
-x, y, z
-
-Line no: 2 declaration_list : declaration_list COMMA ID
-
-x, y, z, max
+x, sum
 
 Line no: 2 var_declaration : type_specifier declaration_list SEMICOLON
 
-int x, y, z, max;
+int x, sum;
 
 Line no: 2 statement : var_declaration
 
-int x, y, z, max;
+int x, sum;
 
 Line no: 2 statements : statement
 
-int x, y, z, max;
+int x, sum;
 
 Line no: 3 variable : ID
 
-max
+sum
 
 Line no: 3 factor : CONST_INT
 
-1
+0
 
 Line no: 3 unary_expression : factor
 
-1
-
-Line no: 3 unary_expression : ADDOP unary_expression
-
--1
+0
 
 Line no: 3 term : unary_expression
 
--1
+0
 
 Line no: 3 simple_expression : term
 
--1
+0
 
 Line no: 3 rel_expression : simple_expression
 
--1
+0
 
 Line no: 3 logic_expression : rel_expression
 
--1
+0
 
 Line no: 3 expression : variable ASSIGNOP logic_expression
 
-max=-1
+sum=0
 
 Line no: 3 expression_statement : expression SEMICOLON
 
-max=-1;
+sum=0;
 
 Line no: 3 statement : expression_statement
 
-max=-1;
+sum=0;
 
 Line no: 3 statements : statements statement
 
-int x, y, z, max;
-max=-1;
+int x, sum;
+sum=0;
 
 Line no: 4 variable : ID
 
@@ -91,246 +79,243 @@ x
 
 Line no: 4 factor : CONST_INT
 
-0
+1
 
 Line no: 4 unary_expression : factor
 
-0
+1
 
 Line no: 4 term : unary_expression
 
-0
+1
 
 Line no: 4 simple_expression : term
 
-0
+1
 
 Line no: 4 rel_expression : simple_expression
 
-0
+1
 
 Line no: 4 logic_expression : rel_expression
 
-0
+1
 
 Line no: 4 expression : variable ASSIGNOP logic_expression
 
-x=0
+x=1
 
 Line no: 4 expression_statement : expression SEMICOLON
 
-x=0;
+x=1;
 
-Line no: 4 statement : expression_statement
-
-x=0;
-
-Line no: 4 statements : statements statement
-
-int x, y, z, max;
-max=-1;
-x=0;
-
-Line no: 5 variable : ID
-
-y
-
-Line no: 5 factor : CONST_INT
-
-0
-
-Line no: 5 unary_expression : factor
-
-0
-
-Line no: 5 term : unary_expression
-
-0
-
-Line no: 5 simple_expression : term
-
-0
-
-Line no: 5 rel_expression : simple_expression
-
-0
-
-Line no: 5 logic_expression : rel_expression
-
-0
-
-Line no: 5 expression : variable ASSIGNOP logic_expression
-
-y=0
-
-Line no: 5 expression_statement : expression SEMICOLON
-
-y=0;
-
-Line no: 5 statement : expression_statement
-
-y=0;
-
-Line no: 5 statements : statements statement
-
-int x, y, z, max;
-max=-1;
-x=0;
-y=0;
-
-Line no: 6 variable : ID
-
-z
-
-Line no: 6 factor : CONST_INT
-
-1
-
-Line no: 6 unary_expression : factor
-
-1
-
-Line no: 6 unary_expression : ADDOP unary_expression
-
--1
-
-Line no: 6 term : unary_expression
-
--1
-
-Line no: 6 simple_expression : term
-
--1
-
-Line no: 6 rel_expression : simple_expression
-
--1
-
-Line no: 6 logic_expression : rel_expression
-
--1
-
-Line no: 6 expression : variable ASSIGNOP logic_expression
-
-z=-1
-
-Line no: 6 expression_statement : expression SEMICOLON
-
-z=-1;
-
-Line no: 6 statement : expression_statement
-
-z=-1;
-
-Line no: 6 statements : statements statement
-
-int x, y, z, max;
-max=-1;
-x=0;
-y=0;
-z=-1;
-
-Line no: 8 variable : ID
+Line no: 4 variable : ID
 
 x
 
-Line no: 8 factor : variable
+Line no: 4 factor : variable
 
 x
 
-Line no: 8 unary_expression : factor
+Line no: 4 unary_expression : factor
 
 x
 
-Line no: 8 term : unary_expression
+Line no: 4 term : unary_expression
 
 x
 
-Line no: 8 simple_expression : term
+Line no: 4 simple_expression : term
 
 x
 
-Line no: 8 variable : ID
+Line no: 4 factor : CONST_INT
 
-y
+20
 
-Line no: 8 factor : variable
+Line no: 4 unary_expression : factor
 
-y
+20
 
-Line no: 8 unary_expression : factor
+Line no: 4 term : unary_expression
 
-y
+20
 
-Line no: 8 term : unary_expression
+Line no: 4 simple_expression : term
 
-y
+20
 
-Line no: 8 simple_expression : term
+Line no: 4 rel_expression : simple_expression RELOP simple_expression
 
-y
+x<=20
 
-Line no: 8 rel_expression : simple_expression RELOP simple_expression
+Line no: 4 logic_expression : rel_expression
 
-x>y
+x<=20
 
-Line no: 8 variable : ID
+Line no: 4 expression : logic_expression
 
-x
+x<=20
 
-Line no: 8 factor : variable
+Line no: 4 expression_statement : expression SEMICOLON
 
-x
+x<=20;
 
-Line no: 8 unary_expression : factor
-
-x
-
-Line no: 8 term : unary_expression
+Line no: 4 variable : ID
 
 x
 
-Line no: 8 simple_expression : term
+Line no: 4 factor : variable INCOP
 
-x
+x++
 
-Line no: 8 variable : ID
+Line no: 4 unary_expression : factor
 
-z
+x++
 
-Line no: 8 factor : variable
+Line no: 4 term : unary_expression
 
-z
+x++
 
-Line no: 8 unary_expression : factor
+Line no: 4 simple_expression : term
 
-z
+x++
 
-Line no: 8 term : unary_expression
+Line no: 4 rel_expression : simple_expression
 
-z
+x++
 
-Line no: 8 simple_expression : term
+Line no: 4 logic_expression : rel_expression
 
-z
+x++
 
-Line no: 8 rel_expression : simple_expression RELOP simple_expression
+Line no: 4 expression : logic_expression
 
-x>z
-
-Line no: 8 logic_expression : rel_expression LOGICOP rel_expression
-
-x>y&&x>z
-
-Line no: 8 expression : logic_expression
-
-x>y&&x>z
+x++
 
 
 New ScopeTable #1_1_1 created
-Line no: 9 variable : ID
+Line no: 5 variable : ID
 
-max
+sum
+
+Line no: 5 variable : ID
+
+sum
+
+Line no: 5 factor : variable
+
+sum
+
+Line no: 5 unary_expression : factor
+
+sum
+
+Line no: 5 term : unary_expression
+
+sum
+
+Line no: 5 simple_expression : term
+
+sum
+
+Line no: 5 variable : ID
+
+x
+
+Line no: 5 factor : variable
+
+x
+
+Line no: 5 unary_expression : factor
+
+x
+
+Line no: 5 term : unary_expression
+
+x
+
+Line no: 5 simple expression : simple_expression ADDOP term
+
+sum+x
+
+Line no: 5 rel_expression : simple_expression
+
+sum+x
+
+Line no: 5 logic_expression : rel_expression
+
+sum+x
+
+Line no: 5 expression : variable ASSIGNOP logic_expression
+
+sum=sum+x
+
+Line no: 5 expression_statement : expression SEMICOLON
+
+sum=sum+x;
+
+Line no: 5 statement : expression_statement
+
+sum=sum+x;
+
+Line no: 5 statements : statement
+
+sum=sum+x;
+
+Line no: 6 compound_statement : LCURL statements RCURL
+
+{
+sum=sum+x;
+}
+
+
+
+ScopeTable #1_1_1
+
+ScopeTable #1_1
+1 --> <x: ID> 
+5 --> <sum: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+Line no: 6 statement : compound_statement
+
+{
+sum=sum+x;
+}
+
+
+Line no: 6 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+
+Line no: 6 statements : statements statement
+
+int x, sum;
+sum=0;
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+
+Line no: 7 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+printf(sum);
+
+2
+Line no: 7 statements : statements statement
+
+int x, sum;
+sum=0;
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+printf(sum);
 
 Line no: 9 variable : ID
 
@@ -352,99 +337,151 @@ Line no: 9 simple_expression : term
 
 x
 
-Line no: 9 rel_expression : simple_expression
+Line no: 9 factor : CONST_INT
 
-x
+40
+
+Line no: 9 unary_expression : factor
+
+40
+
+Line no: 9 term : unary_expression
+
+40
+
+Line no: 9 simple_expression : term
+
+40
+
+Line no: 9 rel_expression : simple_expression RELOP simple_expression
+
+x<=40
 
 Line no: 9 logic_expression : rel_expression
 
-x
+x<=40
 
-Line no: 9 expression : variable ASSIGNOP logic_expression
+Line no: 9 expression : logic_expression
 
-max=x
+x<=40
 
-Line no: 9 expression_statement : expression SEMICOLON
 
-max=x;
-
-Line no: 9 statement : expression_statement
-
-max=x;
-
-Line no: 9 statements : statement
-
-max=x;
-
+New ScopeTable #1_1_2 created
 Line no: 10 PRINTLN LPAREN ID RPAREN SEMICOLON
 
-printf(max);
+printf(x);
 
-0
-Line no: 10 statements : statements statement
+2
+Line no: 10 statements : statement
 
-max=x;
-printf(max);
+printf(x);
 
-Line no: 11 compound_statement : LCURL statements RCURL
+Line no: 11 variable : ID
+
+x
+
+Line no: 11 factor : variable INCOP
+
+x++
+
+Line no: 11 unary_expression : factor
+
+x++
+
+Line no: 11 term : unary_expression
+
+x++
+
+Line no: 11 simple_expression : term
+
+x++
+
+Line no: 11 rel_expression : simple_expression
+
+x++
+
+Line no: 11 logic_expression : rel_expression
+
+x++
+
+Line no: 11 expression : logic_expression
+
+x++
+
+Line no: 11 expression_statement : expression SEMICOLON
+
+x++;
+
+Line no: 11 statement : expression_statement
+
+x++;
+
+Line no: 11 statements : statements statement
+
+printf(x);
+x++;
+
+Line no: 12 compound_statement : LCURL statements RCURL
 
 {
-max=x;
-printf(max);
+printf(x);
+x++;
 }
 
 
 
-ScopeTable #1_1_1
+ScopeTable #1_1_2
 
 ScopeTable #1_1
 1 --> <x: ID> 
-2 --> <y: ID> 
-3 --> <z: ID> 
-4 --> <max: ID> 
+5 --> <sum: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-Line no: 11 statement : compound_statement
+Line no: 12 statement : compound_statement
 
 {
-max=x;
-printf(max);
+printf(x);
+x++;
 }
 
 
-Line no: 12 IF LPAREN expression RPAREN statement
+Line no: 12 WHILE LPAREN expression RPAREN statement
 
-if(x>y&&x>z){
-max=x;
-printf(max);
+while(x<=40) {
+printf(x);
+x++;
 }
 
 
 Line no: 12 statements : statements statement
 
-int x, y, z, max;
-max=-1;
-x=0;
-y=0;
-z=-1;
-if(x>y&&x>z){
-max=x;
-printf(max);
+int x, sum;
+sum=0;
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+printf(sum);
+while(x<=40) {
+printf(x);
+x++;
 }
 
 
-Line no: 12 compound_statement : LCURL statements RCURL
+Line no: 13 compound_statement : LCURL statements RCURL
 
 {
-int x, y, z, max;
-max=-1;
-x=0;
-y=0;
-z=-1;
-if(x>y&&x>z){
-max=x;
-printf(max);
+int x, sum;
+sum=0;
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+printf(sum);
+while(x<=40) {
+printf(x);
+x++;
 }
 
 }
@@ -453,55 +490,59 @@ printf(max);
 
 ScopeTable #1_1
 1 --> <x: ID> 
-2 --> <y: ID> 
-3 --> <z: ID> 
-4 --> <max: ID> 
+5 --> <sum: ID> 
 
 ScopeTable #1
 1 --> <main: ID> 
-Line no: 12 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line no: 13 func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main ( ) {
-int x, y, z, max;
-max=-1;
-x=0;
-y=0;
-z=-1;
-if(x>y&&x>z){
-max=x;
-printf(max);
+int x, sum;
+sum=0;
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+printf(sum);
+while(x<=40) {
+printf(x);
+x++;
 }
 
 }
 
 
-Line no: 12 unit : func_definition
+Line no: 13 unit : func_definition
 
 int main ( ) {
-int x, y, z, max;
-max=-1;
-x=0;
-y=0;
-z=-1;
-if(x>y&&x>z){
-max=x;
-printf(max);
+int x, sum;
+sum=0;
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+printf(sum);
+while(x<=40) {
+printf(x);
+x++;
 }
 
 }
 
 
-Line no: 12 program : unit
+Line no: 13 program : unit
 
 int main ( ) {
-int x, y, z, max;
-max=-1;
-x=0;
-y=0;
-z=-1;
-if(x>y&&x>z){
-max=x;
-printf(max);
+int x, sum;
+sum=0;
+for(x=1;x<=20;x++){
+sum=sum+x;
+}
+
+printf(sum);
+while(x<=40) {
+printf(x);
+x++;
 }
 
 }
@@ -511,5 +552,5 @@ printf(max);
 ScopeTable #1
 1 --> <main: ID> 
 
-Total lines: 12
+Total lines: 13
 Total errors: 0
