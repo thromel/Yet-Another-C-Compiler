@@ -54,6 +54,7 @@ string newLabel(){
 void addDataSegment(){
     code << ".MODEL MEDIUM \n.STACK 100H \n.DATA"<<endl<<endl;
 
+    asmVarList.push_back("return_loc");
     for(string s : asmVarList){
         code << s << " DW ?" << endl;
     }

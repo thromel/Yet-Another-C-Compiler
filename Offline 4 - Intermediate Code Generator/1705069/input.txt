@@ -1,13 +1,14 @@
 int main(){
-	int x, sum;
-	sum = 0;
-	for(x = 1; x <= 20; x++){
-		sum = sum + x;
-	}
-	printf(sum);
-
-	while(x <= 40){
-		printf(x);
-		x++;
-	}
+    int a,b,c,i;
+    b=0;
+	c=1;
+    for(i=0;i<4;i++){
+        a=3;
+        while(a--){
+            b++;
+        }
+    }
+    printf(a);
+    printf(b);
+    printf(c);
 }
