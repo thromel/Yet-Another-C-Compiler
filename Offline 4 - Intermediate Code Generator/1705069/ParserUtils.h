@@ -622,7 +622,7 @@ SymbolInfo* handle_MULOP (SymbolInfo *sym1, SymbolInfo *op, SymbolInfo *sym2)
             result->setCode("MOV AX, " + sym1->getAsmVar() + "\nMOV BX, " + sym2->getAsmVar() +
             "\nMOV AX, AX\nCWD\nIDIV BX\nMOV " + asmTempVar + ", AX\n" );
             result->setAsmVar(asmTempVar);
-            
+
         } else if (sym1->getVarType() == "INT" && sym2->getVarType() == "FLOAT") {
             result->setFloatValue((sym1->getIntValue()*1.0) / sym2->getFloatValue());
         } else if (sym1->getVarType() == "FLOAT" && sym2->getVarType() == "INT") {
@@ -738,7 +738,7 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
     
 }
 
-void handle_print(SymbolInfo *sym){
+void handle_print(SymbolInfo *sym, SymbolInfo *statement){
 
     sym = getVariable(sym);
 
@@ -753,6 +753,7 @@ void handle_print(SymbolInfo *sym){
     
     if (sym->getVarType() == "INT"){
         log << sym->getIntValue()<<endl;
+        statement->setCode("\nMOV AX, " + sym->getAsmVar() + "\nCALL OUTDEC\n");
     } else {
         log << sym->getFloatValue()<<endl;
     }
