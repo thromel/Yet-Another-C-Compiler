@@ -1,26 +1,10 @@
-int f();
-
-int f(){
-	int a, b, c, d[20];
-	return 69.69;
-}
-
 int main(){
-	int a, b, c, d[20];
-	a = 20;
-	b = 69;
-	c = a + 6;
-	b = c + a;
-	printf(b);
-	a = b - c;
-	printf(a);
-	a++;
-	printf(a);
-	a = -b;
-	printf(a);
-	b = a * c;
-	printf(b);
-	b = b / 2;
-	printf(b);
+	int x, y, min;
+	min = -1;
+	x = 20;
+	y = 30;
+	if (y < x) {
+		min = x;
+	}
+	printf(min);
 }
-

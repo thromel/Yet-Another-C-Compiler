@@ -111,6 +111,10 @@ public:
         this->code = code;
     }
 
+    void addCode(string code){
+        this->code += "\n" + code;
+    }
+
     string getAsmVar(){
         return this->asmVar;
     }
