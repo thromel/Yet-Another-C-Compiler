@@ -4,11 +4,12 @@
 
 a1_1 DW ?
 b1_1 DW ?
-c1_1 DW ?
-i1_1 DW ?
 temp0 DW ?
 temp1 DW ?
+temp2 DW ?
+temp3 DW ?
 return_loc DW ?
+c1_1 DW 3 DUP (?)
 
 .CODE
 MAIN PROC 
@@ -19,75 +20,90 @@ MOV DS,AX
  
  
  
-MOV AX, 0
-MOV b1_1, AX 
+ 
+ 
+ 
+ 
+MOV AX, 2
+ADD AX, 3
+MOV temp0, AX
 
- 
- 
 MOV AX, 1
-MOV c1_1, AX 
+MOV BX, temp0
+IMUL BX
+MOV temp1, AX
 
  
-;for loop start
- 
- 
-MOV AX, 0
-MOV i1_1, AX 
+MOV AX, temp1
+MOV BX, 3
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
 
-L4:
- 
- 
-MOV AX, i1_1
-CMP AX, 4
-JL L0
-MOV temp0, 0
-JMP L1
-L0: 
-MOV temp0, 1
-L1: 
-
-MOV AX, temp0
-CMP AX, 0
-JE L5
- 
- 
-MOV AX, 3
+MOV AX, temp2
 MOV a1_1, AX 
 
  
-;while loop start
-L2:
-MOV AX, a1_1
-DEC AX
-MOV a1_1, AX
+ 
+ 
+MOV AX, 1
+CMP AX, 5
+JL L0
+MOV temp2, 0
+JMP L1
+L0: 
+MOV temp2, 1
+L1: 
 
+MOV AX, temp2
+MOV b1_1, AX 
+
+MOV SI, 0
+
+ 
+MOV AX, 2
+MOV c1_1[SI], AX 
+
+ 
+ 
 MOV AX, a1_1
 CMP AX, 0
-JE L3
+JE L2
 MOV AX, b1_1
-INC AX
-MOV b1_1, AX
-
-JMP L2
+CMP AX, 0
+JE L2
+MOV AX, 1
+JMP L3
+L2:
+MOV AX, 0
 L3:
-;while loop end
-MOV AX, i1_1
+MOV temp2, AX
+MOV AX, temp2
+CMP AX, 1
+JNE L4
+MOV AX, c1_1[SI]
+MOV temp3, AX
 INC AX
-MOV i1_1, AX
+MOV c1_1[SI], AX
 
-JMP L4
+JMP L5
+L4:
+MOV SI, 1
+
+MOV SI, 0
+
+MOV AX, c1_1[SI]
+MOV c1_1[SI], AX 
+
 L5:
-;for loop end
+
 
 MOV AX, a1_1
 CALL OUTDEC
 
 
 MOV AX, b1_1
-CALL OUTDEC
-
-
-MOV AX, c1_1
 CALL OUTDEC
 
 MOV AH, 4CH
