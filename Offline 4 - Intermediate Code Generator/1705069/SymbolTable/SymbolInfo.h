@@ -44,6 +44,7 @@ public:
     SymbolInfo *real = NULL;
 
     vector<SymbolInfo *> paramSymList;
+    string funcEndLabel = "";
 
     void addParam(string name, string type){
         SymbolInfo *sym = new SymbolInfo(name, "ID");

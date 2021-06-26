@@ -116,9 +116,11 @@ void enterScope(){
             for(int i = funcVal->paramSymList.size() - 1; i >= 0; --i){
                 funcVal->setFuncStart(funcVal->getFuncStart() + "\nPOP " + funcVal->paramSymList[i]->getAsmVar());
             }
+            string funcEndLabel = newLabel();
             funcVal->setFuncStart(funcVal->getFuncStart() +
                                     "\nPUSH BX\nPUSH CX\nPUSH DX\n");
-            funcVal->setFuncEnd("POP DX\nPOP CX\nPOP BX\nPUSH return_loc\nRET\n" + funcVal->getName() + " ENDP\n\n");
+            funcVal->setFuncEnd(funcEndLabel + ": \n" + "POP DX\nPOP CX\nPOP BX\nPUSH return_loc\nRET\n" + funcVal->getName() + " ENDP\n\n");
+            funcVal->funcEndLabel = funcEndLabel;
         }
         paramList.clear();
     }
@@ -438,7 +440,7 @@ SymbolInfo* handleADDOP(SymbolInfo* sym1, SymbolInfo* op, SymbolInfo* sym2)
     string ADDOP = op->getName();
     string asmTempVar = vm.getTempVar();
     result->setAsmVar(asmTempVar);
-
+    result->setCode(sym1->getCode() + "\n" + sym2->getCode());
     if (ADDOP == "+"){
         if (sym1->isVariable() || sym1->isArray()){
             if (sym2->isVariable() || sym2->isArray()){
@@ -795,8 +797,10 @@ SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList){
         asmArgList.clear();
 
     }
+    string asmTempVar = vm.getTempVar();
     sym->addCode("CALL " + funcVal->getName());
-    sym->setAsmVar("AX");
+    sym->addCode("POP " + asmTempVar);
+    sym->setAsmVar(asmTempVar);
     argTypeList.clear();
     return sym;
     
@@ -976,10 +980,13 @@ SymbolInfo *handle_while(SymbolInfo *condition, SymbolInfo *statement){
 
 SymbolInfo *handle_return(SymbolInfo *expr){
     SymbolInfo *sym = new SymbolInfo("return " + expr->getName() + ";", "NON_TERMINAL");
-
+    SymbolInfo *funcVal = st.lookup(currentFunction);
+    string tempAsmVar = vm.getTempVar();
     sym->setCode(expr->getCode());
     sym->addCode("MOV AX, " + expr->getAsmVar() + "\n");
-    sym->setAsmVar("AX");
+    sym->addCode("MOV " + tempAsmVar + ", AX");
+    sym->addCode("JMP " + funcVal->funcEndLabel);
+    sym->setAsmVar(tempAsmVar);
 
     return sym;
 }
