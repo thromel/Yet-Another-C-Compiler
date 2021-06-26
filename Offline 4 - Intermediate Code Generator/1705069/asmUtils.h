@@ -32,6 +32,7 @@ public:
     void freeTempVar(string tempVar){
         if (tempVar.substr(0, 4) == "temp"){
             free.push(tempVar);
+            // cout<<"freed " + tempVar<<endl;
         }
     }
 
