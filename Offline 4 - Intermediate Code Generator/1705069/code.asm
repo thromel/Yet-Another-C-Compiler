@@ -14,8 +14,20 @@ n1_3 DW ?
 i1_3 DW ?
 fact1_3 DW ?
 temp1 DW ?
-x1_4 DW ?
+n1_4 DW ?
+term11_4 DW ?
+term21_4 DW ?
+ans1_4 DW ?
+i1_4 DW ?
+temp2 DW ?
+i1_5 DW ?
+max1_5 DW ?
+temp3 DW ?
+temp4 DW ?
+temp5 DW ?
+temp6 DW ?
 return_loc DW ?
+x1_5 DW 20 DUP (?)
 
 .CODE
 max2 PROC
@@ -175,6 +187,97 @@ RET
 factorial ENDP
 
 
+fibonacci PROC
+
+POP return_loc
+POP n1_4
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+MOV AX, 0
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+ 
+MOV AX, ans1_4
+
+JMP L11
+L11: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+fibonacci ENDP
+
+
 MAIN PROC 
 
 MOV AX,@DATA
@@ -183,26 +286,154 @@ MOV DS,AX
  
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV max1_5, AX 
 
  
  
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
 PUSH return_loc
-PUSH x1_4
+PUSH temp2
 CALL factorial
 POP return_loc
 MOV AX, AX
-MOV x1_4, AX 
+MOV i1_5, AX 
 
 
-MOV AX, x1_4
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+MOV AX, max1_5
 CALL OUTDEC
 
 MOV AH, 4CH

@@ -740,6 +740,7 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
         return nullSym();
       } else {
         sym->addCode("PUSH " + asmArgList[i]);
+        vm.freeTempVar(asmArgList[i]);
       }
     }
     asmArgList.clear();

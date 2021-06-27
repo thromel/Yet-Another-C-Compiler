@@ -3264,6 +3264,22 @@ int
  
 
 ------------------
+Line no: 25 type_specifier	: INT
+
+------------------
+int
+
+ 
+
+------------------
+Line no: 25 parameter_list : type_specifier ID
+
+------------------
+int n
+
+ 
+
+------------------
 
 New ScopeTable #1_4 created
 Line no: 26 type_specifier	: INT
@@ -3277,7 +3293,31 @@ int
 Line no: 26 declaration_list : ID
 
 ------------------
-x
+term1
+
+ 
+
+------------------
+Line no: 26 declaration_list : declaration_list COMMA ID
+
+------------------
+term1, term2
+
+ 
+
+------------------
+Line no: 26 declaration_list : declaration_list COMMA ID
+
+------------------
+term1, term2, ans
+
+ 
+
+------------------
+Line no: 26 declaration_list : declaration_list COMMA ID
+
+------------------
+term1, term2, ans, i
 
  
 
@@ -3285,7 +3325,7 @@ x
 Line no: 26 var_declaration : type_specifier declaration_list SEMICOLON
 
 ------------------
-int x;
+int term1, term2, ans, i;
 
  
 
@@ -3293,7 +3333,7 @@ int x;
 Line no: 26 statement : var_declaration
 
 ------------------
-int x;
+int term1, term2, ans, i;
 
  
 
@@ -3301,7 +3341,7 @@ int x;
 Line no: 26 statements : statement
 
 ------------------
-int x;
+int term1, term2, ans, i;
 
  
 
@@ -3309,7 +3349,7 @@ int x;
 Line no: 27 variable : ID
 
 ------------------
-x
+term1
 
  
 
@@ -3317,7 +3357,7 @@ x
 Line no: 27 factor : CONST_INT
 
 ------------------
-5
+0
 
  
 
@@ -3325,7 +3365,7 @@ Line no: 27 factor : CONST_INT
 Line no: 27 unary_expression : factor
 
 ------------------
-5
+0
 
  
 
@@ -3333,7 +3373,7 @@ Line no: 27 unary_expression : factor
 Line no: 27 term : unary_expression
 
 ------------------
-5
+0
 
  
 
@@ -3341,7 +3381,7 @@ Line no: 27 term : unary_expression
 Line no: 27 simple_expression : term
 
 ------------------
-5
+0
 
  
 
@@ -3349,7 +3389,7 @@ Line no: 27 simple_expression : term
 Line no: 27 rel_expression : simple_expression
 
 ------------------
-5
+0
 
  
 
@@ -3357,317 +3397,73 @@ Line no: 27 rel_expression : simple_expression
 Line no: 27 logic_expression : rel_expression
 
 ------------------
-5
+0
 
  
-
-------------------
-Line no: 27 arguments : logic_expression
-
-------------------
-5
-
- 
-
-------------------
-Line no: 27 factor : CONST_INT
-
-------------------
-3
-
- 
-
-------------------
-Line no: 27 unary_expression : factor
-
-------------------
-3
-
- 
-
-------------------
-Line no: 27 term : unary_expression
-
-------------------
-3
-
- 
-
-------------------
-Line no: 27 simple_expression : term
-
-------------------
-3
-
- 
-
-------------------
-Line no: 27 rel_expression : simple_expression
-
-------------------
-3
-
- 
-
-------------------
-Line no: 27 logic_expression : rel_expression
-
-------------------
-3
-
- 
-
-------------------
-Line no: 27 arguments : arguments COMMA logic_expression
-
-------------------
-5, 3
-
- 
-
-------------------
-Line no: 27 factor : CONST_INT
-
-------------------
-2
-
- 
-
-------------------
-Line no: 27 unary_expression : factor
-
-------------------
-2
-
- 
-
-------------------
-Line no: 27 term : unary_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 27 simple_expression : term
-
-------------------
-2
-
- 
-
-------------------
-Line no: 27 rel_expression : simple_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 27 logic_expression : rel_expression
-
-------------------
-2
-
- 
-
-------------------
-Line no: 27 arguments : arguments COMMA logic_expression
-
-------------------
-5, 3, 2
-
- 
-
-------------------
-Line no: 27 argument_list : arguments
-
-------------------
-5, 3, 2
-
- 
-
-------------------
-Line no: 27 factor : ID LPAREN argument_list RPAREN
-
-------------------
-max3(5, 3, 2)
-
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-
-------------------
-Line no: 27 unary_expression : factor
-
-------------------
-max3(5, 3, 2)
-
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-
-------------------
-Line no: 27 term : unary_expression
-
-------------------
-max3(5, 3, 2)
-
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-
-------------------
-Line no: 27 simple_expression : term
-
-------------------
-max3(5, 3, 2)
-
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-
-------------------
-Line no: 27 rel_expression : simple_expression
-
-------------------
-max3(5, 3, 2)
-
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-
-------------------
-Line no: 27 logic_expression : rel_expression
-
-------------------
-max3(5, 3, 2)
-
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
 
 ------------------
 Line no: 27 expression : variable ASSIGNOP logic_expression
 
 ------------------
-x=max3(5, 3, 2)
+term1=0
 
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV term11_4, AX 
 
 
 ------------------
 Line no: 27 expression_statement : expression SEMICOLON
 
 ------------------
-x=max3(5, 3, 2);
+term1=0;
 
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV term11_4, AX 
 
 
 ------------------
 Line no: 27 statement : expression_statement
 
 ------------------
-x=max3(5, 3, 2);
+term1=0;
 
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV term11_4, AX 
 
 
 ------------------
 Line no: 27 statements : statements statement
 
 ------------------
-int x;
-x=max3(5, 3, 2);
+int term1, term2, ans, i;
+term1=0;
 
  
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV term11_4, AX 
 
 
 ------------------
 Line no: 28 variable : ID
 
 ------------------
-x
+term2
 
  
 
 ------------------
-Line no: 28 variable : ID
+Line no: 28 factor : CONST_INT
 
 ------------------
-x
-
- 
-
-------------------
-Line no: 28 factor : variable
-
-------------------
-x
+1
 
  
 
@@ -3675,7 +3471,7 @@ x
 Line no: 28 unary_expression : factor
 
 ------------------
-x
+1
 
  
 
@@ -3683,7 +3479,7 @@ x
 Line no: 28 term : unary_expression
 
 ------------------
-x
+1
 
  
 
@@ -3691,7 +3487,7 @@ x
 Line no: 28 simple_expression : term
 
 ------------------
-x
+1
 
  
 
@@ -3699,7 +3495,7 @@ x
 Line no: 28 rel_expression : simple_expression
 
 ------------------
-x
+1
 
  
 
@@ -3707,365 +3503,1722 @@ x
 Line no: 28 logic_expression : rel_expression
 
 ------------------
-x
+1
 
  
-
-------------------
-Line no: 28 arguments : logic_expression
-
-------------------
-x
-
- 
-
-------------------
-Line no: 28 argument_list : arguments
-
-------------------
-x
-
- 
-
-------------------
-Line no: 28 factor : ID LPAREN argument_list RPAREN
-
-------------------
-factorial(x)
-
- 
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 28 unary_expression : factor
-
-------------------
-factorial(x)
-
- 
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 28 term : unary_expression
-
-------------------
-factorial(x)
-
- 
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 28 simple_expression : term
-
-------------------
-factorial(x)
-
- 
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 28 rel_expression : simple_expression
-
-------------------
-factorial(x)
-
- 
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-
-------------------
-Line no: 28 logic_expression : rel_expression
-
-------------------
-factorial(x)
-
- 
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
 
 ------------------
 Line no: 28 expression : variable ASSIGNOP logic_expression
 
 ------------------
-x=factorial(x)
+term2=1
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 1
+MOV term21_4, AX 
 
 
 ------------------
 Line no: 28 expression_statement : expression SEMICOLON
 
 ------------------
-x=factorial(x);
+term2=1;
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 1
+MOV term21_4, AX 
 
 
 ------------------
 Line no: 28 statement : expression_statement
 
 ------------------
-x=factorial(x);
+term2=1;
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 1
+MOV term21_4, AX 
 
 
 ------------------
 Line no: 28 statements : statements statement
 
 ------------------
-int x;
-x=max3(5, 3, 2);
-x=factorial(x);
+int term1, term2, ans, i;
+term1=0;
+term2=1;
 
  
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV term11_4, AX 
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 1
+MOV term21_4, AX 
 
 
 ------------------
-Line no: 29 PRINTLN LPAREN ID RPAREN SEMICOLON
+Line no: 29 variable : ID
 
 ------------------
-printf(x);
+ans
 
  
 
 ------------------
--1
+Line no: 29 factor : CONST_INT
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 29 unary_expression : factor
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 29 term : unary_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 29 simple_expression : term
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 29 rel_expression : simple_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 29 logic_expression : rel_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 29 expression : variable ASSIGNOP logic_expression
+
+------------------
+ans=1
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+
+------------------
+Line no: 29 expression_statement : expression SEMICOLON
+
+------------------
+ans=1;
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+
+------------------
+Line no: 29 statement : expression_statement
+
+------------------
+ans=1;
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+
+------------------
 Line no: 29 statements : statements statement
 
 ------------------
-int x;
-x=max3(5, 3, 2);
-x=factorial(x);
-printf(x);
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
 
  
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV term11_4, AX 
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
 
 
-MOV AX, x1_4
+------------------
+Line no: 31 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 31 factor : CONST_INT
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 31 unary_expression : factor
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 31 term : unary_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 31 simple_expression : term
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 31 rel_expression : simple_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 31 logic_expression : rel_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 31 expression : variable ASSIGNOP logic_expression
+
+------------------
+i=0
+
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+
+------------------
+Line no: 31 expression_statement : expression SEMICOLON
+
+------------------
+i=0;
+
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+
+------------------
+Line no: 31 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 31 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 31 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 31 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 31 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 31 variable : ID
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 31 factor : variable
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 31 unary_expression : factor
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 31 term : unary_expression
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 31 simple_expression : term
+
+------------------
+n
+
+ 
+
+------------------
+Line no: 31 rel_expression : simple_expression RELOP simple_expression
+
+------------------
+i<n
+
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+
+------------------
+Line no: 31 logic_expression : rel_expression
+
+------------------
+i<n
+
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+
+------------------
+Line no: 31 expression : logic_expression
+
+------------------
+i<n
+
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+
+------------------
+Line no: 31 expression_statement : expression SEMICOLON
+
+------------------
+i<n;
+
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+
+------------------
+Line no: 31 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 31 factor : variable INCOP
+
+------------------
+i++
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+
+------------------
+Line no: 31 unary_expression : factor
+
+------------------
+i++
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+
+------------------
+Line no: 31 term : unary_expression
+
+------------------
+i++
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+
+------------------
+Line no: 31 simple_expression : term
+
+------------------
+i++
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+
+------------------
+Line no: 31 rel_expression : simple_expression
+
+------------------
+i++
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+
+------------------
+Line no: 31 logic_expression : rel_expression
+
+------------------
+i++
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+
+------------------
+Line no: 31 expression : logic_expression
+
+------------------
+i++
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+
+------------------
+
+New ScopeTable #1_4_1 created
+Line no: 32 variable : ID
+
+------------------
+term1
+
+ 
+
+------------------
+Line no: 32 variable : ID
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 32 factor : variable
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 32 unary_expression : factor
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 32 term : unary_expression
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 32 simple_expression : term
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 32 rel_expression : simple_expression
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 32 logic_expression : rel_expression
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 32 expression : variable ASSIGNOP logic_expression
+
+------------------
+term1=term2
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+
+------------------
+Line no: 32 expression_statement : expression SEMICOLON
+
+------------------
+term1=term2;
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+
+------------------
+Line no: 32 statement : expression_statement
+
+------------------
+term1=term2;
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+
+------------------
+Line no: 32 statements : statement
+
+------------------
+term1=term2;
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+
+------------------
+Line no: 33 variable : ID
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 33 variable : ID
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 33 factor : variable
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 33 unary_expression : factor
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 33 term : unary_expression
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 33 simple_expression : term
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 33 rel_expression : simple_expression
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 33 logic_expression : rel_expression
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 33 expression : variable ASSIGNOP logic_expression
+
+------------------
+term2=ans
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+
+------------------
+Line no: 33 expression_statement : expression SEMICOLON
+
+------------------
+term2=ans;
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+
+------------------
+Line no: 33 statement : expression_statement
+
+------------------
+term2=ans;
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+
+------------------
+Line no: 33 statements : statements statement
+
+------------------
+term1=term2;
+term2=ans;
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+
+------------------
+Line no: 34 variable : ID
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 34 variable : ID
+
+------------------
+term1
+
+ 
+
+------------------
+Line no: 34 factor : variable
+
+------------------
+term1
+
+ 
+
+------------------
+Line no: 34 unary_expression : factor
+
+------------------
+term1
+
+ 
+
+------------------
+Line no: 34 term : unary_expression
+
+------------------
+term1
+
+ 
+
+------------------
+Line no: 34 simple_expression : term
+
+------------------
+term1
+
+ 
+
+------------------
+Line no: 34 variable : ID
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 34 factor : variable
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 34 unary_expression : factor
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 34 term : unary_expression
+
+------------------
+term2
+
+ 
+
+------------------
+Line no: 34 simple expression : simple_expression ADDOP term
+
+------------------
+term1+term2
+
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+
+------------------
+Line no: 34 rel_expression : simple_expression
+
+------------------
+term1+term2
+
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+
+------------------
+Line no: 34 logic_expression : rel_expression
+
+------------------
+term1+term2
+
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+
+------------------
+Line no: 34 expression : variable ASSIGNOP logic_expression
+
+------------------
+ans=term1+term2
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+------------------
+Line no: 34 expression_statement : expression SEMICOLON
+
+------------------
+ans=term1+term2;
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+------------------
+Line no: 34 statement : expression_statement
+
+------------------
+ans=term1+term2;
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+------------------
+Line no: 34 statements : statements statement
+
+------------------
+term1=term2;
+term2=ans;
+ans=term1+term2;
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+------------------
+Line no: 35 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+------------------
+printf(ans);
+
+ 
+
+------------------
+2
+Line no: 35 statements : statements statement
+
+------------------
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
 CALL OUTDEC
 
 
 ------------------
-Line no: 30 compound_statement : LCURL statements RCURL
+Line no: 36 compound_statement : LCURL statements RCURL
 
 ------------------
 {
-int x;
-x=max3(5, 3, 2);
-x=factorial(x);
-printf(x);
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+
+------------------
+
+ScopeTable #1_4_1
+
+ScopeTable #1_4
+0 --> <term2: ID>  <ans: ID>  <i: ID> 
+5 --> <n: ID> 
+6 --> <term1: ID> 
+
+ScopeTable #1
+2 --> <fibonacci: ID> 
+4 --> <factorial: ID> 
+5 --> <max2: ID> 
+6 --> <max3: ID> 
+Line no: 36 statement : compound_statement
+
+------------------
+{
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+
+------------------
+Line no: 36 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+------------------
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+
+------------------
+Line no: 36 statements : statements statement
+
+------------------
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
 }
 
 
  
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV term11_4, AX 
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
 
 
-MOV AX, x1_4
+MOV AX, ans1_4
 CALL OUTDEC
 
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+
+------------------
+Line no: 37 variable : ID
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 factor : variable
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 unary_expression : factor
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 term : unary_expression
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 simple_expression : term
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 rel_expression : simple_expression
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 logic_expression : rel_expression
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 expression : logic_expression
+
+------------------
+ans
+
+ 
+
+------------------
+Line no: 37 RETURN expression SEMICOLON
+
+------------------
+return ans;
+
+ 
+MOV AX, ans1_4
+
+JMP L11
+
+------------------
+Line no: 37 statements : statements statement
+
+------------------
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+return ans;
+
+ 
+ 
+ 
+MOV AX, 0
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+ 
+MOV AX, ans1_4
+
+JMP L11
+
+------------------
+Line no: 38 compound_statement : LCURL statements RCURL
+
+------------------
+{
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+return ans;
+}
+
+
+ 
+ 
+ 
+MOV AX, 0
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+ 
+MOV AX, ans1_4
+
+JMP L11
 
 ------------------
 
 ScopeTable #1_4
-1 --> <x: ID> 
+0 --> <term2: ID>  <ans: ID>  <i: ID> 
+5 --> <n: ID> 
+6 --> <term1: ID> 
 
 ScopeTable #1
-1 --> <main: ID> 
+2 --> <fibonacci: ID> 
 4 --> <factorial: ID> 
 5 --> <max2: ID> 
 6 --> <max3: ID> 
-Line no: 30 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+Line no: 38 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 
 ------------------
-int main ( ) {
-int x;
-x=max3(5, 3, 2);
-x=factorial(x);
-printf(x);
+int fibonacci ( int n ) {
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+return ans;
 }
 
 
-MAIN PROC 
+fibonacci PROC
 
-MOV AX,@DATA
-MOV DS,AX
-
- 
- 
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
 POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+POP n1_4
+PUSH BX
+PUSH CX
+PUSH DX
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+ 
+MOV AX, 0
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
 
 
-MOV AX, x1_4
+MOV AX, ans1_4
 CALL OUTDEC
 
-MOV AH, 4CH
-INT 21H
-MAIN ENDP
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+ 
+MOV AX, ans1_4
+
+JMP L11
+L11: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+fibonacci ENDP
 
 
 
 ------------------
-Line no: 30 unit : func_definition
+Line no: 38 unit : func_definition
 
 ------------------
-int main ( ) {
-int x;
-x=max3(5, 3, 2);
-x=factorial(x);
-printf(x);
+int fibonacci ( int n ) {
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+return ans;
 }
 
 
-MAIN PROC 
+fibonacci PROC
 
-MOV AX,@DATA
-MOV DS,AX
-
- 
- 
- 
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
 POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+POP n1_4
+PUSH BX
+PUSH CX
+PUSH DX
 
  
  
-PUSH return_loc
-PUSH x1_4
-CALL factorial
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+ 
+MOV AX, 0
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
 
 
-MOV AX, x1_4
+MOV AX, ans1_4
 CALL OUTDEC
 
-MOV AH, 4CH
-INT 21H
-MAIN ENDP
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+ 
+MOV AX, ans1_4
+
+JMP L11
+L11: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+fibonacci ENDP
 
 
 
 ------------------
-Line no: 30 program : program unit
+Line no: 38 program : program unit
 
 ------------------
 int max2 ( int a,int b ) {
@@ -4095,11 +5248,19 @@ fact=fact*i;
 return fact;
 }
 
-int main ( ) {
-int x;
-x=max3(5, 3, 2);
-x=factorial(x);
-printf(x);
+int fibonacci ( int n ) {
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+return ans;
 }
 
 
@@ -4260,6 +5421,4013 @@ RET
 factorial ENDP
 
 
+fibonacci PROC
+
+POP return_loc
+POP n1_4
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+MOV AX, 0
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+ 
+MOV AX, ans1_4
+
+JMP L11
+L11: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+fibonacci ENDP
+
+
+
+------------------
+Line no: 39 type_specifier	: INT
+
+------------------
+int
+
+ 
+
+------------------
+
+New ScopeTable #1_5 created
+Line no: 40 type_specifier	: INT
+
+------------------
+int
+
+ 
+
+------------------
+Line no: 40 declaration_list :ID LTHIRD CONST_INT RTHIRD 
+
+------------------
+x[20]
+
+ 
+
+------------------
+Line no: 40 declaration_list : declaration_list COMMA ID
+
+------------------
+x[20], i
+
+ 
+
+------------------
+Line no: 40 declaration_list : declaration_list COMMA ID
+
+------------------
+x[20], i, max
+
+ 
+
+------------------
+Line no: 40 var_declaration : type_specifier declaration_list SEMICOLON
+
+------------------
+int x[20], i, max;
+
+ 
+
+------------------
+Line no: 40 statement : var_declaration
+
+------------------
+int x[20], i, max;
+
+ 
+
+------------------
+Line no: 40 statements : statement
+
+------------------
+int x[20], i, max;
+
+ 
+
+------------------
+Line no: 42 variable : ID
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 42 factor : CONST_INT
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 42 unary_expression : factor
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 42 term : unary_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 42 simple_expression : term
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 42 rel_expression : simple_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 42 logic_expression : rel_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 42 expression : variable ASSIGNOP logic_expression
+
+------------------
+max=0
+
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+
+------------------
+Line no: 42 expression_statement : expression SEMICOLON
+
+------------------
+max=0;
+
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+
+------------------
+Line no: 42 statement : expression_statement
+
+------------------
+max=0;
+
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+
+------------------
+Line no: 42 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+
+------------------
+Line no: 43 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 43 factor : CONST_INT
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 43 unary_expression : factor
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 43 term : unary_expression
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 43 simple_expression : term
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 43 rel_expression : simple_expression
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 43 logic_expression : rel_expression
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 43 expression : variable ASSIGNOP logic_expression
+
+------------------
+i=6
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+
+------------------
+Line no: 43 expression_statement : expression SEMICOLON
+
+------------------
+i=6;
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+
+------------------
+Line no: 43 statement : expression_statement
+
+------------------
+i=6;
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+
+------------------
+Line no: 43 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+
+------------------
+Line no: 44 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 44 factor : CONST_INT
+
+------------------
+23
+
+ 
+
+------------------
+Line no: 44 unary_expression : factor
+
+------------------
+23
+
+ 
+
+------------------
+Line no: 44 term : unary_expression
+
+------------------
+23
+
+ 
+
+------------------
+Line no: 44 factor : CONST_INT
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 44 unary_expression : factor
+
+------------------
+6
+
+ 
+
+------------------
+Line no: 44 term : term MULOP unary_expression
+
+------------------
+23%6
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+
+------------------
+Line no: 44 simple_expression : term
+
+------------------
+23%6
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+
+------------------
+Line no: 44 rel_expression : simple_expression
+
+------------------
+23%6
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+
+------------------
+Line no: 44 logic_expression : rel_expression
+
+------------------
+23%6
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+
+------------------
+Line no: 44 arguments : logic_expression
+
+------------------
+23%6
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+
+------------------
+Line no: 44 argument_list : arguments
+
+------------------
+23%6
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+
+------------------
+Line no: 44 factor : ID LPAREN argument_list RPAREN
+
+------------------
+factorial(23%6)
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+
+------------------
+Line no: 44 unary_expression : factor
+
+------------------
+factorial(23%6)
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+
+------------------
+Line no: 44 term : unary_expression
+
+------------------
+factorial(23%6)
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+
+------------------
+Line no: 44 simple_expression : term
+
+------------------
+factorial(23%6)
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+
+------------------
+Line no: 44 rel_expression : simple_expression
+
+------------------
+factorial(23%6)
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+
+------------------
+Line no: 44 logic_expression : rel_expression
+
+------------------
+factorial(23%6)
+
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+
+------------------
+Line no: 44 expression : variable ASSIGNOP logic_expression
+
+------------------
+i=factorial(23%6)
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+------------------
+Line no: 44 expression_statement : expression SEMICOLON
+
+------------------
+i=factorial(23%6);
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+------------------
+Line no: 44 statement : expression_statement
+
+------------------
+i=factorial(23%6);
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+------------------
+Line no: 44 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+------------------
+Line no: 45 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+------------------
+printf(i);
+
+ 
+
+------------------
+-1
+Line no: 45 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+
+------------------
+Line no: 47 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 47 factor : CONST_INT
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 47 unary_expression : factor
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 47 term : unary_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 47 simple_expression : term
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 47 rel_expression : simple_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 47 logic_expression : rel_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 47 expression : variable ASSIGNOP logic_expression
+
+------------------
+i=0
+
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+
+------------------
+Line no: 47 expression_statement : expression SEMICOLON
+
+------------------
+i=0;
+
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+
+------------------
+Line no: 47 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 47 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 47 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 47 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 47 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 47 factor : CONST_INT
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 47 unary_expression : factor
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 47 term : unary_expression
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 47 simple_expression : term
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 47 rel_expression : simple_expression RELOP simple_expression
+
+------------------
+i<20
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+
+------------------
+Line no: 47 logic_expression : rel_expression
+
+------------------
+i<20
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+
+------------------
+Line no: 47 expression : logic_expression
+
+------------------
+i<20
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+
+------------------
+Line no: 47 expression_statement : expression SEMICOLON
+
+------------------
+i<20;
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+
+------------------
+Line no: 47 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 47 factor : variable INCOP
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 47 unary_expression : factor
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 47 term : unary_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 47 simple_expression : term
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 47 rel_expression : simple_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 47 logic_expression : rel_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 47 expression : logic_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+
+New ScopeTable #1_5_1 created
+Line no: 48 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 rel_expression : simple_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 logic_expression : rel_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 expression : logic_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 variable : ID LTHIRD expression RTHIRD
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 48 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 factor : CONST_INT
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 48 unary_expression : factor
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 48 term : unary_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 48 simple expression : simple_expression ADDOP term
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+
+------------------
+Line no: 48 rel_expression : simple_expression
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+
+------------------
+Line no: 48 logic_expression : rel_expression
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+
+------------------
+Line no: 48 expression : logic_expression
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+
+------------------
+Line no: 48 factor : LPAREN expression RPAREN
+
+------------------
+(i+1)
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+
+------------------
+Line no: 48 unary_expression : factor
+
+------------------
+(i+1)
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+
+------------------
+Line no: 48 term : unary_expression
+
+------------------
+(i+1)
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+
+------------------
+Line no: 48 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 48 factor : CONST_INT
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 48 unary_expression : factor
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 48 term : unary_expression
+
+------------------
+1
+
+ 
+
+------------------
+Line no: 48 simple expression : simple_expression ADDOP term
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+
+------------------
+Line no: 48 rel_expression : simple_expression
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+
+------------------
+Line no: 48 logic_expression : rel_expression
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+
+------------------
+Line no: 48 expression : logic_expression
+
+------------------
+i+1
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+
+------------------
+Line no: 48 factor : LPAREN expression RPAREN
+
+------------------
+(i+1)
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+
+------------------
+Line no: 48 unary_expression : factor
+
+------------------
+(i+1)
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+
+------------------
+Line no: 48 term : term MULOP unary_expression
+
+------------------
+(i+1)*(i+1)
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+
+------------------
+Line no: 48 simple_expression : term
+
+------------------
+(i+1)*(i+1)
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+
+------------------
+Line no: 48 rel_expression : simple_expression
+
+------------------
+(i+1)*(i+1)
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+
+------------------
+Line no: 48 logic_expression : rel_expression
+
+------------------
+(i+1)*(i+1)
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+
+------------------
+Line no: 48 expression : variable ASSIGNOP logic_expression
+
+------------------
+x[1]=(i+1)*(i+1)
+
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+
+------------------
+Line no: 48 expression_statement : expression SEMICOLON
+
+------------------
+x[1]=(i+1)*(i+1);
+
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+
+------------------
+Line no: 48 statement : expression_statement
+
+------------------
+x[1]=(i+1)*(i+1);
+
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+
+------------------
+Line no: 48 statements : statement
+
+------------------
+x[1]=(i+1)*(i+1);
+
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+
+------------------
+Line no: 49 compound_statement : LCURL statements RCURL
+
+------------------
+{
+x[1]=(i+1)*(i+1);
+}
+
+
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+
+------------------
+
+ScopeTable #1_5_1
+
+ScopeTable #1_5
+0 --> <i: ID> 
+1 --> <x: ID> 
+4 --> <max: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+2 --> <fibonacci: ID> 
+4 --> <factorial: ID> 
+5 --> <max2: ID> 
+6 --> <max3: ID> 
+Line no: 49 statement : compound_statement
+
+------------------
+{
+x[1]=(i+1)*(i+1);
+}
+
+
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+
+------------------
+Line no: 49 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+------------------
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+
+------------------
+Line no: 49 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+
+------------------
+Line no: 51 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 51 factor : CONST_INT
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 51 unary_expression : factor
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 51 term : unary_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 51 simple_expression : term
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 51 rel_expression : simple_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 51 logic_expression : rel_expression
+
+------------------
+0
+
+ 
+
+------------------
+Line no: 51 expression : variable ASSIGNOP logic_expression
+
+------------------
+i=0
+
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+
+------------------
+Line no: 51 expression_statement : expression SEMICOLON
+
+------------------
+i=0;
+
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+
+------------------
+Line no: 51 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 51 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 51 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 51 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 51 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 51 factor : CONST_INT
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 51 unary_expression : factor
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 51 term : unary_expression
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 51 simple_expression : term
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 51 rel_expression : simple_expression RELOP simple_expression
+
+------------------
+i<20
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+
+------------------
+Line no: 51 logic_expression : rel_expression
+
+------------------
+i<20
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+
+------------------
+Line no: 51 expression : logic_expression
+
+------------------
+i<20
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+
+------------------
+Line no: 51 expression_statement : expression SEMICOLON
+
+------------------
+i<20;
+
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+
+------------------
+Line no: 51 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 51 factor : variable INCOP
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 51 unary_expression : factor
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 51 term : unary_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 51 simple_expression : term
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 51 rel_expression : simple_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 51 logic_expression : rel_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+Line no: 51 expression : logic_expression
+
+------------------
+i++
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+
+------------------
+
+New ScopeTable #1_5_2 created
+Line no: 52 variable : ID
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 variable : ID
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 factor : variable
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 unary_expression : factor
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 term : unary_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 simple_expression : term
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 rel_expression : simple_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 logic_expression : rel_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 expression : logic_expression
+
+------------------
+i
+
+ 
+
+------------------
+Line no: 52 variable : ID LTHIRD expression RTHIRD
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 factor : variable
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 unary_expression : factor
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 term : unary_expression
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 simple_expression : term
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 rel_expression : simple_expression
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 logic_expression : rel_expression
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 arguments : logic_expression
+
+------------------
+x[1]
+
+MOV SI, i1_5
+
+
+------------------
+Line no: 52 variable : ID
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 factor : variable
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 unary_expression : factor
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 term : unary_expression
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 simple_expression : term
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 rel_expression : simple_expression
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 logic_expression : rel_expression
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 52 arguments : arguments COMMA logic_expression
+
+------------------
+x[1], max
+
+ 
+
+------------------
+Line no: 52 argument_list : arguments
+
+------------------
+x[1], max
+
+ 
+
+------------------
+Line no: 52 factor : ID LPAREN argument_list RPAREN
+
+------------------
+max2(x[1], max)
+
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+
+------------------
+Line no: 52 unary_expression : factor
+
+------------------
+max2(x[1], max)
+
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+
+------------------
+Line no: 52 term : unary_expression
+
+------------------
+max2(x[1], max)
+
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+
+------------------
+Line no: 52 simple_expression : term
+
+------------------
+max2(x[1], max)
+
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+
+------------------
+Line no: 52 rel_expression : simple_expression
+
+------------------
+max2(x[1], max)
+
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+
+------------------
+Line no: 52 logic_expression : rel_expression
+
+------------------
+max2(x[1], max)
+
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+
+------------------
+Line no: 52 expression : variable ASSIGNOP logic_expression
+
+------------------
+max=max2(x[1], max)
+
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 52 expression_statement : expression SEMICOLON
+
+------------------
+max=max2(x[1], max);
+
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 52 statement : expression_statement
+
+------------------
+max=max2(x[1], max);
+
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 52 statements : statement
+
+------------------
+max=max2(x[1], max);
+
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 53 compound_statement : LCURL statements RCURL
+
+------------------
+{
+max=max2(x[1], max);
+}
+
+
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+
+ScopeTable #1_5_2
+
+ScopeTable #1_5
+0 --> <i: ID> 
+1 --> <x: ID> 
+4 --> <max: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+2 --> <fibonacci: ID> 
+4 --> <factorial: ID> 
+5 --> <max2: ID> 
+6 --> <max3: ID> 
+Line no: 53 statement : compound_statement
+
+------------------
+{
+max=max2(x[1], max);
+}
+
+
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 53 FOR LPAREN expression_statement expression_statement expression RPAREN statement
+
+------------------
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+
+------------------
+Line no: 53 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+
+------------------
+Line no: 55 variable : ID
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 55 variable : ID
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 55 factor : variable
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 55 unary_expression : factor
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 55 term : unary_expression
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 55 factor : CONST_INT
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 55 unary_expression : factor
+
+------------------
+20
+
+ 
+
+------------------
+Line no: 55 term : term MULOP unary_expression
+
+------------------
+max/20
+
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+
+------------------
+Line no: 55 simple_expression : term
+
+------------------
+max/20
+
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+
+------------------
+Line no: 55 rel_expression : simple_expression
+
+------------------
+max/20
+
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+
+------------------
+Line no: 55 logic_expression : rel_expression
+
+------------------
+max/20
+
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+
+------------------
+Line no: 55 expression : variable ASSIGNOP logic_expression
+
+------------------
+max=max/20
+
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+
+------------------
+Line no: 55 expression_statement : expression SEMICOLON
+
+------------------
+max=max/20;
+
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+
+------------------
+Line no: 55 statement : expression_statement
+
+------------------
+max=max/20;
+
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+
+------------------
+Line no: 55 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+max=max/20;
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+
+------------------
+Line no: 57 variable : ID
+
+------------------
+max
+
+ 
+
+------------------
+Line no: 57 factor : CONST_INT
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 unary_expression : factor
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 term : unary_expression
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 simple_expression : term
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 rel_expression : simple_expression
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 logic_expression : rel_expression
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 arguments : logic_expression
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 argument_list : arguments
+
+------------------
+10
+
+ 
+
+------------------
+Line no: 57 factor : ID LPAREN argument_list RPAREN
+
+------------------
+fibonacci(10)
+
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+
+------------------
+Line no: 57 unary_expression : factor
+
+------------------
+fibonacci(10)
+
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+
+------------------
+Line no: 57 term : unary_expression
+
+------------------
+fibonacci(10)
+
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+
+------------------
+Line no: 57 simple_expression : term
+
+------------------
+fibonacci(10)
+
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+
+------------------
+Line no: 57 rel_expression : simple_expression
+
+------------------
+fibonacci(10)
+
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+
+------------------
+Line no: 57 logic_expression : rel_expression
+
+------------------
+fibonacci(10)
+
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+
+------------------
+Line no: 57 expression : variable ASSIGNOP logic_expression
+
+------------------
+max=fibonacci(10)
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 57 expression_statement : expression SEMICOLON
+
+------------------
+max=fibonacci(10);
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 57 statement : expression_statement
+
+------------------
+max=fibonacci(10);
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 57 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+max=max/20;
+max=fibonacci(10);
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+------------------
+Line no: 58 PRINTLN LPAREN ID RPAREN SEMICOLON
+
+------------------
+printf(max);
+
+ 
+
+------------------
+-1
+Line no: 58 statements : statements statement
+
+------------------
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+max=max/20;
+max=fibonacci(10);
+printf(max);
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+MOV AX, max1_5
+CALL OUTDEC
+
+
+------------------
+Line no: 59 compound_statement : LCURL statements RCURL
+
+------------------
+{
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+max=max/20;
+max=fibonacci(10);
+printf(max);
+}
+
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+MOV AX, max1_5
+CALL OUTDEC
+
+
+------------------
+
+ScopeTable #1_5
+0 --> <i: ID> 
+1 --> <x: ID> 
+4 --> <max: ID> 
+
+ScopeTable #1
+1 --> <main: ID> 
+2 --> <fibonacci: ID> 
+4 --> <factorial: ID> 
+5 --> <max2: ID> 
+6 --> <max3: ID> 
+Line no: 59 func_definition : type_specifier ID LPAREN RPAREN compound_statement
+
+------------------
+int main ( ) {
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+max=max/20;
+max=fibonacci(10);
+printf(max);
+}
+
+
 MAIN PROC 
 
 MOV AX,@DATA
@@ -4268,26 +9436,820 @@ MOV DS,AX
  
  
  
-PUSH return_loc
-PUSH 5
-PUSH 3
-PUSH 2
-CALL max3
-POP return_loc
-MOV AX, AX
-MOV x1_4, AX 
+MOV AX, 0
+MOV max1_5, AX 
 
  
  
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
 PUSH return_loc
-PUSH x1_4
+PUSH temp2
 CALL factorial
 POP return_loc
 MOV AX, AX
-MOV x1_4, AX 
+MOV i1_5, AX 
 
 
-MOV AX, x1_4
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+MOV AX, max1_5
+CALL OUTDEC
+
+MOV AH, 4CH
+INT 21H
+MAIN ENDP
+
+
+
+------------------
+Line no: 59 unit : func_definition
+
+------------------
+int main ( ) {
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+max=max/20;
+max=fibonacci(10);
+printf(max);
+}
+
+
+MAIN PROC 
+
+MOV AX,@DATA
+MOV DS,AX
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+MOV AX, max1_5
+CALL OUTDEC
+
+MOV AH, 4CH
+INT 21H
+MAIN ENDP
+
+
+
+------------------
+Line no: 59 program : program unit
+
+------------------
+int max2 ( int a,int b ) {
+if(a>=b){
+return a;
+}
+else {
+return b;
+}
+
+}
+
+int max3 ( int a,int b,int c ) {
+int maxab, maxabc;
+maxab=max2(a, b);
+return max2(c, maxab);
+}
+
+int factorial ( int n ) {
+int i, fact;
+i=1;
+fact=i;
+for(i=1;i<=n;i++){
+fact=fact*i;
+}
+
+return fact;
+}
+
+int fibonacci ( int n ) {
+int term1, term2, ans, i;
+term1=0;
+term2=1;
+ans=1;
+for(i=0;i<n;i++){
+term1=term2;
+term2=ans;
+ans=term1+term2;
+printf(ans);
+}
+
+return ans;
+}
+
+int main ( ) {
+int x[20], i, max;
+max=0;
+i=6;
+i=factorial(23%6);
+printf(i);
+for(i=0;i<20;i++){
+x[1]=(i+1)*(i+1);
+}
+
+for(i=0;i<20;i++){
+max=max2(x[1], max);
+}
+
+max=max/20;
+max=fibonacci(10);
+printf(max);
+}
+
+
+max2 PROC
+
+POP return_loc
+POP b1_1
+POP a1_1
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+MOV AX, a1_1
+CMP AX, b1_1
+JGE L1
+MOV temp0, 0
+JMP L2
+L1: 
+MOV temp0, 1
+L2: 
+
+MOV AX, temp0
+CMP AX, 1
+JNE L3
+ 
+MOV AX, a1_1
+
+JMP L0
+JMP L4
+L3:
+ 
+MOV AX, b1_1
+
+JMP L0
+L4:
+
+L0: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+max2 ENDP
+
+
+max3 PROC
+
+POP return_loc
+POP c1_2
+POP b1_2
+POP a1_2
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+PUSH return_loc
+PUSH a1_2
+PUSH b1_2
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV maxab1_2, AX 
+
+ 
+PUSH return_loc
+PUSH c1_2
+PUSH maxab1_2
+CALL max2
+POP return_loc
+MOV AX, AX
+
+JMP L5
+L5: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+max3 ENDP
+
+
+factorial PROC
+
+POP return_loc
+POP n1_3
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+MOV AX, 1
+MOV i1_3, AX 
+
+ 
+ 
+MOV AX, i1_3
+MOV fact1_3, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 1
+MOV i1_3, AX 
+
+L9:
+ 
+ 
+MOV AX, i1_3
+CMP AX, n1_3
+JLE L7
+MOV temp0, 0
+JMP L8
+L7: 
+MOV temp0, 1
+L8: 
+
+MOV AX, temp0
+CMP AX, 0
+JE L10
+ 
+ 
+ 
+ 
+MOV AX, fact1_3
+MOV BX, i1_3
+IMUL BX
+MOV temp1, AX
+
+MOV AX, temp1
+MOV fact1_3, AX 
+
+MOV AX, i1_3
+MOV temp0, AX
+INC AX
+MOV i1_3, AX
+
+JMP L9
+L10:
+;for loop end
+ 
+MOV AX, fact1_3
+
+JMP L6
+L6: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+factorial ENDP
+
+
+fibonacci PROC
+
+POP return_loc
+POP n1_4
+PUSH BX
+PUSH CX
+PUSH DX
+
+ 
+ 
+ 
+MOV AX, 0
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV term21_4, AX 
+
+ 
+ 
+MOV AX, 1
+MOV ans1_4, AX 
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_4, AX 
+
+L14:
+ 
+ 
+MOV AX, i1_4
+CMP AX, n1_4
+JL L12
+MOV temp1, 0
+JMP L13
+L12: 
+MOV temp1, 1
+L13: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L15
+ 
+ 
+MOV AX, term21_4
+MOV term11_4, AX 
+
+ 
+ 
+MOV AX, ans1_4
+MOV term21_4, AX 
+
+ 
+ 
+ 
+MOV AX, term11_4
+ADD AX, term21_4
+MOV temp2, AX
+
+MOV AX, temp2
+MOV ans1_4, AX 
+
+
+MOV AX, ans1_4
+CALL OUTDEC
+
+MOV AX, i1_4
+MOV temp1, AX
+INC AX
+MOV i1_4, AX
+
+JMP L14
+L15:
+;for loop end
+ 
+MOV AX, ans1_4
+
+JMP L11
+L11: 
+POP DX
+POP CX
+POP BX
+PUSH return_loc
+RET
+fibonacci ENDP
+
+
+MAIN PROC 
+
+MOV AX,@DATA
+MOV DS,AX
+
+ 
+ 
+ 
+MOV AX, 0
+MOV max1_5, AX 
+
+ 
+ 
+MOV AX, 6
+MOV i1_5, AX 
+
+ 
+ 
+ 
+ 
+MOV AX, 23
+MOV BX, 6
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp2, DX
+
+PUSH return_loc
+PUSH temp2
+CALL factorial
+POP return_loc
+MOV AX, AX
+MOV i1_5, AX 
+
+
+MOV AX, i1_5
+CALL OUTDEC
+
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L18:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L16
+MOV temp2, 0
+JMP L17
+L16: 
+MOV temp2, 1
+L17: 
+
+MOV AX, temp2
+CMP AX, 0
+JE L19
+MOV SI, i1_5
+
+ 
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp3, AX
+
+ 
+ 
+MOV AX, i1_5
+ADD AX, 1
+MOV temp4, AX
+
+MOV AX, temp3
+MOV BX, temp4
+IMUL BX
+MOV temp5, AX
+
+MOV AX, temp5
+MOV x1_5[SI], AX 
+
+MOV AX, i1_5
+MOV temp2, AX
+INC AX
+MOV i1_5, AX
+
+JMP L18
+L19:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_5, AX 
+
+L22:
+ 
+ 
+MOV AX, i1_5
+CMP AX, 20
+JL L20
+MOV temp5, 0
+JMP L21
+L20: 
+MOV temp5, 1
+L21: 
+
+MOV AX, temp5
+CMP AX, 0
+JE L23
+ 
+ 
+PUSH return_loc
+PUSH x1_5[SI]
+PUSH max1_5
+CALL max2
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+MOV AX, i1_5
+MOV temp5, AX
+INC AX
+MOV i1_5, AX
+
+JMP L22
+L23:
+;for loop end
+ 
+ 
+ 
+ 
+MOV AX, max1_5
+MOV BX, 20
+MOV AX, AX
+CWD
+IDIV BX
+MOV temp6, AX
+
+MOV AX, temp6
+MOV max1_5, AX 
+
+ 
+ 
+PUSH return_loc
+PUSH 10
+CALL fibonacci
+POP return_loc
+MOV AX, AX
+MOV max1_5, AX 
+
+
+MOV AX, max1_5
 CALL OUTDEC
 
 MOV AH, 4CH
@@ -4298,5 +10260,5 @@ MAIN ENDP
 
 ------------------
 
-Total lines: 30
+Total lines: 59
 Total errors: 0
