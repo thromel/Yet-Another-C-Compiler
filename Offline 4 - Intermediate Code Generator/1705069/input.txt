@@ -1,15 +1,13 @@
-int maxnum(int a, int b){
-	if (a >= b){
-		return a;
-	} else {
-		return b;
+void fact(int n){
+	int i, fact;
+	fact = 1;
+	i = fact;
+	for(i = 1; i <=n; i++){
+		fact = fact * i;
+		printf(fact);
 	}
 }
 
 int main(){
-    int x, y, max;
-	x = 10;
-	y = 20;
-	max = maxnum(x, y);
-	printf(max);
+	fact(10);
 }
