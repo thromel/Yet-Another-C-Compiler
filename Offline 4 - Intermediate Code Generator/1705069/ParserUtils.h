@@ -497,7 +497,6 @@ inline SymbolInfo *handle_RELOP(SymbolInfo *sym1, SymbolInfo *op,
 
   result->setIntValue(resultValue);
   result->setName(sym1->getName() + relop + sym2->getName());
-  // cout<<resultValue<<endl;
   return result;
 }
 
@@ -752,7 +751,6 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
   sym->setIdType("VARIABLE");
   sym->setVarType("INT"); // This is a kamla way-around, must be modified later
   argTypeList.clear();
-  cout << func->funcEndLabel << endl;
   return sym;
 }
 
@@ -826,10 +824,24 @@ inline SymbolInfo *handle_NOT(SymbolInfo *sym) {
   }
 
   if (sym->getVarType() == "INT") {
+
+    string ifLabel = newLabel();
+    string elseLabel = newLabel();
+    string asmTempVar = vm.getTempVar();
+
+    sym->addCode("MOV AX, " + sym->getAsmVar());
+    sym->addCode("CMP AX, 0");
+    sym->addCode("JE " + ifLabel);
+    sym->addCode("MOV AX, 0");
+    sym->addCode("JMP " + elseLabel);
+    sym->addCode(ifLabel + ":");
+    sym->addCode("MOV AX, 1");
+    sym->addCode(elseLabel + ":");
+    sym->addCode("MOV " + asmTempVar + ", AX");
+    sym->setAsmVar(asmTempVar);
     if (sym->getIntValue() != 0) {
       sym->setIntValue(0);
     } else {
-      sym->setIntValue(1);
     }
   } else {
     if (sym->getFloatValue() != 0.0) {
@@ -840,7 +852,6 @@ inline SymbolInfo *handle_NOT(SymbolInfo *sym) {
   }
 
   sym->setName(sym->getName());
-
   return sym;
 }
 
@@ -906,7 +917,6 @@ inline SymbolInfo *handle_for(SymbolInfo *init, SymbolInfo *termimation,
   result->addCode("JMP " + loop);
   result->addCode(loopExit + ":");
   result->addCode(";for loop end");
-  // cout<<result->getCode()<<endl;
   return result;
 }
 
@@ -930,16 +940,12 @@ inline SymbolInfo *handle_while(SymbolInfo *condition, SymbolInfo *statement) {
   result->addCode("JMP " + loop);
   result->addCode(loopExit + ":");
   result->addCode(";while loop end");
-  // cout<<result->getCode()<<endl;
   return result;
 }
 
 inline SymbolInfo *handle_return(SymbolInfo *expr) {
   SymbolInfo *sym =
       new SymbolInfo("return " + expr->getName() + ";", "NON_TERMINAL");
-  if (currentFunction == "") {
-    cout << "blank\n";
-  }
 
   SymbolInfo *funcVal = st.lookup(currentFunction);
   // string tempAsmVar = vm.getTempVar();
