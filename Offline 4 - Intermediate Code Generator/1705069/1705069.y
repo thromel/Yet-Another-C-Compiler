@@ -73,12 +73,8 @@ start : program
 			printCode($$);
 			addPrintFunc();
 			endCodeSegment();
-		}
-		
-		st.printAll();
-		printRule("start : program");
-		printSymbol($1);
-		
+			optimize();
+		}	
 	}
 	;
 
@@ -605,6 +601,7 @@ int main(int argc,char *argv[])
     log.open("log.txt", ios::out);
 	error.open("error.txt", ios::out);
 	code.open("code.asm", ios::out);
+	optimized.open("optimized-code.asm", ios::out);
 
     yyin = fopen(argv[1], "r");
 

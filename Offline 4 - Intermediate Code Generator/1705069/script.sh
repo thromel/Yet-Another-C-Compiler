@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -f *.o *.c *.hh y.tab.h *.out *.output
+# rm -f *.o *.c *.hh y.tab.h *.out *.output
 
 
 bison -d -y -v 1705069.y
@@ -14,5 +14,5 @@ g++ -w -c -o l.o lex.yy.c
 echo 'Generated the scanner object file'
 g++ y.o l.o -lfl
 echo 'All ready, running'
-./a.out input.txt
+./a.out input.c
 

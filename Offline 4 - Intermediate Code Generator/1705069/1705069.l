@@ -121,7 +121,7 @@ continue {return CONTINUE;}
 {NEWLINE} {line_count++;}
 {WHITESPACE} {}
 . {handle_error(yytext, "Unrecognized character");}
-<<EOF>> {log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<error_count<<endl; log.close(); return 0;}
+<<EOF>> {log << "\nTotal lines: " << line_count<<"\nTotal errors: "<<error_count<<endl; return 0;}
 %%
 
 

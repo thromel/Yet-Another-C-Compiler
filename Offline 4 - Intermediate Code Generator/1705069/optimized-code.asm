@@ -31,8 +31,6 @@ PUSH BX
 PUSH CX
 PUSH DX
 
- 
- 
 MOV AX, a1_1
 CMP AX, b1_1
 JGE L1
@@ -45,13 +43,11 @@ L2:
 MOV AX, temp0
 CMP AX, 1
 JNE L3
- 
 MOV AX, a1_1
 
 JMP L0
 JMP L4
 L3:
- 
 MOV AX, b1_1
 
 JMP L0
@@ -76,24 +72,18 @@ PUSH BX
 PUSH CX
 PUSH DX
 
- 
- 
- 
 PUSH return_loc
 PUSH a1_2
 PUSH b1_2
 CALL max2
 POP return_loc
-MOV AX, AX
 MOV maxab1_2, AX 
 
- 
 PUSH return_loc
 PUSH c1_2
 PUSH maxab1_2
 CALL max2
 POP return_loc
-MOV AX, AX
 
 JMP L5
 L5: 
@@ -116,25 +106,19 @@ PUSH BX
 PUSH CX
 PUSH DX
 
- 
- 
- 
 PUSH return_loc
 PUSH a1_3
 PUSH b1_3
 PUSH c1_3
 CALL max3
 POP return_loc
-MOV AX, AX
 MOV maxabc1_3, AX 
 
- 
 PUSH return_loc
 PUSH maxabc1_3
 PUSH d1_3
 CALL max2
 POP return_loc
-MOV AX, AX
 
 JMP L6
 L6: 
@@ -151,41 +135,23 @@ MAIN PROC
 MOV AX,@DATA
 MOV DS,AX
 
- 
- 
- 
- 
- 
 MOV AX, 20
 MOV BX, 1
-IMUL BX
 MOV temp0, AX
 
-MOV AX, temp0
 MOV a1_4, AX 
 
- 
- 
- 
 MOV AX, 69
-ADD AX, 0
 MOV temp0, AX
 
-MOV AX, temp0
 MOV b1_4, AX 
 
- 
- 
 MOV AX, 1
 MOV c1_4, AX 
 
- 
- 
 MOV AX, 35
 MOV d1_4, AX 
 
- 
- 
 PUSH return_loc
 PUSH a1_4
 PUSH b1_4
@@ -193,11 +159,9 @@ PUSH c1_4
 PUSH d1_4
 CALL max4
 POP return_loc
-MOV AX, AX
 MOV max1_4, AX 
 
 
-MOV AX, max1_4
 CALL OUTDEC
 
 MOV AH, 4CH
