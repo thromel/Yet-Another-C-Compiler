@@ -16,6 +16,7 @@ int label_count = 0;
 
 string prevMovLhs = "", prevMovRhs = "";
 string BXval = "";
+string currentLabel = "";
 
 class VarManager {
   int size = 0;
@@ -115,6 +116,8 @@ inline bool optimize_mov(string inst) {
       return true;
     } else if (movLhs == "BX") {
       BXval = movRhs;
+    } else if (movLhs == movRhs) {
+      return true;
     }
 
     prevMovLhs = movLhs;
@@ -152,12 +155,17 @@ inline void optimize() {
 
   for (string s : lines) {
     line_count++;
+
+    if (s.substr(0, 1) == "L") {
+      // Clears prevMovLhs and prevMovRhs when entering a new Label so that MOV
+      // optimization doesn't happen
+
+      prevMovLhs = "";
+      prevMovRhs = "";
+    }
+
     if (s == " ") {
       log << "Removed blank line : " << line_count << endl;
-      line_removed++;
-    } else if (s == "MOV AX, AX") {
-      log << "Optimized redundant reg to reg assignment: " << line_count
-          << endl;
       line_removed++;
     } else if (optimize_mov(s)) {
       log << "Optimized redundant MOV operation: " << line_count << endl;
