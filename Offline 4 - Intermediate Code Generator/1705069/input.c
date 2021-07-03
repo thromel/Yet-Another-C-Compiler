@@ -1,19 +1,10 @@
-int f(int a) {
-  return 2 * a;
-  a = 9;
-}
-
-int g(int a, int b) {
-  int x;
-  x = f(a) + a + b;
-  return x;
-}
-
 int main() {
-  int a, b;
-  a = 1;
-  b = 2;
-  a = g(a, b);
-  println(a);
-  return 0;
+  int a[20], i, b;
+  for (i = 0; i < 20; i++) {
+    a[i] = i + 1;
+  }
+  for (i = 0; i < 20; i++) {
+    b = a[i];
+    printf(b);
+  }
 }

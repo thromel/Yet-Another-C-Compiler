@@ -2,93 +2,14 @@
 .STACK 100H 
 .DATA
 
-a1_1 DW ?
+i1_1 DW ?
+b1_1 DW ?
 temp0 DW ?
-a1_2 DW ?
-b1_2 DW ?
-x1_2 DW ?
 temp1 DW ?
-temp2 DW ?
-a1_3 DW ?
-b1_3 DW ?
 return_loc DW ?
+a1_1 DW 20 DUP (?)
 
 .CODE
-f PROC
-
-POP return_loc
-POP a1_1
-PUSH BX
-PUSH CX
-PUSH DX
-
- 
- 
- 
-MOV AX, 2
-MOV BX, a1_1
-IMUL BX
-MOV temp0, AX
-
-MOV AX, temp0
-
-JMP L0
- 
- 
-MOV AX, 9
-MOV a1_1, AX 
-
-L0: 
-POP DX
-POP CX
-POP BX
-PUSH return_loc
-RET
-f ENDP
-
-
-g PROC
-
-POP return_loc
-POP b1_2
-POP a1_2
-PUSH BX
-PUSH CX
-PUSH DX
-
- 
- 
- 
-PUSH return_loc
-PUSH a1_2
-CALL f
-POP return_loc
- 
-MOV AX, AX
-ADD AX, a1_2
-MOV temp1, AX
-
- 
-MOV AX, temp1
-ADD AX, b1_2
-MOV temp2, AX
-
-MOV AX, temp2
-MOV x1_2, AX 
-
- 
-MOV AX, x1_2
-
-JMP L1
-L1: 
-POP DX
-POP CX
-POP BX
-PUSH return_loc
-RET
-g ENDP
-
-
 MAIN PROC 
 
 MOV AX,@DATA
@@ -96,95 +17,142 @@ MOV DS,AX
 
  
  
+;for loop start
  
-MOV AX, 1
-MOV a1_3, AX 
+ 
+MOV AX, 0
+MOV i1_1, AX 
 
+L2:
  
  
-MOV AX, 2
-MOV b1_3, AX 
+MOV AX, i1_1
+CMP AX, 20
+JL L0
+MOV temp0, 0
+JMP L1
+L0: 
+MOV temp0, 1
+L1: 
 
+MOV AX, temp0
+CMP AX, 0
+JE L3
+ 
+MOV AX, i1_1
+MOV BX, 2
+IMUL BX
+MOV SI, AX
  
  
-PUSH return_loc
-PUSH a1_3
-PUSH b1_3
-CALL g
-POP return_loc
-MOV AX, AX
-MOV a1_3, AX 
+MOV AX, i1_1
+ADD AX, 1
+MOV temp1, AX
+
+MOV AX, temp1
+MOV a1_1[SI], AX 
+
+MOV AX, i1_1
+MOV temp0, AX
+INC AX
+MOV i1_1, AX
+
+JMP L2
+L3:
+;for loop end
+ 
+;for loop start
+ 
+ 
+MOV AX, 0
+MOV i1_1, AX 
+
+L6:
+ 
+ 
+MOV AX, i1_1
+CMP AX, 20
+JL L4
+MOV temp1, 0
+JMP L5
+L4: 
+MOV temp1, 1
+L5: 
+
+MOV AX, temp1
+CMP AX, 0
+JE L7
+ 
+ 
+MOV AX, i1_1
+MOV BX, 2
+IMUL BX
+MOV SI, AX
+MOV AX, a1_1[SI]
+MOV b1_1, AX 
 
 
-MOV AX, a1_3
+MOV AX, b1_1
 CALL OUTDEC
 
- 
+MOV AX, i1_1
+MOV temp1, AX
+INC AX
+MOV i1_1, AX
+
+JMP L6
+L7:
+;for loop end
 MOV AH, 4CH
 INT 21H
 MAIN ENDP
 
 
- OUTDEC PROC
-    ;Outputs a signed decimal integer
-    ;INPUT: AX
-    ;OUTPUT: NONE
+OUTDEC PROC
+PUSH BX
+PUSH CX
+PUSH DX
+PUSH AX
+CMP AX, 0
+JGE @END_IF
+PUSH AX ;save AX
+MOV AH, 2
+MOV DL, '-'
+INT 21H
     
+POP AX ;get the number back from stack
+NEG AX ; AX = -AX 
+@END_IF:
+MOV CX, 0 ;CX counts digits
+MOV BX, 10
     
-    PUSH BX
-    PUSH CX
-    PUSH DX
-    PUSH AX
-    
-    ;if AX < 0
-    CMP AX, 0
-    JGE @END_IF ;if AX >= 0
-    ;then
-    PUSH AX ;save AX
-    MOV AH, 2
-    MOV DL, '-'
-    INT 21H
-    
-    POP AX ;get the number back from stack
-    NEG AX ; AX = -AX 
-    
-    ;else
-    @END_IF:
-        MOV CX, 0 ;CX counts digits
-        MOV BX, 10
-    
-    @WHILE1:
-        MOV DX, 0 ; Dividend
-        DIV BX ; Quo:Rem = AX:DX
-        PUSH DX; Save rem on stack
-        INC CX;
+@WHILE1:
+MOV DX, 0 ; Dividend
+DIV BX ; Quo:Rem = AX:DX
+PUSH DX; Save rem on stack
+INC CX;
         
-        CMP AX, 0 ; quo = 0?
-        JNE @WHILE1
+CMP AX, 0 ; quo = 0?
+JNE @WHILE1
+MOV AH, 2
         
-    MOV AH, 2
-        
-    @PRINT_LOOP:    
-        POP DX
-        ADD DL, 30H
-        INT 21H
-        LOOP @PRINT_LOOP
-        
-    ;exit
-   
-    ;Linebreak
-    MOV AH, 2
-    MOV DL, 0DH
-    INT 21H
-    MOV DL, 0AH
-    INT 21H
+@PRINT_LOOP:    
+POP DX
+ADD DL, 30H
+INT 21H
+LOOP @PRINT_LOOP
+MOV AH, 2
+MOV DL, 0DH
+INT 21H
+MOV DL, 0AH
+INT 21H
     
     
-    POP AX
-    POP DX
-    POP CX
-    POP BX
-    RET   
+POP AX
+POP DX
+POP CX
+POP BX
+RET   
     
 OUTDEC ENDP
 
