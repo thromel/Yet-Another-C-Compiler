@@ -408,7 +408,23 @@ inline SymbolInfo *handleADDOP(SymbolInfo *sym1, SymbolInfo *op,
   string ADDOP = op->getName();
   string asmTempVar = vm.getTempVar();
   result->setAsmVar(asmTempVar);
-  result->setCode(sym1->getCode() + "\n" + sym2->getCode());
+  result->setCode(sym1->getCode());
+
+  // If it's a function call, we
+  if (sym1->isFunctionCall) {
+    string tempVar = vm.getTempVar();
+    sym1->setAsmVar(tempVar);
+    result->addCode("MOV " + tempVar + ", CX");
+  }
+
+  result->addCode(sym2->getCode());
+
+  if (sym2->isFunctionCall) {
+    string tempVar = vm.getTempVar();
+    sym2->setAsmVar(tempVar);
+    result->addCode("MOV " + tempVar + ", CX");
+  }
+
   if (ADDOP == "+") {
     if (sym1->isVariable() || sym1->isArray()) {
       if (sym2->isVariable() || sym2->isArray()) {
@@ -427,6 +443,7 @@ inline SymbolInfo *handleADDOP(SymbolInfo *sym1, SymbolInfo *op,
             result->addCode("MOV AX, " + sym1->getAsmVar() + "\nADD AX, " +
                             sym2->getAsmVar() + "\nMOV " + result->getAsmVar() +
                             ", AX\n");
+
           } else {
             result->setFloatValue(sym1->getIntValue() + sym2->getFloatValue());
           }
@@ -456,6 +473,9 @@ inline SymbolInfo *handleADDOP(SymbolInfo *sym1, SymbolInfo *op,
       }
     }
   }
+
+  vm.freeTempVar(sym1->getAsmVar());
+  vm.freeTempVar(sym2->getAsmVar());
   result->setName(sym1->getName() + ADDOP + sym2->getName());
 
   return result;
@@ -780,8 +800,6 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
       sym->addCode("PUSH temp" + to_string(i));
     }
 
-    //
-
     sym->addCode("PUSH return_loc");
     for (int i = 0; i < func->paramSymList.size(); i++) {
 
@@ -817,6 +835,7 @@ inline SymbolInfo *handle_function(SymbolInfo *funcVal, SymbolInfo *argList) {
 
   //
 
+  sym->isFunctionCall = true;
   sym->setAsmVar("CX");
   sym->setIdType("VARIABLE");
   sym->setVarType("INT"); // This is a way-around, must be modified later
