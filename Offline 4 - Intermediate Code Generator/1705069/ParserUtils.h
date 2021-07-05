@@ -311,15 +311,18 @@ inline SymbolInfo *getArrayIndexVar(SymbolInfo *arr, SymbolInfo *index) {
       var->setReal(arrIdxVar);
     }
 
+    var->addCode(index->getCode());
     var->addCode("MOV BX, " + index->getAsmVar());
     var->addCode("SHL BX, 1");
-    var->arrAsmVar = arrIdxVar->getAsmVar();
+
     if (SIorBX) {
       var->addCode("MOV SI, BX");
       var->setAsmVar(arrIdxVar->getAsmVar() + "[SI]");
     } else {
       var->setAsmVar(arrIdxVar->getAsmVar() + "[BX]");
     }
+    vm.freeTempVar(index->getAsmVar());
+    var->arrAsmVar = var->getAsmVar();
 
     SIorBX = !SIorBX;
   }
@@ -356,14 +359,16 @@ inline SymbolInfo *handle_assign(SymbolInfo *sym1, SymbolInfo *sym2) {
 
   // asm part
   if (sym2->getIsConst()) {
-    result->addCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
+    result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
                     constToMem(sym1, sym2));
   } else if (sym1->isArray()) {
-    result->addCode(sym2->getCode());
+    result->setCode(sym2->getCode());
     result->addCode(sym1->getCode());
-    result->addCode(memToMem(sym1, sym2));
+    result->addCode("MOV AX, " + sym2->getAsmVar());
+    result->addCode("MOV " + sym1->arrAsmVar + ", AX");
+    // result->addCode(memToMem(sym1, sym2));
   } else {
-    result->addCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
+    result->setCode(sym1->getCode() + "\n" + sym2->getCode() + "\n" +
                     memToMem(sym1, sym2));
   }
 
