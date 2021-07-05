@@ -327,11 +327,10 @@ L3:
 
 
 ------------------
-Error at line no: 5 - a is not declared
 Line no: 5 variable : ID
 
 ------------------
-NULL
+a
 
  
 
@@ -339,7 +338,7 @@ NULL
 Line no: 5 factor : variable
 
 ------------------
-NULL
+a
 
  
 
@@ -347,7 +346,7 @@ NULL
 Line no: 5 unary_expression : factor
 
 ------------------
-NULL
+a
 
  
 
@@ -355,7 +354,7 @@ NULL
 Line no: 5 term : unary_expression
 
 ------------------
-NULL
+a
 
  
 
@@ -363,7 +362,7 @@ NULL
 Line no: 5 simple_expression : term
 
 ------------------
-NULL
+a
 
  
 
@@ -403,11 +402,11 @@ b
 Line no: 5 simple expression : simple_expression ADDOP term
 
 ------------------
-NULL+b
+a+b
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
@@ -416,11 +415,11 @@ MOV temp0, AX
 Line no: 5 rel_expression : simple_expression
 
 ------------------
-NULL+b
+a+b
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
@@ -429,11 +428,11 @@ MOV temp0, AX
 Line no: 5 logic_expression : rel_expression
 
 ------------------
-NULL+b
+a+b
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
@@ -442,11 +441,11 @@ MOV temp0, AX
 Line no: 5 expression : logic_expression
 
 ------------------
-NULL+b
+a+b
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
@@ -455,11 +454,11 @@ MOV temp0, AX
 Line no: 5 factor : LPAREN expression RPAREN
 
 ------------------
-(NULL+b)
+(a+b)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
@@ -468,11 +467,11 @@ MOV temp0, AX
 Line no: 5 unary_expression : factor
 
 ------------------
-(NULL+b)
+(a+b)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
@@ -481,11 +480,11 @@ MOV temp0, AX
 Line no: 5 term : unary_expression
 
 ------------------
-(NULL+b)
+(a+b)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
@@ -494,21 +493,20 @@ MOV temp0, AX
 Line no: 5 simple_expression : term
 
 ------------------
-(NULL+b)
+(a+b)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
 
 ------------------
-Error at line no: 5 - a is not declared
 Line no: 5 variable : ID
 
 ------------------
-NULL
+a
 
  
 
@@ -516,7 +514,7 @@ NULL
 Line no: 5 factor : variable
 
 ------------------
-NULL
+a
 
  
 
@@ -524,7 +522,7 @@ NULL
 Line no: 5 unary_expression : factor
 
 ------------------
-NULL
+a
 
  
 
@@ -532,7 +530,7 @@ NULL
 Line no: 5 term : unary_expression
 
 ------------------
-NULL
+a
 
  
 
@@ -540,7 +538,7 @@ NULL
 Line no: 5 simple_expression : term
 
 ------------------
-NULL
+a
 
  
 
@@ -572,11 +570,11 @@ Line no: 5 term : unary_expression
 Line no: 5 simple expression : simple_expression ADDOP term
 
 ------------------
-NULL-1
+a-1
 
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -585,11 +583,11 @@ MOV temp1, AX
 Line no: 5 rel_expression : simple_expression
 
 ------------------
-NULL-1
+a-1
 
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -598,11 +596,11 @@ MOV temp1, AX
 Line no: 5 logic_expression : rel_expression
 
 ------------------
-NULL-1
+a-1
 
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -611,11 +609,11 @@ MOV temp1, AX
 Line no: 5 arguments : logic_expression
 
 ------------------
-NULL-1
+a-1
 
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -727,7 +725,7 @@ MOV temp2, AX
 Line no: 5 arguments : arguments COMMA logic_expression
 
 ------------------
-NULL-1, b-1
+a-1, b-1
 
  
 
@@ -735,11 +733,11 @@ NULL-1, b-1
 Line no: 5 argument_list : arguments
 
 ------------------
-NULL-1, b-1
+a-1, b-1
 
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -754,12 +752,12 @@ MOV temp2, AX
 Line no: 5 factor : ID LPAREN argument_list RPAREN
 
 ------------------
-sumf(NULL-1, b-1)
+sumf(a-1, b-1)
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -769,7 +767,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -785,18 +783,18 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 5 unary_expression : factor
 
 ------------------
-sumf(NULL-1, b-1)
+sumf(a-1, b-1)
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -806,7 +804,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -822,18 +820,18 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 5 term : unary_expression
 
 ------------------
-sumf(NULL-1, b-1)
+sumf(a-1, b-1)
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -843,7 +841,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -859,24 +857,24 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 5 simple expression : simple_expression ADDOP term
 
 ------------------
-(NULL+b)+sumf(NULL-1, b-1)
+(a+b)+sumf(a-1, b-1)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -886,7 +884,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -902,7 +900,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -912,18 +910,18 @@ MOV temp2, AX
 Line no: 5 rel_expression : simple_expression
 
 ------------------
-(NULL+b)+sumf(NULL-1, b-1)
+(a+b)+sumf(a-1, b-1)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -933,7 +931,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -949,7 +947,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -959,18 +957,18 @@ MOV temp2, AX
 Line no: 5 logic_expression : rel_expression
 
 ------------------
-(NULL+b)+sumf(NULL-1, b-1)
+(a+b)+sumf(a-1, b-1)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -980,7 +978,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -996,7 +994,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1006,18 +1004,18 @@ MOV temp2, AX
 Line no: 5 expression : logic_expression
 
 ------------------
-(NULL+b)+sumf(NULL-1, b-1)
+(a+b)+sumf(a-1, b-1)
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -1027,7 +1025,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1043,7 +1041,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1053,18 +1051,18 @@ MOV temp2, AX
 Line no: 5 RETURN expression SEMICOLON
 
 ------------------
-return (NULL+b)+sumf(NULL-1, b-1);
+return (a+b)+sumf(a-1, b-1);
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -1074,7 +1072,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1090,7 +1088,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1105,7 +1103,7 @@ Line no: 5 statements : statements statement
 ------------------
 int t;
 if(!a)return 0;
-return (NULL+b)+sumf(NULL-1, b-1);
+return (a+b)+sumf(a-1, b-1);
 
  
  
@@ -1129,14 +1127,14 @@ L3:
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -1146,7 +1144,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1162,7 +1160,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1178,7 +1176,7 @@ Line no: 6 compound_statement : LCURL statements RCURL
 {
 int t;
 if(!a)return 0;
-return (NULL+b)+sumf(NULL-1, b-1);
+return (a+b)+sumf(a-1, b-1);
 }
 
 
@@ -1204,14 +1202,14 @@ L3:
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -1221,7 +1219,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1237,7 +1235,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1251,7 +1249,7 @@ JMP L0
 ScopeTable #1_1
 0 --> <b: ID> 
 4 --> <t: ID> 
-6 --> <!a: ID> 
+6 --> <a: ID> 
 
 ScopeTable #1
 2 --> <sumf: ID> 
@@ -1261,7 +1259,7 @@ Line no: 6 func_definition : type_specifier ID LPAREN parameter_list RPAREN
 int sumf ( int a,int b ) {
 int t;
 if(!a)return 0;
-return (NULL+b)+sumf(NULL-1, b-1);
+return (a+b)+sumf(a-1, b-1);
 }
 
 
@@ -1295,14 +1293,14 @@ L3:
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -1312,7 +1310,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1328,7 +1326,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1352,7 +1350,7 @@ Line no: 6 unit : func_definition
 int sumf ( int a,int b ) {
 int t;
 if(!a)return 0;
-return (NULL+b)+sumf(NULL-1, b-1);
+return (a+b)+sumf(a-1, b-1);
 }
 
 
@@ -1386,14 +1384,14 @@ L3:
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -1403,7 +1401,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1419,7 +1417,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1443,7 +1441,7 @@ Line no: 6 program : unit
 int sumf ( int a,int b ) {
 int t;
 if(!a)return 0;
-return (NULL+b)+sumf(NULL-1, b-1);
+return (a+b)+sumf(a-1, b-1);
 }
 
 
@@ -1477,14 +1475,14 @@ L3:
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -1494,7 +1492,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1510,7 +1508,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -1718,7 +1716,7 @@ sumf(10, 11)
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1734,7 +1732,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 10 unary_expression : factor
@@ -1745,7 +1743,7 @@ sumf(10, 11)
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1761,7 +1759,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 10 term : unary_expression
@@ -1772,7 +1770,7 @@ sumf(10, 11)
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1788,7 +1786,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 10 simple_expression : term
@@ -1799,7 +1797,7 @@ sumf(10, 11)
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1815,7 +1813,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 10 rel_expression : simple_expression
@@ -1826,7 +1824,7 @@ sumf(10, 11)
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1842,7 +1840,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 10 logic_expression : rel_expression
@@ -1853,7 +1851,7 @@ sumf(10, 11)
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1869,7 +1867,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 
 ------------------
 Line no: 10 expression : variable ASSIGNOP logic_expression
@@ -1881,7 +1879,7 @@ x=sumf(10, 11)
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1897,7 +1895,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -1912,7 +1910,7 @@ x=sumf(10, 11);
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1928,7 +1926,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -1943,7 +1941,7 @@ x=sumf(10, 11);
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1959,7 +1957,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -1976,7 +1974,7 @@ x=sumf(10, 11);
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -1992,7 +1990,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -2019,7 +2017,7 @@ printf(x);
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -2035,7 +2033,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -2060,7 +2058,7 @@ printf(x);
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -2076,7 +2074,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -2113,7 +2111,7 @@ MOV DS,AX
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -2129,7 +2127,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -2164,7 +2162,7 @@ MOV DS,AX
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -2180,7 +2178,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -2201,7 +2199,7 @@ Line no: 12 program : program unit
 int sumf ( int a,int b ) {
 int t;
 if(!a)return 0;
-return (NULL+b)+sumf(NULL-1, b-1);
+return (a+b)+sumf(a-1, b-1);
 }
 
 int main ( ) {
@@ -2241,14 +2239,14 @@ L3:
 
  
  
-MOV AX, 
+MOV AX, a1_1
 ADD AX, b1_1
 MOV temp0, AX
 
  
  
  
-MOV AX, 
+MOV AX, a1_1
 SUB AX, 1
 MOV temp1, AX
 
@@ -2258,7 +2256,7 @@ MOV AX, b1_1
 SUB AX, 1
 MOV temp2, AX
 
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -2274,7 +2272,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, temp0
 ADD AX, CX
 MOV temp2, AX
@@ -2300,7 +2298,7 @@ MOV DS,AX
  
  
  
-PUSH temp0
+PUSH a1_1
 PUSH b1_1
 PUSH t1_1
 PUSH temp0
@@ -2316,7 +2314,7 @@ POP temp1
 POP temp0
 POP t1_1
 POP b1_1
-POP temp0
+POP a1_1
 MOV AX, CX
 MOV x1_2, AX 
 
@@ -2333,7 +2331,28 @@ MAIN ENDP
 ------------------
 
 Total lines: 12
-Total errors: 2
+Total errors: 0
+-------------------------------------
+Optimizer log: 
+Removed blank line : 23
+Removed blank line : 24
+Optimized redundant MOV operation: 34
+Removed blank line : 37
+Removed blank line : 43
+Removed blank line : 44
+Removed blank line : 49
+Removed blank line : 50
+Removed blank line : 51
+Removed blank line : 56
+Removed blank line : 57
+Removed blank line : 99
+Removed blank line : 100
+Removed blank line : 101
+Removed blank line : 102
+Removed blank line : 103
+Optimized redundant MOV operation: 125
+Line removed:17
+-------------------------------------
 
 ScopeTable #1
 1 --> <main: ID> 
