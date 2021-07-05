@@ -2,25 +2,24 @@
 .STACK 100H 
 .DATA
 
-x1_1 DW ?
+n1_1 DW ?
 temp0 DW ?
-temp1 DW ?
+x1_2 DW ?
 return_loc DW ?
 
 .CODE
 rec PROC
 
 POP return_loc
-POP x1_1
+POP n1_1
 PUSH BX
-PUSH CX
 PUSH DX
 
  
  
-MOV AX, x1_1
+MOV AX, n1_1
 CMP AX, 0
-JG L1
+JE L1
 MOV temp0, 0
 JMP L2
 L1: 
@@ -31,27 +30,38 @@ MOV AX, temp0
 CMP AX, 1
 JNE L3
  
-PUSH x1_1
- 
- 
-MOV AX, x1_1
-SUB AX, 1
-MOV temp1, AX
+MOV CX, 1
 
-PUSH return_loc
-PUSH temp1
-CALL rec
-POP return_loc
-POP x1_1
+JMP L0
 L3:
 
+ 
+ 
+ 
+ 
+ 
+MOV AX, n1_1
+SUB AX, 1
+MOV temp0, AX
 
-MOV AX, x1_1
-CALL OUTDEC
+PUSH n1_1
+PUSH temp0
+PUSH return_loc
+PUSH temp0
+CALL rec
+POP return_loc
+POP temp0
+POP n1_1
+MOV AX, n1_1
+MOV BX, CX
+IMUL BX
+MOV temp0, AX
 
+MOV CX, temp0
+
+JMP L0
 L0: 
 POP DX
-POP CX
 POP BX
 PUSH return_loc
 RET
@@ -64,13 +74,24 @@ MOV AX,@DATA
 MOV DS,AX
 
  
-PUSH x1_1
  
+ 
+ 
+PUSH n1_1
+PUSH temp0
 PUSH return_loc
-PUSH 5
+PUSH 7
 CALL rec
 POP return_loc
-POP x1_1
+POP temp0
+POP n1_1
+MOV AX, CX
+MOV x1_2, AX 
+
+
+MOV AX, x1_2
+CALL OUTDEC
+
 MOV AH, 4CH
 INT 21H
 MAIN ENDP

@@ -43,6 +43,8 @@ public:
       // cout<<"freed " + tempVar<<endl;
     }
   }
+
+  int getSize() { return size; }
 };
 
 inline void printCode(SymbolInfo *sym) { code << sym->getCode() << endl; }
