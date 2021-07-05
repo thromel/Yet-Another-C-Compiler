@@ -1,11 +1,12 @@
-int rec(int n) {
-  if (n == 0)
-    return 1;
-  return n * rec(n - 1);
+int sumf(int a, int b) {
+  int t;
+  if (!a)
+    return 0;
+  return (a + b) + sumf(a - 1, b - 1);
 }
 
 int main() {
   int x;
-  x = rec(7);
-  printf(x);
+  x = sumf(10, 11);
+  println(x);
 }

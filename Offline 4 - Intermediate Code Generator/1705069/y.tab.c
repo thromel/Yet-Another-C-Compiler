@@ -606,7 +606,7 @@ static const yytype_int16 yyrline[] =
      335,   342,   350,   356,   365,   375,   381,   389,   395,   403,
      409,   416,   422,   431,   437,   445,   451,   457,   465,   471,
      478,   485,   491,   497,   504,   510,   518,   524,   532,   532,
-     540,   540,   548,   556,   569,   583
+     540,   540,   548,   556,   570,   584
 };
 #endif
 
@@ -2243,6 +2243,7 @@ yyreduce:
 				(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + ", " + (yyvsp[0].symbol)->getName(), "NON_TERMINAL");
 				printRule("arguments : arguments COMMA logic_expression");
 				printSymbol((yyval.symbol));
+				(yyval.symbol)->setCode((yyvsp[-2].symbol)->getCode() + "\n" + (yyvsp[0].symbol)->getCode());
 
 				if ((yyvsp[0].symbol)->getVarType() == "VOID"){
 					printError("Argument cannot be void");
@@ -2251,11 +2252,11 @@ yyreduce:
 				argTypeList.push_back((yyvsp[0].symbol)->getVarType()); 
 				asmArgList.push_back((yyvsp[0].symbol)->getAsmVar());
 			}
-#line 2255 "y.tab.c"
+#line 2256 "y.tab.c"
     break;
 
   case 74:
-#line 570 "1705069.y"
+#line 571 "1705069.y"
                         {
 				(yyval.symbol) = (yyvsp[0].symbol);
 				printRule("arguments : logic_expression");
@@ -2269,22 +2270,22 @@ yyreduce:
 				asmArgList.push_back((yyvsp[0].symbol)->getAsmVar()); 
 
 			}
-#line 2273 "y.tab.c"
+#line 2274 "y.tab.c"
     break;
 
   case 75:
-#line 584 "1705069.y"
+#line 585 "1705069.y"
                         {
 				(yyval.symbol) = new SymbolInfo((yyvsp[-2].symbol)->getName() + ", " + "ERROR", "NON_TERMINAL");
 				printRule("arguments : arguments COMMA error");
 				printError("Unfinished argument list");
 				printSymbol((yyval.symbol));	
 			}
-#line 2284 "y.tab.c"
+#line 2285 "y.tab.c"
     break;
 
 
-#line 2288 "y.tab.c"
+#line 2289 "y.tab.c"
 
       default: break;
     }
@@ -2516,7 +2517,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 593 "1705069.y"
+#line 594 "1705069.y"
 
 int main(int argc,char *argv[])
 {

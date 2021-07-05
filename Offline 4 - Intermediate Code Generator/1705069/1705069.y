@@ -558,6 +558,7 @@ arguments: arguments COMMA logic_expression
 				$$ = new SymbolInfo($1->getName() + ", " + $3->getName(), "NON_TERMINAL");
 				printRule("arguments : arguments COMMA logic_expression");
 				printSymbol($$);
+				$$->setCode($1->getCode() + "\n" + $3->getCode());
 
 				if ($3->getVarType() == "VOID"){
 					printError("Argument cannot be void");
