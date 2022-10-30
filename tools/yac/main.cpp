@@ -1,9 +1,12 @@
 #include "yac/AST/AST.h"
 #include "yac/AST/ASTVisitor.h"
 #include "yac/Basic/Diagnostic.h"
+#include "yac/Parse/Lexer.h"
+#include "yac/Parse/Parser.h"
 #include "yac/Type/Type.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace yac;
 
@@ -75,37 +78,61 @@ int main(int argc, char* argv[]) {
   // Initialize type context
   TypeContext TyCtx;
 
-  // TODO: Parse the input file
-  std::cout << "Note: Parser not yet implemented. This is a skeleton.\n";
-  std::cout << "Architecture setup complete:\n";
-  std::cout << "  - AST nodes defined\n";
-  std::cout << "  - Type system initialized\n";
-  std::cout << "  - Diagnostic engine ready\n";
+  // Read source file
+  std::ifstream File(inputFile);
+  std::stringstream Buffer;
+  Buffer << File.rdbuf();
+  std::string Source = Buffer.str();
 
-  // Demonstrate the system works
-  SourceLocation Loc(1, 1, inputFile.c_str());
-  Diag.note(Loc, "Compilation system initialized successfully");
+  std::cout << "\n--- Lexical Analysis ---\n";
 
-  // Demonstrate AST visitor with a simple example
-  std::cout << "\n--- Demonstrating AST Infrastructure ---\n";
+  // Tokenize
+  Lexer Lex(Source, inputFile.c_str(), Diag);
+  std::vector<Token> Tokens = Lex.tokenize();
 
-  // Build a simple AST: int x = 42;
-  auto* IntTy = TyCtx.getIntType();
-  auto Init = std::make_unique<IntegerLiteral>(SourceRange(Loc), 42);
-  Init->setType(IntTy);
+  std::cout << "Generated " << Tokens.size() << " tokens\n";
 
-  VarDecl VarX(SourceRange(Loc), "x", IntTy, std::move(Init));
+  if (Diag.hasErrors()) {
+    std::cerr << "\nLexical analysis failed:\n";
+    Diag.printAll(std::cerr);
+    return 1;
+  }
 
-  // Print the AST
-  std::cout << "\nSample AST (int x = 42;):\n";
-  ASTPrinter Printer(std::cout);
-  Printer.visitVarDecl(&VarX);
+  std::cout << "\n--- Parsing ---\n";
+
+  // Parse
+  Parser Parse(std::move(Tokens), Diag, TyCtx);
+  std::unique_ptr<TranslationUnit> AST = Parse.parseTranslationUnit();
+
+  if (Diag.hasErrors()) {
+    std::cerr << "\nParsing failed:\n";
+    Diag.printAll(std::cerr);
+    return 1;
+  }
+
+  std::cout << "✓ Parsing successful!\n";
+
+  // Print AST if requested
+  if (dumpAST || true) { // Always dump for now
+    std::cout << "\n--- Abstract Syntax Tree ---\n";
+    ASTPrinter Printer(std::cout);
+    Printer.visitTranslationUnit(AST.get());
+  }
+
+  std::cout << "\n--- Compilation Summary ---\n";
+  std::cout << "✓ Lexical analysis: OK\n";
+  std::cout << "✓ Syntax analysis: OK\n";
+  std::cout << "  - Declarations: " << AST->size() << "\n";
+
+  if (Diag.getWarningCount() > 0) {
+    std::cout << "⚠ Warnings: " << Diag.getWarningCount() << "\n";
+    Diag.printAll(std::cout);
+  }
 
   std::cout << "\nNext steps:\n";
-  std::cout << "  1. Integrate Flex/Bison parser\n";
-  std::cout << "  2. Build complete AST from parsed input\n";
-  std::cout << "  3. Implement semantic analysis\n";
-  std::cout << "  4. Add code generation backend\n";
+  std::cout << "  1. Semantic analysis (type checking)\n";
+  std::cout << "  2. Code generation (LLVM or 8086)\n";
+  std::cout << "  3. Optimization passes\n";
 
   return 0;
 }
