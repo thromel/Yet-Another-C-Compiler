@@ -1,8 +1,0 @@
-Error at line no: 2 - b doesn't exist
-Error at line no: 6 - c is already declared
-Error at line no: 7 - a array index must be an integer
-Warning at line no: 8 Assigning float to an integer variable
-Error at line no: 13 - Float operand for mod operation
-Error at line no: 14 - a is an array and must be accessed with an index
-Error at line no: 15 - a is an array and must be accessed with an index
-Error at line no: 16 - b doesn't exist

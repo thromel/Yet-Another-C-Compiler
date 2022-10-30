@@ -1,4 +1,0 @@
-Warning at Line 14: no return statement in function 'main', should return 'int'
-
-Total Lines: 15
-Total Errors: 0

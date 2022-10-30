@@ -1,182 +1,301 @@
-# thromel – Yet Another C Compiler
+# Yet Another C Compiler (YACC)
 
-## This project is a complete compiler for a subset of the C language. It is organized into several offline assignments that demonstrate the major phases of compiler construction:
-	
--	Symbol Table Management
--	Lexical Analysis
--	Syntax and Semantic Analysis
-For a step-by-step walkthrough of each stage of the compiler, see [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md).
-An architectural overview explaining how the phases work together can be found in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+A complete compiler that translates a subset of C language into optimized 8086 assembly code. Features lexical analysis, parsing, semantic checking, code generation, and peephole optimization.
 
-### The compiler uses industry-standard tools—Flex for lexical analysis and Bison for parsing—and is written in C/C++. It includes detailed error handling, scope‐aware symbol table management, and support for common C constructs.
+## Overview
+
+This compiler implements a full compilation pipeline from C source code to assembly:
+
+1. **Lexical Analysis**: Tokenizes source code using Flex
+2. **Syntax Analysis**: Parses tokens and builds an abstract syntax tree using Bison
+3. **Semantic Analysis**: Performs type checking and scope management
+4. **Code Generation**: Generates 8086 assembly instructions
+5. **Optimization**: Applies peephole optimizations for improved efficiency
+
+## Quick Start
+
+### Using Docker
+
+```bash
+# Build the Docker image
+docker build -t yacc .
+
+# Run the compiler
+docker run -v $(pwd):/app yacc test.c
+```
+
+### Using Make
+
+```bash
+# Build the compiler
+make
+
+# Compile a C file
+./compiler "Test Cases/loop.c"
+
+# Run tests
+make test
+
+# Clean build artifacts
+make clean
+```
+
+### Using the Build Script
+
+```bash
+# Build and run
+./script.sh "Test Cases/recursion.c"
+```
 
 ## Project Structure
 
-```thromel-yet-another-c-compiler/
-├── Offline 1 - Symbol Table/
-│   └── [Symbol table implementation and tests]
-├── Offline 2 - Lexical Analyser/
-│   ├── 1705069/
-│   │   ├── LexAnalyzer.l          # Flex source file for lexical analysis
-│   │   ├── LexUtils.h             # Utility functions for the scanner
-│   │   └── ...                    # Additional files (e.g. command.sh)
-│   ├── Lex Resources/
-│   │   └── [Documentation and sample lex files]
-│   └── Test Cases/
-│       ├── error.txt              # Input designed to generate lexical errors
-│       ├── no_error.txt           # Valid input files
-│       └── cases/                 # Additional test case files (with corresponding logs/tokens)
-├── Offline 3 - Syntax & Semantic Analyser/
-│   ├── 1705069/
-│   │   ├── 1705069.l              # Flex file used by the parser
-│   │   ├── 1705069.y              # Bison grammar file (syntax/semantic rules)
-│   │   ├── LexUtils.h             # Shared utilities for parser actions
-│   │   ├── ParserUtils.h          # Helper functions for error reporting, symbol handling, etc.
-│   │   ├── script.sh              # Shell script to build and run the parser
-│   │   ├── log.txt                # Generated log file for parsing
-│   │   └── error.txt              # Errors found during parsing
-│   └── Test Cases/
-│       ├── input.txt              # Sample input for syntax analysis
-│       ├── log.txt                # Parser log output
-│       └── ...                    # Additional test cases and sample outputs
-└── sample io/
-    ├── sample_input1.txt          # Example source files for demonstration
-    ├── sample_log1.txt            # Corresponding log outputs
-    ├── sample_token1.txt          # Token stream output
-    └── ...                        # More sample files
+```
+├── 1705069.l           # Flex lexical analyzer specification
+├── 1705069.y           # Bison parser grammar
+├── AsmLibraries/       # Assembly runtime libraries
+│   └── outdec.h        # Decimal output procedures
+├── SymbolTable/        # Hash-based symbol table
+│   ├── ScopeTable.h    # Hierarchical scope management
+│   ├── SymbolInfo.h    # Symbol metadata storage
+│   └── SymbolTable.h   # Main symbol table interface
+├── include/            # Compiler header files
+│   ├── AsmUtils.h      # Assembly generation utilities
+│   ├── CompilerGlobals.h # Global definitions
+│   └── LexUtils.h      # Lexical analysis helpers
+├── src/                # Implementation files
+│   ├── AsmUtils.cpp    # Assembly code generation
+│   ├── Globals.cpp     # Global variable initialization
+│   ├── LexUtils.cpp    # Lexical utilities
+│   └── main.cpp        # Compiler entry point
+├── Test Cases/         # Comprehensive test suite
+│   ├── loop.c          # Loop constructs
+│   ├── func.c          # Function calls
+│   ├── recursion.c     # Recursive functions
+│   └── exp.c           # Expression evaluation
+├── docs/               # Documentation
+│   ├── ARCHITECTURE.md # Compiler architecture overview
+│   ├── PROJECT_OVERVIEW.md # Development guide
+│   └── deep-dive.md    # Technical deep dive
+├── Dockerfile          # Container configuration
+├── Makefile            # Build system
+├── script.sh           # Quick build script
+└── GETTING_STARTED.md  # Development setup guide
 ```
 
-### Tools and Technologies
-	
--	Flex: Used to generate the lexical analyzer (scanner) from .l files.
--	Bison: Used to generate the parser from .y files.
--	C/C++: Implementation language for the compiler’s components.
--	GNU Compiler Collection (g++): Used for compiling the generated C/C++ code.
--	Unix Shell Scripting: Scripts (e.g., command.sh, script.sh) automate the build and run processes.
+## Language Support
 
-### How to Build and Run
+The compiler supports a subset of C including:
 
-#### Building the Lexical Analyzer
-	
- 1.	Navigate to the Lexical Analyser directory:
+### Data Types
+- `int`, `float`, `char`, `void`
+- Single and multi-dimensional arrays
 
-```bash
-cd "Offline 2 - Lexical Analyser/1705069"
-```
-2.	Build and run using the provided shell script:
-Make sure the script is executable:
+### Control Flow
+- `if-else` statements
+- `while`, `for`, `do-while` loops
+- Function calls (including recursion)
+- `return` statements
 
-```bash
-chmod +x command.sh
-```
+### Expressions
+- Arithmetic: `+`, `-`, `*`, `/`, `%`
+- Relational: `<`, `<=`, `>`, `>=`, `==`, `!=`
+- Logical: `&&`, `||`, `!`
+- Bitwise: `&`, `|`, `^`, `~`, `<<`, `>>`
+- Assignment operators
+- Increment/decrement: `++`, `--`
 
-Then run it with a test file:
+### Functions
+- Declaration and definition
+- Parameter passing
+- Return values
+- Recursive calls
 
-```bash
-./command.sh <input_file>
-```
+## Assembly Code Generation
 
-#### This script invokes Flex to generate lex.yy.c, compiles it with g++, and executes the resulting scanner.
+The compiler generates 8086 assembly with:
 
-Building the Syntax & Semantic Analyzer
-	1.	Navigate to the Syntax & Semantic Analyser directory:
+- **Data Segment**: Variable and array declarations
+- **Code Segment**: Translated instructions
+- **Function Prologues/Epilogues**: Stack frame management
+- **Register Allocation**: Efficient use of AX, BX, CX, DX
+- **Memory Management**: Temporary variables for complex expressions
 
-```bash
-cd "Offline 3 - Syntax & Semantic Analyser/1705069"
-```
+## Optimization
 
-	
- 2.	Run the provided shell script to build the parser:
-Make sure the script is executable:
+The peephole optimizer eliminates:
 
-```bash
-chmod +x script.sh
-```
+1. **Redundant MOV instructions**: `MOV AX, BX` followed by `MOV BX, AX`
+2. **Zero-operation elimination**: `ADD AX, 0`, `SUB AX, 0`, `IMUL AX, 0`
+3. **Identity operations**: `IMUL AX, 1`, `IDIV AX, 1`
+4. **Unnecessary operations**: Operations with no effect on result
 
-Then run it with an input file:
+## Example
 
-```bash
-./script.sh <input_file>
-```
+**Input (recursion.c):**
+```c
+int factorial(int n) {
+    if (n <= 1)
+        return 1;
+    return n * factorial(n - 1);
+}
 
-This script performs the following steps:
-	-	Uses Bison to process the grammar file (1705069.y), generating y.tab.c and y.tab.h.
-	-	Compiles the generated parser and the scanner (lex.yy.c) into object files.
-	-	Links the object files with the Flex library (-lfl) to create the final executable (a.out).
-	-	Executes the final executable with the provided input file.
-
-### Manual Compilation (Optional)
-
-You can compile the generated files manually if needed:
-
-#### Generate parser files using Bison
-```bash
-bison -d -y -v 1705069.y
+int main() {
+    int result;
+    result = factorial(5);
+    printf(result);
+    return 0;
+}
 ```
 
-#### Compile the parser
-```bash
-g++ -w -c -o y.o y.tab.c
+**Output (optimized assembly):**
+```assembly
+.MODEL MEDIUM
+.STACK 100H
+.DATA
+    temp0 DW ?
+    temp1 DW ?
+
+.CODE
+factorial PROC
+    PUSH BP
+    MOV BP, SP
+
+    MOV AX, [BP+4]    ; Load n
+    CMP AX, 1
+    JG L1
+
+    MOV AX, 1         ; return 1
+    JMP L2
+
+L1:
+    MOV AX, [BP+4]
+    SUB AX, 1
+    PUSH AX
+    CALL factorial
+    ADD SP, 2
+
+    MOV BX, AX
+    MOV AX, [BP+4]
+    IMUL BX           ; n * factorial(n-1)
+
+L2:
+    POP BP
+    RET
+factorial ENDP
+
+main PROC
+    MOV AX, @DATA
+    MOV DS, AX
+
+    PUSH 5
+    CALL factorial
+    ADD SP, 2
+    MOV result, AX
+
+    CALL print_output
+
+    MOV AX, 4CH
+    INT 21H
+main ENDP
+END main
 ```
 
-#### Generate scanner files using Flex
+## Output Files
+
+Running the compiler generates:
+
+- `log.txt` - Parsing log with symbol table dumps
+- `error.txt` - Compilation errors and warnings
+- `code.asm` - Generated assembly code
+- `optimized.asm` - Optimized assembly code
+
+## Documentation
+
+- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Multi-pass compilation pipeline
+- **[PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)** - Step-by-step development walkthrough
+- **[deep-dive.md](docs/deep-dive.md)** - Technical implementation details
+- **[GETTING_STARTED.md](GETTING_STARTED.md)** - Development environment setup
+
+## Building from Source
+
+### Prerequisites
+- Flex (lexical analyzer generator)
+- Bison (parser generator)
+- GCC/G++ compiler
+- Make
+
+### Build Steps
 ```bash
+# Generate lexer
 flex 1705069.l
-```
 
-#### Compile the scanner
-```bash
-g++ -w -c -o l.o lex.yy.c
-```
+# Generate parser
+bison -d -y -v 1705069.y
 
-#### Link the object files to produce the executable
-```bash
-g++ y.o l.o -lfl -o compiler.out
-```
+# Compile
+g++ -o compiler y.tab.c lex.yy.c src/*.cpp -lfl
 
-#### Run the compiler with an input source file
-```bash
-./compiler.out <source_file.c>
+# Run
+./compiler input.c
 ```
 
 ## Testing
 
-### The project includes several test cases:
-	
--	Test Cases (Offline 2 – Lexical Analyser):
--	error.txt / error_log.txt / error_token.txt: Files with input examples that cause lexical errors (e.g., unterminated strings, invalid number formats).
--	no_error.txt / no_error_log.txt / no_error_token.txt: Files with valid input demonstrating correct tokenization.
--	Cases directory: Additional input files (1.txt, 2.txt, 3.txt, etc.) along with corresponding log and token output.
--	Sample I/O (sample io/ directory):
--	Sample source files and their expected log and token outputs.
--	These files demonstrate various language constructs (variable declarations, expressions, control structures, comments, strings, etc.).
--	Test Cases (Offline 3 – Syntax & Semantic Analyser):
--	input.txt provides a sample C-like program.
--	log.txt and error.txt contain the results of syntax and semantic analysis, including scope and symbol table outputs.
+The `Test Cases/` directory contains comprehensive tests:
 
-#### Run the shell scripts to build and run the tests. The output log files and token files will help you verify the correctness of the compiler’s phases.
+```bash
+# Test all cases
+make test
 
-### Features
-	
-- Lexical Analysis: The scanner recognizes keywords, identifiers, constants (integers, floats, characters, strings), operators, comments (single- and multi-line), and handles errors (e.g., unterminated literals).
--	Syntax & Semantic Analysis: The parser validates the syntax and performs semantic checks (e.g., type compatibility, proper array indexing, function declaration vs. definition matching) while building and updating a scope-aware symbol table.
--	Symbol Table Management: A robust symbol table supports multiple scopes and tracks variable and function declarations, types, and parameters.
--	Error and Warning Reporting: The system produces detailed logs with line numbers and error messages for both lexical and semantic issues.
--	Scope Handling: Nested scopes are managed during parsing (e.g., in compound statements), and the symbol table reflects scope changes.
+# Test individual cases
+./compiler "Test Cases/loop.c"
+./compiler "Test Cases/func.c"
+./compiler "Test Cases/recursion.c"
+./compiler "Test Cases/exp.c"
+```
 
-### Future Enhancements
-	
--	Intermediate Code Generation: Extend the compiler to generate an intermediate representation (IR) for further optimizations.
--	Target Code Generation: Implement a backend to generate assembly or machine code for a target architecture.
--	Optimization Passes: Add optimization phases to improve the performance of the generated code.
--	IDE Integration: Create tools or plugins to integrate the compiler with an IDE for improved debugging and development.
+## Technical Details
 
-Credits
+### Symbol Table
+- Hash table with separate chaining (SDBMHash function)
+- Hierarchical scope management
+- Type information tracking
+- Function signature validation
 
-This compiler project was developed as part of the [CSE 309: Compilers] course. It leverages Flex and Bison, both open-source tools provided under the GNU Public License. Special thanks to [Dr. Muhammad Mashroor Ali] and all project contributors.
+### Lexer
+- Regular expression-based token recognition
+- Error recovery for malformed tokens
+- Line and column tracking
+- Comment handling (single and multi-line)
 
-License
+### Parser
+- LR(1) parsing with Bison
+- Error recovery and reporting
+- Attribute-based semantic actions
+- AST construction during parsing
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+### Code Generator
+- Three-address code intermediate representation
+- Register allocation with spilling to temporaries
+- Label generation for control flow
+- Function calling convention (stack-based)
 
-Feel free to modify or expand upon this documentation to suit your project’s specifics and additional features.
+### Optimizer
+- Single-pass peephole optimization
+- Pattern matching for redundant instructions
+- Algebraic simplification
+- Constant folding
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Author
+
+**Romel**
+Department of Computer Science and Engineering
+Bangladesh University of Engineering and Technology
+
+## Acknowledgments
+
+Built with Flex and Bison, leveraging decades of compiler construction research and best practices.

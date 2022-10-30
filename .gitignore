@@ -1,0 +1,42 @@
+# Compiler build artifacts
+*.o
+*.out
+a.out
+compiler
+lex.yy.c
+y.tab.c
+y.tab.h
+y.output
+
+# Generated output files
+log.txt
+error.txt
+code.asm
+optimized.asm
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+.DS_Store
+
+# Build directories
+build/
+bin/
+obj/
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Docker volumes
+.dockerignore
