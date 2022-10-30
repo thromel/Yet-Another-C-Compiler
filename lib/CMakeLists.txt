@@ -11,6 +11,7 @@ target_include_directories(YACBasic PUBLIC
 # AST library
 add_library(YACAST
   AST/AST.cpp
+  AST/ASTVisitor.cpp
 )
 target_include_directories(YACAST PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/../include

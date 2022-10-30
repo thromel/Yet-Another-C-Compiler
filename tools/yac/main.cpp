@@ -1,4 +1,5 @@
 #include "yac/AST/AST.h"
+#include "yac/AST/ASTVisitor.h"
 #include "yac/Basic/Diagnostic.h"
 #include "yac/Type/Type.h"
 #include <iostream>
@@ -85,9 +86,20 @@ int main(int argc, char* argv[]) {
   SourceLocation Loc(1, 1, inputFile.c_str());
   Diag.note(Loc, "Compilation system initialized successfully");
 
-  // Create a simple AST node to verify everything links
-  auto IntLit = std::make_unique<IntegerLiteral>(SourceRange(Loc), 42);
-  IntLit->setType(TyCtx.getIntType());
+  // Demonstrate AST visitor with a simple example
+  std::cout << "\n--- Demonstrating AST Infrastructure ---\n";
+
+  // Build a simple AST: int x = 42;
+  auto* IntTy = TyCtx.getIntType();
+  auto Init = std::make_unique<IntegerLiteral>(SourceRange(Loc), 42);
+  Init->setType(IntTy);
+
+  VarDecl VarX(SourceRange(Loc), "x", IntTy, std::move(Init));
+
+  // Print the AST
+  std::cout << "\nSample AST (int x = 42;):\n";
+  ASTPrinter Printer(std::cout);
+  Printer.visitVarDecl(&VarX);
 
   std::cout << "\nNext steps:\n";
   std::cout << "  1. Integrate Flex/Bison parser\n";
