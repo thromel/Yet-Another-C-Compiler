@@ -3,6 +3,7 @@
 #include "yac/Basic/Diagnostic.h"
 #include "yac/Parse/Lexer.h"
 #include "yac/Parse/Parser.h"
+#include "yac/Sema/Sema.h"
 #include "yac/Type/Type.h"
 #include <iostream>
 #include <fstream>
@@ -112,6 +113,20 @@ int main(int argc, char* argv[]) {
 
   std::cout << "✓ Parsing successful!\n";
 
+  std::cout << "\n--- Semantic Analysis ---\n";
+
+  // Semantic analysis (type checking, symbol resolution)
+  Sema SemanticAnalyzer(Diag, TyCtx);
+  SemanticAnalyzer.analyze(AST.get());
+
+  if (Diag.hasErrors()) {
+    std::cerr << "\nSemantic analysis failed:\n";
+    Diag.printAll(std::cerr);
+    return 1;
+  }
+
+  std::cout << "✓ Semantic analysis successful!\n";
+
   // Print AST if requested
   if (dumpAST || true) { // Always dump for now
     std::cout << "\n--- Abstract Syntax Tree ---\n";
@@ -122,6 +137,7 @@ int main(int argc, char* argv[]) {
   std::cout << "\n--- Compilation Summary ---\n";
   std::cout << "✓ Lexical analysis: OK\n";
   std::cout << "✓ Syntax analysis: OK\n";
+  std::cout << "✓ Semantic analysis: OK\n";
   std::cout << "  - Declarations: " << AST->size() << "\n";
 
   if (Diag.getWarningCount() > 0) {
@@ -130,9 +146,8 @@ int main(int argc, char* argv[]) {
   }
 
   std::cout << "\nNext steps:\n";
-  std::cout << "  1. Semantic analysis (type checking)\n";
-  std::cout << "  2. Code generation (LLVM or 8086)\n";
-  std::cout << "  3. Optimization passes\n";
+  std::cout << "  1. Code generation (LLVM or 8086)\n";
+  std::cout << "  2. Optimization passes\n";
 
   return 0;
 }

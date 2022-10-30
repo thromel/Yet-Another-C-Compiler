@@ -41,6 +41,20 @@ target_link_libraries(YACParse PUBLIC
   YACType
 )
 
+# Sema library (semantic analysis)
+add_library(YACSema
+  Sema/SymbolTable.cpp
+  Sema/Sema.cpp
+)
+target_include_directories(YACSema PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/../include
+)
+target_link_libraries(YACSema PUBLIC
+  YACBasic
+  YACAST
+  YACType
+)
+
 # Combined library for convenience
 add_library(YACLib
   INTERFACE
@@ -50,4 +64,5 @@ target_link_libraries(YACLib INTERFACE
   YACAST
   YACType
   YACParse
+  YACSema
 )
