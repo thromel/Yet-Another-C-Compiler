@@ -1,6 +1,8 @@
 #include "yac/AST/AST.h"
 #include "yac/AST/ASTVisitor.h"
 #include "yac/Basic/Diagnostic.h"
+#include "yac/CodeGen/IR.h"
+#include "yac/CodeGen/IRBuilder.h"
 #include "yac/Parse/Lexer.h"
 #include "yac/Parse/Parser.h"
 #include "yac/Sema/Sema.h"
@@ -127,8 +129,20 @@ int main(int argc, char* argv[]) {
 
   std::cout << "✓ Semantic analysis successful!\n";
 
+  std::cout << "\n--- IR Generation ---\n";
+
+  // Generate IR
+  IRBuilder Builder(TyCtx);
+  std::unique_ptr<IRModule> IR = Builder.generateIR(AST.get());
+
+  std::cout << "✓ IR generation successful!\n";
+
+  // Print IR
+  std::cout << "\n--- Intermediate Representation ---\n";
+  IR->print();
+
   // Print AST if requested
-  if (dumpAST || true) { // Always dump for now
+  if (dumpAST) {
     std::cout << "\n--- Abstract Syntax Tree ---\n";
     ASTPrinter Printer(std::cout);
     Printer.visitTranslationUnit(AST.get());
@@ -138,7 +152,9 @@ int main(int argc, char* argv[]) {
   std::cout << "✓ Lexical analysis: OK\n";
   std::cout << "✓ Syntax analysis: OK\n";
   std::cout << "✓ Semantic analysis: OK\n";
+  std::cout << "✓ IR generation: OK\n";
   std::cout << "  - Declarations: " << AST->size() << "\n";
+  std::cout << "  - Functions: " << IR->getFunctions().size() << "\n";
 
   if (Diag.getWarningCount() > 0) {
     std::cout << "⚠ Warnings: " << Diag.getWarningCount() << "\n";
@@ -146,7 +162,7 @@ int main(int argc, char* argv[]) {
   }
 
   std::cout << "\nNext steps:\n";
-  std::cout << "  1. Code generation (LLVM or 8086)\n";
+  std::cout << "  1. Assembly code generation\n";
   std::cout << "  2. Optimization passes\n";
 
   return 0;
