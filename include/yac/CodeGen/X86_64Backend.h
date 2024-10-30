@@ -31,10 +31,11 @@ private:
   int StackOffset = 0;                         // Current stack offset
   std::map<std::string, IRBasicBlock*> LabelToBlock;  // Maps label names to blocks
 
-  // Available registers (simplified - no register allocation yet)
+  // Available registers (caller-saved only to avoid ABI violations)
+  // Callee-saved registers (rbx, r12-r15) excluded - would need to be saved/restored
   std::vector<std::string> AvailableRegs = {
-    "rax", "rbx", "rcx", "rdx", "rsi", "rdi",
-    "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"
+    "rax", "rcx", "rdx", "rsi", "rdi",
+    "r8", "r9", "r10", "r11"
   };
 
   // Instruction generation
