@@ -165,29 +165,48 @@ void IRBuilder::visitIfStmt(IfStmt* S) {
   IRValue* ElseLabel = S->hasElse() ? createLabel("else") : createLabel("endif");
   IRValue* EndLabel = createLabel("endif");
 
+  // Save current block for CFG edge building
+  IRBasicBlock* CondBlock = CurrentBlock;
+
+  // Then block
+  IRBasicBlock* ThenBlock = CurrentFunc->createBlock(ThenLabel->getName());
+
+  // Else/End block
+  IRBasicBlock* ElseBlock = S->hasElse()
+    ? CurrentFunc->createBlock(ElseLabel->getName())
+    : nullptr;
+
+  IRBasicBlock* EndBlock = CurrentFunc->createBlock(EndLabel->getName());
+
   // Conditional branch
   if (S->hasElse()) {
     emit<IRCondBrInst>(Cond, ThenLabel, ElseLabel);
+    CondBlock->addSuccessor(ThenBlock);
+    CondBlock->addSuccessor(ElseBlock);
   } else {
     emit<IRCondBrInst>(Cond, ThenLabel, EndLabel);
+    CondBlock->addSuccessor(ThenBlock);
+    CondBlock->addSuccessor(EndBlock);
   }
 
-  // Then block
-  CurrentBlock = CurrentFunc->createBlock(ThenLabel->getName());
+  // Generate then block
+  CurrentBlock = ThenBlock;
   emit<IRLabelInst>(ThenLabel);
   visit(S->getThen());
   emit<IRBrInst>(EndLabel);
+  ThenBlock->addSuccessor(EndBlock);
 
   // Else block (if present)
   if (S->hasElse()) {
-    CurrentBlock = CurrentFunc->createBlock(ElseLabel->getName());
+    CurrentBlock = ElseBlock;
     emit<IRLabelInst>(ElseLabel);
     visit(S->getElse());
     emit<IRBrInst>(EndLabel);
+    ElseBlock->addSuccessor(EndBlock);
   }
 
   // End block
-  CurrentBlock = CurrentFunc->createBlock(EndLabel->getName());
+  CurrentBlock = EndBlock;
   emit<IRLabelInst>(EndLabel);
 }
 
@@ -196,24 +215,36 @@ void IRBuilder::visitWhileStmt(WhileStmt* S) {
   IRValue* BodyLabel = createLabel("while_body");
   IRValue* EndLabel = createLabel("while_end");
 
+  // Save entry block
+  IRBasicBlock* EntryBlock = CurrentBlock;
+
+  // Create blocks
+  IRBasicBlock* CondBlock = CurrentFunc->createBlock(CondLabel->getName());
+  IRBasicBlock* BodyBlock = CurrentFunc->createBlock(BodyLabel->getName());
+  IRBasicBlock* EndBlock = CurrentFunc->createBlock(EndLabel->getName());
+
   // Branch to condition
   emit<IRBrInst>(CondLabel);
+  EntryBlock->addSuccessor(CondBlock);
 
   // Condition block
-  CurrentBlock = CurrentFunc->createBlock(CondLabel->getName());
+  CurrentBlock = CondBlock;
   emit<IRLabelInst>(CondLabel);
   visit(S->getCondition());
   IRValue* Cond = LastExprValue;
   emit<IRCondBrInst>(Cond, BodyLabel, EndLabel);
+  CondBlock->addSuccessor(BodyBlock);
+  CondBlock->addSuccessor(EndBlock);
 
   // Body block
-  CurrentBlock = CurrentFunc->createBlock(BodyLabel->getName());
+  CurrentBlock = BodyBlock;
   emit<IRLabelInst>(BodyLabel);
   visit(S->getBody());
   emit<IRBrInst>(CondLabel);
+  BodyBlock->addSuccessor(CondBlock);
 
   // End block
-  CurrentBlock = CurrentFunc->createBlock(EndLabel->getName());
+  CurrentBlock = EndBlock;
   emit<IRLabelInst>(EndLabel);
 }
 
@@ -228,36 +259,51 @@ void IRBuilder::visitForStmt(ForStmt* S) {
   IRValue* IncLabel = createLabel("for_inc");
   IRValue* EndLabel = createLabel("for_end");
 
+  // Save entry block
+  IRBasicBlock* EntryBlock = CurrentBlock;
+
+  // Create blocks
+  IRBasicBlock* CondBlock = CurrentFunc->createBlock(CondLabel->getName());
+  IRBasicBlock* BodyBlock = CurrentFunc->createBlock(BodyLabel->getName());
+  IRBasicBlock* IncBlock = CurrentFunc->createBlock(IncLabel->getName());
+  IRBasicBlock* EndBlock = CurrentFunc->createBlock(EndLabel->getName());
+
   // Branch to condition
   emit<IRBrInst>(CondLabel);
+  EntryBlock->addSuccessor(CondBlock);
 
   // Condition block
-  CurrentBlock = CurrentFunc->createBlock(CondLabel->getName());
+  CurrentBlock = CondBlock;
   emit<IRLabelInst>(CondLabel);
   if (S->getCondition()) {
     visit(S->getCondition());
     IRValue* Cond = LastExprValue;
     emit<IRCondBrInst>(Cond, BodyLabel, EndLabel);
+    CondBlock->addSuccessor(BodyBlock);
+    CondBlock->addSuccessor(EndBlock);
   } else {
     emit<IRBrInst>(BodyLabel);
+    CondBlock->addSuccessor(BodyBlock);
   }
 
   // Body block
-  CurrentBlock = CurrentFunc->createBlock(BodyLabel->getName());
+  CurrentBlock = BodyBlock;
   emit<IRLabelInst>(BodyLabel);
   visit(S->getBody());
   emit<IRBrInst>(IncLabel);
+  BodyBlock->addSuccessor(IncBlock);
 
   // Increment block
-  CurrentBlock = CurrentFunc->createBlock(IncLabel->getName());
+  CurrentBlock = IncBlock;
   emit<IRLabelInst>(IncLabel);
   if (S->getIncrement()) {
     visit(S->getIncrement());
   }
   emit<IRBrInst>(CondLabel);
+  IncBlock->addSuccessor(CondBlock);
 
   // End block
-  CurrentBlock = CurrentFunc->createBlock(EndLabel->getName());
+  CurrentBlock = EndBlock;
   emit<IRLabelInst>(EndLabel);
 }
 
@@ -266,24 +312,36 @@ void IRBuilder::visitDoStmt(DoStmt* S) {
   IRValue* CondLabel = createLabel("do_cond");
   IRValue* EndLabel = createLabel("do_end");
 
+  // Save entry block
+  IRBasicBlock* EntryBlock = CurrentBlock;
+
+  // Create blocks
+  IRBasicBlock* BodyBlock = CurrentFunc->createBlock(BodyLabel->getName());
+  IRBasicBlock* CondBlock = CurrentFunc->createBlock(CondLabel->getName());
+  IRBasicBlock* EndBlock = CurrentFunc->createBlock(EndLabel->getName());
+
   // Branch to body
   emit<IRBrInst>(BodyLabel);
+  EntryBlock->addSuccessor(BodyBlock);
 
   // Body block
-  CurrentBlock = CurrentFunc->createBlock(BodyLabel->getName());
+  CurrentBlock = BodyBlock;
   emit<IRLabelInst>(BodyLabel);
   visit(S->getBody());
   emit<IRBrInst>(CondLabel);
+  BodyBlock->addSuccessor(CondBlock);
 
   // Condition block
-  CurrentBlock = CurrentFunc->createBlock(CondLabel->getName());
+  CurrentBlock = CondBlock;
   emit<IRLabelInst>(CondLabel);
   visit(S->getCondition());
   IRValue* Cond = LastExprValue;
   emit<IRCondBrInst>(Cond, BodyLabel, EndLabel);
+  CondBlock->addSuccessor(BodyBlock);
+  CondBlock->addSuccessor(EndBlock);
 
   // End block
-  CurrentBlock = CurrentFunc->createBlock(EndLabel->getName());
+  CurrentBlock = EndBlock;
   emit<IRLabelInst>(EndLabel);
 }
 
@@ -355,6 +413,13 @@ void IRBuilder::visitBinaryOperator(BinaryOperator* E) {
     IRValue* RHSLabel = createLabel("logical_rhs");
     IRValue* EndLabel = createLabel("logical_end");
 
+    // Save LHS block
+    IRBasicBlock* LHSBlock = CurrentBlock;
+
+    // Create blocks
+    IRBasicBlock* RHSBlock = CurrentFunc->createBlock(RHSLabel->getName());
+    IRBasicBlock* EndBlock = CurrentFunc->createBlock(EndLabel->getName());
+
     // Evaluate LHS
     visit(E->getLHS());
     IRValue* LHS = LastExprValue;
@@ -364,28 +429,31 @@ void IRBuilder::visitBinaryOperator(BinaryOperator* E) {
       IRValue* Zero = CurrentFunc->createConstant(0);
       emit<IRMoveInst>(Result, Zero);
       emit<IRCondBrInst>(LHS, RHSLabel, EndLabel);
+      LHSBlock->addSuccessor(RHSBlock);
+      LHSBlock->addSuccessor(EndBlock);
     } else {
       // OR: if LHS is true, result is 1, else evaluate RHS
       IRValue* One = CurrentFunc->createConstant(1);
       emit<IRMoveInst>(Result, One);
-      IRValue* RHSLabelVal = RHSLabel;
-      IRValue* EndLabelVal = EndLabel;
       // Create temp for inverted condition
       IRValue* NotLHS = createTemp(TyCtx.getIntType());
       emit<IRUnaryInst>(IRInstruction::Not, NotLHS, LHS);
-      emit<IRCondBrInst>(NotLHS, RHSLabelVal, EndLabelVal);
+      emit<IRCondBrInst>(NotLHS, RHSLabel, EndLabel);
+      LHSBlock->addSuccessor(RHSBlock);
+      LHSBlock->addSuccessor(EndBlock);
     }
 
     // RHS block
-    CurrentBlock = CurrentFunc->createBlock(RHSLabel->getName());
+    CurrentBlock = RHSBlock;
     emit<IRLabelInst>(RHSLabel);
     visit(E->getRHS());
     IRValue* RHS = LastExprValue;
     emit<IRMoveInst>(Result, RHS);
     emit<IRBrInst>(EndLabel);
+    RHSBlock->addSuccessor(EndBlock);
 
     // End block
-    CurrentBlock = CurrentFunc->createBlock(EndLabel->getName());
+    CurrentBlock = EndBlock;
     emit<IRLabelInst>(EndLabel);
 
     LastExprValue = Result;
