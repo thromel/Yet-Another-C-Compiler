@@ -25,6 +25,8 @@ log.txt
 error.txt
 code.asm
 optimized.asm
+*.ir
+*.s
 
 # Temporary files
 *.tmp
