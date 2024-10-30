@@ -260,4 +260,93 @@ void Liveness::run(IRFunction* F) {
   }
 }
 
+// ===----------------------------------------------------------------------===
+// LoopInfo Analysis
+// ===----------------------------------------------------------------------===
+
+void LoopInfo::run(IRFunction* F) {
+  TopLevelLoops.clear();
+  BlockToLoop.clear();
+
+  // Need dominator tree to identify back-edges
+  DominatorTree DT;
+  DT.run(F);
+
+  identifyLoops(F, &DT);
+}
+
+void LoopInfo::identifyLoops(IRFunction* F, DominatorTree* DT) {
+  // Find all back-edges (edges where target dominates source)
+  std::map<IRBasicBlock*, std::set<IRBasicBlock*>> BackEdges;
+
+  for (const auto& BB : F->getBlocks()) {
+    for (IRBasicBlock* Succ : BB->getSuccessors()) {
+      // Check if Succ dominates BB (back-edge)
+      if (DT->dominates(Succ, BB.get())) {
+        BackEdges[Succ].insert(BB.get());
+      }
+    }
+  }
+
+  // For each back-edge target (loop header), create a loop
+  for (const auto& Entry : BackEdges) {
+    IRBasicBlock* Header = Entry.first;
+    const std::set<IRBasicBlock*>& Sources = Entry.second;
+
+    Loop* L = createLoop(Header);
+
+    // Add header to loop
+    L->addBlock(Header);
+
+    // Add all blocks that can reach a back-edge source without going through header
+    for (IRBasicBlock* Source : Sources) {
+      L->addLatch(Source);
+      populateLoop(L, Source, Sources);
+    }
+
+    // Try to identify/create preheader
+    // A preheader is a single predecessor of the header that's outside the loop
+    std::vector<IRBasicBlock*> OutsidePreds;
+    for (IRBasicBlock* Pred : Header->getPredecessors()) {
+      if (!L->contains(Pred)) {
+        OutsidePreds.push_back(Pred);
+      }
+    }
+
+    if (OutsidePreds.size() == 1) {
+      L->setPreheader(OutsidePreds[0]);
+    }
+  }
+}
+
+Loop* LoopInfo::createLoop(IRBasicBlock* Header) {
+  auto L = std::make_unique<Loop>(Header);
+  Loop* LPtr = L.get();
+
+  TopLevelLoops.push_back(std::move(L));
+  BlockToLoop[Header] = LPtr;
+
+  return LPtr;
+}
+
+void LoopInfo::populateLoop(Loop* L, IRBasicBlock* BB,
+                             const std::set<IRBasicBlock*>& BackEdgeSources) {
+  // Add BB and all blocks that can reach it without going through the header
+  if (BB == L->getHeader()) {
+    return;  // Don't go past header
+  }
+
+  if (L->contains(BB)) {
+    return;  // Already added
+  }
+
+  L->addBlock(BB);
+  BlockToLoop[BB] = L;
+
+  // Recursively add predecessors
+  for (IRBasicBlock* Pred : BB->getPredecessors()) {
+    populateLoop(L, Pred, BackEdgeSources);
+  }
+}
+
 } // namespace yac

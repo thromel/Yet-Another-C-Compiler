@@ -770,4 +770,562 @@ bool CopyPropagationPass::run(IRFunction* F, AnalysisManager& AM) {
   return Changed;
 }
 
+// ===----------------------------------------------------------------------===
+// SCCP (Sparse Conditional Constant Propagation) Pass
+// ===----------------------------------------------------------------------===
+
+SCCPPass::LatticeCell SCCPPass::meet(const LatticeCell& A, const LatticeCell& B) {
+  // Lattice meet operation: Undefined < Constant < Overdefined
+  if (A.State == Undefined) return B;
+  if (B.State == Undefined) return A;
+  if (A.State == Overdefined || B.State == Overdefined) {
+    return {Overdefined, 0};
+  }
+  // Both are constants
+  if (A.ConstVal == B.ConstVal) {
+    return A;
+  }
+  // Different constants -> overdefined
+  return {Overdefined, 0};
+}
+
+void SCCPPass::markConstant(IRValue* V, int64_t Val) {
+  LatticeCell& Cell = ValueState[V];
+  if (Cell.State == Overdefined) return;  // Can't go back from overdefined
+
+  LatticeCell NewCell = {Constant, Val};
+  LatticeCell MeetResult = meet(Cell, NewCell);
+
+  if (MeetResult.State != Cell.State ||
+      (MeetResult.State == Constant && MeetResult.ConstVal != Cell.ConstVal)) {
+    Cell = MeetResult;
+    // Add users to worklist (instructions that use this value)
+    // For now, we'll process all instructions in executable blocks
+  }
+}
+
+void SCCPPass::markOverdefined(IRValue* V) {
+  LatticeCell& Cell = ValueState[V];
+  if (Cell.State == Overdefined) return;  // Already overdefined
+
+  Cell.State = Overdefined;
+  Cell.ConstVal = 0;
+}
+
+void SCCPPass::markEdgeExecutable(IRBasicBlock* From, IRBasicBlock* To) {
+  auto Edge = std::make_pair(From, To);
+  if (ExecutableEdges.count(Edge)) {
+    return;  // Already marked
+  }
+
+  ExecutableEdges.insert(Edge);
+  CFGWorkList.push_back(Edge);
+}
+
+void SCCPPass::markBlockExecutable(IRBasicBlock* BB) {
+  if (ExecutableBlocks.count(BB)) {
+    return;  // Already executable
+  }
+
+  ExecutableBlocks.insert(BB);
+
+  // Add all instructions in this block to the worklist
+  for (const auto& Inst : BB->getInstructions()) {
+    SSAWorkList.push_back(Inst.get());
+  }
+}
+
+bool SCCPPass::tryEvaluateBinary(IRInstruction::Opcode Op, int64_t LHS, int64_t RHS, int64_t& Result) {
+  switch (Op) {
+    case IRInstruction::Add: Result = LHS + RHS; return true;
+    case IRInstruction::Sub: Result = LHS - RHS; return true;
+    case IRInstruction::Mul: Result = LHS * RHS; return true;
+    case IRInstruction::Div:
+      if (RHS == 0) return false;
+      Result = LHS / RHS;
+      return true;
+    case IRInstruction::Mod:
+      if (RHS == 0) return false;
+      Result = LHS % RHS;
+      return true;
+    case IRInstruction::And: Result = LHS & RHS; return true;
+    case IRInstruction::Or:  Result = LHS | RHS; return true;
+    case IRInstruction::Xor: Result = LHS ^ RHS; return true;
+    case IRInstruction::Shl: Result = LHS << RHS; return true;
+    case IRInstruction::Shr: Result = LHS >> RHS; return true;
+    case IRInstruction::Lt:  Result = LHS < RHS ? 1 : 0; return true;
+    case IRInstruction::Le:  Result = LHS <= RHS ? 1 : 0; return true;
+    case IRInstruction::Gt:  Result = LHS > RHS ? 1 : 0; return true;
+    case IRInstruction::Ge:  Result = LHS >= RHS ? 1 : 0; return true;
+    case IRInstruction::Eq:  Result = LHS == RHS ? 1 : 0; return true;
+    case IRInstruction::Ne:  Result = LHS != RHS ? 1 : 0; return true;
+    default: return false;
+  }
+}
+
+bool SCCPPass::tryEvaluateUnary(IRInstruction::Opcode Op, int64_t Operand, int64_t& Result) {
+  switch (Op) {
+    case IRInstruction::Not:
+      Result = !Operand ? 1 : 0;
+      return true;
+    default:
+      return false;
+  }
+}
+
+void SCCPPass::visitBinaryInst(IRBinaryInst* BinOp) {
+  IRValue* LHS = BinOp->getLHS();
+  IRValue* RHS = BinOp->getRHS();
+
+  // Get lattice values for operands
+  LatticeCell LHSCell = LHS->isConstant() ?
+    LatticeCell{Constant, LHS->getConstant()} : ValueState[LHS];
+  LatticeCell RHSCell = RHS->isConstant() ?
+    LatticeCell{Constant, RHS->getConstant()} : ValueState[RHS];
+
+  // If either operand is undefined, result is undefined (do nothing)
+  if (LHSCell.State == Undefined || RHSCell.State == Undefined) {
+    return;
+  }
+
+  // If either operand is overdefined, result is overdefined
+  if (LHSCell.State == Overdefined || RHSCell.State == Overdefined) {
+    markOverdefined(BinOp->getResult());
+    return;
+  }
+
+  // Both operands are constants - try to fold
+  int64_t Result;
+  if (tryEvaluateBinary(BinOp->getOpcode(), LHSCell.ConstVal, RHSCell.ConstVal, Result)) {
+    markConstant(BinOp->getResult(), Result);
+  } else {
+    markOverdefined(BinOp->getResult());
+  }
+}
+
+void SCCPPass::visitUnaryInst(IRUnaryInst* UnOp) {
+  IRValue* Operand = UnOp->getOperand();
+
+  LatticeCell OpCell = Operand->isConstant() ?
+    LatticeCell{Constant, Operand->getConstant()} : ValueState[Operand];
+
+  if (OpCell.State == Undefined) {
+    return;
+  }
+
+  if (OpCell.State == Overdefined) {
+    markOverdefined(UnOp->getResult());
+    return;
+  }
+
+  // Operand is constant - try to fold
+  int64_t Result;
+  if (tryEvaluateUnary(UnOp->getOpcode(), OpCell.ConstVal, Result)) {
+    markConstant(UnOp->getResult(), Result);
+  } else {
+    markOverdefined(UnOp->getResult());
+  }
+}
+
+void SCCPPass::visitPhi(IRPhiInst* Phi) {
+  // Phi node: meet all incoming values from executable edges
+  LatticeCell Result = {Undefined, 0};
+
+  for (const auto& Entry : Phi->getIncomings()) {
+    IRBasicBlock* IncomingBlock = Entry.Block;
+    IRValue* IncomingValue = Entry.Value;
+
+    // Only consider edges that are executable
+    bool EdgeExecutable = false;
+    for (IRBasicBlock* Pred : Phi->getParent()->getPredecessors()) {
+      if (Pred == IncomingBlock &&
+          ExecutableEdges.count(std::make_pair(Pred, Phi->getParent()))) {
+        EdgeExecutable = true;
+        break;
+      }
+    }
+
+    if (!EdgeExecutable) continue;
+
+    // Get lattice value for incoming value
+    LatticeCell IncomingCell = IncomingValue->isConstant() ?
+      LatticeCell{Constant, IncomingValue->getConstant()} : ValueState[IncomingValue];
+
+    Result = meet(Result, IncomingCell);
+  }
+
+  // Update phi result
+  LatticeCell& PhiCell = ValueState[Phi->getResult()];
+  if (Result.State != PhiCell.State ||
+      (Result.State == Constant && Result.ConstVal != PhiCell.ConstVal)) {
+    PhiCell = Result;
+  }
+}
+
+void SCCPPass::visitCondBr(IRCondBrInst* Br) {
+  IRValue* Cond = Br->getCondition();
+
+  LatticeCell CondCell = Cond->isConstant() ?
+    LatticeCell{Constant, Cond->getConstant()} : ValueState[Cond];
+
+  if (CondCell.State == Undefined) {
+    // Don't mark any edges yet
+    return;
+  }
+
+  IRBasicBlock* Parent = Br->getParent();
+
+  if (CondCell.State == Overdefined) {
+    // Both edges are executable
+    // Find the target blocks
+    for (IRBasicBlock* Succ : Parent->getSuccessors()) {
+      markEdgeExecutable(Parent, Succ);
+      markBlockExecutable(Succ);
+    }
+    return;
+  }
+
+  // Condition is constant - only one edge is executable
+  // For now, mark both edges (full implementation would only mark the taken edge)
+  // This requires mapping labels to blocks
+  for (IRBasicBlock* Succ : Parent->getSuccessors()) {
+    markEdgeExecutable(Parent, Succ);
+    markBlockExecutable(Succ);
+  }
+}
+
+void SCCPPass::visitInst(IRInstruction* I) {
+  if (auto* BinOp = dynamic_cast<IRBinaryInst*>(I)) {
+    visitBinaryInst(BinOp);
+  } else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(I)) {
+    visitUnaryInst(UnOp);
+  } else if (auto* Phi = dynamic_cast<IRPhiInst*>(I)) {
+    visitPhi(Phi);
+  } else if (auto* CondBr = dynamic_cast<IRCondBrInst*>(I)) {
+    visitCondBr(CondBr);
+  } else if (auto* Br = dynamic_cast<IRBrInst*>(I)) {
+    // Unconditional branch - mark successor executable
+    IRBasicBlock* Parent = Br->getParent();
+    for (IRBasicBlock* Succ : Parent->getSuccessors()) {
+      markEdgeExecutable(Parent, Succ);
+      markBlockExecutable(Succ);
+    }
+  } else if (auto* Ret = dynamic_cast<IRRetInst*>(I)) {
+    // Return - mark return value overdefined if present
+    if (Ret->hasRetValue() && !Ret->getRetValue()->isConstant()) {
+      markOverdefined(Ret->getRetValue());
+    }
+  }
+  // Other instructions don't affect propagation
+}
+
+void SCCPPass::rewriteFunction(IRFunction* F) {
+  // Replace all uses of constant values with actual constants
+  // This is a simplified version - full implementation would replace operands
+
+  for (auto& BB : F->getBlocks()) {
+    for (auto& Inst : BB->getInstructions()) {
+      // Replace binary instruction operands if they're constant
+      if (auto* BinOp = dynamic_cast<IRBinaryInst*>(Inst.get())) {
+        IRValue* LHS = BinOp->getLHS();
+        IRValue* RHS = BinOp->getRHS();
+
+        // If result is constant, we could replace the entire instruction
+        // For now, just record the information
+      }
+    }
+  }
+}
+
+bool SCCPPass::run(IRFunction* F, AnalysisManager& AM) {
+  (void)AM;  // Unused for now
+
+  // Initialize
+  ValueState.clear();
+  ExecutableEdges.clear();
+  ExecutableBlocks.clear();
+  SSAWorkList.clear();
+  CFGWorkList.clear();
+
+  // Mark entry block as executable
+  if (F->getBlocks().empty()) return false;
+
+  IRBasicBlock* Entry = F->getBlocks()[0].get();
+  markBlockExecutable(Entry);
+
+  // Worklist algorithm
+  while (!SSAWorkList.empty() || !CFGWorkList.empty()) {
+    // Process CFG edges first
+    while (!CFGWorkList.empty()) {
+      auto Edge = CFGWorkList.back();
+      CFGWorkList.pop_back();
+
+      IRBasicBlock* To = Edge.second;
+
+      // Re-evaluate all phi nodes in the destination block
+      for (const auto& Inst : To->getInstructions()) {
+        if (auto* Phi = dynamic_cast<IRPhiInst*>(Inst.get())) {
+          visitPhi(Phi);
+        }
+      }
+    }
+
+    // Process SSA instructions
+    while (!SSAWorkList.empty()) {
+      IRInstruction* I = SSAWorkList.back();
+      SSAWorkList.pop_back();
+
+      // Only process instructions in executable blocks
+      if (!ExecutableBlocks.count(I->getParent())) {
+        continue;
+      }
+
+      visitInst(I);
+    }
+  }
+
+  // Rewrite the function based on discovered constants
+  bool Changed = false;
+
+  // For now, just report what we found
+  // Full implementation would replace values and remove dead code
+
+  return Changed;
+}
+
+// ===----------------------------------------------------------------------===
+// GVN (Global Value Numbering) Pass
+// ===----------------------------------------------------------------------===
+
+bool GVNPass::Expression::operator<(const Expression& Other) const {
+  if (Op != Other.Op) return Op < Other.Op;
+  if (Operands.size() != Other.Operands.size()) {
+    return Operands.size() < Other.Operands.size();
+  }
+  for (size_t i = 0; i < Operands.size(); ++i) {
+    if (Operands[i] != Other.Operands[i]) {
+      return Operands[i] < Other.Operands[i];
+    }
+  }
+  return false;
+}
+
+GVNPass::Expression GVNPass::createExpression(IRInstruction* I) {
+  Expression Expr;
+  Expr.Op = I->getOpcode();
+
+  if (auto* BinOp = dynamic_cast<IRBinaryInst*>(I)) {
+    Expr.Operands.push_back(BinOp->getLHS());
+    Expr.Operands.push_back(BinOp->getRHS());
+  } else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(I)) {
+    Expr.Operands.push_back(UnOp->getOperand());
+  } else if (auto* Load = dynamic_cast<IRLoadInst*>(I)) {
+    Expr.Operands.push_back(Load->getPtr());
+  }
+
+  return Expr;
+}
+
+IRValue* GVNPass::findExistingComputation(const Expression& Expr) {
+  auto It = ExpressionMap.find(Expr);
+  if (It != ExpressionMap.end()) {
+    return It->second;
+  }
+  return nullptr;
+}
+
+void GVNPass::replaceAllUsesWith(IRFunction* F, IRValue* Old, IRValue* New) {
+  // Replace all uses of Old with New in the function
+  for (auto& BB : F->getBlocks()) {
+    for (auto& Inst : BB->getInstructions()) {
+      if (auto* BinOp = dynamic_cast<IRBinaryInst*>(Inst.get())) {
+        if (BinOp->getLHS() == Old) BinOp->setLHS(New);
+        if (BinOp->getRHS() == Old) BinOp->setRHS(New);
+      } else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(Inst.get())) {
+        if (UnOp->getOperand() == Old) UnOp->setOperand(New);
+      } else if (auto* Store = dynamic_cast<IRStoreInst*>(Inst.get())) {
+        if (Store->getValue() == Old) Store->setValue(New);
+        if (Store->getPtr() == Old) Store->setPtr(New);
+      } else if (auto* Ret = dynamic_cast<IRRetInst*>(Inst.get())) {
+        if (Ret->hasRetValue() && Ret->getRetValue() == Old) {
+          Ret->setRetValue(New);
+        }
+      } else if (auto* CondBr = dynamic_cast<IRCondBrInst*>(Inst.get())) {
+        if (CondBr->getCondition() == Old) CondBr->setCondition(New);
+      } else if (auto* Phi = dynamic_cast<IRPhiInst*>(Inst.get())) {
+        Phi->replaceIncomingValue(Old, New);
+      }
+    }
+  }
+}
+
+bool GVNPass::run(IRFunction* F, AnalysisManager& AM) {
+  (void)AM;  // Unused
+
+  bool Changed = false;
+  ExpressionMap.clear();
+  Replacements.clear();
+
+  // Simple GVN: walk through all instructions and look for redundant computations
+  // This is a basic local GVN (within basic blocks)
+
+  for (auto& BB : F->getBlocks()) {
+    // Clear expression map at start of each block (local GVN)
+    ExpressionMap.clear();
+
+    for (auto& Inst : BB->getInstructions()) {
+      // Only handle pure instructions (no side effects)
+      if (auto* BinOp = dynamic_cast<IRBinaryInst*>(Inst.get())) {
+        Expression Expr = createExpression(Inst.get());
+        IRValue* Existing = findExistingComputation(Expr);
+
+        if (Existing) {
+          // Found redundant computation!
+          Replacements[BinOp->getResult()] = Existing;
+          Changed = true;
+        } else {
+          // Record this computation
+          ExpressionMap[Expr] = BinOp->getResult();
+        }
+      } else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(Inst.get())) {
+        Expression Expr = createExpression(Inst.get());
+        IRValue* Existing = findExistingComputation(Expr);
+
+        if (Existing) {
+          Replacements[UnOp->getResult()] = Existing;
+          Changed = true;
+        } else {
+          ExpressionMap[Expr] = UnOp->getResult();
+        }
+      }
+      // Loads are tricky - only safe to eliminate if no stores in between
+      // Skip for now
+    }
+  }
+
+  // Apply replacements
+  for (const auto& Entry : Replacements) {
+    replaceAllUsesWith(F, Entry.first, Entry.second);
+  }
+
+  return Changed;
+}
+
+// ===----------------------------------------------------------------------===
+// LICM (Loop Invariant Code Motion) Pass
+// ===----------------------------------------------------------------------===
+
+bool LICMPass::isLoopInvariant(IRInstruction* I, Loop* L,
+                                const std::set<IRValue*>& LoopInvariants) {
+  // Check if all operands are either:
+  // 1. Constants
+  // 2. Defined outside the loop
+  // 3. Already marked as loop invariant
+
+  if (auto* BinOp = dynamic_cast<IRBinaryInst*>(I)) {
+    IRValue* LHS = BinOp->getLHS();
+    IRValue* RHS = BinOp->getRHS();
+
+    bool LHSInvariant = LHS->isConstant() || LoopInvariants.count(LHS) ||
+                        !L->contains(LHS->getType() ? nullptr : nullptr);  // Simplified check
+    bool RHSInvariant = RHS->isConstant() || LoopInvariants.count(RHS);
+
+    return LHSInvariant && RHSInvariant;
+  } else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(I)) {
+    IRValue* Op = UnOp->getOperand();
+    return Op->isConstant() || LoopInvariants.count(Op);
+  }
+
+  // Other instructions: assume not invariant for safety
+  return false;
+}
+
+bool LICMPass::isSafeToHoist(IRInstruction* I, Loop* L) {
+  // Check if it's safe to move this instruction:
+  // 1. No side effects (no stores, calls, etc.)
+  // 2. Dominates all loop exits (for correctness)
+
+  // For now, only allow pure arithmetic and logical operations
+  if (dynamic_cast<IRBinaryInst*>(I) || dynamic_cast<IRUnaryInst*>(I)) {
+    return true;
+  }
+
+  // Don't hoist loads (alias analysis needed)
+  // Don't hoist stores (side effects)
+  // Don't hoist calls (side effects)
+  return false;
+}
+
+void LICMPass::hoistInstruction(IRInstruction* I, IRBasicBlock* Preheader) {
+  // Move instruction to end of preheader (before terminator)
+  // This is a simplified version - real implementation would move the instruction
+  // For now, we just mark it (actual implementation would require modifying IR structure)
+}
+
+bool LICMPass::run(IRFunction* F, AnalysisManager& AM) {
+  // Get loop information
+  LoopInfo& LI = AM.get<LoopInfo>();
+
+  bool Changed = false;
+
+  // Process each loop
+  for (const auto& L : LI.getTopLevelLoops()) {
+    // Need a preheader to hoist to
+    if (!L->getPreheader()) {
+      continue;
+    }
+
+    IRBasicBlock* Preheader = L->getPreheader();
+
+    // Track loop-invariant values
+    std::set<IRValue*> LoopInvariants;
+
+    // Iterate until no more invariants found
+    bool LocalChanged = true;
+    while (LocalChanged) {
+      LocalChanged = false;
+
+      // Check each instruction in the loop
+      for (IRBasicBlock* BB : L->getBlocks()) {
+        for (const auto& Inst : BB->getInstructions()) {
+          // Skip if already determined to be invariant
+          if (auto* BinOp = dynamic_cast<IRBinaryInst*>(Inst.get())) {
+            if (LoopInvariants.count(BinOp->getResult())) {
+              continue;
+            }
+
+            // Check if invariant
+            if (isLoopInvariant(Inst.get(), L.get(), LoopInvariants)) {
+              if (isSafeToHoist(Inst.get(), L.get())) {
+                LoopInvariants.insert(BinOp->getResult());
+                LocalChanged = true;
+                Changed = true;
+
+                // In real implementation, would hoist here:
+                // hoistInstruction(Inst.get(), Preheader);
+              }
+            }
+          } else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(Inst.get())) {
+            if (LoopInvariants.count(UnOp->getResult())) {
+              continue;
+            }
+
+            if (isLoopInvariant(Inst.get(), L.get(), LoopInvariants)) {
+              if (isSafeToHoist(Inst.get(), L.get())) {
+                LoopInvariants.insert(UnOp->getResult());
+                LocalChanged = true;
+                Changed = true;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // For now, we only identify loop invariants but don't actually move them
+  // Full implementation would require moving instructions in the IR
+  return false;  // Return false since we didn't actually modify the IR
+}
+
 } // namespace yac

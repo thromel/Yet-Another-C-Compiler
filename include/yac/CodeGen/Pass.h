@@ -196,6 +196,92 @@ public:
   }
 };
 
+/// Loop - represents a natural loop in the CFG
+class Loop {
+public:
+  Loop(IRBasicBlock* Header) : Header(Header), ParentLoop(nullptr) {}
+
+  IRBasicBlock* getHeader() const { return Header; }
+  Loop* getParentLoop() const { return ParentLoop; }
+  void setParentLoop(Loop* P) { ParentLoop = P; }
+
+  // Blocks in the loop
+  void addBlock(IRBasicBlock* BB) { Blocks.insert(BB); }
+  bool contains(IRBasicBlock* BB) const { return Blocks.count(BB) > 0; }
+  const std::set<IRBasicBlock*>& getBlocks() const { return Blocks; }
+
+  // Sub-loops
+  void addSubLoop(Loop* SubLoop) { SubLoops.push_back(SubLoop); }
+  const std::vector<Loop*>& getSubLoops() const { return SubLoops; }
+
+  // Latches (blocks with back-edges to header)
+  void addLatch(IRBasicBlock* BB) { Latches.push_back(BB); }
+  const std::vector<IRBasicBlock*>& getLatches() const { return Latches; }
+
+  // Preheader (single predecessor outside loop)
+  void setPreheader(IRBasicBlock* BB) { Preheader = BB; }
+  IRBasicBlock* getPreheader() const { return Preheader; }
+
+  // Depth
+  unsigned getLoopDepth() const {
+    unsigned D = 1;
+    for (const Loop* P = ParentLoop; P; P = P->ParentLoop) {
+      ++D;
+    }
+    return D;
+  }
+
+private:
+  IRBasicBlock* Header;
+  IRBasicBlock* Preheader = nullptr;
+  Loop* ParentLoop;
+  std::set<IRBasicBlock*> Blocks;
+  std::vector<Loop*> SubLoops;
+  std::vector<IRBasicBlock*> Latches;
+};
+
+/// LoopInfo - identifies and analyzes loops in a function
+class LoopInfo : public Analysis {
+public:
+  std::string getName() const override { return "LoopInfo"; }
+
+  void run(IRFunction* F);
+
+  bool invalidate(IRFunction* F, unsigned Mask) override {
+    return (Mask & (Analysis::CFG | Analysis::Instructions)) != 0;
+  }
+
+  // Query loops
+  Loop* getLoopFor(IRBasicBlock* BB) const {
+    auto It = BlockToLoop.find(BB);
+    return It != BlockToLoop.end() ? It->second : nullptr;
+  }
+
+  const std::vector<std::unique_ptr<Loop>>& getTopLevelLoops() const {
+    return TopLevelLoops;
+  }
+
+  unsigned getLoopDepth(IRBasicBlock* BB) const {
+    Loop* L = getLoopFor(BB);
+    return L ? L->getLoopDepth() : 0;
+  }
+
+  // Helpers
+  bool isLoopHeader(IRBasicBlock* BB) const {
+    Loop* L = getLoopFor(BB);
+    return L && L->getHeader() == BB;
+  }
+
+private:
+  std::vector<std::unique_ptr<Loop>> TopLevelLoops;
+  std::map<IRBasicBlock*, Loop*> BlockToLoop;
+
+  // Analysis helpers
+  void identifyLoops(IRFunction* F, DominatorTree* DT);
+  Loop* createLoop(IRBasicBlock* Header);
+  void populateLoop(Loop* L, IRBasicBlock* BB, const std::set<IRBasicBlock*>& BackEdgeSources);
+};
+
 } // namespace yac
 
 #endif // YAC_CODEGEN_PASS_H

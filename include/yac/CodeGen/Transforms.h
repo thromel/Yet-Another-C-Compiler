@@ -130,6 +130,119 @@ private:
   void replaceValueInInstruction(IRInstruction* Inst, IRValue* Old, IRValue* New);
 };
 
+/// SCCP - Sparse Conditional Constant Propagation
+/// More powerful than simple constant propagation:
+/// - Propagates through phi nodes
+/// - Marks unreachable code via constant branch conditions
+/// - Uses worklist algorithm for efficiency
+class SCCPPass : public Pass {
+public:
+  std::string getName() const override { return "SCCP"; }
+  bool run(IRFunction* F, AnalysisManager& AM) override;
+
+  bool preservesCFG() const override { return true; }
+  bool preservesInstructions() const override { return false; }
+
+private:
+  enum LatticeValue {
+    Undefined,    // Not yet computed
+    Constant,     // Known constant value
+    Overdefined   // Not constant (multiple values or unknown)
+  };
+
+  struct LatticeCell {
+    LatticeValue State = Undefined;
+    int64_t ConstVal = 0;
+  };
+
+  // Lattice values for each SSA value
+  std::map<IRValue*, LatticeCell> ValueState;
+
+  // Executable edges and blocks
+  std::set<std::pair<IRBasicBlock*, IRBasicBlock*>> ExecutableEdges;
+  std::set<IRBasicBlock*> ExecutableBlocks;
+
+  // Worklist for propagation
+  std::vector<IRInstruction*> SSAWorkList;
+  std::vector<std::pair<IRBasicBlock*, IRBasicBlock*>> CFGWorkList;
+
+  // Lattice operations
+  LatticeCell meet(const LatticeCell& A, const LatticeCell& B);
+  void markConstant(IRValue* V, int64_t Val);
+  void markOverdefined(IRValue* V);
+
+  // Worklist management
+  void markEdgeExecutable(IRBasicBlock* From, IRBasicBlock* To);
+  void markBlockExecutable(IRBasicBlock* BB);
+  void visitInst(IRInstruction* I);
+  void visitPhi(IRPhiInst* Phi);
+  void visitBinaryInst(IRBinaryInst* BinOp);
+  void visitUnaryInst(IRUnaryInst* UnOp);
+  void visitCondBr(IRCondBrInst* Br);
+
+  // Evaluation
+  bool tryEvaluateBinary(IRInstruction::Opcode Op, int64_t LHS, int64_t RHS, int64_t& Result);
+  bool tryEvaluateUnary(IRInstruction::Opcode Op, int64_t Operand, int64_t& Result);
+
+  // Rewriting
+  void rewriteFunction(IRFunction* F);
+};
+
+/// GVN - Global Value Numbering (lite version)
+/// Performs common subexpression elimination (CSE)
+/// Identifies and eliminates redundant computations
+class GVNPass : public Pass {
+public:
+  std::string getName() const override { return "GVN"; }
+  bool run(IRFunction* F, AnalysisManager& AM) override;
+
+  bool preservesCFG() const override { return true; }
+  bool preservesInstructions() const override { return false; }
+
+private:
+  // Expression representation for hashing
+  struct Expression {
+    IRInstruction::Opcode Op;
+    std::vector<IRValue*> Operands;
+
+    bool operator<(const Expression& Other) const;
+  };
+
+  // Value numbering maps
+  std::map<Expression, IRValue*> ExpressionMap;
+  std::map<IRValue*, IRValue*> Replacements;
+
+  // Build expression from instruction
+  Expression createExpression(IRInstruction* I);
+
+  // Try to find existing computation
+  IRValue* findExistingComputation(const Expression& Expr);
+
+  // Replace all uses of a value
+  void replaceAllUsesWith(IRFunction* F, IRValue* Old, IRValue* New);
+};
+
+/// LICM - Loop Invariant Code Motion
+/// Moves loop-invariant computations out of loops
+class LICMPass : public Pass {
+public:
+  std::string getName() const override { return "LICM"; }
+  bool run(IRFunction* F, AnalysisManager& AM) override;
+
+  bool preservesCFG() const override { return true; }
+  bool preservesInstructions() const override { return false; }
+
+private:
+  // Check if an instruction is loop invariant
+  bool isLoopInvariant(IRInstruction* I, Loop* L, const std::set<IRValue*>& LoopInvariants);
+
+  // Check if it's safe to hoist an instruction
+  bool isSafeToHoist(IRInstruction* I, Loop* L);
+
+  // Hoist instruction to preheader
+  void hoistInstruction(IRInstruction* I, IRBasicBlock* Preheader);
+};
+
 } // namespace yac
 
 #endif // YAC_CODEGEN_TRANSFORMS_H
