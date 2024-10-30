@@ -1,0 +1,24 @@
+=== IR Module ===
+
+function main() -> int {
+entry:
+  %t0 = alloca int
+  store 0, %t0
+  br while_cond0
+while_cond0:
+  while_cond0:
+  %t1 = load %t0
+  %t2 = lt %t1, 3
+  br %t2, while_body1, while_end2
+while_body1:
+  while_body1:
+  %t3 = load %t0
+  %t4 = add %t3, 1
+  store %t4, %t0
+  br while_cond0
+while_end2:
+  while_end2:
+  %t5 = load %t0
+  ret %t5
+}
+

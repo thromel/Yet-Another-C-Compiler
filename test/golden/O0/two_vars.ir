@@ -1,0 +1,14 @@
+=== IR Module ===
+
+function main() -> int {
+entry:
+  %t0 = alloca int
+  store 10, %t0
+  %t1 = alloca int
+  store 20, %t1
+  %t2 = load %t0
+  %t3 = load %t1
+  %t4 = add %t2, %t3
+  ret %t4
+}
+

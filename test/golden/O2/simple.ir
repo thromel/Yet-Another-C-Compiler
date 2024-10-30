@@ -1,0 +1,7 @@
+=== IR Module ===
+
+function main() -> int {
+entry:
+  ret 42
+}
+

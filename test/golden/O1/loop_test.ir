@@ -1,0 +1,21 @@
+=== IR Module ===
+
+function main() -> int {
+entry:
+  br while_cond0
+while_cond0:
+  %phi_t0_1 = phi [%t6, while_body1], [0, entry]
+  %phi_t1_1 = phi [%t8, while_body1], [0, entry]
+  while_cond0:
+  %t3 = lt %phi_t1_1, 10
+  br %t3, while_body1, while_end2
+while_body1:
+  while_body1:
+  %t6 = add %phi_t0_1, %phi_t1_1
+  %t8 = add %phi_t1_1, 1
+  br while_cond0
+while_end2:
+  while_end2:
+  ret %phi_t0_1
+}
+

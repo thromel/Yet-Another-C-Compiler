@@ -1,0 +1,8 @@
+=== IR Module ===
+
+function main() -> int {
+entry:
+  %t4 = add 10, 20
+  ret %t4
+}
+
