@@ -1,0 +1,10 @@
+=== YAC Intermediate Representation ===
+Source: ../test/fixtures/simple.c
+Optimization Level: -O2
+
+=== IR Module ===
+
+function main() -> int {
+entry:
+  ret 42
+}
