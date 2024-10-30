@@ -3,6 +3,7 @@
 #include "yac/Basic/Diagnostic.h"
 #include "yac/CodeGen/IR.h"
 #include "yac/CodeGen/IRBuilder.h"
+#include "yac/CodeGen/IRVerifier.h"
 #include "yac/Parse/Lexer.h"
 #include "yac/Parse/Parser.h"
 #include "yac/Sema/Sema.h"
@@ -22,6 +23,7 @@ void printUsage(const char* progName) {
             << "  -c                   Compile to object file\n"
             << "  --dump-ast           Dump AST to stdout\n"
             << "  --dump-tokens        Dump tokens\n"
+            << "  --verify             Verify IR after generation\n"
             << "  -fsyntax-only        Check syntax only\n"
             << "  -O<level>            Optimization level (0-3)\n";
 }
@@ -37,6 +39,7 @@ int main(int argc, char* argv[]) {
   std::string outputFile;
   bool dumpAST = false;           // TODO: Implement --dump-ast
   bool syntaxOnly = false;        // TODO: Implement -fsyntax-only
+  bool verifyIR = false;
   (void)dumpAST;                  // Suppress unused warning for now
   (void)syntaxOnly;               // Suppress unused warning for now
 
@@ -48,6 +51,8 @@ int main(int argc, char* argv[]) {
       return 0;
     } else if (arg == "--dump-ast") {
       dumpAST = true;
+    } else if (arg == "--verify") {
+      verifyIR = true;
     } else if (arg == "-fsyntax-only") {
       syntaxOnly = true;
     } else if (arg == "-o" && i + 1 < argc) {
@@ -136,6 +141,19 @@ int main(int argc, char* argv[]) {
   std::unique_ptr<IRModule> IR = Builder.generateIR(AST.get());
 
   std::cout << "✓ IR generation successful!\n";
+
+  // Verify IR if requested
+  if (verifyIR) {
+    std::cout << "\n--- IR Verification ---\n";
+    IRVerifier Verifier(false); // Don't fail fast
+    if (Verifier.verify(IR.get())) {
+      std::cout << "✓ IR verification passed!\n";
+    } else {
+      std::cerr << "\n✗ IR verification failed:\n";
+      Verifier.printErrors();
+      return 1;
+    }
+  }
 
   // Print IR
   std::cout << "\n--- Intermediate Representation ---\n";

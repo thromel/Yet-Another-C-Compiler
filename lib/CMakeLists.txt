@@ -59,6 +59,7 @@ target_link_libraries(YACSema PUBLIC
 add_library(YACCodeGen
   CodeGen/IR.cpp
   CodeGen/IRBuilder.cpp
+  CodeGen/IRVerifier.cpp
 )
 target_include_directories(YACCodeGen PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/../include

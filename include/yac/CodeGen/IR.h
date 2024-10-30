@@ -2,6 +2,7 @@
 #define YAC_CODEGEN_IR_H
 
 #include "yac/Type/Type.h"
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -36,7 +37,7 @@ public:
       : Kind(K), Name(std::move(Name)), ValType(Ty) {}
 
   IRValue(int64_t Val)  // Constant constructor
-      : Kind(VK_Constant), ConstantValue(Val), ValType(nullptr) {}
+      : Kind(VK_Constant), ValType(nullptr), ConstantValue(Val) {}
 
   ValueKind getKind() const { return Kind; }
   const std::string& getName() const { return Name; }
@@ -69,11 +70,12 @@ public:
     // Type conversions
     IntToFloat, FloatToInt,
     // Other
-    Move, Label
+    Move, Label, Phi
   };
 
 private:
   Opcode Op;
+  IRBasicBlock* ParentBlock = nullptr;
 
 public:
   IRInstruction(Opcode Op) : Op(Op) {}
@@ -81,6 +83,15 @@ public:
 
   Opcode getOpcode() const { return Op; }
   virtual std::string toString() const = 0;
+
+  // Parent block tracking
+  IRBasicBlock* getParent() const { return ParentBlock; }
+  void setParent(IRBasicBlock* BB) { ParentBlock = BB; }
+
+  // Terminator queries
+  bool isTerminator() const {
+    return Op == Br || Op == CondBr || Op == Ret;
+  }
 
   static const char* getOpcodeName(Opcode Op);
 };
@@ -253,23 +264,96 @@ public:
   std::string toString() const override;
 };
 
-/// IRBasicBlock - sequence of instructions
+/// Phi: result = phi [val1, block1], [val2, block2], ...
+class IRPhiInst : public IRInstruction {
+public:
+  struct PhiEntry {
+    IRValue* Value;
+    IRBasicBlock* Block;
+  };
+
+private:
+  IRValue* Result;
+  std::vector<PhiEntry> Incomings;
+
+public:
+  IRPhiInst(IRValue* Result)
+      : IRInstruction(Phi), Result(Result) {}
+
+  IRValue* getResult() const { return Result; }
+
+  void addIncoming(IRValue* Val, IRBasicBlock* BB) {
+    Incomings.push_back({Val, BB});
+  }
+
+  const std::vector<PhiEntry>& getIncomings() const { return Incomings; }
+  size_t getNumIncomings() const { return Incomings.size(); }
+
+  std::string toString() const override;
+};
+
+/// IRBasicBlock - sequence of instructions with CFG edges
 class IRBasicBlock {
   std::string Name;
   std::vector<std::unique_ptr<IRInstruction>> Instructions;
+  IRFunction* Parent = nullptr;
+
+  // CFG edges
+  std::vector<IRBasicBlock*> Predecessors;
+  std::vector<IRBasicBlock*> Successors;
 
 public:
   IRBasicBlock(std::string Name) : Name(std::move(Name)) {}
 
   const std::string& getName() const { return Name; }
 
+  // Instruction management
   void addInstruction(std::unique_ptr<IRInstruction> Inst) {
+    Inst->setParent(this);
     Instructions.push_back(std::move(Inst));
   }
 
   const std::vector<std::unique_ptr<IRInstruction>>& getInstructions() const {
     return Instructions;
   }
+
+  std::vector<std::unique_ptr<IRInstruction>>& getInstructions() {
+    return Instructions;
+  }
+
+  IRInstruction* getTerminator() const {
+    if (Instructions.empty()) return nullptr;
+    IRInstruction* Last = Instructions.back().get();
+    return Last->isTerminator() ? Last : nullptr;
+  }
+
+  // Parent function
+  IRFunction* getParent() const { return Parent; }
+  void setParent(IRFunction* F) { Parent = F; }
+
+  // CFG edge management
+  void addSuccessor(IRBasicBlock* Succ) {
+    Successors.push_back(Succ);
+    Succ->Predecessors.push_back(this);
+  }
+
+  void removeSuccessor(IRBasicBlock* Succ) {
+    auto it = std::find(Successors.begin(), Successors.end(), Succ);
+    if (it != Successors.end()) {
+      Successors.erase(it);
+      auto pred_it = std::find(Succ->Predecessors.begin(),
+                               Succ->Predecessors.end(), this);
+      if (pred_it != Succ->Predecessors.end()) {
+        Succ->Predecessors.erase(pred_it);
+      }
+    }
+  }
+
+  const std::vector<IRBasicBlock*>& getPredecessors() const { return Predecessors; }
+  const std::vector<IRBasicBlock*>& getSuccessors() const { return Successors; }
+
+  size_t getNumPredecessors() const { return Predecessors.size(); }
+  size_t getNumSuccessors() const { return Successors.size(); }
 
   void print() const;
 };
@@ -295,6 +379,7 @@ public:
   IRBasicBlock* createBlock(const std::string& Name) {
     auto Block = std::make_unique<IRBasicBlock>(Name);
     IRBasicBlock* Ptr = Block.get();
+    Ptr->setParent(this);
     Blocks.push_back(std::move(Block));
     return Ptr;
   }

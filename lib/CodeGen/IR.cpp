@@ -60,6 +60,7 @@ const char* IRInstruction::getOpcodeName(Opcode Op) {
   case FloatToInt: return "ftoi";
   case Move: return "move";
   case Label: return "label";
+  case Phi: return "phi";
   default: return "unknown";
   }
 }
@@ -122,6 +123,16 @@ std::string IRLabelInst::toString() const {
 
 std::string IRMoveInst::toString() const {
   return Result->toString() + " = " + Operand->toString();
+}
+
+std::string IRPhiInst::toString() const {
+  std::string Str = Result->toString() + " = phi ";
+  for (size_t i = 0; i < Incomings.size(); ++i) {
+    if (i > 0) Str += ", ";
+    Str += "[" + Incomings[i].Value->toString() + ", " +
+           Incomings[i].Block->getName() + "]";
+  }
+  return Str;
 }
 
 // ===----------------------------------------------------------------------===
