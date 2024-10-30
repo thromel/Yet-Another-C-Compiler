@@ -2,6 +2,7 @@
 #define YAC_CODEGEN_X86_64BACKEND_H
 
 #include "yac/CodeGen/IR.h"
+#include "yac/CodeGen/RegisterAllocator.h"
 #include <iostream>
 #include <map>
 #include <set>
@@ -11,7 +12,7 @@
 namespace yac {
 
 /// X86_64Backend - generates x86-64 assembly from IR
-/// Simplified backend with basic register allocation
+/// Uses linear scan register allocation
 class X86_64Backend {
 public:
   X86_64Backend(std::ostream& Out) : OS(Out) {}
@@ -24,19 +25,8 @@ public:
 
 private:
   std::ostream& OS;
-
-  // Register allocation state
-  std::map<IRValue*, std::string> ValueToReg;  // Maps SSA values to registers
-  std::set<std::string> UsedRegs;              // Currently allocated registers
-  int StackOffset = 0;                         // Current stack offset
+  RegisterAllocator* RegAlloc = nullptr;  // Current function's allocator
   std::map<std::string, IRBasicBlock*> LabelToBlock;  // Maps label names to blocks
-
-  // Available registers (caller-saved only to avoid ABI violations)
-  // Callee-saved registers (rbx, r12-r15) excluded - would need to be saved/restored
-  std::vector<std::string> AvailableRegs = {
-    "rax", "rcx", "rdx", "rsi", "rdi",
-    "r8", "r9", "r10", "r11"
-  };
 
   // Instruction generation
   void generateInstruction(IRInstruction* I);
@@ -51,17 +41,15 @@ private:
   void generateCallInst(IRCallInst* I);
   void generatePhiInst(IRPhiInst* I);
 
-  // Register management
-  std::string allocateRegister(IRValue* V);
-  std::string getOperand(IRValue* V);
-  void freeRegister(const std::string& Reg);
-
   // Helper methods
-  std::string getOpcodeName(IRInstruction::Opcode Op);
+  std::string getOperand(IRValue* V);
+  std::string allocResult(IRValue* V);  // Allocate register for result
   std::string getByteReg(const std::string& Reg);
   void emitPrologue(IRFunction* F);
   void emitEpilogue(IRFunction* F);
   void emitPhiMoves(IRBasicBlock* FromBB, IRBasicBlock* ToBB);
+  void loadSpilledValue(IRValue* V, const std::string& TempReg);
+  void storeSpilledValue(IRValue* V, const std::string& TempReg);
 };
 
 } // namespace yac

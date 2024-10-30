@@ -17,15 +17,17 @@ void X86_64Backend::generateAssembly(IRModule* M) {
 
 void X86_64Backend::generateFunction(IRFunction* F) {
   // Reset state for new function
-  ValueToReg.clear();
-  UsedRegs.clear();
-  StackOffset = 0;
   LabelToBlock.clear();
 
   // Build label to block mapping
   for (const auto& BB : F->getBlocks()) {
     LabelToBlock[BB->getName()] = BB.get();
   }
+
+  // Run register allocation
+  RegisterAllocator Allocator;
+  Allocator.allocate(F);
+  RegAlloc = &Allocator;
 
   // Function label (make main global)
   if (F->getName() == "main") {
@@ -58,8 +60,13 @@ void X86_64Backend::emitPrologue(IRFunction* F) {
   OS << "\tpush rbp\n";
   OS << "\tmov rbp, rsp\n";
 
-  // Reserve stack space for locals (simplified - allocate 128 bytes)
-  OS << "\tsub rsp, 128\n";
+  // Reserve stack space for spilled values
+  int SpillSize = RegAlloc ? RegAlloc->getSpillSlotSize() : 0;
+  if (SpillSize > 0) {
+    // Align to 16 bytes for ABI compliance
+    SpillSize = (SpillSize + 15) & ~15;
+    OS << "\tsub rsp, " << SpillSize << "\n";
+  }
 }
 
 void X86_64Backend::emitEpilogue(IRFunction* F) {
@@ -93,7 +100,7 @@ void X86_64Backend::generateInstruction(IRInstruction* I) {
 void X86_64Backend::generateBinaryInst(IRBinaryInst* I) {
   std::string lhs = getOperand(I->getLHS());
   std::string rhs = getOperand(I->getRHS());
-  std::string result = allocateRegister(I->getResult());
+  std::string result = allocResult(I->getResult());
 
   switch (I->getOpcode()) {
   case IRInstruction::Add:
@@ -153,7 +160,7 @@ void X86_64Backend::generateBinaryInst(IRBinaryInst* I) {
 
 void X86_64Backend::generateUnaryInst(IRUnaryInst* I) {
   std::string operand = getOperand(I->getOperand());
-  std::string result = allocateRegister(I->getResult());
+  std::string result = allocResult(I->getResult());
 
   switch (I->getOpcode()) {
   case IRInstruction::Not:
@@ -248,37 +255,26 @@ void X86_64Backend::generateCallInst(IRCallInst* I) {
 
   // Result in rax
   if (I->getResult()) {
-    std::string result = allocateRegister(I->getResult());
+    std::string result = allocResult(I->getResult());
     OS << "\tmov " << result << ", rax\n";
   }
 }
 
 void X86_64Backend::generatePhiInst(IRPhiInst* I) {
-  // Phi nodes handled by register allocation
-  // For now, just allocate a register for the result
-  allocateRegister(I->getResult());
-  OS << "\t# phi node (handled by regalloc)\n";
+  // Phi nodes handled by phi resolution in branches
+  OS << "\t# phi node (handled by branch phi moves)\n";
 }
 
-std::string X86_64Backend::allocateRegister(IRValue* V) {
-  // Check if already allocated
-  if (ValueToReg.count(V)) {
-    return ValueToReg[V];
+std::string X86_64Backend::allocResult(IRValue* V) {
+  if (!RegAlloc) return "rax";  // Fallback
+
+  std::string Reg = RegAlloc->getRegister(V);
+  if (!Reg.empty()) {
+    return Reg;
   }
 
-  // Find an unused register
-  for (const auto& reg : AvailableRegs) {
-    if (UsedRegs.find(reg) == UsedRegs.end()) {
-      ValueToReg[V] = reg;
-      UsedRegs.insert(reg);
-      return reg;
-    }
-  }
-
-  // If all registers used, just use r10 (will need spilling in real implementation)
-  std::string reg = "r10";
-  ValueToReg[V] = reg;
-  return reg;
+  // Value is spilled, use rax as temp (caller should handle spill)
+  return "rax";
 }
 
 std::string X86_64Backend::getOperand(IRValue* V) {
@@ -286,16 +282,33 @@ std::string X86_64Backend::getOperand(IRValue* V) {
     return std::to_string(V->getConstant());
   }
 
-  if (ValueToReg.count(V)) {
-    return ValueToReg[V];
+  if (!RegAlloc) return "rax";  // Fallback
+
+  std::string Reg = RegAlloc->getRegister(V);
+  if (!Reg.empty()) {
+    return Reg;
   }
 
-  // Allocate register for this value
-  return allocateRegister(V);
+  // Value is spilled, load it into rax
+  // TODO: Better temp register management for spills
+  loadSpilledValue(V, "rax");
+  return "rax";
 }
 
-void X86_64Backend::freeRegister(const std::string& Reg) {
-  UsedRegs.erase(Reg);
+void X86_64Backend::loadSpilledValue(IRValue* V, const std::string& TempReg) {
+  if (!RegAlloc || !RegAlloc->isSpilled(V)) return;
+
+  int Offset = RegAlloc->getStackOffset(V);
+  int ByteOffset = -((Offset + 1) * 8);  // Negative offset from rbp
+  OS << "\tmov " << TempReg << ", [rbp" << ByteOffset << "]\n";
+}
+
+void X86_64Backend::storeSpilledValue(IRValue* V, const std::string& TempReg) {
+  if (!RegAlloc || !RegAlloc->isSpilled(V)) return;
+
+  int Offset = RegAlloc->getStackOffset(V);
+  int ByteOffset = -((Offset + 1) * 8);  // Negative offset from rbp
+  OS << "\tmov [rbp" << ByteOffset << "], " << TempReg << "\n";
 }
 
 std::string X86_64Backend::getByteReg(const std::string& Reg) {
@@ -332,7 +345,7 @@ void X86_64Backend::emitPhiMoves(IRBasicBlock* FromBB, IRBasicBlock* ToBB) {
     for (const auto& Entry : Phi->getIncomings()) {
       if (Entry.Block == FromBB) {
         // Found the incoming value for this predecessor
-        std::string phiReg = allocateRegister(Phi->getResult());
+        std::string phiReg = allocResult(Phi->getResult());
         std::string valueOp = getOperand(Entry.Value);
         OS << "\tmov " << phiReg << ", " << valueOp << "\n";
         break;

@@ -62,6 +62,7 @@ add_library(YACCodeGen
   CodeGen/IRVerifier.cpp
   CodeGen/Pass.cpp
   CodeGen/Transforms.cpp
+  CodeGen/RegisterAllocator.cpp
   CodeGen/X86_64Backend.cpp
 )
 target_include_directories(YACCodeGen PUBLIC
