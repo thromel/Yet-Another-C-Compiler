@@ -4,6 +4,8 @@
 #include "yac/CodeGen/IR.h"
 #include "yac/CodeGen/IRBuilder.h"
 #include "yac/CodeGen/IRVerifier.h"
+#include "yac/CodeGen/Pass.h"
+#include "yac/CodeGen/Transforms.h"
 #include "yac/Parse/Lexer.h"
 #include "yac/Parse/Parser.h"
 #include "yac/Sema/Sema.h"
@@ -23,9 +25,12 @@ void printUsage(const char* progName) {
             << "  -c                   Compile to object file\n"
             << "  --dump-ast           Dump AST to stdout\n"
             << "  --dump-tokens        Dump tokens\n"
+            << "  --dump-ir            Dump IR to stdout\n"
+            << "  --dump-cfg           Dump CFG (control flow graph)\n"
             << "  --verify             Verify IR after generation\n"
+            << "  --verify-each        Verify IR after each pass\n"
             << "  -fsyntax-only        Check syntax only\n"
-            << "  -O<level>            Optimization level (0-3)\n";
+            << "  -O<level>            Optimization level (0-3, default: 0)\n";
 }
 
 int main(int argc, char* argv[]) {
@@ -37,9 +42,13 @@ int main(int argc, char* argv[]) {
   // Parse command line arguments
   std::string inputFile;
   std::string outputFile;
-  bool dumpAST = false;           // TODO: Implement --dump-ast
-  bool syntaxOnly = false;        // TODO: Implement -fsyntax-only
+  bool dumpAST = false;
+  bool dumpIR = false;
+  bool dumpCFG = false;
+  bool syntaxOnly = false;
   bool verifyIR = false;
+  bool verifyEach = false;
+  int optLevel = 0;
   (void)dumpAST;                  // Suppress unused warning for now
   (void)syntaxOnly;               // Suppress unused warning for now
 
@@ -51,12 +60,25 @@ int main(int argc, char* argv[]) {
       return 0;
     } else if (arg == "--dump-ast") {
       dumpAST = true;
+    } else if (arg == "--dump-ir") {
+      dumpIR = true;
+    } else if (arg == "--dump-cfg") {
+      dumpCFG = true;
     } else if (arg == "--verify") {
       verifyIR = true;
+    } else if (arg == "--verify-each") {
+      verifyEach = true;
+      verifyIR = true;  // Implies --verify
     } else if (arg == "-fsyntax-only") {
       syntaxOnly = true;
     } else if (arg == "-o" && i + 1 < argc) {
       outputFile = argv[++i];
+    } else if (arg.substr(0, 2) == "-O" && arg.length() == 3) {
+      optLevel = arg[2] - '0';
+      if (optLevel < 0 || optLevel > 3) {
+        std::cerr << "Invalid optimization level: " << arg << "\n";
+        return 1;
+      }
     } else if (arg[0] != '-') {
       inputFile = arg;
     }
@@ -143,7 +165,7 @@ int main(int argc, char* argv[]) {
   std::cout << "✓ IR generation successful!\n";
 
   // Verify IR if requested
-  if (verifyIR) {
+  if (verifyIR && optLevel == 0) {
     std::cout << "\n--- IR Verification ---\n";
     IRVerifier Verifier(false); // Don't fail fast
     if (Verifier.verify(IR.get())) {
@@ -155,9 +177,91 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  // Print IR
-  std::cout << "\n--- Intermediate Representation ---\n";
-  IR->print();
+  // Run optimization passes
+  if (optLevel > 0) {
+    std::cout << "\n--- Optimization (O" << optLevel << ") ---\n";
+
+    PassManager PM(verifyEach);
+
+    // Configure passes based on optimization level
+    if (optLevel >= 1) {
+      // -O1: Basic optimizations
+      PM.addPass(std::make_unique<SimplifyCFGPass>());
+      PM.addPass(std::make_unique<Mem2RegPass>());
+      PM.addPass(std::make_unique<CopyPropagationPass>());
+      PM.addPass(std::make_unique<ConstantPropagationPass>());
+      PM.addPass(std::make_unique<DCEPass>());
+    }
+
+    if (optLevel >= 2) {
+      // -O2: More aggressive optimizations (multiple rounds)
+      PM.addPass(std::make_unique<SimplifyCFGPass>());
+      PM.addPass(std::make_unique<CopyPropagationPass>());
+      PM.addPass(std::make_unique<ConstantPropagationPass>());
+      PM.addPass(std::make_unique<DCEPass>());
+    }
+
+    if (optLevel >= 3) {
+      // -O3: Maximum optimizations
+      PM.addPass(std::make_unique<CopyPropagationPass>());
+      PM.addPass(std::make_unique<ConstantPropagationPass>());
+      PM.addPass(std::make_unique<DCEPass>());
+    }
+
+    // Run passes
+    bool Changed = PM.run(IR.get());
+    if (Changed) {
+      std::cout << "✓ Optimizations applied\n";
+    } else {
+      std::cout << "  No changes made\n";
+    }
+
+    // Verify after optimization
+    if (verifyIR) {
+      std::cout << "\n--- IR Verification (post-optimization) ---\n";
+      IRVerifier Verifier(false);
+      if (Verifier.verify(IR.get())) {
+        std::cout << "✓ IR verification passed!\n";
+      } else {
+        std::cerr << "\n✗ IR verification failed:\n";
+        Verifier.printErrors();
+        return 1;
+      }
+    }
+  }
+
+  // Dump IR if requested
+  if (dumpIR) {
+    std::cout << "\n--- IR Dump ---\n";
+    IR->print();
+  }
+
+  // Dump CFG if requested
+  if (dumpCFG) {
+    std::cout << "\n--- Control Flow Graph ---\n";
+    for (const auto& F : IR->getFunctions()) {
+      std::cout << "\nFunction: " << F->getName() << "\n";
+      for (const auto& BB : F->getBlocks()) {
+        std::cout << "  Block: " << BB->getName() << "\n";
+        std::cout << "    Predecessors: ";
+        for (const auto* Pred : BB->getPredecessors()) {
+          std::cout << Pred->getName() << " ";
+        }
+        std::cout << "\n";
+        std::cout << "    Successors: ";
+        for (const auto* Succ : BB->getSuccessors()) {
+          std::cout << Succ->getName() << " ";
+        }
+        std::cout << "\n";
+      }
+    }
+  }
+
+  // Print IR (always shown unless --dump-ir is used)
+  if (!dumpIR) {
+    std::cout << "\n--- Intermediate Representation ---\n";
+    IR->print();
+  }
 
   // Print AST if requested
   if (dumpAST) {

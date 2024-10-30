@@ -176,7 +176,8 @@ void IRBuilder::visitIfStmt(IfStmt* S) {
     ? CurrentFunc->createBlock(ElseLabel->getName())
     : nullptr;
 
-  IRBasicBlock* EndBlock = CurrentFunc->createBlock(EndLabel->getName());
+  // Note: EndBlock will be created only if needed (after visiting branches)
+  IRBasicBlock* EndBlock = nullptr;
 
   // Conditional branch
   if (S->hasElse()) {
@@ -184,30 +185,56 @@ void IRBuilder::visitIfStmt(IfStmt* S) {
     CondBlock->addSuccessor(ThenBlock);
     CondBlock->addSuccessor(ElseBlock);
   } else {
-    emit<IRCondBrInst>(Cond, ThenLabel, EndLabel);
-    CondBlock->addSuccessor(ThenBlock);
-    CondBlock->addSuccessor(EndBlock);
+    // For now, assume we need EndBlock (will create it lazily if branch is taken)
+    // We'll patch this up after visiting the then block
   }
 
   // Generate then block
   CurrentBlock = ThenBlock;
-  emit<IRLabelInst>(ThenLabel);
   visit(S->getThen());
-  emit<IRBrInst>(EndLabel);
-  ThenBlock->addSuccessor(EndBlock);
+  bool thenHasTerminator = CurrentBlock->getTerminator() != nullptr;
 
   // Else block (if present)
+  bool elseHasTerminator = false;
   if (S->hasElse()) {
     CurrentBlock = ElseBlock;
-    emit<IRLabelInst>(ElseLabel);
     visit(S->getElse());
-    emit<IRBrInst>(EndLabel);
-    ElseBlock->addSuccessor(EndBlock);
+    elseHasTerminator = CurrentBlock->getTerminator() != nullptr;
   }
 
-  // End block
-  CurrentBlock = EndBlock;
-  emit<IRLabelInst>(EndLabel);
+  // Now we know if we need an EndBlock
+  bool needsEndBlock = !thenHasTerminator || (S->hasElse() && !elseHasTerminator) || !S->hasElse();
+
+  if (needsEndBlock) {
+    EndBlock = CurrentFunc->createBlock(EndLabel->getName());
+
+    // Patch up conditional branch if no else
+    if (!S->hasElse()) {
+      CurrentBlock = CondBlock;
+      emit<IRCondBrInst>(Cond, ThenLabel, EndLabel);
+      CondBlock->addSuccessor(ThenBlock);
+      CondBlock->addSuccessor(EndBlock);
+    }
+
+    // Emit branches to EndBlock if needed
+    if (!thenHasTerminator) {
+      CurrentBlock = ThenBlock;
+      emit<IRBrInst>(EndLabel);
+      ThenBlock->addSuccessor(EndBlock);
+    }
+
+    if (S->hasElse() && !elseHasTerminator) {
+      CurrentBlock = ElseBlock;
+      emit<IRBrInst>(EndLabel);
+      ElseBlock->addSuccessor(EndBlock);
+    }
+
+    // Make EndBlock current
+    CurrentBlock = EndBlock;
+  } else {
+    // Both branches have terminators, no EndBlock needed
+    // CurrentBlock is left as whichever branch we visited last (doesn't matter, it's terminated)
+  }
 }
 
 void IRBuilder::visitWhileStmt(WhileStmt* S) {
@@ -240,8 +267,11 @@ void IRBuilder::visitWhileStmt(WhileStmt* S) {
   CurrentBlock = BodyBlock;
   emit<IRLabelInst>(BodyLabel);
   visit(S->getBody());
-  emit<IRBrInst>(CondLabel);
-  BodyBlock->addSuccessor(CondBlock);
+  // Only emit branch if block doesn't already have a terminator
+  if (!CurrentBlock->getTerminator()) {
+    emit<IRBrInst>(CondLabel);
+    BodyBlock->addSuccessor(CondBlock);
+  }
 
   // End block
   CurrentBlock = EndBlock;
@@ -290,8 +320,11 @@ void IRBuilder::visitForStmt(ForStmt* S) {
   CurrentBlock = BodyBlock;
   emit<IRLabelInst>(BodyLabel);
   visit(S->getBody());
-  emit<IRBrInst>(IncLabel);
-  BodyBlock->addSuccessor(IncBlock);
+  // Only emit branch if block doesn't already have a terminator
+  if (!CurrentBlock->getTerminator()) {
+    emit<IRBrInst>(IncLabel);
+    BodyBlock->addSuccessor(IncBlock);
+  }
 
   // Increment block
   CurrentBlock = IncBlock;
@@ -328,8 +361,11 @@ void IRBuilder::visitDoStmt(DoStmt* S) {
   CurrentBlock = BodyBlock;
   emit<IRLabelInst>(BodyLabel);
   visit(S->getBody());
-  emit<IRBrInst>(CondLabel);
-  BodyBlock->addSuccessor(CondBlock);
+  // Only emit branch if block doesn't already have a terminator
+  if (!CurrentBlock->getTerminator()) {
+    emit<IRBrInst>(CondLabel);
+    BodyBlock->addSuccessor(CondBlock);
+  }
 
   // Condition block
   CurrentBlock = CondBlock;
@@ -409,12 +445,8 @@ void IRBuilder::visitBinaryOperator(BinaryOperator* E) {
 
   // Handle logical operators with short-circuit evaluation
   if (Op == BinaryOperatorKind::LAnd || Op == BinaryOperatorKind::LOr) {
-    IRValue* Result = createTemp(TyCtx.getIntType());
     IRValue* RHSLabel = createLabel("logical_rhs");
     IRValue* EndLabel = createLabel("logical_end");
-
-    // Save LHS block
-    IRBasicBlock* LHSBlock = CurrentBlock;
 
     // Create blocks
     IRBasicBlock* RHSBlock = CurrentFunc->createBlock(RHSLabel->getName());
@@ -424,37 +456,45 @@ void IRBuilder::visitBinaryOperator(BinaryOperator* E) {
     visit(E->getLHS());
     IRValue* LHS = LastExprValue;
 
+    // Capture the block we're in AFTER evaluating LHS (this is the predecessor for short-circuit)
+    IRBasicBlock* LHSResultBlock = CurrentBlock;
+
+    // Create value for short-circuit case
+    IRValue* LHSResult = nullptr;
+
     if (Op == BinaryOperatorKind::LAnd) {
       // AND: if LHS is false, result is 0, else evaluate RHS
-      IRValue* Zero = CurrentFunc->createConstant(0);
-      emit<IRMoveInst>(Result, Zero);
+      LHSResult = CurrentFunc->createConstant(0);
       emit<IRCondBrInst>(LHS, RHSLabel, EndLabel);
-      LHSBlock->addSuccessor(RHSBlock);
-      LHSBlock->addSuccessor(EndBlock);
+      LHSResultBlock->addSuccessor(RHSBlock);
+      LHSResultBlock->addSuccessor(EndBlock);
     } else {
       // OR: if LHS is true, result is 1, else evaluate RHS
-      IRValue* One = CurrentFunc->createConstant(1);
-      emit<IRMoveInst>(Result, One);
+      LHSResult = CurrentFunc->createConstant(1);
       // Create temp for inverted condition
       IRValue* NotLHS = createTemp(TyCtx.getIntType());
       emit<IRUnaryInst>(IRInstruction::Not, NotLHS, LHS);
       emit<IRCondBrInst>(NotLHS, RHSLabel, EndLabel);
-      LHSBlock->addSuccessor(RHSBlock);
-      LHSBlock->addSuccessor(EndBlock);
+      LHSResultBlock->addSuccessor(RHSBlock);
+      LHSResultBlock->addSuccessor(EndBlock);
     }
 
-    // RHS block
+    // RHS block - evaluate RHS and use its value
     CurrentBlock = RHSBlock;
-    emit<IRLabelInst>(RHSLabel);
     visit(E->getRHS());
-    IRValue* RHS = LastExprValue;
-    emit<IRMoveInst>(Result, RHS);
+    IRValue* RHSResult = LastExprValue;
     emit<IRBrInst>(EndLabel);
     RHSBlock->addSuccessor(EndBlock);
 
-    // End block
+    // End block - use phi to merge results
     CurrentBlock = EndBlock;
-    emit<IRLabelInst>(EndLabel);
+
+    // Create phi node (phi must be first instruction in block)
+    IRValue* Result = createTemp(TyCtx.getIntType());
+    auto Phi = std::make_unique<IRPhiInst>(Result);
+    Phi->addIncoming(LHSResult, LHSResultBlock);
+    Phi->addIncoming(RHSResult, RHSBlock);
+    emit(std::move(Phi));
 
     LastExprValue = Result;
     return;

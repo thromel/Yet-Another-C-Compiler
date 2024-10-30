@@ -15,18 +15,29 @@ A modern, educational C compiler implementing a complete multi-pass compilation 
 - Clean intermediate representation (three-address code)
 - Professional diagnostic system with source locations
 
+⚡ **Advanced Optimization Pipeline** *(NEW)*
+- **SSA Construction**: Mem2Reg pass with proper phi node insertion
+- **Copy Propagation**: Eliminates redundant move operations
+- **Constant Propagation**: Compile-time constant evaluation with folding
+- **Dead Code Elimination**: Removes unused instructions
+- **SimplifyCFG**: Control flow graph optimization
+- **IR Verification**: Comprehensive correctness checking
+- **Multiple Optimization Levels**: -O0, -O1, -O2, -O3
+
 🏗️ **Modern Architecture**
 - Modular design with clear separation of concerns
 - Visitor pattern for AST traversal
 - Type-safe symbol tables with scope management
 - Smart pointer-based memory management
 - CMake-based build system
+- Pass manager infrastructure with analysis caching
 
 📚 **Educational Value**
-- Clean, readable codebase (~3000 lines)
+- Clean, readable codebase (~5000 lines)
 - Comprehensive comments and documentation
 - Step-by-step compilation phases
 - Pretty-printed IR for learning
+- Working SSA-form transformations
 
 ## Quick Start
 
@@ -56,14 +67,62 @@ make -j4
 ### Quick Test
 
 ```bash
-# Test on simple program
+# Basic compilation (no optimization)
 ./tools/yac ../test/fixtures/simple.c
 
-# Test on more complex programs
-./tools/yac ../test/fixtures/control_flow.c
-./tools/yac ../test/fixtures/loops.c
-./tools/yac ../test/fixtures/expressions.c
+# With optimizations
+./tools/yac -O1 ../test/fixtures/simple.c          # Basic optimizations
+./tools/yac -O2 ../test/fixtures/const_test.c      # Aggressive optimizations
+./tools/yac -O3 ../test/fixtures/loop_test.c       # Maximum optimizations
+
+# Show optimized IR
+./tools/yac -O1 --dump-ir ../test/fixtures/loop_test.c
+
+# Verify IR correctness
+./tools/yac -O1 --verify ../test/fixtures/loop_test.c
+
+# Show control flow graph
+./tools/yac -O1 --dump-cfg ../test/fixtures/loop_test.c
+
+# Run test suite
+../test_optimizer.sh
 ```
+
+### Optimization Example
+
+Input (loop_test.c):
+```c
+int main() {
+    int sum = 0;
+    int i = 0;
+    while (i < 10) {
+        sum = sum + i;
+        i = i + 1;
+    }
+    return sum;
+}
+```
+
+Output with `-O1`:
+```
+function main() -> int {
+entry:
+  br while_cond0
+while_cond0:
+  %phi_sum = phi [%t6, while_body1], [0, entry]
+  %phi_i = phi [%t8, while_body1], [0, entry]
+  %t3 = lt %phi_i, 10
+  br %t3, while_body1, while_end2
+while_body1:
+  %t6 = add %phi_sum, %phi_i  // sum = sum + i
+  %t8 = add %phi_i, 1          // i = i + 1
+  br while_cond0
+while_end2:
+  ret %phi_sum
+}
+```
+
+✨ **Result**: Converted to perfect SSA form with phi nodes, eliminated all memory operations!
 
 ## Project Structure
 

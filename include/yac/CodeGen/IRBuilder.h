@@ -80,6 +80,11 @@ private:
     CurrentBlock->addInstruction(
         std::make_unique<T>(std::forward<Args>(args)...));
   }
+
+  // Overload for directly emitting an already-constructed instruction
+  void emit(std::unique_ptr<IRInstruction> Inst) {
+    CurrentBlock->addInstruction(std::move(Inst));
+  }
 };
 
 } // namespace yac

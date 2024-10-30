@@ -110,6 +110,10 @@ public:
   IRValue* getLHS() const { return LHS; }
   IRValue* getRHS() const { return RHS; }
 
+  // Setters for operand replacement
+  void setLHS(IRValue* V) { LHS = V; }
+  void setRHS(IRValue* V) { RHS = V; }
+
   std::string toString() const override;
 };
 
@@ -124,6 +128,8 @@ public:
 
   IRValue* getResult() const { return Result; }
   IRValue* getOperand() const { return Operand; }
+
+  void setOperand(IRValue* V) { Operand = V; }
 
   std::string toString() const override;
 };
@@ -155,6 +161,10 @@ public:
   IRValue* getValue() const { return Value; }
   IRValue* getPtr() const { return Ptr; }
 
+  // Setters for operand replacement
+  void setValue(IRValue* V) { Value = V; }
+  void setPtr(IRValue* P) { Ptr = P; }
+
   std::string toString() const override;
 };
 
@@ -183,6 +193,9 @@ public:
 
   IRValue* getRetValue() const { return RetValue; }
   bool hasRetValue() const { return RetValue != nullptr; }
+
+  // Setter for operand replacement
+  void setRetValue(IRValue* V) { RetValue = V; }
 
   std::string toString() const override;
 };
@@ -214,6 +227,9 @@ public:
   IRValue* getCondition() const { return Condition; }
   IRValue* getTrueLabel() const { return TrueLabel; }
   IRValue* getFalseLabel() const { return FalseLabel; }
+
+  // Setter for operand replacement
+  void setCondition(IRValue* C) { Condition = C; }
 
   std::string toString() const override;
 };
@@ -284,6 +300,14 @@ public:
 
   void addIncoming(IRValue* Val, IRBasicBlock* BB) {
     Incomings.push_back({Val, BB});
+  }
+
+  void replaceIncomingValue(IRValue* Old, IRValue* New) {
+    for (auto& Entry : Incomings) {
+      if (Entry.Value == Old) {
+        Entry.Value = New;
+      }
+    }
   }
 
   const std::vector<PhiEntry>& getIncomings() const { return Incomings; }

@@ -123,6 +123,15 @@ bool IRVerifier::checkBlockTerminator(IRBasicBlock* BB) {
   // Check that last instruction is a terminator
   IRInstruction* Last = Insts.back().get();
   if (!Last->isTerminator()) {
+    // Skip terminator check for unreachable blocks (no predecessors, not entry)
+    // These will be removed by SimplifyCFG
+    bool isEntry = BB->getParent() && !BB->getParent()->getBlocks().empty() &&
+                   BB->getParent()->getBlocks()[0].get() == BB;
+    if (!isEntry && BB->getNumPredecessors() == 0) {
+      // Unreachable block, skip this check
+      return true;
+    }
+
     addError("Basic block does not end with terminator",
              BB->getParent(), BB, Last);
     return false;
@@ -263,8 +272,7 @@ bool IRVerifier::checkDefBeforeUse(IRFunction* F) {
   // Walk through blocks in order (TODO: use RPO order for better checking)
   for (const auto& BB : F->getBlocks()) {
     for (const auto& Inst : BB->getInstructions()) {
-      // Check operands are defined
-      // This is simplified - a real verifier would extract all operands
+      // Check operands are defined based on instruction type
       if (auto* BinOp = dynamic_cast<IRBinaryInst*>(Inst.get())) {
         if (!BinOp->getLHS()->isConstant() && !Defined.count(BinOp->getLHS())) {
           addError("Use of undefined value", F, BB.get(), BinOp);
@@ -279,7 +287,80 @@ bool IRVerifier::checkDefBeforeUse(IRFunction* F) {
         // Define result
         Defined.insert(BinOp->getResult());
       }
-      // TODO: Add checks for other instruction types
+      else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(Inst.get())) {
+        // Check operand is defined
+        if (!UnOp->getOperand()->isConstant() && !Defined.count(UnOp->getOperand())) {
+          addError("Use of undefined value", F, BB.get(), UnOp);
+          Valid = false;
+          if (FailFast) return false;
+        }
+        // Define result
+        Defined.insert(UnOp->getResult());
+      }
+      else if (auto* Alloca = dynamic_cast<IRAllocaInst*>(Inst.get())) {
+        // Alloca defines its result
+        Defined.insert(Alloca->getResult());
+      }
+      else if (auto* Load = dynamic_cast<IRLoadInst*>(Inst.get())) {
+        // Check pointer is defined
+        if (!Load->getPtr()->isConstant() && !Defined.count(Load->getPtr())) {
+          addError("Use of undefined value", F, BB.get(), Load);
+          Valid = false;
+          if (FailFast) return false;
+        }
+        // Define result
+        Defined.insert(Load->getResult());
+      }
+      else if (auto* Store = dynamic_cast<IRStoreInst*>(Inst.get())) {
+        // Check value is defined
+        if (!Store->getValue()->isConstant() && !Defined.count(Store->getValue())) {
+          addError("Use of undefined value", F, BB.get(), Store);
+          Valid = false;
+          if (FailFast) return false;
+        }
+        // Check pointer is defined
+        if (!Store->getPtr()->isConstant() && !Defined.count(Store->getPtr())) {
+          addError("Use of undefined value", F, BB.get(), Store);
+          Valid = false;
+          if (FailFast) return false;
+        }
+      }
+      else if (auto* Call = dynamic_cast<IRCallInst*>(Inst.get())) {
+        // Check arguments
+        for (IRValue* Arg : Call->getArgs()) {
+          if (!Arg->isConstant() && !Defined.count(Arg)) {
+            addError("Use of undefined value", F, BB.get(), Call);
+            Valid = false;
+            if (FailFast) return false;
+          }
+        }
+        // Define result if function returns a value
+        if (Call->getResult()) {
+          Defined.insert(Call->getResult());
+        }
+      }
+      else if (auto* Ret = dynamic_cast<IRRetInst*>(Inst.get())) {
+        // Check return value if present
+        if (Ret->hasRetValue() && !Ret->getRetValue()->isConstant() && !Defined.count(Ret->getRetValue())) {
+          addError("Use of undefined value", F, BB.get(), Ret);
+          Valid = false;
+          if (FailFast) return false;
+        }
+      }
+      else if (auto* Br = dynamic_cast<IRCondBrInst*>(Inst.get())) {
+        // Check condition
+        if (!Br->getCondition()->isConstant() && !Defined.count(Br->getCondition())) {
+          addError("Use of undefined value", F, BB.get(), Br);
+          Valid = false;
+          if (FailFast) return false;
+        }
+      }
+      else if (auto* Phi = dynamic_cast<IRPhiInst*>(Inst.get())) {
+        // Phi node defines its result
+        Defined.insert(Phi->getResult());
+        // Note: We check phi incoming values separately in checkPhiNodes
+      }
+      // UnconditionalBrInst and other instructions with no operands are fine
     }
   }
 
