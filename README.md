@@ -1,6 +1,6 @@
 # YAC - Yet Another C Compiler
 
-A modern, educational C compiler implementing a complete multi-pass compilation pipeline from C source code to intermediate representation. Built with clean architecture, comprehensive type checking, and industry-standard practices.
+A modern, educational C compiler implementing a complete multi-pass compilation pipeline from C source code to x86-64 assembly. Built with clean architecture, comprehensive type checking, advanced optimizations, and industry-standard practices.
 
 [![Language](https://img.shields.io/badge/Language-C%2B%2B17-blue.svg)](https://en.cppreference.com/w/cpp/17)
 [![Build System](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)
@@ -15,14 +15,21 @@ A modern, educational C compiler implementing a complete multi-pass compilation 
 - Clean intermediate representation (three-address code)
 - Professional diagnostic system with source locations
 
-⚡ **Advanced Optimization Pipeline** *(NEW)*
-- **SSA Construction**: Mem2Reg pass with proper phi node insertion
-- **Copy Propagation**: Eliminates redundant move operations
-- **Constant Propagation**: Compile-time constant evaluation with folding
-- **Dead Code Elimination**: Removes unused instructions
-- **SimplifyCFG**: Control flow graph optimization
-- **IR Verification**: Comprehensive correctness checking
-- **Multiple Optimization Levels**: -O0, -O1, -O2, -O3
+⚡ **Optimization Pipeline**
+- SSA construction with Mem2Reg and phi node insertion
+- Sparse Conditional Constant Propagation (SCCP)
+- Global Value Numbering (GVN)
+- Loop-Invariant Code Motion (LICM)
+- Copy/Constant Propagation, Dead Code Elimination
+- SimplifyCFG, IR Verification
+- Optimization levels: -O0, -O1, -O2, -O3
+
+🖥️ **x86-64 Backend**
+- Assembly code generation for x86-64
+- Linear scan register allocation
+- System V AMD64 ABI compliance
+- Supports loops, function calls, control flow
+- Output modes: `-emit-ir`, `-emit-asm`
 
 🏗️ **Modern Architecture**
 - Modular design with clear separation of concerns
@@ -33,11 +40,11 @@ A modern, educational C compiler implementing a complete multi-pass compilation 
 - Pass manager infrastructure with analysis caching
 
 📚 **Educational Value**
-- Clean, readable codebase (~5000 lines)
-- Comprehensive comments and documentation
-- Step-by-step compilation phases
-- Pretty-printed IR for learning
-- Working SSA-form transformations
+- Clean, readable codebase
+- Well-documented compilation phases
+- Working SSA transformations
+- Register allocation example
+- Golden test suite included
 
 ## Quick Start
 
@@ -67,25 +74,19 @@ make -j4
 ### Quick Test
 
 ```bash
-# Basic compilation (no optimization)
+# Basic compilation
 ./tools/yac ../test/fixtures/simple.c
 
 # With optimizations
-./tools/yac -O1 ../test/fixtures/simple.c          # Basic optimizations
-./tools/yac -O2 ../test/fixtures/const_test.c      # Aggressive optimizations
-./tools/yac -O3 ../test/fixtures/loop_test.c       # Maximum optimizations
+./tools/yac -O1 ../test/fixtures/simple.c
 
-# Show optimized IR
-./tools/yac -O1 --dump-ir ../test/fixtures/loop_test.c
+# Generate assembly
+./tools/yac -emit-asm -O1 ../test/fixtures/simple.c
+clang ../test/fixtures/simple.c.s -o simple
+./simple && echo $?
 
-# Verify IR correctness
-./tools/yac -O1 --verify ../test/fixtures/loop_test.c
-
-# Show control flow graph
-./tools/yac -O1 --dump-cfg ../test/fixtures/loop_test.c
-
-# Run test suite
-../test_optimizer.sh
+# Run tests
+../test_golden.sh
 ```
 
 ### Optimization Example
@@ -551,37 +552,32 @@ done
 
 ## Limitations
 
-Current limitations (future work):
+Current limitations:
 
-- **Arrays**: Basic support, no multi-dimensional
-- **Strings**: String literals not fully implemented
 - **Structs**: Not yet supported
-- **Floating Point**: Treated as integers in IR
+- **Floating Point**: Limited support
 - **Preprocessor**: No `#include`, `#define`, etc.
 - **Standard Library**: No standard library functions
-- **Backend**: IR generation only, no assembly output yet
 
 ## Future Enhancements
 
 Potential additions:
 
-1. **Backend**: x86-64 or 8086 assembly generation
-2. **Optimizations**: Constant folding, dead code elimination
-3. **More Types**: Structs, unions, enums
-4. **Preprocessor**: Basic `#include` and `#define`
-5. **Standard Library**: Subset of libc functions
-6. **Debugger Support**: DWARF debug information
-7. **JIT**: LLVM backend for JIT compilation
+1. **More Types**: Structs, unions, enums
+2. **Preprocessor**: Basic `#include` and `#define`
+3. **Standard Library**: Subset of libc functions
+4. **More Optimizations**: Loop unrolling, inlining
+5. **Better Codegen**: Instruction selection, peephole optimization
 
 ## Contributing
 
 Contributions welcome! Areas to help:
 
-- **Tests**: Add more test cases
-- **Documentation**: Improve comments and docs
-- **Features**: Implement new language features
-- **Optimizations**: Add IR optimization passes
-- **Backend**: Implement assembly code generation
+- Add more test cases
+- Improve documentation
+- Implement new language features
+- Add more optimization passes
+- Improve code generation
 
 ## Resources
 
