@@ -1257,9 +1257,16 @@ bool LICMPass::isSafeToHoist(IRInstruction* I, Loop* L) {
 }
 
 void LICMPass::hoistInstruction(IRInstruction* I, IRBasicBlock* Preheader) {
-  // Move instruction to end of preheader (before terminator)
-  // This is a simplified version - real implementation would move the instruction
-  // For now, we just mark it (actual implementation would require modifying IR structure)
+  // Get the current block
+  IRBasicBlock* CurrentBB = I->getParent();
+  if (!CurrentBB) return;
+
+  // Remove from current block
+  auto Inst = CurrentBB->removeInstruction(I);
+  if (!Inst) return;
+
+  // Insert into preheader (before terminator)
+  Preheader->insertBeforeTerminator(std::move(Inst));
 }
 
 bool LICMPass::run(IRFunction* F, AnalysisManager& AM) {
@@ -1277,8 +1284,9 @@ bool LICMPass::run(IRFunction* F, AnalysisManager& AM) {
 
     IRBasicBlock* Preheader = L->getPreheader();
 
-    // Track loop-invariant values
+    // Track loop-invariant values and instructions to hoist
     std::set<IRValue*> LoopInvariants;
+    std::vector<IRInstruction*> ToHoist;
 
     // Iterate until no more invariants found
     bool LocalChanged = true;
@@ -1298,11 +1306,9 @@ bool LICMPass::run(IRFunction* F, AnalysisManager& AM) {
             if (isLoopInvariant(Inst.get(), L.get(), LoopInvariants)) {
               if (isSafeToHoist(Inst.get(), L.get())) {
                 LoopInvariants.insert(BinOp->getResult());
+                ToHoist.push_back(Inst.get());
                 LocalChanged = true;
                 Changed = true;
-
-                // In real implementation, would hoist here:
-                // hoistInstruction(Inst.get(), Preheader);
               }
             }
           } else if (auto* UnOp = dynamic_cast<IRUnaryInst*>(Inst.get())) {
@@ -1313,6 +1319,7 @@ bool LICMPass::run(IRFunction* F, AnalysisManager& AM) {
             if (isLoopInvariant(Inst.get(), L.get(), LoopInvariants)) {
               if (isSafeToHoist(Inst.get(), L.get())) {
                 LoopInvariants.insert(UnOp->getResult());
+                ToHoist.push_back(Inst.get());
                 LocalChanged = true;
                 Changed = true;
               }
@@ -1321,11 +1328,142 @@ bool LICMPass::run(IRFunction* F, AnalysisManager& AM) {
         }
       }
     }
+
+    // Actually hoist the instructions
+    for (IRInstruction* Inst : ToHoist) {
+      hoistInstruction(Inst, Preheader);
+    }
   }
 
-  // For now, we only identify loop invariants but don't actually move them
-  // Full implementation would require moving instructions in the IR
-  return false;  // Return false since we didn't actually modify the IR
+  return Changed;
+}
+
+// ===----------------------------------------------------------------------===
+// Inlining Pass
+// ===----------------------------------------------------------------------===
+
+size_t InliningPass::calculateInlineCost(IRFunction* Callee) {
+  // Simple cost model: count instructions
+  size_t Cost = 0;
+  for (const auto& BB : Callee->getBlocks()) {
+    Cost += BB->getInstructions().size();
+  }
+  return Cost;
+}
+
+bool InliningPass::isInlinable(IRFunction* Callee) {
+  // Check if function is suitable for inlining:
+  // 1. Not too large
+  // 2. Doesn't recursively call itself
+  // 3. Has a simple structure
+
+  if (calculateInlineCost(Callee) > InlineBudget) {
+    return false;
+  }
+
+  // Check for recursive calls
+  for (const auto& BB : Callee->getBlocks()) {
+    for (const auto& Inst : BB->getInstructions()) {
+      if (auto* Call = dynamic_cast<IRCallInst*>(Inst.get())) {
+        if (Call->getFuncName() == Callee->getName()) {
+          return false;  // Recursive
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+bool InliningPass::inlineCallSite(IRCallInst* Call, IRFunction* Callee, IRFunction* Caller) {
+  // Simplified inlining: just mark the decision
+  // Full implementation would:
+  // 1. Clone callee's IR
+  // 2. Remap values
+  // 3. Replace call with inlined code
+  // 4. Update phi nodes
+
+  // For now, return false (no actual inlining)
+  return false;
+}
+
+bool InliningPass::run(IRFunction* F, AnalysisManager& AM) {
+  // Inlining requires module-level analysis (cross-function)
+  // For now, just return false (not implemented at function level)
+  // Would need a module-level pass manager
+  return false;
+}
+
+// ===----------------------------------------------------------------------===
+// Loop Unrolling Pass
+// ===----------------------------------------------------------------------===
+
+bool LoopUnrollPass::getTripCount(Loop* L, int64_t& Count) {
+  // Try to determine if the loop has a constant trip count
+  // This requires analyzing the loop condition and increment
+  // For simplicity, return false (unknown trip count)
+  return false;
+}
+
+bool LoopUnrollPass::canUnroll(Loop* L) {
+  // Check if loop is suitable for unrolling:
+  // 1. Small body
+  // 2. Constant trip count (if full unrolling)
+  // 3. No complex control flow
+
+  size_t BodySize = 0;
+  for (IRBasicBlock* BB : L->getBlocks()) {
+    BodySize += BB->getInstructions().size();
+  }
+
+  // Don't unroll large loops
+  if (BodySize > 20) {
+    return false;
+  }
+
+  return true;
+}
+
+bool LoopUnrollPass::unrollLoop(Loop* L, unsigned Factor) {
+  // Simplified unrolling: just check if we should
+  // Full implementation would:
+  // 1. Clone loop body Factor times
+  // 2. Update phi nodes
+  // 3. Adjust loop condition
+  // 4. Update branch targets
+
+  // For now, return false (not implemented)
+  return false;
+}
+
+bool LoopUnrollPass::run(IRFunction* F, AnalysisManager& AM) {
+  // Get loop information
+  LoopInfo& LI = AM.get<LoopInfo>();
+
+  bool Changed = false;
+
+  // Try to unroll each loop
+  for (const auto& L : LI.getTopLevelLoops()) {
+    if (canUnroll(L.get())) {
+      // Check for constant trip count
+      int64_t TripCount;
+      if (getTripCount(L.get(), TripCount)) {
+        // Full unroll if small trip count
+        if (TripCount > 0 && TripCount <= 8) {
+          if (unrollLoop(L.get(), static_cast<unsigned>(TripCount))) {
+            Changed = true;
+          }
+        }
+      } else {
+        // Partial unroll
+        if (unrollLoop(L.get(), UnrollFactor)) {
+          Changed = true;
+        }
+      }
+    }
+  }
+
+  return Changed;
 }
 
 } // namespace yac

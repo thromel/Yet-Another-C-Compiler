@@ -1,5 +1,7 @@
 #include "yac/CodeGen/Pass.h"
 #include "yac/CodeGen/IRVerifier.h"
+#include <chrono>
+#include <iomanip>
 #include <iostream>
 #include <queue>
 #include <set>
@@ -17,8 +19,22 @@ bool PassManager::run(IRFunction* F) {
   for (auto& P : Passes) {
     std::cout << "Running pass: " << P->getName() << "\n";
 
+    // Count instructions before
+    size_t InstrsBefore = EnableTiming ? countInstructions(F) : 0;
+
+    // Time the pass
+    auto Start = std::chrono::high_resolution_clock::now();
     bool PassChanged = P->run(F, AM);
+    auto End = std::chrono::high_resolution_clock::now();
+
     Changed |= PassChanged;
+
+    // Record stats
+    if (EnableTiming) {
+      double TimeMs = std::chrono::duration<double, std::milli>(End - Start).count();
+      size_t InstrsAfter = countInstructions(F);
+      Stats.push_back({P->getName(), TimeMs, InstrsBefore, InstrsAfter});
+    }
 
     if (PassChanged) {
       // Invalidate analyses based on what the pass preserves
@@ -347,6 +363,51 @@ void LoopInfo::populateLoop(Loop* L, IRBasicBlock* BB,
   for (IRBasicBlock* Pred : BB->getPredecessors()) {
     populateLoop(L, Pred, BackEdgeSources);
   }
+}
+
+// ===----------------------------------------------------------------------===
+// PassManager helper methods
+// ===----------------------------------------------------------------------===
+
+size_t PassManager::countInstructions(IRFunction* F) const {
+  size_t Count = 0;
+  for (const auto& BB : F->getBlocks()) {
+    Count += BB->getInstructions().size();
+  }
+  return Count;
+}
+
+void PassManager::printTimingReport() const {
+  if (Stats.empty()) {
+    return;
+  }
+
+  std::cout << "\n=== Timing Report ===\n\n";
+  std::cout << std::left;
+  std::cout << std::setw(20) << "Pass Name"
+            << std::setw(12) << "Time (ms)"
+            << std::setw(12) << "Before"
+            << std::setw(12) << "After"
+            << std::setw(12) << "Delta"
+            << "\n";
+  std::cout << std::string(68, '-') << "\n";
+
+  double TotalTime = 0.0;
+  for (const auto& S : Stats) {
+    int Delta = static_cast<int>(S.InstructionsAfter) - static_cast<int>(S.InstructionsBefore);
+    std::cout << std::setw(20) << S.Name
+              << std::setw(12) << std::fixed << std::setprecision(3) << S.TimeMs
+              << std::setw(12) << S.InstructionsBefore
+              << std::setw(12) << S.InstructionsAfter
+              << std::setw(12) << (Delta >= 0 ? "+" : "") << Delta
+              << "\n";
+    TotalTime += S.TimeMs;
+  }
+
+  std::cout << std::string(68, '-') << "\n";
+  std::cout << std::setw(20) << "Total"
+            << std::setw(12) << std::fixed << std::setprecision(3) << TotalTime
+            << "\n\n";
 }
 
 } // namespace yac

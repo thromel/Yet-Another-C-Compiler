@@ -95,6 +95,16 @@ public:
 class PassManager {
   std::vector<std::unique_ptr<Pass>> Passes;
   bool VerifyEach = false;
+  bool EnableTiming = false;
+
+  // Timing statistics
+  struct PassStats {
+    std::string Name;
+    double TimeMs;
+    size_t InstructionsBefore;
+    size_t InstructionsAfter;
+  };
+  std::vector<PassStats> Stats;
 
 public:
   PassManager(bool VerifyEach = false) : VerifyEach(VerifyEach) {}
@@ -112,6 +122,15 @@ public:
 
   /// Enable/disable verification after each pass
   void setVerifyEach(bool V) { VerifyEach = V; }
+
+  /// Enable/disable timing report
+  void setEnableTiming(bool T) { EnableTiming = T; }
+
+  /// Print timing report
+  void printTimingReport() const;
+
+private:
+  size_t countInstructions(IRFunction* F) const;
 };
 
 // ===----------------------------------------------------------------------===

@@ -345,6 +345,31 @@ public:
     return Instructions;
   }
 
+  /// Remove an instruction from this block (returns ownership)
+  std::unique_ptr<IRInstruction> removeInstruction(IRInstruction* I) {
+    for (auto It = Instructions.begin(); It != Instructions.end(); ++It) {
+      if (It->get() == I) {
+        auto Inst = std::move(*It);
+        Instructions.erase(It);
+        Inst->setParent(nullptr);
+        return Inst;
+      }
+    }
+    return nullptr;
+  }
+
+  /// Insert instruction before terminator
+  void insertBeforeTerminator(std::unique_ptr<IRInstruction> Inst) {
+    Inst->setParent(this);
+    if (Instructions.empty() || !Instructions.back()->isTerminator()) {
+      // No terminator, just add at end
+      Instructions.push_back(std::move(Inst));
+    } else {
+      // Insert before terminator
+      Instructions.insert(Instructions.end() - 1, std::move(Inst));
+    }
+  }
+
   IRInstruction* getTerminator() const {
     if (Instructions.empty()) return nullptr;
     IRInstruction* Last = Instructions.back().get();

@@ -30,6 +30,7 @@ void printUsage(const char* progName) {
             << "  --verify             Verify IR after generation\n"
             << "  --verify-each        Verify IR after each pass\n"
             << "  -fsyntax-only        Check syntax only\n"
+            << "  -ftime-report        Report per-pass timing statistics\n"
             << "  -O<level>            Optimization level (0-3, default: 0)\n";
 }
 
@@ -48,6 +49,7 @@ int main(int argc, char* argv[]) {
   bool syntaxOnly = false;
   bool verifyIR = false;
   bool verifyEach = false;
+  bool timeReport = false;
   int optLevel = 0;
   (void)dumpAST;                  // Suppress unused warning for now
   (void)syntaxOnly;               // Suppress unused warning for now
@@ -71,6 +73,8 @@ int main(int argc, char* argv[]) {
       verifyIR = true;  // Implies --verify
     } else if (arg == "-fsyntax-only") {
       syntaxOnly = true;
+    } else if (arg == "-ftime-report") {
+      timeReport = true;
     } else if (arg == "-o" && i + 1 < argc) {
       outputFile = argv[++i];
     } else if (arg.substr(0, 2) == "-O" && arg.length() == 3) {
@@ -182,6 +186,7 @@ int main(int argc, char* argv[]) {
     std::cout << "\n--- Optimization (O" << optLevel << ") ---\n";
 
     PassManager PM(verifyEach);
+    PM.setEnableTiming(timeReport);
 
     // Configure passes based on optimization level
     if (optLevel >= 1) {
@@ -194,18 +199,24 @@ int main(int argc, char* argv[]) {
     }
 
     if (optLevel >= 2) {
-      // -O2: More aggressive optimizations (multiple rounds)
+      // -O2: More aggressive optimizations with advanced passes
       PM.addPass(std::make_unique<SimplifyCFGPass>());
+      PM.addPass(std::make_unique<SCCPPass>());           // Sparse conditional constant propagation
+      PM.addPass(std::make_unique<GVNPass>());            // Global value numbering (CSE)
       PM.addPass(std::make_unique<CopyPropagationPass>());
-      PM.addPass(std::make_unique<ConstantPropagationPass>());
       PM.addPass(std::make_unique<DCEPass>());
+      PM.addPass(std::make_unique<LICMPass>());           // Loop invariant code motion
+      PM.addPass(std::make_unique<SimplifyCFGPass>());    // Cleanup after LICM
     }
 
     if (optLevel >= 3) {
-      // -O3: Maximum optimizations
+      // -O3: Maximum optimizations (additional rounds)
+      PM.addPass(std::make_unique<SCCPPass>());
+      PM.addPass(std::make_unique<GVNPass>());
       PM.addPass(std::make_unique<CopyPropagationPass>());
-      PM.addPass(std::make_unique<ConstantPropagationPass>());
       PM.addPass(std::make_unique<DCEPass>());
+      PM.addPass(std::make_unique<LICMPass>());
+      PM.addPass(std::make_unique<SimplifyCFGPass>());
     }
 
     // Run passes
@@ -214,6 +225,11 @@ int main(int argc, char* argv[]) {
       std::cout << "✓ Optimizations applied\n";
     } else {
       std::cout << "  No changes made\n";
+    }
+
+    // Print timing report if requested
+    if (timeReport) {
+      PM.printTimingReport();
     }
 
     // Verify after optimization

@@ -243,6 +243,56 @@ private:
   void hoistInstruction(IRInstruction* I, IRBasicBlock* Preheader);
 };
 
+/// Inlining - Function inlining with cost budget
+/// Inlines small functions to eliminate call overhead
+class InliningPass : public Pass {
+public:
+  InliningPass(size_t Budget = 50) : InlineBudget(Budget) {}
+
+  std::string getName() const override { return "Inline"; }
+  bool run(IRFunction* F, AnalysisManager& AM) override;
+
+  bool preservesCFG() const override { return false; }
+  bool preservesInstructions() const override { return false; }
+
+private:
+  size_t InlineBudget;  // Max instruction count to inline
+
+  // Calculate cost of inlining a function
+  size_t calculateInlineCost(IRFunction* Callee);
+
+  // Check if function is inlinable
+  bool isInlinable(IRFunction* Callee);
+
+  // Inline a call site
+  bool inlineCallSite(IRCallInst* Call, IRFunction* Callee, IRFunction* Caller);
+};
+
+/// LoopUnrolling - Unroll loops with small constant trip counts
+/// Reduces loop overhead and enables more optimizations
+class LoopUnrollPass : public Pass {
+public:
+  LoopUnrollPass(unsigned Factor = 4) : UnrollFactor(Factor) {}
+
+  std::string getName() const override { return "LoopUnroll"; }
+  bool run(IRFunction* F, AnalysisManager& AM) override;
+
+  bool preservesCFG() const override { return false; }
+  bool preservesInstructions() const override { return false; }
+
+private:
+  unsigned UnrollFactor;  // How many times to unroll
+
+  // Check if loop can be unrolled
+  bool canUnroll(Loop* L);
+
+  // Get trip count if it's a constant
+  bool getTripCount(Loop* L, int64_t& Count);
+
+  // Unroll the loop
+  bool unrollLoop(Loop* L, unsigned Factor);
+};
+
 } // namespace yac
 
 #endif // YAC_CODEGEN_TRANSFORMS_H
