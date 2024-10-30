@@ -20,6 +20,12 @@ void X86_64Backend::generateFunction(IRFunction* F) {
   ValueToReg.clear();
   UsedRegs.clear();
   StackOffset = 0;
+  LabelToBlock.clear();
+
+  // Build label to block mapping
+  for (const auto& BB : F->getBlocks()) {
+    LabelToBlock[BB->getName()] = BB.get();
+  }
 
   // Function label (make main global)
   if (F->getName() == "main") {
@@ -188,15 +194,42 @@ void X86_64Backend::generateRetInst(IRRetInst* I) {
 }
 
 void X86_64Backend::generateBrInst(IRBrInst* I) {
-  OS << "\tjmp ." << I->getTarget()->getName() << "\n";
+  IRBasicBlock* FromBB = I->getParent();
+  std::string targetName = I->getTarget()->getName();
+  IRBasicBlock* ToBB = LabelToBlock[targetName];
+
+  // Emit phi moves before jumping
+  if (ToBB) {
+    emitPhiMoves(FromBB, ToBB);
+  }
+
+  OS << "\tjmp ." << targetName << "\n";
 }
 
 void X86_64Backend::generateCondBrInst(IRCondBrInst* I) {
+  IRBasicBlock* FromBB = I->getParent();
+  std::string trueName = I->getTrueLabel()->getName();
+  std::string falseName = I->getFalseLabel()->getName();
+  IRBasicBlock* TrueBB = LabelToBlock[trueName];
+  IRBasicBlock* FalseBB = LabelToBlock[falseName];
+
   std::string cond = getOperand(I->getCondition());
 
   OS << "\ttest " << cond << ", " << cond << "\n";
-  OS << "\tjnz ." << I->getTrueLabel()->getName() << "\n";
-  OS << "\tjmp ." << I->getFalseLabel()->getName() << "\n";
+
+  // Emit phi moves for true branch, then jump
+  OS << "\tjz .false_branch_" << FromBB->getName() << "\n";
+  if (TrueBB) {
+    emitPhiMoves(FromBB, TrueBB);
+  }
+  OS << "\tjmp ." << trueName << "\n";
+
+  // False branch
+  OS << ".false_branch_" << FromBB->getName() << ":\n";
+  if (FalseBB) {
+    emitPhiMoves(FromBB, FalseBB);
+  }
+  OS << "\tjmp ." << falseName << "\n";
 }
 
 void X86_64Backend::generateCallInst(IRCallInst* I) {
@@ -228,13 +261,22 @@ void X86_64Backend::generatePhiInst(IRPhiInst* I) {
 }
 
 std::string X86_64Backend::allocateRegister(IRValue* V) {
-  // Simplified: just use rax for everything except phi nodes
-  // Real implementation would use proper register allocation
+  // Check if already allocated
   if (ValueToReg.count(V)) {
     return ValueToReg[V];
   }
 
-  std::string reg = "r10";  // Use r10 as default temp register
+  // Find an unused register
+  for (const auto& reg : AvailableRegs) {
+    if (UsedRegs.find(reg) == UsedRegs.end()) {
+      ValueToReg[V] = reg;
+      UsedRegs.insert(reg);
+      return reg;
+    }
+  }
+
+  // If all registers used, just use r10 (will need spilling in real implementation)
+  std::string reg = "r10";
   ValueToReg[V] = reg;
   return reg;
 }
@@ -273,6 +315,30 @@ std::string X86_64Backend::getByteReg(const std::string& Reg) {
   if (Reg == "r14") return "r14b";
   if (Reg == "r15") return "r15b";
   return "al";  // Default
+}
+
+void X86_64Backend::emitPhiMoves(IRBasicBlock* FromBB, IRBasicBlock* ToBB) {
+  // Emit moves for phi nodes in the target block
+  // For each phi in ToBB, find the incoming value from FromBB and emit a mov
+
+  for (const auto& Inst : ToBB->getInstructions()) {
+    auto* Phi = dynamic_cast<IRPhiInst*>(Inst.get());
+    if (!Phi) {
+      // Phi nodes are at the beginning of blocks
+      break;
+    }
+
+    // Find the incoming value from FromBB
+    for (const auto& Entry : Phi->getIncomings()) {
+      if (Entry.Block == FromBB) {
+        // Found the incoming value for this predecessor
+        std::string phiReg = allocateRegister(Phi->getResult());
+        std::string valueOp = getOperand(Entry.Value);
+        OS << "\tmov " << phiReg << ", " << valueOp << "\n";
+        break;
+      }
+    }
+  }
 }
 
 } // namespace yac

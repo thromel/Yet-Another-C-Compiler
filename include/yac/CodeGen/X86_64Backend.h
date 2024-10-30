@@ -29,6 +29,7 @@ private:
   std::map<IRValue*, std::string> ValueToReg;  // Maps SSA values to registers
   std::set<std::string> UsedRegs;              // Currently allocated registers
   int StackOffset = 0;                         // Current stack offset
+  std::map<std::string, IRBasicBlock*> LabelToBlock;  // Maps label names to blocks
 
   // Available registers (simplified - no register allocation yet)
   std::vector<std::string> AvailableRegs = {
@@ -59,6 +60,7 @@ private:
   std::string getByteReg(const std::string& Reg);
   void emitPrologue(IRFunction* F);
   void emitEpilogue(IRFunction* F);
+  void emitPhiMoves(IRBasicBlock* FromBB, IRBasicBlock* ToBB);
 };
 
 } // namespace yac
