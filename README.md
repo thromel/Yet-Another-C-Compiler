@@ -5,6 +5,8 @@
 -	Symbol Table Management
 -	Lexical Analysis
 -	Syntax and Semantic Analysis
+For a step-by-step walkthrough of each stage of the compiler, see [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md).
+An architectural overview explaining how the phases work together can be found in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ### The compiler uses industry-standard tools—Flex for lexical analysis and Bison for parsing—and is written in C/C++. It includes detailed error handling, scope‐aware symbol table management, and support for common C constructs.
 
